@@ -28,7 +28,7 @@ List any dependencies, required libraries, or external factors here.
 
 ## Safe C# API Layer
 
-Provide an **optional** API Layer on top of the C bindings.
+Provide an **optional** and **lightweight** API Layer on top of the C bindings.  
 Features of API Layer
 - Provide an OOP like API similar to Javascript/Typescript WebGPU API.
 - The API layer enables to write WebGPU applications without **unsafe** C#.
@@ -38,11 +38,11 @@ Features of API Layer
 - Track allocations of WebGPU [Objects](https://webgpu-native.github.io/webgpu-headers/group__Objects.html)
   to avoid / find leaks in native WebGPU heap.
 
-### Example C API vs API Layer
+### Example: API Layer vs C API
 
 Both implementation provide the same result.
 
-API Layer
+**API Layer**
 - no use of unsafe code
 - required no local variables
 ```cs
@@ -62,7 +62,7 @@ API Layer
     ]);
 ```
 
-C API
+**C API**
 - requires unsafe code
 - requires local (stack) variables: `bufferDescriptor` & `vertexData`
 ```cs
