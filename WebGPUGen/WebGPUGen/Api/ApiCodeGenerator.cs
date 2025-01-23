@@ -82,8 +82,13 @@ public static class ApiCodeGenerator
             var param = parameters[n];
             sb.Append(", ");
             sb.Append(param.Name);
-            if (param.Type == SignatureParamType.Pointer) {
-                sb.Append(".GetOptPtr()");
+            switch (param.Type) {
+                case SignatureParamType.Pointer: 
+                    sb.Append(".GetOptPtr()");
+                    break;
+                case SignatureParamType.CharPointer:
+                    sb.Append(".AllocString()");
+                    break;
             }
         }
         sb.AppendLine(");");
@@ -115,7 +120,8 @@ public static class ApiCodeGenerator
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             signature.Append(", ");
-            if (parameter.Type == SignatureParamType.Pointer) {
+            if (parameter.Type == SignatureParamType.Pointer ||
+                parameter.Type == SignatureParamType.CharPointer) {
                 signature.Append($"Span<{parameter.TypeNamePure}> ");
             } else {
                 signature.Append($"{parameter.TypeName} ");

@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Evergine.Bindings.WebGPU;
 
 using System.Runtime.CompilerServices;
@@ -21,6 +23,16 @@ public static class ApiUtils
             return null;
         }
         return (T*)Unsafe.AsPointer(ref span.GetPinnableReference());
+    }
+    
+    public static unsafe char* AllocString(this Span<char> span) {
+        if (span.Length == 0) {
+            return null;
+        }
+        // TODO
+        // var ptr = (char*)Marshal.AllocHGlobal(2 * (span.Length + 1));
+        // Buffer.MemoryCopy();
+        return null;
     }
     
 }
