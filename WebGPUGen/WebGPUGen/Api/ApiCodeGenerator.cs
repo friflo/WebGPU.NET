@@ -39,6 +39,7 @@ public static class ApiCodeGenerator
                 var sb = new StringBuilder();
                 foreach (var command in commands) {
                     AppendCommand(sb, handleType, command);
+                    sb.AppendLine();
                 }
                 file.WriteLine(
                     """
@@ -56,24 +57,37 @@ public static class ApiCodeGenerator
     
     private static void AppendCommand(StringBuilder sb, CppTypedef handleType, CppFunction command)
     {
-        string convertedType = Helpers.ConvertToCSharpType(command.ReturnType, false);
-
-        if (!CsCodeGenerator.emscriptenUnsupportedCommands.Contains(command.Name))
-        {
-            var (handleName, signature) = ApiHelpers.GetParametersSignature(command);
-            if (signature.Length > 0) {
-                signature = ", " + signature;
-            }
-            var commandName = command.Name.Substring(handleType.Name.Length);
-            commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
-                        
-            sb.AppendLine($"    public static void {commandName}(this {handleType.Name} {handleName}{signature}) {{");
-            sb.AppendLine($"    }}");
-            sb.AppendLine($"");
-                        
-            //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
-            //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
+        if (CsCodeGenerator.emscriptenUnsupportedCommands.Contains(command.Name)) {
+            return;
         }
+        string returnType = Helpers.ConvertToCSharpType(command.ReturnType, false);
+        var (handleName, signature) = ApiHelpers.GetParametersSignature(command);
+        if (signature.Length > 0) {
+            signature = ", " + signature;
+        }
+        var commandName = command.Name.Substring(handleType.Name.Length);
+        commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
+                    
+        sb.AppendLine($"    public static {returnType} {commandName}(this {handleType.Name} {handleName}{signature}) {{");
+        if (returnType == "void") {
+            sb.Append("        ");
+        } else {
+            sb.Append("        return ");
+        }
+        sb.Append(command.Name);
+        sb.Append("(");
+        sb.Append(handleName);
+        var parameters = command.Parameters;
+        for (int n = 1; n < parameters.Count; n++) {
+            var param = parameters[n];
+            sb.Append(", ");
+            sb.Append(param.Name);
+        }
+        sb.AppendLine(");");
+        sb.AppendLine($"    }}");
+                    
+        //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
+        //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
     }
     
     private static List<CppTypedef> GetHandles(CppCompilation compilation)
