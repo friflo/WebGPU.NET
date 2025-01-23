@@ -11,7 +11,7 @@ namespace WebGPUGen
 {
     public class CsCodeGenerator
     {
-        private static readonly IList<String> emscriptenUnsupportedCommands = new ReadOnlyCollection<string>
+        internal static readonly IList<String> emscriptenUnsupportedCommands = new ReadOnlyCollection<string>
             (new List<String> {
                  "wgpuDevicePopErrorScope",
                  "wgpuDevicePushErrorScope",
@@ -43,6 +43,7 @@ namespace WebGPUGen
             GenerateStructs(compilation, outputPath);
             GenerateCommmands(compilation, outputPath);
             GeneratedHandles(compilation, outputPath);
+            ApiCodeGenerator.GenerateApiCommands(compilation, outputPath);
         }
 
         private void GenerateConstants(CppCompilation compilation, string outputPath)
