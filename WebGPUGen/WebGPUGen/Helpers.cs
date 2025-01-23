@@ -9,6 +9,13 @@ using CppAst;
 
 namespace WebGPUGen
 {
+    public struct SignatureParam
+    {
+        public string       Name;
+        public string       TypeName;
+        public CppParameter CppParameter;
+    }
+    
     public static class Helpers
     {
         public static List<CppTypedef> delegates;
@@ -81,6 +88,22 @@ namespace WebGPUGen
             }
 
             return string.Empty;
+        }
+        
+        public static SignatureParam[] GetSignatureParameters(CppFunction command)
+        {
+            var parameters = new List<SignatureParam>();
+            foreach (var parameter in command.Parameters)
+            {
+                string convertedType = ConvertToCSharpType(parameter.Type);
+                string convertedName = parameter.Name;
+                parameters.Add(new SignatureParam {
+                    Name = convertedName,
+                    TypeName = convertedType,
+                    CppParameter = parameter
+                });
+            }
+            return parameters.ToArray();
         }
 
         public static object GetParametersSignature(CppFunction command, bool useTypes = true)

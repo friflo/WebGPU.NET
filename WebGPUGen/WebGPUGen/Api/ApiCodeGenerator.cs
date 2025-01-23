@@ -61,10 +61,10 @@ public static class ApiCodeGenerator
             return;
         }
         string returnType = Helpers.ConvertToCSharpType(command.ReturnType, false);
-        var (handleName, signature) = ApiHelpers.GetParametersSignature(command);
-        if (signature.Length > 0) {
-            signature = ", " + signature;
-        }
+        var parameters = Helpers.GetSignatureParameters(command);
+        var handleName = parameters[0].Name;
+        var signature = GetParametersSignature(parameters);
+
         var commandName = command.Name.Substring(handleType.Name.Length);
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                     
@@ -77,8 +77,7 @@ public static class ApiCodeGenerator
         sb.Append(command.Name);
         sb.Append("(");
         sb.Append(handleName);
-        var parameters = command.Parameters;
-        for (int n = 1; n < parameters.Count; n++) {
+        for (int n = 1; n < parameters.Length; n++) {
             var param = parameters[n];
             sb.Append(", ");
             sb.Append(param.Name);
@@ -109,6 +108,24 @@ public static class ApiCodeGenerator
         return handles;
     }
     
+    private static string GetParametersSignature(SignatureParam[] parameters)
+    {
+        StringBuilder signature = new StringBuilder();
+        bool isFirst = true;
+        for (int i = 1; i < parameters.Length; i++) {
+            var parameter = parameters[i];
+            /*if (isFirst) {
+                isFirst = false;
+            } else {
+                signature.Append(", ");
+            }*/
+            signature.Append(", ");
+            signature.Append($"{parameter.TypeName} ");
+            signature.Append($"{parameter.Name}");
+        }
+
+        return signature.ToString();
+    }
 
 }
 
