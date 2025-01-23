@@ -43,6 +43,7 @@ namespace WebGPUGen
             GenerateStructs(compilation, outputPath);
             GenerateCommmands(compilation, outputPath);
             GeneratedHandles(compilation, outputPath);
+            
             ApiCodeGenerator.GenerateApiCommands(compilation, outputPath);
         }
 

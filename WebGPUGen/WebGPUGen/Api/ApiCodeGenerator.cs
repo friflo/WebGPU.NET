@@ -46,11 +46,17 @@ namespace WebGPUGen
 
                         if (!CsCodeGenerator.emscriptenUnsupportedCommands.Contains(command.Name))
                         {
+                            var (handleName, signature) = ApiHelpers.GetParametersSignature(command);
+                            if (signature.Length > 0) {
+                                signature = ", " + signature;
+                            }
                             var commandName = command.Name.Substring(handleType.Name.Length);
                             commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
-                            sb.AppendLine($"    public static void {commandName}(this {handleType.Name} handle) {{");
+                            
+                            sb.AppendLine($"    public static void {commandName}(this {handleType.Name} {handleName}{signature}) {{");
                             sb.AppendLine($"    }}");
                             sb.AppendLine($"");
+                            
                             //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
                             //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
                         }

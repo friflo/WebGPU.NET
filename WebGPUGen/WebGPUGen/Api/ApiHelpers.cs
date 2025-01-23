@@ -11,8 +11,6 @@ namespace WebGPUGen
 {
     public static class ApiHelpers
     {
-        public static List<CppTypedef> delegates;
-
         private static readonly Dictionary<string, string> s_csNameMappings = new Dictionary<string, string>()
         {
             { "uint8_t", "byte" },
@@ -83,8 +81,10 @@ namespace WebGPUGen
             return string.Empty;
         }
 
-        public static object GetParametersSignature(CppFunction command, bool useTypes = true)
+        public static (string, string) GetParametersSignature(CppFunction command, bool useTypes = true)
         {
+            string handleName = null;
+            bool isFirst = true;
             StringBuilder signature = new StringBuilder();
             foreach (var parameter in command.Parameters)
             {
@@ -97,7 +97,11 @@ namespace WebGPUGen
                 //    convertedType = convertedType.Remove(convertedType.Length-1);
                 //}
                 string convertedName = parameter.Name;
-
+                if (isFirst) {
+                    isFirst = false;
+                    handleName = convertedName;
+                    continue;
+                }
                 if (useTypes)
                     signature.Append($"{convertedType} ");
 
@@ -107,7 +111,7 @@ namespace WebGPUGen
             if(signature.Length > 0)
                 signature.Length -= 2;
 
-            return signature.ToString();
+            return (handleName, signature.ToString());
         }
 
         private static string GetCsTypeName(CppPrimitiveType primitiveType, bool isPointer)
@@ -245,7 +249,7 @@ namespace WebGPUGen
 
         private static string GetCsCleanName(string name)
         {
-            var typedef = delegates.Find(d => d.Name == name);
+            var typedef = Helpers.delegates.Find(d => d.Name == name);
             if (typedef != null)
             {
                 return GetDelegatePointer(typedef);
