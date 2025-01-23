@@ -1,4 +1,6 @@
-﻿namespace WebGPUGen;
+﻿using System.Linq;
+
+namespace WebGPUGen;
 
 using CppAst;
 using System.Collections.Generic;
@@ -162,16 +164,31 @@ public static class ApiCodeGenerator
 
     public static void AddStructProperties(StreamWriter file, CppClass structure)
     {
-        foreach (var member in structure.Fields)
+        var fields = structure.Fields;
+        foreach (var member in fields)
         {
             string type = Helpers.ConvertToCSharpType(member.Type);
-
+            
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                 file.WriteLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
                 file.WriteLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
                 file.WriteLine($"\t\t\tset => ApiUtils.AllocString(value);");
                 file.WriteLine($"\t\t}}");
+            }
+            if (member.Name.EndsWith("Count")) {
+                var arrayName = member.Name.Substring(0, member.Name.Length - "Count".Length) + "s";
+                
+                CppField arrayField = fields.Where(field => field.Name == arrayName).FirstOrDefault();
+                if (arrayField != null) {
+                    string arrayFieldType = Helpers.ConvertToCSharpType(arrayField.Type);
+                    var nameUpper = char.ToUpper(arrayField.Name[0]) + arrayField.Name.Substring(1);
+                    arrayFieldType = arrayFieldType.Substring(0, arrayFieldType.Length - 1);
+                    file.WriteLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
+                    file.WriteLine($"\t\t\tget => new ({arrayName}, (int){member.Name});");
+                    file.WriteLine($"\t\t\tset => value.SetArr(out {arrayName}, out {member.Name});");
+                    file.WriteLine($"\t\t}}");
+                }
             }
             // file.WriteLine($"\t\tpublic {type} {member.Name};");
         }

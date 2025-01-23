@@ -11,6 +11,11 @@ public static class ApiUtils
         count = (ulong)span.Length;    
     }
     
+    public static unsafe void SetArr<T>(this Span<T> span, out T* pointer, out uint count) where T : unmanaged {
+        pointer = (T*)Unsafe.AsPointer(ref span.GetPinnableReference());
+        count = (uint)span.Length;    
+    }
+    
     public static unsafe Span<T> GetOptSpan<T>(T* ptr) where T : unmanaged {
         if (ptr == null) {
             return default;

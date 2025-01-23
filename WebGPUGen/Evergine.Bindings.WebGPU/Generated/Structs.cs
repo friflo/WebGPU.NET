@@ -225,6 +225,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUBindGroupLayout> BindGroupLayouts {
+			get => new (bindGroupLayouts, (int)bindGroupLayoutCount);
+			set => value.SetArr(out bindGroupLayouts, out bindGroupLayoutCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -293,6 +297,10 @@ namespace Evergine.Bindings.WebGPU
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
+		}
+		public Span<WGPUTextureFormat> ColorFormats {
+			get => new (colorFormats, (int)colorFormatCount);
+			set => value.SetArr(out colorFormats, out colorFormatCount);
 		}
 	}
 
@@ -423,6 +431,18 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUPresentMode* presentModes;
 		public ulong alphaModeCount;
 		public WGPUCompositeAlphaMode* alphaModes;
+		public Span<WGPUTextureFormat> Formats {
+			get => new (formats, (int)formatCount);
+			set => value.SetArr(out formats, out formatCount);
+		}
+		public Span<WGPUPresentMode> PresentModes {
+			get => new (presentModes, (int)presentModeCount);
+			set => value.SetArr(out presentModes, out presentModeCount);
+		}
+		public Span<WGPUCompositeAlphaMode> AlphaModes {
+			get => new (alphaModes, (int)alphaModeCount);
+			set => value.SetArr(out alphaModes, out alphaModeCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -438,6 +458,10 @@ namespace Evergine.Bindings.WebGPU
 		public uint width;
 		public uint height;
 		public WGPUPresentMode presentMode;
+		public Span<WGPUTextureFormat> ViewFormats {
+			get => new (viewFormats, (int)viewFormatCount);
+			set => value.SetArr(out viewFormats, out viewFormatCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -607,6 +631,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct* nextInChain;
 		public ulong messageCount;
 		public WGPUCompilationMessage* messages;
+		public Span<WGPUCompilationMessage> Messages {
+			get => new (messages, (int)messageCount);
+			set => value.SetArr(out messages, out messageCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -667,6 +695,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUConstantEntry> Constants {
+			get => new (constants, (int)constantCount);
+			set => value.SetArr(out constants, out constantCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -699,6 +731,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUShaderModuleCompilationHint> Hints {
+			get => new (hints, (int)hintCount);
+			set => value.SetArr(out hints, out hintCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -725,6 +761,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUTextureFormat> ViewFormats {
+			get => new (viewFormats, (int)viewFormatCount);
+			set => value.SetArr(out viewFormats, out viewFormatCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -734,6 +774,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUVertexStepMode stepMode;
 		public ulong attributeCount;
 		public WGPUVertexAttribute* attributes;
+		public Span<WGPUVertexAttribute> Attributes {
+			get => new (attributes, (int)attributeCount);
+			set => value.SetArr(out attributes, out attributeCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -787,6 +831,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUFeatureName> RequiredFeatures {
+			get => new (requiredFeatures, (int)requiredFeatureCount);
+			set => value.SetArr(out requiredFeatures, out requiredFeatureCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -802,6 +850,10 @@ namespace Evergine.Bindings.WebGPU
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
+		}
+		public Span<WGPURenderPassColorAttachment> ColorAttachments {
+			get => new (colorAttachments, (int)colorAttachmentCount);
+			set => value.SetArr(out colorAttachments, out colorAttachmentCount);
 		}
 	}
 
@@ -819,6 +871,14 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
 		}
+		public Span<WGPUConstantEntry> Constants {
+			get => new (constants, (int)constantCount);
+			set => value.SetArr(out constants, out constantCount);
+		}
+		public Span<WGPUVertexBufferLayout> Buffers {
+			get => new (buffers, (int)bufferCount);
+			set => value.SetArr(out buffers, out bufferCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -834,6 +894,14 @@ namespace Evergine.Bindings.WebGPU
 		public ReadOnlySpan<char> EntryPoint {
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
+		}
+		public Span<WGPUConstantEntry> Constants {
+			get => new (constants, (int)constantCount);
+			set => value.SetArr(out constants, out constantCount);
+		}
+		public Span<WGPUColorTargetState> Targets {
+			get => new (targets, (int)targetCount);
+			set => value.SetArr(out targets, out targetCount);
 		}
 	}
 
@@ -934,6 +1002,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public ulong pushConstantRangeCount;
 		public WGPUPushConstantRange* pushConstantRanges;
+		public Span<WGPUPushConstantRange> PushConstantRanges {
+			get => new (pushConstantRanges, (int)pushConstantRangeCount);
+			set => value.SetArr(out pushConstantRanges, out pushConstantRangeCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -969,6 +1041,10 @@ namespace Evergine.Bindings.WebGPU
 		public ReadOnlySpan<char> Code {
 			get => ApiUtils.GetLabel(code);
 			set => ApiUtils.AllocString(value);
+		}
+		public Span<WGPUShaderDefine> Defines {
+			get => new (defines, (int)defineCount);
+			set => value.SetArr(out defines, out defineCount);
 		}
 	}
 
@@ -1031,6 +1107,18 @@ namespace Evergine.Bindings.WebGPU
 		public ulong samplerCount;
 		public WGPUTextureView* textureViews;
 		public ulong textureViewCount;
+		public Span<WGPUBuffer> Buffers {
+			get => new (buffers, (int)bufferCount);
+			set => value.SetArr(out buffers, out bufferCount);
+		}
+		public Span<WGPUSampler> Samplers {
+			get => new (samplers, (int)samplerCount);
+			set => value.SetArr(out samplers, out samplerCount);
+		}
+		public Span<WGPUTextureView> TextureViews {
+			get => new (textureViews, (int)textureViewCount);
+			set => value.SetArr(out textureViews, out textureViewCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1046,6 +1134,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public WGPUPipelineStatisticName* pipelineStatistics;
 		public ulong pipelineStatisticCount;
+		public Span<WGPUPipelineStatisticName> PipelineStatistics {
+			get => new (pipelineStatistics, (int)pipelineStatisticCount);
+			set => value.SetArr(out pipelineStatistics, out pipelineStatisticCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
