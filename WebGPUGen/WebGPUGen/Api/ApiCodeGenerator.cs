@@ -13,25 +13,28 @@ namespace WebGPUGen
         public static void GenerateApiCommands(CppCompilation compilation, string outputPath)
         {
             Debug.WriteLine("Generating API Commands...");
-            var handles = GetHandles(compilation);
-            var handleNames = handles.Select(h => h.Name.Substring(4)).ToArray();
-            var objects = new Dictionary<string, List<CppFunction>>();
-            foreach (var handleName in handleNames) {
-                objects.Add(handleName, new List<CppFunction>());
+            var handles = GetHandles(compilation).ToArray();
+            var objects = new Dictionary<CppTypedef, List<CppFunction>>();
+            foreach (var handle in handles) {
+                objects.Add(handle, new List<CppFunction>());
             }
 
             foreach (var command in compilation.Functions)
             {
-                var name = command.Name.Substring(4);
-                foreach (var handleName in handleNames) {
-                    if (name.StartsWith(handleName)) {
-                        objects[handleName].Add(command);
+                if (command.Parameters.Count == 0) {
+                    continue;
+                }
+                var first = command.Parameters[0];
+                if (first.Type is CppTypedef handleType) {
+                    if (objects.ContainsKey(handleType)) {
+                        objects[handleType].Add(command);    
                     }
                 }
             }
 
-            foreach (var (name, commands) in objects) {
-                using (StreamWriter file = File.CreateText(Path.Combine(outputPath, $"Api/{name}.cs")))
+            foreach (var (handleType, commands) in objects) {
+                var shortName = handleType.Name.Substring(4);
+                using (StreamWriter file = File.CreateText(Path.Combine(outputPath, $"Api/{shortName}.cs")))
                 {
                     var sb = new StringBuilder();
                     foreach (var command in commands) {
@@ -43,7 +46,8 @@ namespace WebGPUGen
 
                         if (!CsCodeGenerator.emscriptenUnsupportedCommands.Contains(command.Name))
                         {
-                            var commandName = command.Name.Substring(4 + name.Length);
+                            var commandName = command.Name.Substring(handleType.Name.Length);
+                            commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                             sb.AppendLine($"// {commandName}");
                             //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
                             //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
