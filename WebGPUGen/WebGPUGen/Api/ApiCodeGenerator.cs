@@ -82,6 +82,9 @@ public static class ApiCodeGenerator
             var param = parameters[n];
             sb.Append(", ");
             sb.Append(param.Name);
+            if (param.Type == SignatureParamType.Pointer) {
+                sb.Append(".GetOptPtr()");
+            }
         }
         sb.AppendLine(");");
         sb.AppendLine($"    }}");
@@ -112,24 +115,13 @@ public static class ApiCodeGenerator
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             signature.Append(", ");
-            if (parameter.CppParameter.Type is CppPointerType pointerType) {
-                if (parameter.TypeName == "void*" ||
-                    parameter.TypeName == "char*" ||
-                    parameter.TypeName == "uint*") {
-                    signature.Append($"{parameter.TypeName} ");    
-                } else {
-                    //var typeName = Helpers.GetCsTypeName(pointerType, false);
-                    // var typeName = signature.Append($"{parameter.TypeName} ")
-                    // Console.WriteLine(typeName);
-                    // signature.Append($"Span<{typeName}> ");
-                    signature.Append($"{parameter.TypeName} ");  
-                }
+            if (parameter.Type == SignatureParamType.Pointer) {
+                signature.Append($"Span<{parameter.TypeNamePure}> ");
             } else {
                 signature.Append($"{parameter.TypeName} ");
             }
             signature.Append($"{parameter.Name}");
         }
-
         return signature.ToString();
     }
 
