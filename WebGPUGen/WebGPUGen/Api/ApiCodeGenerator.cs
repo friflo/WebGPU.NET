@@ -160,5 +160,21 @@ public static class ApiCodeGenerator
         return signature.ToString();
     }
 
+    public static void AddStructProperties(StreamWriter file, CppClass structure)
+    {
+        foreach (var member in structure.Fields)
+        {
+            string type = Helpers.ConvertToCSharpType(member.Type);
+
+            if (type == "char*") {
+                var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
+                file.WriteLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
+                file.WriteLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
+                file.WriteLine($"\t\t\tset => ApiUtils.AllocString(value);");
+                file.WriteLine($"\t\t}}");
+            }
+            // file.WriteLine($"\t\tpublic {type} {member.Name};");
+        }
+    }
 }
 

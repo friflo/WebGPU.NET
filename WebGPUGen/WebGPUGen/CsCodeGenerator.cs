@@ -231,6 +231,7 @@ namespace WebGPUGen
                         }
                         file.WriteLine($"\t\tpublic {type} {member.Name};");
                     }
+                    ApiCodeGenerator.AddStructProperties(file, structure);
 
                     file.WriteLine("\t}\n");
                 }

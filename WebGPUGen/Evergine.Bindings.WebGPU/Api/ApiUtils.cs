@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Evergine.Bindings.WebGPU;
 
 using System.Runtime.CompilerServices;
@@ -31,6 +33,13 @@ public static class ApiUtils
         // var ptr = (char*)Marshal.AllocHGlobal(2 * (span.Length + 1));
         // Buffer.MemoryCopy();
         return null;
+    }
+    
+    public static unsafe ReadOnlySpan<char> GetLabel(char* label) {
+        if (label == null) {
+            return default;
+        }
+        return Marshal.PtrToStringAnsi((IntPtr)label).AsSpan();
     }
     
 }
