@@ -4,6 +4,10 @@ public static class ObjectTracker
 {
     private static Dictionary<IntPtr, int> handleMap = new Dictionary<IntPtr, int>();
     
+    public static void CreateRef(IntPtr handle) {
+        // var refCount = handleMap[handle];
+    }
+    
     public static void IncRef(IntPtr handle) {
         // var refCount = handleMap[handle];
         

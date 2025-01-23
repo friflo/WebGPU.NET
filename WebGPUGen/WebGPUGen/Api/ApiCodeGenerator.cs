@@ -84,10 +84,11 @@ public static class ApiCodeGenerator
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                     
         sb.AppendLine($"    public static {returnType} {commandName}(this {handleType.Name} {handleName}{signature}) {{");
-        if (returnType == "void") {
-            sb.Append("        ");
+        bool hasReturnValue = returnType != "void";
+        if (hasReturnValue) {
+            sb.Append("        var result = ");
         } else {
-            sb.Append("        return ");
+            sb.Append("        ");
         }
         sb.Append(command.Name);
         sb.Append("(");
@@ -106,6 +107,13 @@ public static class ApiCodeGenerator
             }
         }
         sb.AppendLine(");");
+
+        if (hasReturnValue) {
+            if (commandName.StartsWith("create")) {
+                sb.AppendLine("        ObjectTracker.CreateRef(result.Handle);");
+            }
+            sb.AppendLine("        return result;");
+        }
         sb.AppendLine($"    }}");
     }
     
