@@ -42,7 +42,7 @@ namespace WebGPUGen
         {
             if (type is CppPrimitiveType primitiveType)
             {
-                return GetCsTypeName(primitiveType, isPointer);
+                return GetCsPrimitiveTypeName(primitiveType, isPointer);
             }
 
             if (type is CppQualifiedType qualifiedType)
@@ -79,7 +79,7 @@ namespace WebGPUGen
 
             if (type is CppPointerType pointerType)
             {
-                return GetCsTypeName(pointerType);
+                return GetCsPointerTypeName(pointerType);
             }
 
             if (type is CppArrayType arrayType)
@@ -133,7 +133,7 @@ namespace WebGPUGen
             return signature.ToString();
         }
 
-        private static string GetCsTypeName(CppPrimitiveType primitiveType, bool isPointer)
+        private static string GetCsPrimitiveTypeName(CppPrimitiveType primitiveType, bool isPointer)
         {
             string result = string.Empty;
 
@@ -183,13 +183,13 @@ namespace WebGPUGen
             return result;
         }
 
-        private static string GetCsTypeName(CppPointerType pointerType)
+        private static string GetCsPointerTypeName(CppPointerType pointerType)
         {
             if (pointerType.ElementType is CppQualifiedType qualifiedType)
             {
                 if (qualifiedType.ElementType is CppPrimitiveType primitiveType)
                 {
-                    return GetCsTypeName(primitiveType, true);
+                    return GetCsPrimitiveTypeName(primitiveType, true);
                 }
                 else if (qualifiedType.ElementType is CppClass @classType)
                 {
@@ -218,7 +218,7 @@ namespace WebGPUGen
         {
             if (type is CppPrimitiveType primitiveType)
             {
-                return GetCsTypeName(primitiveType, isPointer);
+                return GetCsPrimitiveTypeName(primitiveType, isPointer);
             }
 
             if (type is CppQualifiedType qualifiedType)
@@ -255,7 +255,7 @@ namespace WebGPUGen
 
             if (type is CppPointerType pointerType)
             {
-                return GetCsTypeName(pointerType);
+                return GetCsPointerTypeName(pointerType);
             }
 
             if (type is CppArrayType arrayType)

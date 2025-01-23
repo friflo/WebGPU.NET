@@ -1,4 +1,6 @@
-﻿namespace WebGPUGen;
+﻿using System;
+
+namespace WebGPUGen;
 
 using CppAst;
 using System.Collections.Generic;
@@ -110,7 +112,21 @@ public static class ApiCodeGenerator
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             signature.Append(", ");
-            signature.Append($"{parameter.TypeName} ");
+            if (parameter.CppParameter.Type is CppPointerType pointerType) {
+                if (parameter.TypeName == "void*" ||
+                    parameter.TypeName == "char*" ||
+                    parameter.TypeName == "uint*") {
+                    signature.Append($"{parameter.TypeName} ");    
+                } else {
+                    //var typeName = Helpers.GetCsTypeName(pointerType, false);
+                    // var typeName = signature.Append($"{parameter.TypeName} ")
+                    // Console.WriteLine(typeName);
+                    // signature.Append($"Span<{typeName}> ");
+                    signature.Append($"{parameter.TypeName} ");  
+                }
+            } else {
+                signature.Append($"{parameter.TypeName} ");
+            }
             signature.Append($"{parameter.Name}");
         }
 
