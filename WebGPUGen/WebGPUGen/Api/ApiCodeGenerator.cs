@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebGPUGen;
+﻿namespace WebGPUGen;
 
 using CppAst;
 using System.Collections.Generic;
@@ -11,11 +9,12 @@ using System.Text;
 
 public static class ApiCodeGenerator
 {
+    private static Dictionary<CppTypedef, List<CppFunction>> objects = new();
+    
     public static void GenerateApiCommands(CppCompilation compilation, string outputPath)
     {
         Debug.WriteLine("Generating API Commands...");
         var handles = GetHandles(compilation).ToArray();
-        var objects = new Dictionary<CppTypedef, List<CppFunction>>();
         foreach (var handle in handles) {
             objects.Add(handle, new List<CppFunction>());
         }
@@ -107,10 +106,13 @@ public static class ApiCodeGenerator
             }
         }
         sb.AppendLine(");");
+        
 
         if (hasReturnValue) {
-            if (commandName.StartsWith("create")) {
-                sb.AppendLine("        ObjectTracker.CreateRef(result.Handle);");
+            if (command.ReturnType is CppTypedef handleReturnType) {
+                if (objects.ContainsKey(handleReturnType)) {
+                    sb.AppendLine("        ObjectTracker.CreateRef(result.Handle);");
+                }
             }
             sb.AppendLine("        return result;");
         }
