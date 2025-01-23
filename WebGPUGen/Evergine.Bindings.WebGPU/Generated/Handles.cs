@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.WebGPU
 {
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUAdapter">MDN documentation</see>
 	public partial struct WGPUAdapter : IEquatable<WGPUAdapter>
 	{
 	public readonly IntPtr Handle;
@@ -19,6 +20,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUBindGroup">MDN documentation</see>
 	public partial struct WGPUBindGroup : IEquatable<WGPUBindGroup>
 	{
 	public readonly IntPtr Handle;
@@ -34,6 +36,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUBindGroupLayout">MDN documentation</see>
 	public partial struct WGPUBindGroupLayout : IEquatable<WGPUBindGroupLayout>
 	{
 	public readonly IntPtr Handle;
@@ -49,6 +52,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUBuffer">MDN documentation</see>
 	public partial struct WGPUBuffer : IEquatable<WGPUBuffer>
 	{
 	public readonly IntPtr Handle;
@@ -64,6 +68,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUCommandBuffer">MDN documentation</see>
 	public partial struct WGPUCommandBuffer : IEquatable<WGPUCommandBuffer>
 	{
 	public readonly IntPtr Handle;
@@ -79,6 +84,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUCommandEncoder">MDN documentation</see>
 	public partial struct WGPUCommandEncoder : IEquatable<WGPUCommandEncoder>
 	{
 	public readonly IntPtr Handle;
@@ -94,6 +100,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUComputePassEncoder">MDN documentation</see>
 	public partial struct WGPUComputePassEncoder : IEquatable<WGPUComputePassEncoder>
 	{
 	public readonly IntPtr Handle;
@@ -109,6 +116,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUComputePipeline">MDN documentation</see>
 	public partial struct WGPUComputePipeline : IEquatable<WGPUComputePipeline>
 	{
 	public readonly IntPtr Handle;
@@ -124,6 +132,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice">MDN documentation</see>
 	public partial struct WGPUDevice : IEquatable<WGPUDevice>
 	{
 	public readonly IntPtr Handle;
@@ -139,6 +148,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// No counterpart in JavaScript WebGPU
 	public partial struct WGPUInstance : IEquatable<WGPUInstance>
 	{
 	public readonly IntPtr Handle;
@@ -154,6 +164,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUPipelineLayout">MDN documentation</see>
 	public partial struct WGPUPipelineLayout : IEquatable<WGPUPipelineLayout>
 	{
 	public readonly IntPtr Handle;
@@ -169,6 +180,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUQuerySet">MDN documentation</see>
 	public partial struct WGPUQuerySet : IEquatable<WGPUQuerySet>
 	{
 	public readonly IntPtr Handle;
@@ -184,6 +196,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUQueue">MDN documentation</see>
 	public partial struct WGPUQueue : IEquatable<WGPUQueue>
 	{
 	public readonly IntPtr Handle;
@@ -199,6 +212,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPURenderBundle">MDN documentation</see>
 	public partial struct WGPURenderBundle : IEquatable<WGPURenderBundle>
 	{
 	public readonly IntPtr Handle;
@@ -214,6 +228,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPURenderBundleEncoder">MDN documentation</see>
 	public partial struct WGPURenderBundleEncoder : IEquatable<WGPURenderBundleEncoder>
 	{
 	public readonly IntPtr Handle;
@@ -229,6 +244,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPURenderPassEncoder">MDN documentation</see>
 	public partial struct WGPURenderPassEncoder : IEquatable<WGPURenderPassEncoder>
 	{
 	public readonly IntPtr Handle;
@@ -244,6 +260,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPURenderPipeline">MDN documentation</see>
 	public partial struct WGPURenderPipeline : IEquatable<WGPURenderPipeline>
 	{
 	public readonly IntPtr Handle;
@@ -259,6 +276,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUSampler">MDN documentation</see>
 	public partial struct WGPUSampler : IEquatable<WGPUSampler>
 	{
 	public readonly IntPtr Handle;
@@ -274,6 +292,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUShaderModule">MDN documentation</see>
 	public partial struct WGPUShaderModule : IEquatable<WGPUShaderModule>
 	{
 	public readonly IntPtr Handle;
@@ -289,6 +308,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// No counterpart in JavaScript WebGPU
 	public partial struct WGPUSurface : IEquatable<WGPUSurface>
 	{
 	public readonly IntPtr Handle;
@@ -304,6 +324,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUTexture">MDN documentation</see>
 	public partial struct WGPUTexture : IEquatable<WGPUTexture>
 	{
 	public readonly IntPtr Handle;
@@ -319,6 +340,7 @@ namespace Evergine.Bindings.WebGPU
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
+	/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUTextureView">MDN documentation</see>
 	public partial struct WGPUTextureView : IEquatable<WGPUTextureView>
 	{
 	public readonly IntPtr Handle;
