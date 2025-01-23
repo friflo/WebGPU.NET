@@ -38,6 +38,56 @@ Features of API Layer
 - Track allocations of WebGPU [Objects](https://webgpu-native.github.io/webgpu-headers/group__Objects.html)
   to avoid / find leaks in native WebGPU heap.
 
+### Example C API vs API Layer
+
+Both implementation provide the same result.
+
+API Layer
+- no use of unsafe code
+- required no local variables
+```cs
+    vertexBuffer = Device.createBuffer([new WGPUBufferDescriptor {
+            nextInChain = null,
+            usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
+            size = (ulong)(6 * sizeof(Vector4)),
+            mappedAtCreation = false,        
+        }]);
+    Queue.writeBuffer(vertexBuffer, 0, [
+        new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
+        new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+        new Vector4(0.5f, -0.5f, 0.5f, 1.0f),
+        new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
+        new Vector4(-0.5f, -0.5f, 0.5f, 1.0f),
+        new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
+    ]);
+```
+
+C API
+- requires unsafe code
+- requires local (stack) variables: `bufferDescriptor` & `vertexData`
+```cs
+    ulong size = (ulong)(6 * sizeof(Vector4));
+    WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor()
+    {
+        nextInChain = null,
+        usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
+        size = size,
+        mappedAtCreation = false,
+    };
+    vertexBuffer = wgpuDeviceCreateBuffer(Device, &bufferDescriptor);
+    Vector4* vertexData = stackalloc Vector4[] {
+        new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
+        new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
+        new Vector4(0.5f, -0.5f, 0.5f, 1.0f),
+        new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
+        new Vector4(-0.5f, -0.5f, 0.5f, 1.0f),
+        new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
+    };
+    wgpuQueueWriteBuffer(Queue, vertexBuffer, 0, vertexData, size);
+```
+
+
+
 ### Usage
 
 To include `Evergine.Bindings.WebGPU` in your project, install the NuGet package:
