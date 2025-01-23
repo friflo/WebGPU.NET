@@ -67,6 +67,20 @@ public static class ApiCodeGenerator
         var signature = GetParametersSignature(parameters);
 
         var commandName = command.Name.Substring(handleType.Name.Length);
+        switch (commandName) {
+            case "Reference":
+                sb.AppendLine($"    public static void reference(this {handleType.Name} {handleName}) {{");
+                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Reference({handleName});");
+                sb.AppendLine($"        ObjectTracker.IncRef({handleName}.Handle);");
+                sb.AppendLine($"    }}");
+                return;
+            case "Release":
+                sb.AppendLine($"    public static void release(this {handleType.Name} {handleName}) {{");
+                sb.AppendLine($"        ObjectTracker.DecRef({handleName}.Handle);");
+                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Release({handleName});");
+                sb.AppendLine($"    }}");
+                return;
+        } 
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                     
         sb.AppendLine($"    public static {returnType} {commandName}(this {handleType.Name} {handleName}{signature}) {{");
