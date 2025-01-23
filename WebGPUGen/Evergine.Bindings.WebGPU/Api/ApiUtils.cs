@@ -25,7 +25,7 @@ public static class ApiUtils
         return (T*)Unsafe.AsPointer(ref span.GetPinnableReference());
     }
     
-    public static unsafe char* AllocString(this Span<char> span) {
+    public static unsafe char* AllocString(this ReadOnlySpan<char> span) {
         if (span.Length == 0) {
             return null;
         }

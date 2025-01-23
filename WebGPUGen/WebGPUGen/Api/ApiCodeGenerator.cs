@@ -120,11 +120,16 @@ public static class ApiCodeGenerator
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             signature.Append(", ");
-            if (parameter.Type == SignatureParamType.Pointer ||
-                parameter.Type == SignatureParamType.CharPointer) {
-                signature.Append($"Span<{parameter.TypeNamePure}> ");
-            } else {
-                signature.Append($"{parameter.TypeName} ");
+            switch(parameter.Type) {
+                case SignatureParamType.Pointer:
+                    signature.Append($"Span<{parameter.TypeNamePure}> ");
+                    break;
+                case SignatureParamType.CharPointer:
+                    signature.Append($"ReadOnlySpan<{parameter.TypeNamePure}> ");
+                    break;
+                default:
+                    signature.Append($"{parameter.TypeName} ");
+                    break;
             }
             signature.Append($"{parameter.Name}");
         }
