@@ -107,14 +107,8 @@ public static class ApiCodeGenerator
     private static string GetParametersSignature(SignatureParam[] parameters)
     {
         StringBuilder signature = new StringBuilder();
-        bool isFirst = true;
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
-            /*if (isFirst) {
-                isFirst = false;
-            } else {
-                signature.Append(", ");
-            }*/
             signature.Append(", ");
             signature.Append($"{parameter.TypeName} ");
             signature.Append($"{parameter.Name}");
