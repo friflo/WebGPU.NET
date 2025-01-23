@@ -1,10 +1,9 @@
 ﻿namespace WebGPUGen;
+
 using CppAst;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 
@@ -84,9 +83,6 @@ public static class ApiCodeGenerator
         }
         sb.AppendLine(");");
         sb.AppendLine($"    }}");
-                    
-        //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
-        //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
     }
     
     private static List<CppTypedef> GetHandles(CppCompilation compilation)
