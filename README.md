@@ -26,6 +26,18 @@ List any dependencies, required libraries, or external factors here.
 2. Navigate to the project directory.
 3. Run the HelloTriangle test project.
 
+## Safe C# API Layer
+
+Provide an **optional** API Layer on top of the C bindings.
+Features of API Layer
+- Provide an OOP like API similar to Javascript/Typescript WebGPU API.
+- The API layer enables to write WebGPU applications without **unsafe** C#.
+- Entire implementation (all methods & properties) do not allocate objects in C# (CLR) heap.
+- Add no additional types. Instead the layer add only extension methods and struct properties.  
+- The use of this API can be combined with the vanilla C bindings. So existing projects can be migrated incrementally.
+- Track allocations of WebGPU [Objects](https://webgpu-native.github.io/webgpu-headers/group__Objects.html)
+  to avoid / find leaks in native WebGPU heap.
+
 ### Usage
 
 To include `Evergine.Bindings.WebGPU` in your project, install the NuGet package:
