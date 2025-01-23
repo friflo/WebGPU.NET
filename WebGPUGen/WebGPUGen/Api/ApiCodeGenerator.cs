@@ -48,7 +48,9 @@ namespace WebGPUGen
                         {
                             var commandName = command.Name.Substring(handleType.Name.Length);
                             commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
-                            sb.AppendLine($"// {commandName}");
+                            sb.AppendLine($"    public static void {commandName}(this {handleType.Name} handle) {{");
+                            sb.AppendLine($"    }}");
+                            sb.AppendLine($"");
                             //file.WriteLine($"\n\t\t[DllImport(\"wgpu_native\", CallingConvention = CallingConvention.Cdecl, EntryPoint = \"{command.Name}\")]");
                             //file.WriteLine($"\t\tpublic static extern {convertedType} {command.Name}({Helpers.GetParametersSignature(command)});");
                         }
