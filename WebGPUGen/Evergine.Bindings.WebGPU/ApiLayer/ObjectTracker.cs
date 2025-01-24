@@ -4,7 +4,7 @@ public static class ObjectTracker
 {
     private static Dictionary<IntPtr, int> handleMap = new Dictionary<IntPtr, int>();
     
-    public static void CreateRef(IntPtr handle) {
+    public static unsafe void CreateRef(IntPtr handle, char* descriptorLabel) {
         // var refCount = handleMap[handle];
     }
     

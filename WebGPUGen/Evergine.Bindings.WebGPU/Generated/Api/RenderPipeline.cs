@@ -5,7 +5,6 @@ public static unsafe partial class WebGPUExtensions
 {
     public static WGPUBindGroupLayout getBindGroupLayout(this WGPURenderPipeline renderPipeline, uint groupIndex) {
         var result = wgpuRenderPipelineGetBindGroupLayout(renderPipeline, groupIndex);
-        ObjectTracker.CreateRef(result.Handle);
         return result;
     }
 

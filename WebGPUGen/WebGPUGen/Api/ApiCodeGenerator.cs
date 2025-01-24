@@ -121,7 +121,9 @@ public static class ApiCodeGenerator
         if (hasReturnValue) {
             if (command.ReturnType is CppTypedef handleReturnType) {
                 if (objects.ContainsKey(handleReturnType)) {
-                    sb.AppendLine("        ObjectTracker.CreateRef(result.Handle);");
+                    if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
+                        sb.AppendLine("        ObjectTracker.CreateRef(result.Handle, descriptor.label);");
+                    }
                 }
             }
             sb.AppendLine("        return result;");

@@ -15,7 +15,7 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPURenderBundle finish(this WGPURenderBundleEncoder renderBundleEncoder, WGPURenderBundleDescriptor descriptor) {
         var result = wgpuRenderBundleEncoderFinish(renderBundleEncoder, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 

@@ -10,31 +10,31 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPUBindGroup createBindGroup(this WGPUDevice device, WGPUBindGroupDescriptor descriptor) {
         var result = wgpuDeviceCreateBindGroup(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUBindGroupLayout createBindGroupLayout(this WGPUDevice device, WGPUBindGroupLayoutDescriptor descriptor) {
         var result = wgpuDeviceCreateBindGroupLayout(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUBuffer createBuffer(this WGPUDevice device, WGPUBufferDescriptor descriptor) {
         var result = wgpuDeviceCreateBuffer(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUCommandEncoder createCommandEncoder(this WGPUDevice device, WGPUCommandEncoderDescriptor descriptor) {
         var result = wgpuDeviceCreateCommandEncoder(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUComputePipeline createComputePipeline(this WGPUDevice device, WGPUComputePipelineDescriptor descriptor) {
         var result = wgpuDeviceCreateComputePipeline(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
@@ -44,25 +44,25 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPUPipelineLayout createPipelineLayout(this WGPUDevice device, WGPUPipelineLayoutDescriptor descriptor) {
         var result = wgpuDeviceCreatePipelineLayout(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUQuerySet createQuerySet(this WGPUDevice device, WGPUQuerySetDescriptor descriptor) {
         var result = wgpuDeviceCreateQuerySet(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPURenderBundleEncoder createRenderBundleEncoder(this WGPUDevice device, WGPURenderBundleEncoderDescriptor descriptor) {
         var result = wgpuDeviceCreateRenderBundleEncoder(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPURenderPipeline createRenderPipeline(this WGPUDevice device, WGPURenderPipelineDescriptor descriptor) {
         var result = wgpuDeviceCreateRenderPipeline(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
@@ -72,19 +72,19 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPUSampler createSampler(this WGPUDevice device, WGPUSamplerDescriptor descriptor) {
         var result = wgpuDeviceCreateSampler(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUShaderModule createShaderModule(this WGPUDevice device, WGPUShaderModuleDescriptor descriptor) {
         var result = wgpuDeviceCreateShaderModule(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPUTexture createTexture(this WGPUDevice device, WGPUTextureDescriptor descriptor) {
         var result = wgpuDeviceCreateTexture(device, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
@@ -104,7 +104,6 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPUQueue getQueue(this WGPUDevice device) {
         var result = wgpuDeviceGetQueue(device);
-        ObjectTracker.CreateRef(result.Handle);
         return result;
     }
 

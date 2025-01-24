@@ -5,7 +5,7 @@ public static unsafe partial class WebGPUExtensions
 {
     public static WGPUTextureView createView(this WGPUTexture texture, WGPUTextureViewDescriptor descriptor) {
         var result = wgpuTextureCreateView(texture, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 

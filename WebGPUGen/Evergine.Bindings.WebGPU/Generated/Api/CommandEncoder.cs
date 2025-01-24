@@ -5,13 +5,13 @@ public static unsafe partial class WebGPUExtensions
 {
     public static WGPUComputePassEncoder beginComputePass(this WGPUCommandEncoder commandEncoder, WGPUComputePassDescriptor descriptor) {
         var result = wgpuCommandEncoderBeginComputePass(commandEncoder, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
     public static WGPURenderPassEncoder beginRenderPass(this WGPUCommandEncoder commandEncoder, WGPURenderPassDescriptor descriptor) {
         var result = wgpuCommandEncoderBeginRenderPass(commandEncoder, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
@@ -37,7 +37,7 @@ public static unsafe partial class WebGPUExtensions
 
     public static WGPUCommandBuffer finish(this WGPUCommandEncoder commandEncoder, WGPUCommandBufferDescriptor descriptor) {
         var result = wgpuCommandEncoderFinish(commandEncoder, &descriptor);
-        ObjectTracker.CreateRef(result.Handle);
+        ObjectTracker.CreateRef(result.Handle, descriptor.label);
         return result;
     }
 
