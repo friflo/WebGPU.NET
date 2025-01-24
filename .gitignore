@@ -402,4 +402,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # ignore temporary
-WebGPUGen/Evergine.Bindings.WebGPU/Generated/Api/
+# WebGPUGen/Evergine.Bindings.WebGPU/Generated/Api/
