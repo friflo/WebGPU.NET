@@ -206,7 +206,12 @@ public static class ApiCodeGenerator
                     //      public WGPUBuffer* buffers;
                     //      public ulong bufferCount;
                     var arrayFieldName = member.Name;
-                    var countFieldName = member.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
+                    string countFieldName;
+                    if (member.Name == "entries") {
+                        countFieldName = "entryCount";
+                    } else {
+                        countFieldName = member.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
+                    }
                     CppField countField = fields.FirstOrDefault(field => field.Name == countFieldName);
                     if (countField != null) {
                         var arrayFieldType = type.Substring(0, type.Length - 1);

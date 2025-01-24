@@ -756,6 +756,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetStr(label);
 			set => ApiUtils.SetStr(value, out this.label);
 		}
+		public Span<WGPUBindGroupEntry> Entries {
+			get => new (entries, (int)entryCount);
+			set => value.SetArr(out entries, out entryCount);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1008,6 +1012,10 @@ namespace Evergine.Bindings.WebGPU
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetStr(label);
 			set => ApiUtils.SetStr(value, out this.label);
+		}
+		public Span<WGPUBindGroupLayoutEntry> Entries {
+			get => new (entries, (int)entryCount);
+			set => value.SetArr(out entries, out entryCount);
 		}
 	}
 
