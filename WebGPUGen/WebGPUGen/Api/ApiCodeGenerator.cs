@@ -187,29 +187,33 @@ public static class ApiCodeGenerator
         foreach (var member in fields)
         {
             string type = Helpers.ConvertToCSharpType(member.Type);
-            
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                 sb.AppendLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
                 sb.AppendLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
                 sb.AppendLine($"\t\t\tset => ApiUtils.AllocString(value);");
                 sb.AppendLine($"\t\t}}");
+                continue;
             }
-            if (member.Name.EndsWith("Count")) {
-                var arrayName = member.Name.Substring(0, member.Name.Length - "Count".Length) + "s";
-                
-                CppField arrayField = fields.Where(field => field.Name == arrayName).FirstOrDefault();
-                if (arrayField != null) {
-                    string arrayFieldType = Helpers.ConvertToCSharpType(arrayField.Type);
-                    var nameUpper = char.ToUpper(arrayField.Name[0]) + arrayField.Name.Substring(1);
-                    arrayFieldType = arrayFieldType.Substring(0, arrayFieldType.Length - 1);
-                    sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
-                    sb.AppendLine($"\t\t\tget => new ({arrayName}, (int){member.Name});");
-                    sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayName}, out {member.Name});");
-                    sb.AppendLine($"\t\t}}");
+            if (type.EndsWith("*")) {
+                if (member.Name.EndsWith("s")) {
+                    // case: Field tuples used for arrays. e.g.
+                    //      public WGPUBuffer* buffers;
+                    //      public ulong bufferCount;
+                    var arrayFieldName = member.Name;
+                    var countFieldName = member.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
+                    CppField countField = fields.FirstOrDefault(field => field.Name == countFieldName);
+                    if (countField != null) {
+                        var arrayFieldType = type.Substring(0, type.Length - 1);
+                        var nameUpper = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
+                        sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
+                        sb.AppendLine($"\t\t\tget => new ({arrayFieldName}, (int){countFieldName});");
+                        sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayFieldName}, out {countFieldName});");
+                        sb.AppendLine($"\t\t}}");
+                    }
+                    continue;
                 }
             }
-            // file.WriteLine($"\t\tpublic {type} {member.Name};");
         }
         if (sb.Length > 0) {
             file.WriteLine("\t\t// --- properties");
