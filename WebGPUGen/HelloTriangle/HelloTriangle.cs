@@ -76,8 +76,6 @@ namespace HelloTriangle
                 hinstance = (void*)Process.GetCurrentProcess().Handle,
                 hwnd = (void*)window.Handle,
             };
-            var intPtr = new IntPtr(windowsSurface.hwnd);
-            
 
             WGPUSurfaceDescriptor surfaceDescriptor = new WGPUSurfaceDescriptor()
             {
