@@ -28,13 +28,13 @@ public static class ApiUtils
         // When using this approach all struct properties MUST be allocated on the stack. 
         //      dstPtr = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
         count = (ulong)src.Length;
-        dstPtr = (T*)ApiAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)ArenaAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
     public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
         count = (uint)src.Length;
-        dstPtr = (T*)ApiAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)ArenaAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
@@ -47,7 +47,7 @@ public static class ApiUtils
     
     public static unsafe void SetOpt<T>(out T* dstPtr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            dstPtr = (T*)ApiAllocator.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+            dstPtr = (T*)ArenaAllocator.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
             *dstPtr = value.Value;
             return;
         }
@@ -58,7 +58,7 @@ public static class ApiUtils
         if (span.Length == 0) {
             return null;
         }
-        return ApiAllocator.AllocString(span);
+        return ArenaAllocator.AllocString(span);
     }
     
     public static unsafe ReadOnlySpan<char> GetStr(char* label) {
@@ -73,7 +73,7 @@ public static class ApiUtils
             dst = null;
             return;
         }
-        dst = ApiAllocator.AllocString(span);
+        dst = ArenaAllocator.AllocString(span);
     }
     
 }

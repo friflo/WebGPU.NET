@@ -3,13 +3,13 @@ using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
-public static class ApiAllocator
+public static class ArenaAllocator
 {
-    private static List<nint>   _chunks = new();
-    private static int          _chunkIndex;
-    private static nint         _currentChunk;
-    private static int          _currentPos = ChunkSize;
-    private const int           ChunkSize = 0x10000;
+    private static  List<nint>  _chunks         = new();
+    private static  int         _chunkIndex;
+    private static  nint        _currentChunk;
+    private static  int         _currentPos     = ChunkSize;
+    private const   int          ChunkSize      = 0x10000;
 
     public static void Reset() {
         _chunkIndex = 0;
