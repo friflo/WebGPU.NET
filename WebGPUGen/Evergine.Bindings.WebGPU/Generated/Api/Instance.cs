@@ -5,7 +5,7 @@ public static unsafe partial class WebGPUExtensions
 {
     public static WGPUSurface createSurface(this WGPUInstance instance, WGPUSurfaceDescriptor descriptor) {
         var result = wgpuInstanceCreateSurface(instance, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor.label);
         return result;
     }
 
