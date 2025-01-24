@@ -15,6 +15,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUAdapterType adapterType;
 		public uint vendorID;
 		public uint deviceID;
+		// --- properties
 		public ReadOnlySpan<char> Vendor {
 			get => ApiUtils.GetLabel(vendor);
 			set => ApiUtils.AllocString(value);
@@ -70,6 +71,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUBufferUsage usage;
 		public ulong size;
 		public WGPUBool mappedAtCreation;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -90,6 +92,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -101,6 +104,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -120,6 +124,7 @@ namespace Evergine.Bindings.WebGPU
 		public ulong utf16LinePos;
 		public ulong utf16Offset;
 		public ulong utf16Length;
+		// --- properties
 		public ReadOnlySpan<char> Message {
 			get => ApiUtils.GetLabel(message);
 			set => ApiUtils.AllocString(value);
@@ -140,6 +145,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct* nextInChain;
 		public char* key;
 		public double value;
+		// --- properties
 		public ReadOnlySpan<char> Key {
 			get => ApiUtils.GetLabel(key);
 			set => ApiUtils.AllocString(value);
@@ -221,6 +227,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* label;
 		public ulong bindGroupLayoutCount;
 		public WGPUBindGroupLayout* bindGroupLayouts;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -255,6 +262,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* label;
 		public WGPUQueryType type;
 		public uint count;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -266,6 +274,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -277,6 +286,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -294,6 +304,7 @@ namespace Evergine.Bindings.WebGPU
 		public uint sampleCount;
 		public WGPUBool depthReadOnly;
 		public WGPUBool stencilReadOnly;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -365,6 +376,7 @@ namespace Evergine.Bindings.WebGPU
 		public float lodMaxClamp;
 		public WGPUCompareFunction compare;
 		public ushort maxAnisotropy;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -377,6 +389,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct* nextInChain;
 		public char* entryPoint;
 		public WGPUPipelineLayout layout;
+		// --- properties
 		public ReadOnlySpan<char> EntryPoint {
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
@@ -396,6 +409,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct chain;
 		public char* code;
+		// --- properties
 		public ReadOnlySpan<char> Code {
 			get => ApiUtils.GetLabel(code);
 			set => ApiUtils.AllocString(value);
@@ -431,6 +445,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUPresentMode* presentModes;
 		public ulong alphaModeCount;
 		public WGPUCompositeAlphaMode* alphaModes;
+		// --- properties
 		public Span<WGPUTextureFormat> Formats {
 			get => new (formats, (int)formatCount);
 			set => value.SetArr(out formats, out formatCount);
@@ -458,6 +473,7 @@ namespace Evergine.Bindings.WebGPU
 		public uint width;
 		public uint height;
 		public WGPUPresentMode presentMode;
+		// --- properties
 		public Span<WGPUTextureFormat> ViewFormats {
 			get => new (viewFormats, (int)viewFormatCount);
 			set => value.SetArr(out viewFormats, out viewFormatCount);
@@ -469,6 +485,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -487,6 +504,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct chain;
 		public char* selector;
+		// --- properties
 		public ReadOnlySpan<char> Selector {
 			get => ApiUtils.GetLabel(selector);
 			set => ApiUtils.AllocString(value);
@@ -570,6 +588,7 @@ namespace Evergine.Bindings.WebGPU
 		public uint baseArrayLayer;
 		public uint arrayLayerCount;
 		public WGPUTextureAspect aspect;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -600,6 +619,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUBindGroupLayout layout;
 		public ulong entryCount;
 		public WGPUBindGroupEntry* entries;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -631,6 +651,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct* nextInChain;
 		public ulong messageCount;
 		public WGPUCompilationMessage* messages;
+		// --- properties
 		public Span<WGPUCompilationMessage> Messages {
 			get => new (messages, (int)messageCount);
 			set => value.SetArr(out messages, out messageCount);
@@ -643,6 +664,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct* nextInChain;
 		public char* label;
 		public WGPUComputePassTimestampWrites* timestampWrites;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -691,6 +713,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* entryPoint;
 		public ulong constantCount;
 		public WGPUConstantEntry* constants;
+		// --- properties
 		public ReadOnlySpan<char> EntryPoint {
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
@@ -727,6 +750,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* label;
 		public ulong hintCount;
 		public WGPUShaderModuleCompilationHint* hints;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -757,6 +781,7 @@ namespace Evergine.Bindings.WebGPU
 		public uint sampleCount;
 		public ulong viewFormatCount;
 		public WGPUTextureFormat* viewFormats;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -774,6 +799,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUVertexStepMode stepMode;
 		public ulong attributeCount;
 		public WGPUVertexAttribute* attributes;
+		// --- properties
 		public Span<WGPUVertexAttribute> Attributes {
 			get => new (attributes, (int)attributeCount);
 			set => value.SetArr(out attributes, out attributeCount);
@@ -787,6 +813,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* label;
 		public ulong entryCount;
 		public WGPUBindGroupLayoutEntry* entries;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -809,6 +836,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* label;
 		public WGPUPipelineLayout layout;
 		public WGPUProgrammableStageDescriptor compute;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -827,6 +855,7 @@ namespace Evergine.Bindings.WebGPU
 		public delegate* unmanaged<WGPUDeviceLostReason, char*, void*, void> deviceLostCallback;
 		public void* deviceLostUserdata;
 		public WGPUUncapturedErrorCallbackInfo uncapturedErrorCallbackInfo;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -847,6 +876,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPURenderPassDepthStencilAttachment* depthStencilAttachment;
 		public WGPUQuerySet occlusionQuerySet;
 		public WGPURenderPassTimestampWrites* timestampWrites;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -867,6 +897,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUConstantEntry* constants;
 		public ulong bufferCount;
 		public WGPUVertexBufferLayout* buffers;
+		// --- properties
 		public ReadOnlySpan<char> EntryPoint {
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
@@ -891,6 +922,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUConstantEntry* constants;
 		public ulong targetCount;
 		public WGPUColorTargetState* targets;
+		// --- properties
 		public ReadOnlySpan<char> EntryPoint {
 			get => ApiUtils.GetLabel(entryPoint);
 			set => ApiUtils.AllocString(value);
@@ -916,6 +948,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUDepthStencilState* depthStencil;
 		public WGPUMultisampleState multisample;
 		public WGPUFragmentState* fragment;
+		// --- properties
 		public ReadOnlySpan<char> Label {
 			get => ApiUtils.GetLabel(label);
 			set => ApiUtils.AllocString(value);
@@ -946,6 +979,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUGles3MinorVersion gles3MinorVersion;
 		public char* dxilPath;
 		public char* dxcPath;
+		// --- properties
 		public ReadOnlySpan<char> DxilPath {
 			get => ApiUtils.GetLabel(dxilPath);
 			set => ApiUtils.AllocString(value);
@@ -961,6 +995,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct chain;
 		public char* tracePath;
+		// --- properties
 		public ReadOnlySpan<char> TracePath {
 			get => ApiUtils.GetLabel(tracePath);
 			set => ApiUtils.AllocString(value);
@@ -1002,6 +1037,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public ulong pushConstantRangeCount;
 		public WGPUPushConstantRange* pushConstantRanges;
+		// --- properties
 		public Span<WGPUPushConstantRange> PushConstantRanges {
 			get => new (pushConstantRanges, (int)pushConstantRangeCount);
 			set => value.SetArr(out pushConstantRanges, out pushConstantRangeCount);
@@ -1020,6 +1056,7 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public char* name;
 		public char* value;
+		// --- properties
 		public ReadOnlySpan<char> Name {
 			get => ApiUtils.GetLabel(name);
 			set => ApiUtils.AllocString(value);
@@ -1038,6 +1075,7 @@ namespace Evergine.Bindings.WebGPU
 		public char* code;
 		public uint defineCount;
 		public WGPUShaderDefine* defines;
+		// --- properties
 		public ReadOnlySpan<char> Code {
 			get => ApiUtils.GetLabel(code);
 			set => ApiUtils.AllocString(value);
@@ -1107,6 +1145,7 @@ namespace Evergine.Bindings.WebGPU
 		public ulong samplerCount;
 		public WGPUTextureView* textureViews;
 		public ulong textureViewCount;
+		// --- properties
 		public Span<WGPUBuffer> Buffers {
 			get => new (buffers, (int)bufferCount);
 			set => value.SetArr(out buffers, out bufferCount);
@@ -1134,6 +1173,7 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public WGPUPipelineStatisticName* pipelineStatistics;
 		public ulong pipelineStatisticCount;
+		// --- properties
 		public Span<WGPUPipelineStatisticName> PipelineStatistics {
 			get => new (pipelineStatistics, (int)pipelineStatisticCount);
 			set => value.SetArr(out pipelineStatistics, out pipelineStatisticCount);

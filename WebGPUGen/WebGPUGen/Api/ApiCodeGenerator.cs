@@ -170,6 +170,7 @@ public static class ApiCodeGenerator
 
     public static void AddStructProperties(StreamWriter file, CppClass structure)
     {
+        var sb = new StringBuilder();
         var fields = structure.Fields;
         foreach (var member in fields)
         {
@@ -177,10 +178,10 @@ public static class ApiCodeGenerator
             
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
-                file.WriteLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
-                file.WriteLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
-                file.WriteLine($"\t\t\tset => ApiUtils.AllocString(value);");
-                file.WriteLine($"\t\t}}");
+                sb.AppendLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
+                sb.AppendLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
+                sb.AppendLine($"\t\t\tset => ApiUtils.AllocString(value);");
+                sb.AppendLine($"\t\t}}");
             }
             if (member.Name.EndsWith("Count")) {
                 var arrayName = member.Name.Substring(0, member.Name.Length - "Count".Length) + "s";
@@ -190,13 +191,17 @@ public static class ApiCodeGenerator
                     string arrayFieldType = Helpers.ConvertToCSharpType(arrayField.Type);
                     var nameUpper = char.ToUpper(arrayField.Name[0]) + arrayField.Name.Substring(1);
                     arrayFieldType = arrayFieldType.Substring(0, arrayFieldType.Length - 1);
-                    file.WriteLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
-                    file.WriteLine($"\t\t\tget => new ({arrayName}, (int){member.Name});");
-                    file.WriteLine($"\t\t\tset => value.SetArr(out {arrayName}, out {member.Name});");
-                    file.WriteLine($"\t\t}}");
+                    sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
+                    sb.AppendLine($"\t\t\tget => new ({arrayName}, (int){member.Name});");
+                    sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayName}, out {member.Name});");
+                    sb.AppendLine($"\t\t}}");
                 }
             }
             // file.WriteLine($"\t\tpublic {type} {member.Name};");
+        }
+        if (sb.Length > 0) {
+            file.WriteLine("\t\t// --- properties");
+            file.Write(sb.ToString());
         }
     }
 }
