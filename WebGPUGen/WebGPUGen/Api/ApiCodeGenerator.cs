@@ -87,6 +87,11 @@ public static class ApiCodeGenerator
                 sb.AppendLine("        wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));");
                 sb.AppendLine("    }");
                 return;
+            case "Submit":
+                sb.AppendLine("    public static void submit(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {");
+                sb.AppendLine("        wgpuQueueSubmit(queue, (ulong)commands.Length, commands.GetArrPtr());");
+                sb.AppendLine("    }");
+                return;
         } 
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                     
