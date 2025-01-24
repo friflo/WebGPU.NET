@@ -64,7 +64,7 @@ public static class ApiCodeGenerator
             return;
         }
         string returnType = Helpers.ConvertToCSharpType(command.ReturnType, false);
-        var parameters = Helpers.GetSignatureParameters(command);
+        var parameters = ApiHelpers.GetSignatureParameters(command);
         var handleName = parameters[0].Name;
         var signature = GetParametersSignature(parameters);
 
