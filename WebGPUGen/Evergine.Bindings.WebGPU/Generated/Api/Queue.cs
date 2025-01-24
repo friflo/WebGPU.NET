@@ -15,9 +15,10 @@ public static unsafe partial class WebGPUExtensions
         wgpuQueueSubmit(queue, (ulong)commands.Length, commands.GetArrPtr());
     }
 
-    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, Span<T> data) {
-        var ptr = System.Runtime.CompilerServices.Unsafe.AsPointer(ref data.GetPinnableReference());
-        wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
+    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, ReadOnlySpan<T> data) where T : unmanaged {
+        fixed (T* ptr = data) {
+            wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
+        }
     }
 
     public static void writeTexture(this WGPUQueue queue, WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {

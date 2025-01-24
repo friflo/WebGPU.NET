@@ -83,9 +83,10 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"    }}");
                 return;
             case "WriteBuffer":
-                sb.AppendLine("    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, Span<T> data) {");
-                sb.AppendLine("        var ptr = System.Runtime.CompilerServices.Unsafe.AsPointer(ref data.GetPinnableReference());");
-                sb.AppendLine("        wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));");
+                sb.AppendLine("    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, ReadOnlySpan<T> data) where T : unmanaged {");
+                sb.AppendLine("        fixed (T* ptr = data) {");
+                sb.AppendLine("            wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));");
+                sb.AppendLine("        }");
                 sb.AppendLine("    }");
                 return;
             case "Submit":
