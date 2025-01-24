@@ -31,6 +31,9 @@ public static class ApiAllocator
             _currentPos += size;
             return _currentChunk + pos;
         }
+        if (size > ChunkSize) {
+            throw AllocationTooLarge(size);
+        }
         if (_chunkIndex < _chunks.Count) {
             _currentPos = size;
             _currentChunk = _chunks[_chunkIndex++];
@@ -42,6 +45,10 @@ public static class ApiAllocator
         _chunkIndex++;
         _currentPos = size;
         return chunk;
+    }
+    
+    private static InvalidOperationException AllocationTooLarge(int size) {
+        return new InvalidOperationException($"Allocation too large. max: {ChunkSize} was: {size}");
     }
     
     internal static unsafe char* AllocString(ReadOnlySpan<char> span)
