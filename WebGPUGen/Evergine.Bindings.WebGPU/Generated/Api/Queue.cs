@@ -11,15 +11,9 @@ public static unsafe partial class WebGPUExtensions
         wgpuQueueSetLabel(queue, label.AllocString());
     }
 
-    public static void submit(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {
-        wgpuQueueSubmit(queue, (ulong)commands.Length, commands.GetArrPtr());
-    }
+    // submit() - not generated
 
-    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, ReadOnlySpan<T> data) where T : unmanaged {
-        fixed (T* ptr = data) {
-            wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
-        }
-    }
+    // writeBuffer() - not generated
 
     public static void writeTexture(this WGPUQueue queue, WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {
         wgpuQueueWriteTexture(queue, &destination, data, dataSize, &dataLayout, &writeSize);
@@ -35,8 +29,6 @@ public static unsafe partial class WebGPUExtensions
         wgpuQueueRelease(queue);
     }
 
-    public static ulong submitForIndex(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {
-        return wgpuQueueSubmitForIndex(queue, (ulong)commands.Length, commands.GetArrPtr());
-    }
+    // submitForIndex() - not generated
 
 }

@@ -69,38 +69,26 @@ public static class ApiCodeGenerator
         var signature = GetParametersSignature(parameters);
 
         var commandName = command.Name.Substring(handleType.Name.Length);
+        commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
         switch (commandName) {
-            case "Reference":
+            case "reference":
                 sb.AppendLine($"    public static void reference(this {handleType.Name} {handleName}) {{");
                 sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Reference({handleName});");
                 sb.AppendLine($"        ObjectTracker.IncRef({handleName}.Handle);");
                 sb.AppendLine($"    }}");
                 return;
-            case "Release":
+            case "release":
                 sb.AppendLine($"    public static void release(this {handleType.Name} {handleName}) {{");
                 sb.AppendLine($"        ObjectTracker.DecRef({handleName}.Handle);");
                 sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Release({handleName});");
                 sb.AppendLine($"    }}");
                 return;
-            case "WriteBuffer":
-                sb.AppendLine("    public static void writeBuffer<T>(this WGPUQueue queue, WGPUBuffer buffer, ulong bufferOffset, ReadOnlySpan<T> data) where T : unmanaged {");
-                sb.AppendLine("        fixed (T* ptr = data) {");
-                sb.AppendLine("            wgpuQueueWriteBuffer(queue, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));");
-                sb.AppendLine("        }");
-                sb.AppendLine("    }");
+            case "writeBuffer":
+            case "submit":
+            case "submitForIndex":
+                sb.AppendLine($"    // {commandName}() - not generated");
                 return;
-            case "Submit":
-                sb.AppendLine("    public static void submit(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {");
-                sb.AppendLine("        wgpuQueueSubmit(queue, (ulong)commands.Length, commands.GetArrPtr());");
-                sb.AppendLine("    }");
-                return;
-            case "SubmitForIndex":
-                sb.AppendLine("    public static ulong submitForIndex(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {");
-                sb.AppendLine("        return wgpuQueueSubmitForIndex(queue, (ulong)commands.Length, commands.GetArrPtr());");
-                sb.AppendLine("    }");
-                return;
-        } 
-        commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
+        }
                     
         sb.AppendLine($"    public static {returnType} {commandName}(this {handleType.Name} {handleName}{signature}) {{");
         bool hasReturnValue = returnType != "void";
