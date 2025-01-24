@@ -269,14 +269,29 @@ namespace HelloTriangle
                 targets = &colorTargetState,
             };
 
-            WGPURenderPipelineDescriptor pipelineDescriptor = new WGPURenderPipelineDescriptor()
-            {
+            // pipeline = wgpuDeviceCreateRenderPipeline(Device, &pipelineDescriptor);
+            pipeline = Device.createRenderPipeline(new WGPURenderPipelineDescriptor() {
                 layout = pipelineLayout,
                 vertex = new WGPUVertexState()
                 {
-                    bufferCount = 1,
-                    buffers = &vertexLayout,
-
+                    Buffers = [new WGPUVertexBufferLayout() {
+                        Attributes = [
+                            new WGPUVertexAttribute()
+                            {
+                                format = WGPUVertexFormat.Float32x4,
+                                offset = 0,
+                                shaderLocation = 0,
+                            },
+                            new WGPUVertexAttribute()
+                            {
+                                format = WGPUVertexFormat.Float32x4,
+                                offset = 16,
+                                shaderLocation = 1,
+                            },
+                        ],
+                        arrayStride = (ulong)sizeof(Vector4) * 2,
+                        stepMode = WGPUVertexStepMode.Vertex,
+                    }],
                     module = shaderModule,
                     entryPoint = "vertexMain".ToPointer(),
                     constantCount = 0,
@@ -289,7 +304,13 @@ namespace HelloTriangle
                     frontFace = WGPUFrontFace.CCW,
                     cullMode = WGPUCullMode.None,
                 },
-                fragment = &fragmentState,
+                Fragment = new WGPUFragmentState() {
+                    nextInChain = null,
+                    module = shaderModule,
+                    EntryPoint = "fragmentMain",
+                    targetCount = 1,
+                    targets = &colorTargetState,
+                },
                 depthStencil = null,
                 multisample = new WGPUMultisampleState()
                 {
@@ -297,10 +318,8 @@ namespace HelloTriangle
                     mask = ~0u,
                     alphaToCoverageEnabled = false,
                 }
-            };
-
-            pipeline = wgpuDeviceCreateRenderPipeline(Device, &pipelineDescriptor);
-
+            });
+            
             wgpuShaderModuleRelease(shaderModule);
 
             Vector4* vertexData = stackalloc Vector4[]
@@ -337,6 +356,16 @@ namespace HelloTriangle
             while (!isClosing)
             {
                 this.DrawFrame();
+                for (int n = 0; n < 100_000; n++) {
+                    var desc = new WGPURenderPipelineDescriptor() {
+                        Fragment = new WGPUFragmentState() {
+                            constantCount = (ulong)n
+                        }
+                    };
+                    if (n % 10_000 == 0) {
+                        ApiAllocator.Reset();
+                    }
+                }
 
                 Application.DoEvents();
             }

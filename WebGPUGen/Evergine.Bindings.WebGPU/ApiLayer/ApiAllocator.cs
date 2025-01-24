@@ -10,9 +10,17 @@ public static class ApiAllocator
     private static int          _currentPos = ChunkSize;
     private const int           ChunkSize = 0x10000;
 
-    public static void FreeAllocations() {
+    public static void Reset() {
         _chunkIndex = 0;
         _currentPos = ChunkSize;
+    }
+    
+    public static void FreeGlobalAllocation() {
+        foreach (var chunk in _chunks) {
+            Marshal.AllocHGlobal(chunk);
+        }
+        _chunks.Clear();
+        Reset();
     }
     
     public static nint Alloc(int size)
