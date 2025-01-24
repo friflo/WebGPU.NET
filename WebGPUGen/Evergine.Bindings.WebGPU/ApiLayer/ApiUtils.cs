@@ -1,8 +1,6 @@
-using System.Runtime.InteropServices;
-
 namespace Evergine.Bindings.WebGPU;
 
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 public static class ApiUtils
 {
