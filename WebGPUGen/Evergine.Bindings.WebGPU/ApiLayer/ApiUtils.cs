@@ -52,7 +52,6 @@ public static class ApiUtils
         dstPtr = null;
     }
     
-    // https://webgpu-native.github.io/webgpu-headers/Strings.html
     public static unsafe char* AllocString(this ReadOnlySpan<char> span) {
         if (span.Length == 0) {
             return null;

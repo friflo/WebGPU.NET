@@ -51,6 +51,8 @@ public static class ApiAllocator
         return new InvalidOperationException($"Allocation too large. max: {ChunkSize} was: {size}");
     }
     
+    // WebGPU C API: "Strings are represented in UTF-8, using the WGPUStringView struct"
+    // https://webgpu-native.github.io/webgpu-headers/Strings.html
     internal static unsafe char* AllocString(ReadOnlySpan<char> span)
     {
         var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
