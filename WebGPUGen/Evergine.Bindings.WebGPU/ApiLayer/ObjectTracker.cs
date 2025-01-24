@@ -34,12 +34,6 @@ internal unsafe struct ObjectLabel
     // Using a string (or char[]) would require a heap allocation.
     // Invariant: buffer[63] = 0
     internal fixed byte buffer[64];
-
-    public override string? ToString() {
-        fixed (byte* ptr = buffer) {
-            return Marshal.PtrToStringAnsi((IntPtr)ptr);    
-        }
-    }
 }
 
 internal struct ObjectEntry
@@ -48,7 +42,16 @@ internal struct ObjectEntry
     internal int            count;
     internal HandleType     type;
     
-    public override string? ToString() => label.ToString();
+    public override unsafe string? ToString() {
+        if (label.buffer[0] == 0) {
+            return type.ToString();
+        }
+        string labelStr;
+        fixed (byte* ptr = label.buffer) {
+            labelStr = Marshal.PtrToStringAnsi((IntPtr)ptr);
+        }
+        return $"{type} \"{labelStr}\"";    
+    }
 }
 
 public static class ObjectTracker
