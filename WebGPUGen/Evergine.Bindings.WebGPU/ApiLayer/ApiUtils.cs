@@ -6,14 +6,18 @@ using System.Runtime.CompilerServices;
 
 public static class ApiUtils
 {
-    public static unsafe void SetArr<T>(this Span<T> span, out T* pointer, out ulong count) where T : unmanaged {
-        pointer = (T*)Unsafe.AsPointer(ref span.GetPinnableReference());
-        count = (ulong)span.Length;    
+    public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out ulong count) where T : unmanaged {
+        // Using GetPinnableReference() is only valid in case the span was created on the stack.
+        // pointer = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
+        count = (ulong)src.Length;
+        dstPtr = (T*)ApiAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
-    public static unsafe void SetArr<T>(this Span<T> span, out T* pointer, out uint count) where T : unmanaged {
-        pointer = (T*)Unsafe.AsPointer(ref span.GetPinnableReference());
-        count = (uint)span.Length;    
+    public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
+        count = (uint)src.Length;
+        dstPtr = (T*)ApiAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
     public static unsafe T? GetOpt<T>(T* ptr) where T : unmanaged {
@@ -23,13 +27,13 @@ public static class ApiUtils
         return *ptr;
     }
     
-    public static unsafe void SetOpt<T>(out T* ptr, T? value) where T : unmanaged {
+    public static unsafe void SetOpt<T>(out T* dstPtr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            ptr = (T*)ApiAllocator.Alloc((sizeof(T) + 7) & 0xffffff8);
-            *ptr = value.Value;
+            dstPtr = (T*)ApiAllocator.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+            *dstPtr = value.Value;
             return;
         }
-        ptr = null;
+        dstPtr = null;
     }
     
     public static unsafe char* AllocString(this ReadOnlySpan<char> span) {
