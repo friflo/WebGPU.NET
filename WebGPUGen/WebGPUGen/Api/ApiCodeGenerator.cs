@@ -92,6 +92,11 @@ public static class ApiCodeGenerator
                 sb.AppendLine("        wgpuQueueSubmit(queue, (ulong)commands.Length, commands.GetArrPtr());");
                 sb.AppendLine("    }");
                 return;
+            case "SubmitForIndex":
+                sb.AppendLine("    public static ulong submitForIndex(this WGPUQueue queue, Span<WGPUCommandBuffer> commands) {");
+                sb.AppendLine("        return wgpuQueueSubmitForIndex(queue, (ulong)commands.Length, commands.GetOptPtr());");
+                sb.AppendLine("    }");
+                return;
         } 
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
                     
