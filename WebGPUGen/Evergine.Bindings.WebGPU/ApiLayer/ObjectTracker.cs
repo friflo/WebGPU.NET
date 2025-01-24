@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Evergine.Bindings.WebGPU;
 
 using System.Runtime.InteropServices;
@@ -9,7 +11,7 @@ internal unsafe struct ObjectLabel
     // Invariant: buffer[63] = 0
     internal fixed byte buffer[64];
 
-    public override string ToString() {
+    public override string? ToString() {
         fixed (byte* ptr = buffer) {
             return Marshal.PtrToStringAnsi((IntPtr)ptr);    
         }
@@ -21,7 +23,7 @@ internal struct ObjectEntry
     internal ObjectLabel    label;
     internal int            count;
     
-    public override string  ToString() => label.ToString();
+    public override string? ToString() => label.ToString();
 }
 
 public static class ObjectTracker
