@@ -79,7 +79,7 @@ public static class ObjectTracker
             }
             return;
         }
-        throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case of bug in API Layer
+        throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case API Layer is buggy
     }
     
     public static void IncRef(IntPtr handle)
