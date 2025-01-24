@@ -16,11 +16,19 @@ public static class ApiUtils
         count = (uint)span.Length;    
     }
     
-    public static unsafe Span<T> GetOptSpan<T>(T* ptr) where T : unmanaged {
+    public static unsafe T? GetOpt<T>(T* ptr) where T : unmanaged {
         if (ptr == null) {
-            return default;
+            return null;
         }
-        return new Span<T>(ptr, 1);
+        return *ptr;
+    }
+    
+    public static unsafe void SetOpt<T>(out T* ptr, T? value) where T : unmanaged {
+        if (value.HasValue) {
+            ptr = null; // TODO allocate on native heap and set value
+            return;
+        }
+        ptr = null;
     }
    
     public static unsafe T* GetArrPtr<T>(this Span<T> span) where T : unmanaged {

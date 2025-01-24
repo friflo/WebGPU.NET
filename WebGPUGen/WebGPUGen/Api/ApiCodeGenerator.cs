@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace WebGPUGen;
 
@@ -187,6 +188,9 @@ public static class ApiCodeGenerator
         foreach (var member in fields)
         {
             string type = Helpers.ConvertToCSharpType(member.Type);
+            if (type == "void*") {
+                continue;
+            }
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                 sb.AppendLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
@@ -205,12 +209,22 @@ public static class ApiCodeGenerator
                     CppField countField = fields.FirstOrDefault(field => field.Name == countFieldName);
                     if (countField != null) {
                         var arrayFieldType = type.Substring(0, type.Length - 1);
-                        var nameUpper = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
-                        sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {nameUpper} {{");
+                        var propertyName = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
+                        sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
                         sb.AppendLine($"\t\t\tget => new ({arrayFieldName}, (int){countFieldName});");
                         sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayFieldName}, out {countFieldName});");
                         sb.AppendLine($"\t\t}}");
                     }
+                    continue;
+                }
+                {
+                    // case: Pointer field used for an optional values. 
+                    var fieldType = type.Substring(0, type.Length - 1);
+                    var propertyName = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
+                    sb.AppendLine($"\t\tpublic {fieldType}? {propertyName} {{");
+                    sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt({member.Name});");
+                    sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out {member.Name}, value);");
+                    sb.AppendLine($"\t\t}}");
                     continue;
                 }
             }
