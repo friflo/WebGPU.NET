@@ -195,8 +195,8 @@ public static class ApiCodeGenerator
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                 sb.AppendLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
-                sb.AppendLine($"\t\t\tget => ApiUtils.GetLabel({member.Name});");
-                sb.AppendLine($"\t\t\tset => ApiUtils.AllocString(value);");
+                sb.AppendLine($"\t\t\tget => ApiUtils.GetStr({member.Name});");
+                sb.AppendLine($"\t\t\tset => ApiUtils.SetStr(value, out this.{member.Name});");
                 sb.AppendLine($"\t\t}}");
                 continue;
             }

@@ -48,11 +48,21 @@ public static class ApiUtils
         return null;
     }
     
-    public static unsafe ReadOnlySpan<char> GetLabel(char* label) {
+    public static unsafe ReadOnlySpan<char> GetStr(char* label) {
         if (label == null) {
             return default;
         }
         return Marshal.PtrToStringAnsi((IntPtr)label).AsSpan();
+    }
+    
+    public static unsafe void SetStr(ReadOnlySpan<char> span, out char* dst) {
+        if (span.Length == 0) {
+            dst = null;
+            return;
+        }
+        dst = null; // TODO allocate memory and copy to dst
+        // var ptr = (char*)Marshal.AllocHGlobal(2 * (span.Length + 1));
+        // Buffer.MemoryCopy();
     }
     
 }

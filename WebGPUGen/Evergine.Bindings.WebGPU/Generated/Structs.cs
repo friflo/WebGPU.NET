@@ -21,20 +21,20 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Vendor {
-			get => ApiUtils.GetLabel(vendor);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(vendor);
+			set => ApiUtils.SetStr(value, out this.vendor);
 		}
 		public ReadOnlySpan<char> Architecture {
-			get => ApiUtils.GetLabel(architecture);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(architecture);
+			set => ApiUtils.SetStr(value, out this.architecture);
 		}
 		public ReadOnlySpan<char> Device {
-			get => ApiUtils.GetLabel(device);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(device);
+			set => ApiUtils.SetStr(value, out this.device);
 		}
 		public ReadOnlySpan<char> Description {
-			get => ApiUtils.GetLabel(description);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(description);
+			set => ApiUtils.SetStr(value, out this.description);
 		}
 	}
 
@@ -91,8 +91,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -116,8 +116,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -132,8 +132,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -156,8 +156,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Message {
-			get => ApiUtils.GetLabel(message);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(message);
+			set => ApiUtils.SetStr(value, out this.message);
 		}
 	}
 
@@ -181,8 +181,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Key {
-			get => ApiUtils.GetLabel(key);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(key);
+			set => ApiUtils.SetStr(value, out this.key);
 		}
 	}
 
@@ -277,8 +277,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUBindGroupLayout> BindGroupLayouts {
 			get => new (bindGroupLayouts, (int)bindGroupLayoutCount);
@@ -321,8 +321,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -337,8 +337,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -353,8 +353,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -375,8 +375,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUTextureFormat> ColorFormats {
 			get => new (colorFormats, (int)colorFormatCount);
@@ -461,8 +461,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -478,8 +478,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> EntryPoint {
-			get => ApiUtils.GetLabel(entryPoint);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(entryPoint);
+			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 	}
 
@@ -503,8 +503,8 @@ namespace Evergine.Bindings.WebGPU
 		public char* code;
 		// --- properties
 		public ReadOnlySpan<char> Code {
-			get => ApiUtils.GetLabel(code);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(code);
+			set => ApiUtils.SetStr(value, out this.code);
 		}
 	}
 
@@ -596,8 +596,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -615,8 +615,8 @@ namespace Evergine.Bindings.WebGPU
 		public char* selector;
 		// --- properties
 		public ReadOnlySpan<char> Selector {
-			get => ApiUtils.GetLabel(selector);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(selector);
+			set => ApiUtils.SetStr(value, out this.selector);
 		}
 	}
 
@@ -713,8 +713,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -753,8 +753,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -811,8 +811,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -879,8 +879,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> EntryPoint {
-			get => ApiUtils.GetLabel(entryPoint);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(entryPoint);
+			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
 			get => new (constants, (int)constantCount);
@@ -930,8 +930,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUShaderModuleCompilationHint> Hints {
 			get => new (hints, (int)hintCount);
@@ -970,8 +970,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUTextureFormat> ViewFormats {
 			get => new (viewFormats, (int)viewFormatCount);
@@ -1006,8 +1006,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -1042,8 +1042,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 	}
 
@@ -1065,8 +1065,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUFeatureName> RequiredFeatures {
 			get => new (requiredFeatures, (int)requiredFeatureCount);
@@ -1090,8 +1090,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPURenderPassColorAttachment> ColorAttachments {
 			get => new (colorAttachments, (int)colorAttachmentCount);
@@ -1119,8 +1119,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> EntryPoint {
-			get => ApiUtils.GetLabel(entryPoint);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(entryPoint);
+			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
 			get => new (constants, (int)constantCount);
@@ -1148,8 +1148,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> EntryPoint {
-			get => ApiUtils.GetLabel(entryPoint);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(entryPoint);
+			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
 			get => new (constants, (int)constantCount);
@@ -1178,8 +1178,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public ReadOnlySpan<char> Label {
-			get => ApiUtils.GetLabel(label);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(label);
+			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public WGPUDepthStencilState? DepthStencil {
 			get => ApiUtils.GetOpt(depthStencil);
@@ -1227,12 +1227,12 @@ namespace Evergine.Bindings.WebGPU
 		public char* dxcPath;
 		// --- properties
 		public ReadOnlySpan<char> DxilPath {
-			get => ApiUtils.GetLabel(dxilPath);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(dxilPath);
+			set => ApiUtils.SetStr(value, out this.dxilPath);
 		}
 		public ReadOnlySpan<char> DxcPath {
-			get => ApiUtils.GetLabel(dxcPath);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(dxcPath);
+			set => ApiUtils.SetStr(value, out this.dxcPath);
 		}
 	}
 
@@ -1243,8 +1243,8 @@ namespace Evergine.Bindings.WebGPU
 		public char* tracePath;
 		// --- properties
 		public ReadOnlySpan<char> TracePath {
-			get => ApiUtils.GetLabel(tracePath);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(tracePath);
+			set => ApiUtils.SetStr(value, out this.tracePath);
 		}
 	}
 
@@ -1304,12 +1304,12 @@ namespace Evergine.Bindings.WebGPU
 		public char* value;
 		// --- properties
 		public ReadOnlySpan<char> Name {
-			get => ApiUtils.GetLabel(name);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(name);
+			set => ApiUtils.SetStr(value, out this.name);
 		}
 		public ReadOnlySpan<char> Value {
-			get => ApiUtils.GetLabel(value);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(value);
+			set => ApiUtils.SetStr(value, out this.value);
 		}
 	}
 
@@ -1323,8 +1323,8 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUShaderDefine* defines;
 		// --- properties
 		public ReadOnlySpan<char> Code {
-			get => ApiUtils.GetLabel(code);
-			set => ApiUtils.AllocString(value);
+			get => ApiUtils.GetStr(code);
+			set => ApiUtils.SetStr(value, out this.code);
 		}
 		public Span<WGPUShaderDefine> Defines {
 			get => new (defines, (int)defineCount);
