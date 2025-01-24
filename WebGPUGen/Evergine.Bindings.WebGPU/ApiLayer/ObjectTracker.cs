@@ -29,7 +29,8 @@ public static class ObjectTracker
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
     // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage 
-    public static unsafe void CreateRef(IntPtr handle, char* descriptorLabel) {
+    public static unsafe void CreateRef(IntPtr handle, char* descriptorLabel)
+    {
         ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
         if (!exists) {
             value.count = 1;
@@ -49,7 +50,8 @@ public static class ObjectTracker
         throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case of bug in API Layer
     }
     
-    public static void IncRef(IntPtr handle) {
+    public static void IncRef(IntPtr handle)
+    {
         ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
         if (exists) {
             value.count++;
@@ -58,7 +60,8 @@ public static class ObjectTracker
         throw ObjectNotFoundException();
     }
     
-    public static void DecRef(IntPtr handle) {
+    public static void DecRef(IntPtr handle)
+    {
         ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
         if (exists) {
             value.count--;
