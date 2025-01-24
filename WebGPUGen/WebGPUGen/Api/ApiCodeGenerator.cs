@@ -220,8 +220,8 @@ public static class ApiCodeGenerator
                         sb.AppendLine($"\t\t\tget => new ({arrayFieldName}, (int){countFieldName});");
                         sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayFieldName}, out {countFieldName});");
                         sb.AppendLine($"\t\t}}");
+                        continue;
                     }
-                    continue;
                 }
                 {
                     // case: Pointer field used for an optional values. 

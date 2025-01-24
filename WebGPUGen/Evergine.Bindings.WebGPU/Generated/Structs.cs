@@ -818,6 +818,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetStr(label);
 			set => ApiUtils.SetStr(value, out this.label);
 		}
+		public WGPUComputePassTimestampWrites? TimestampWrites {
+			get => ApiUtils.GetOpt(timestampWrites);
+			set => ApiUtils.SetOpt(out timestampWrites, value);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1080,6 +1084,10 @@ namespace Evergine.Bindings.WebGPU
 			get => new (requiredFeatures, (int)requiredFeatureCount);
 			set => value.SetArr(out requiredFeatures, out requiredFeatureCount);
 		}
+		public WGPURequiredLimits? RequiredLimits {
+			get => ApiUtils.GetOpt(requiredLimits);
+			set => ApiUtils.SetOpt(out requiredLimits, value);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1108,6 +1116,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPURenderPassDepthStencilAttachment? DepthStencilAttachment {
 			get => ApiUtils.GetOpt(depthStencilAttachment);
 			set => ApiUtils.SetOpt(out depthStencilAttachment, value);
+		}
+		public WGPURenderPassTimestampWrites? TimestampWrites {
+			get => ApiUtils.GetOpt(timestampWrites);
+			set => ApiUtils.SetOpt(out timestampWrites, value);
 		}
 	}
 
