@@ -17,7 +17,7 @@ public static class ApiAllocator
     
     public static void FreeGlobalAllocation() {
         foreach (var chunk in _chunks) {
-            Marshal.AllocHGlobal(chunk);
+            Marshal.FreeHGlobal(chunk);
         }
         _chunks.Clear();
         Reset();
