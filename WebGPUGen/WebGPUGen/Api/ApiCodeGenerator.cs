@@ -103,13 +103,15 @@ public static class ApiCodeGenerator
         for (int n = 1; n < parameters.Length; n++) {
             var param = parameters[n];
             sb.Append(", ");
-            sb.Append(param.Name);
             switch (param.Type) {
                 case SignatureParamType.Pointer: 
-                    sb.Append(".GetOptPtr()");
+                    sb.Append($"&{param.Name}");
                     break;
                 case SignatureParamType.CharPointer:
-                    sb.Append(".AllocString()");
+                    sb.Append($"{param.Name}.AllocString()");
+                    break;
+                default:
+                    sb.Append(param.Name);
                     break;
             }
         }
@@ -154,7 +156,7 @@ public static class ApiCodeGenerator
             signature.Append(", ");
             switch(parameter.Type) {
                 case SignatureParamType.Pointer:
-                    signature.Append($"Span<{parameter.TypeNamePure}> ");
+                    signature.Append($"{parameter.TypeNamePure} ");
                     break;
                 case SignatureParamType.CharPointer:
                     signature.Append($"ReadOnlySpan<{parameter.TypeNamePure}> ");
