@@ -7,15 +7,15 @@ public static class ApiAllocator
     private static List<nint>   _chunks = new();
     private static int          _chunkIndex;
     private static nint         _currentChunk;
-    private static int          _currentPos = 0x10000;
+    private static int          _currentPos = ChunkSize;
     private const int           ChunkSize = 0x10000;
 
     public static void FreeAllocations() {
         _chunkIndex = 0;
-        _currentPos = 0;
+        _currentPos = ChunkSize;
     }
     
-    public static unsafe nint Alloc(int size)
+    public static nint Alloc(int size)
     {
         var pos = _currentPos;
         if (pos + size < ChunkSize) {
