@@ -1,6 +1,7 @@
-namespace Evergine.Bindings.WebGPU;
-
 using System.Runtime.InteropServices;
+
+// ReSharper disable InconsistentNaming
+namespace Evergine.Bindings.WebGPU;
 
 public enum HandleType
 {
