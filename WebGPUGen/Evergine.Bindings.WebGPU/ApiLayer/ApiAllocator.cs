@@ -15,9 +15,8 @@ public static class ApiAllocator
         _currentPos = 0;
     }
     
-    public static unsafe nint Alloc<T>() where T : unmanaged
+    public static unsafe nint Alloc(int size)
     {
-        var size = (sizeof(T) + 7) & 0xffffff8;
         var pos = _currentPos;
         if (pos + size < ChunkSize) {
             _currentPos += size;

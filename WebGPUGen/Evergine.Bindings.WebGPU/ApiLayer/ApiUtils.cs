@@ -25,7 +25,7 @@ public static class ApiUtils
     
     public static unsafe void SetOpt<T>(out T* ptr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            ptr = (T*)ApiAllocator.Alloc<T>();
+            ptr = (T*)ApiAllocator.Alloc((sizeof(T) + 7) & 0xffffff8);
             *ptr = value.Value;
             return;
         }
