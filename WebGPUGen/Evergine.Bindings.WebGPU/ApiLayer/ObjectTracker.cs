@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Evergine.Bindings.WebGPU;
 
 using System.Runtime.InteropServices;
