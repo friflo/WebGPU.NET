@@ -178,6 +178,11 @@ public static class ApiCodeGenerator
         {
             string type = Helpers.ConvertToCSharpType(member.Type);
             if (type == "void*") {
+                var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
+                sb.AppendLine($"\t\tpublic IntPtr {nameUpper} {{");
+                sb.AppendLine($"\t\t\tget => new IntPtr({member.Name});");
+                sb.AppendLine($"\t\t\tset => {member.Name} = (void*)value;");
+                sb.AppendLine($"\t\t}}");
                 continue;
             }
             if (type == "char*") {

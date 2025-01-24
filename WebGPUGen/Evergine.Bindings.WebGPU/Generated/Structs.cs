@@ -606,6 +606,11 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct chain;
 		public void* window;
+		// --- properties
+		public IntPtr Window {
+			get => new IntPtr(window);
+			set => window = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -625,6 +630,11 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public WGPUChainedStruct chain;
 		public void* layer;
+		// --- properties
+		public IntPtr Layer {
+			get => new IntPtr(layer);
+			set => layer = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -633,6 +643,15 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public void* display;
 		public void* surface;
+		// --- properties
+		public IntPtr Display {
+			get => new IntPtr(display);
+			set => display = (void*)value;
+		}
+		public IntPtr Surface {
+			get => new IntPtr(surface);
+			set => surface = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -641,6 +660,15 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public void* hinstance;
 		public void* hwnd;
+		// --- properties
+		public IntPtr Hinstance {
+			get => new IntPtr(hinstance);
+			set => hinstance = (void*)value;
+		}
+		public IntPtr Hwnd {
+			get => new IntPtr(hwnd);
+			set => hwnd = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -649,6 +677,11 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public void* connection;
 		public uint window;
+		// --- properties
+		public IntPtr Connection {
+			get => new IntPtr(connection);
+			set => connection = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -657,6 +690,11 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct chain;
 		public void* display;
 		public ulong window;
+		// --- properties
+		public IntPtr Display {
+			get => new IntPtr(display);
+			set => display = (void*)value;
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -728,6 +766,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUChainedStruct? NextInChain {
 			get => ApiUtils.GetOpt(nextInChain);
 			set => ApiUtils.SetOpt(out nextInChain, value);
+		}
+		public IntPtr Userdata {
+			get => new IntPtr(userdata);
+			set => userdata = (void*)value;
 		}
 	}
 
@@ -1087,6 +1129,10 @@ namespace Evergine.Bindings.WebGPU
 		public WGPURequiredLimits? RequiredLimits {
 			get => ApiUtils.GetOpt(requiredLimits);
 			set => ApiUtils.SetOpt(out requiredLimits, value);
+		}
+		public IntPtr DeviceLostUserdata {
+			get => new IntPtr(deviceLostUserdata);
+			set => deviceLostUserdata = (void*)value;
 		}
 	}
 
