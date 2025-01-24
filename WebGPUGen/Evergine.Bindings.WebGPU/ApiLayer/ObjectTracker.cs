@@ -1,25 +1,52 @@
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
+using System.Runtime.InteropServices;
+
 internal unsafe struct ObjectLabel
 {
-    public fixed byte buffer[64];
+    // invariant: buffer[63] = 0
+    internal fixed byte buffer[64];
+
+    public override string ToString() {
+        fixed (byte* ptr = buffer) {
+            return Marshal.PtrToStringAnsi((IntPtr)ptr);    
+        }
+    }
 }
 
 internal struct ObjectEntry
 {
     internal ObjectLabel    label;
     internal int            count;
+    
+    public override string  ToString() => label.ToString();
 }
 
 public static class ObjectTracker
 {
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
+    // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage 
     public static unsafe void CreateRef(IntPtr handle, char* descriptorLabel) {
-        HandleMap.Add(handle, new ObjectEntry { count = 1 });
+        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
+        if (!exists) {
+            value.count = 1;
+            if (descriptorLabel != null) {
+                var span = new ReadOnlySpan<byte>(descriptorLabel, 64);
+                var len = span.IndexOf((byte)0);
+                if (len == -1) {
+                    len = 63;
+                }
+                fixed (byte* ptr = value.label.buffer) {
+                    var dest = new Span<byte>(ptr, 63);
+                    new ReadOnlySpan<byte>(descriptorLabel, len).CopyTo(dest);
+                }
+            }
+            return;
+        }
+        throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case of bug in API Layer
     }
     
     public static void IncRef(IntPtr handle) {
