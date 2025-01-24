@@ -25,7 +25,8 @@ public static class ApiUtils
     
     public static unsafe void SetOpt<T>(out T* ptr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            ptr = null; // TODO allocate on native heap and set value
+            ptr = (T*)ApiAllocator.Alloc<T>();
+            *ptr = value.Value;
             return;
         }
         ptr = null;
