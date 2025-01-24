@@ -23,8 +23,10 @@ Values are encoded as follows:
 public static class ApiUtils
 {
     public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out ulong count) where T : unmanaged {
-        // Using GetPinnableReference() is only valid in case the span was created on the stack.
-        // pointer = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
+        // Note:
+        // Using GetPinnableReference() is only valid in case Span<T> was created on the stack.
+        // When using this approach all struct properties MUST be allocated on the stack. 
+        //      dstPtr = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
         count = (ulong)src.Length;
         dstPtr = (T*)ApiAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
         src.CopyTo(new Span<T>(dstPtr, (int)count));

@@ -1,12 +1,12 @@
-using System.Text;
-
 namespace Evergine.Bindings.WebGPU;
 
 using System.Runtime.InteropServices;
 
 internal unsafe struct ObjectLabel
 {
-    // invariant: buffer[63] = 0
+    // Store label in a fixed size buffer instead of a string.
+    // Using a string (or char[]) would require a heap allocation.
+    // Invariant: buffer[63] = 0
     internal fixed byte buffer[64];
 
     public override string ToString() {
