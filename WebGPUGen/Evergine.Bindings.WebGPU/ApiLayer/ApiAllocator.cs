@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
@@ -41,6 +42,15 @@ public static class ApiAllocator
         _chunkIndex++;
         _currentPos = size;
         return chunk;
+    }
+    
+    internal static unsafe char* AllocString(ReadOnlySpan<char> span)
+    {
+        var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
+        var ptr = (byte*)Alloc((size + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        var len = Encoding.UTF8.GetBytes(span, new Span<byte>(ptr, size));
+        ptr[len] = 0;
+        return (char*)ptr;
     }
     
 }

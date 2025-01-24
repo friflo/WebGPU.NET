@@ -57,10 +57,7 @@ public static class ApiUtils
         if (span.Length == 0) {
             return null;
         }
-        // TODO
-        // var ptr = (char*)Marshal.AllocHGlobal(2 * (span.Length + 1));
-        // Buffer.MemoryCopy();
-        return null;
+        return ApiAllocator.AllocString(span);
     }
     
     public static unsafe ReadOnlySpan<char> GetStr(char* label) {
@@ -75,9 +72,7 @@ public static class ApiUtils
             dst = null;
             return;
         }
-        dst = null; // TODO allocate memory and copy to dst
-        // var ptr = (char*)Marshal.AllocHGlobal(2 * (span.Length + 1));
-        // Buffer.MemoryCopy();
+        dst = ApiAllocator.AllocString(span);
     }
     
 }
