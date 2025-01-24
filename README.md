@@ -46,12 +46,12 @@ Both implementation provide the same result.
 - no use of unsafe code
 - required no local variables
 ```cs
-    vertexBuffer = Device.createBuffer([new WGPUBufferDescriptor {
-            nextInChain = null,
-            usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
-            size = (ulong)(6 * sizeof(Vector4)),
-            mappedAtCreation = false,        
-        }]);
+    vertexBuffer = Device.createBuffer(new WGPUBufferDescriptor {
+        nextInChain = null,
+        usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
+        size = (ulong)(6 * sizeof(Vector4)),
+        mappedAtCreation = false,        
+    });
     Queue.writeBuffer(vertexBuffer, 0, [
         new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
         new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
