@@ -12,25 +12,16 @@ public unsafe partial struct WGPUBuffer
         return result;
     }
 
-    public WGPUBufferMapState getMapState() {
-        var result = wgpuBufferGetMapState(Handle);
-        return result;
-    }
+    public WGPUBufferMapState mapState => wgpuBufferGetMapState(Handle);
 
     public void* getMappedRange(ulong offset, ulong size) {
         var result = wgpuBufferGetMappedRange(Handle, offset, size);
         return result;
     }
 
-    public ulong getSize() {
-        var result = wgpuBufferGetSize(Handle);
-        return result;
-    }
+    public ulong size => wgpuBufferGetSize(Handle);
 
-    public WGPUBufferUsage getUsage() {
-        var result = wgpuBufferGetUsage(Handle);
-        return result;
-    }
+    public WGPUBufferUsage usage => wgpuBufferGetUsage(Handle);
 
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         wgpuBufferMapAsync(Handle, mode, offset, size, callback, userdata);

@@ -102,10 +102,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
-    public WGPUQueue getQueue() {
-        var result = wgpuDeviceGetQueue(Handle);
-        return result;
-    }
+    public WGPUQueue queue => wgpuDeviceGetQueue(Handle);
 
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         var result = wgpuDeviceHasFeature(Handle, feature);

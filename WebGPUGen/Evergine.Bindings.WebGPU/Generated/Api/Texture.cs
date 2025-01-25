@@ -13,45 +13,21 @@ public unsafe partial struct WGPUTexture
         wgpuTextureDestroy(Handle);
     }
 
-    public uint getDepthOrArrayLayers() {
-        var result = wgpuTextureGetDepthOrArrayLayers(Handle);
-        return result;
-    }
+    public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(Handle);
 
-    public WGPUTextureDimension getDimension() {
-        var result = wgpuTextureGetDimension(Handle);
-        return result;
-    }
+    public WGPUTextureDimension dimension => wgpuTextureGetDimension(Handle);
 
-    public WGPUTextureFormat getFormat() {
-        var result = wgpuTextureGetFormat(Handle);
-        return result;
-    }
+    public WGPUTextureFormat format => wgpuTextureGetFormat(Handle);
 
-    public uint getHeight() {
-        var result = wgpuTextureGetHeight(Handle);
-        return result;
-    }
+    public uint height => wgpuTextureGetHeight(Handle);
 
-    public uint getMipLevelCount() {
-        var result = wgpuTextureGetMipLevelCount(Handle);
-        return result;
-    }
+    public uint mipLevelCount => wgpuTextureGetMipLevelCount(Handle);
 
-    public uint getSampleCount() {
-        var result = wgpuTextureGetSampleCount(Handle);
-        return result;
-    }
+    public uint sampleCount => wgpuTextureGetSampleCount(Handle);
 
-    public WGPUTextureUsage getUsage() {
-        var result = wgpuTextureGetUsage(Handle);
-        return result;
-    }
+    public WGPUTextureUsage usage => wgpuTextureGetUsage(Handle);
 
-    public uint getWidth() {
-        var result = wgpuTextureGetWidth(Handle);
-        return result;
-    }
+    public uint width => wgpuTextureGetWidth(Handle);
 
     public void setLabel(ReadOnlySpan<char> label) {
         wgpuTextureSetLabel(Handle, label.AllocString());

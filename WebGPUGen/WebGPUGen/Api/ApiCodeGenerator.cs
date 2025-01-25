@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace WebGPUGen;
 
@@ -89,12 +88,19 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"    // {commandName}() - not generated");
                 return;
         }
-        if (commandName.StartsWith("get")) {
-            Console.WriteLine($"{parameters[0].TypeName}   {commandName}");
+        bool hasReturnValue = returnType != "void";
+        // create properties
+        if (hasReturnValue && commandName.StartsWith("get"))
+        {
+            if (parameters.Length == 1)
+            {
+                var propertyName = char.ToLower(commandName[3]) + commandName.Substring(4);
+                sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(Handle);");
+                return;
+            }
         }
                     
         sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
-        bool hasReturnValue = returnType != "void";
         if (hasReturnValue) {
             sb.Append("        var result = ");
         } else {
@@ -118,7 +124,6 @@ public static class ApiCodeGenerator
             }
         }
         sb.AppendLine(");");
-        
 
         if (hasReturnValue) {
             if (command.ReturnType is CppTypedef handleReturnType) {

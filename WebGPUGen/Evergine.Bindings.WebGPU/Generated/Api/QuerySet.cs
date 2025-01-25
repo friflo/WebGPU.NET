@@ -7,15 +7,9 @@ public unsafe partial struct WGPUQuerySet
         wgpuQuerySetDestroy(Handle);
     }
 
-    public uint getCount() {
-        var result = wgpuQuerySetGetCount(Handle);
-        return result;
-    }
+    public uint count => wgpuQuerySetGetCount(Handle);
 
-    public WGPUQueryType getType() {
-        var result = wgpuQuerySetGetType(Handle);
-        return result;
-    }
+    public WGPUQueryType type => wgpuQuerySetGetType(Handle);
 
     public void setLabel(ReadOnlySpan<char> label) {
         wgpuQuerySetSetLabel(Handle, label.AllocString());
