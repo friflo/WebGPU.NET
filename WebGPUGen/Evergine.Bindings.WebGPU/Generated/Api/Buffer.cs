@@ -7,11 +7,11 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferDestroy(Handle);
     }
 
-    // getConstMappedRange() - not generated
+    // getConstMappedRange() - not generated. See: Buffer_NG.cs
 
     public WGPUBufferMapState mapState => wgpuBufferGetMapState(Handle);
 
-    // getMappedRange() - not generated
+    // getMappedRange() - not generated. See: Buffer_NG.cs
 
     public ulong size => wgpuBufferGetSize(Handle);
 

@@ -70,11 +70,21 @@ public static class ApiCodeGenerator
         var commandName = command.Name.Substring(handleType.Name.Length);
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
         switch (commandName) {
+            case "writeBuffer":
+            case "submit":
+            case "submitForIndex":
+            case "getMappedRange":
+            case "getConstMappedRange":
+                sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
+                return;
             case "reference":
-                sb.AppendLine($"    public void reference() {{");
-                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Reference(Handle);");
-                sb.AppendLine($"        ObjectTracker.IncRef(Handle);");
-                sb.AppendLine($"    }}");
+                sb.AppendLine(
+                    $$"""
+                          public void reference() {
+                              wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
+                              ObjectTracker.IncRef(Handle);
+                          }
+                      """);
                 return;
             case "release": sb.AppendLine(
                     $$"""
@@ -92,13 +102,6 @@ public static class ApiCodeGenerator
                             }
                         }
                     """);
-                return;
-            case "writeBuffer":
-            case "submit":
-            case "submitForIndex":
-            case "getMappedRange":
-            case "getConstMappedRange":
-                sb.AppendLine($"    // {commandName}() - not generated");
                 return;
         }
         bool hasReturnValue = returnType != "void";

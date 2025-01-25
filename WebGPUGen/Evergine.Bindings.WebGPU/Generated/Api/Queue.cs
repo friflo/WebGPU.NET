@@ -11,9 +11,9 @@ public unsafe partial struct WGPUQueue
         wgpuQueueSetLabel(Handle, label.AllocString());
     }
 
-    // submit() - not generated
+    // submit() - not generated. See: Queue_NG.cs
 
-    // writeBuffer() - not generated
+    // writeBuffer() - not generated. See: Queue_NG.cs
 
     public void writeTexture(WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {
         wgpuQueueWriteTexture(Handle, &destination, data, dataSize, &dataLayout, &writeSize);
@@ -29,6 +29,6 @@ public unsafe partial struct WGPUQueue
         wgpuQueueRelease(Handle);
     }
 
-    // submitForIndex() - not generated
+    // submitForIndex() - not generated. See: Queue_NG.cs
 
 }
