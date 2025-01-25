@@ -7,13 +7,13 @@ public unsafe partial struct WGPUSurface
         wgpuSurfaceConfigure(Handle, &config);
     }
 
-    public void getCapabilities(WGPUAdapter adapter, WGPUSurfaceCapabilities capabilities) {
-        wgpuSurfaceGetCapabilities(Handle, adapter, &capabilities);
-    }
+    // getCapabilities() - not generated. See: Surface_NG.cs
 
-    public void getCurrentTexture(WGPUSurfaceTexture surfaceTexture) {
-        wgpuSurfaceGetCurrentTexture(Handle, &surfaceTexture);
-    }
+    public WGPUSurfaceTexture currentTexture { get {
+        var result = new WGPUSurfaceTexture();
+        wgpuSurfaceGetCurrentTexture(Handle, &result);
+        return result;
+    } }
 
     public void present() {
         wgpuSurfacePresent(Handle);

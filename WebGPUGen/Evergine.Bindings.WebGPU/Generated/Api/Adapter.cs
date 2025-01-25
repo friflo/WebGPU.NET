@@ -8,9 +8,11 @@ public unsafe partial struct WGPUAdapter
         return result;
     }
 
-    public void getInfo(WGPUAdapterInfo info) {
-        wgpuAdapterGetInfo(Handle, &info);
-    }
+    public WGPUAdapterInfo info { get {
+        var result = new WGPUAdapterInfo();
+        wgpuAdapterGetInfo(Handle, &result);
+        return result;
+    } }
 
     public WGPUBool getLimits(WGPUSupportedLimits limits) {
         var result = wgpuAdapterGetLimits(Handle, &limits);

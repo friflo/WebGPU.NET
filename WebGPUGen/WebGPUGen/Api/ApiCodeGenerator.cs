@@ -78,6 +78,7 @@ public static class ApiCodeGenerator
             case "getMappedRange":      // Buffer_NG.cs
             case "getConstMappedRange": // Buffer_NG.cs
             case "setPushConstants":    // RenderPassEncoder_NG.cs
+            case "getCapabilities":     // Surface_NG.cs
                 // These methods occur only once and implemented manually in *_NG.cs files. 
                 sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
                 return;
@@ -117,6 +118,19 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(Handle);");
                 return;
             }
+        }
+        if (!hasReturnValue && commandName.StartsWith("get") && parameters.Length == 2) {
+            var propertyName = char.ToLower(commandName[3]) + commandName.Substring(4);
+            var type = parameters[1].TypeNamePure;
+            sb.AppendLine(
+                $$"""
+                    public {{type}} {{propertyName}} { get {
+                        var result = new {{type}}();
+                        {{command.Name}}(Handle, &result);
+                        return result;
+                    } }
+                """);
+            return;
         }
                     
         sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
