@@ -95,9 +95,7 @@ public unsafe partial struct WGPURenderPassEncoder
         wgpuRenderPassEncoderRelease(Handle);
     }
 
-    public void setPushConstants(WGPUShaderStage stages, uint offset, uint sizeBytes, void* data) {
-        wgpuRenderPassEncoderSetPushConstants(Handle, stages, offset, sizeBytes, data);
-    }
+    // setPushConstants() - not generated. See: RenderPassEncoder_NG.cs
 
     public void multiDrawIndirect(WGPUBuffer buffer, ulong offset, uint count) {
         wgpuRenderPassEncoderMultiDrawIndirect(Handle, buffer, offset, count);

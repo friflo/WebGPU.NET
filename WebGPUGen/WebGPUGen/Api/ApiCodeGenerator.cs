@@ -76,6 +76,7 @@ public static class ApiCodeGenerator
             case "submitForIndex":
             case "getMappedRange":
             case "getConstMappedRange":
+            case "setPushConstants":
                 // These methods occur only once and implemented in files: *_NG.cs
                 sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
                 return;
