@@ -31,8 +31,10 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderPushDebugGroup(Handle, groupLabel.AllocString());
     }
 
-    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ulong dynamicOffsetCount, uint* dynamicOffsets) {
-        wgpuRenderBundleEncoderSetBindGroup(Handle, groupIndex, group, dynamicOffsetCount, dynamicOffsets);
+    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
+        fixed (uint* ptr = dynamicOffsets) {
+            wgpuRenderBundleEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+        }
     }
 
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {

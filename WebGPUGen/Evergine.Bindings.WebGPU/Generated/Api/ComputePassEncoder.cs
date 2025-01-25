@@ -27,8 +27,10 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocString());
     }
 
-    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ulong dynamicOffsetCount, uint* dynamicOffsets) {
-        wgpuComputePassEncoderSetBindGroup(Handle, groupIndex, group, dynamicOffsetCount, dynamicOffsets);
+    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
+        fixed (uint* ptr = dynamicOffsets) {
+            wgpuComputePassEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+        }
     }
 
     public void setLabel(ReadOnlySpan<char> label) {

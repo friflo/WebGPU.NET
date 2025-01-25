@@ -76,11 +76,22 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"        ObjectTracker.IncRef(Handle);");
                 sb.AppendLine($"    }}");
                 return;
-            case "release":
-                sb.AppendLine($"    public void release() {{");
-                sb.AppendLine($"        ObjectTracker.DecRef(Handle);");
-                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Release(Handle);");
-                sb.AppendLine($"    }}");
+            case "release": sb.AppendLine(
+                    $$"""
+                        public void release() {
+                            ObjectTracker.DecRef(Handle);
+                            wgpu{{handleType.Name.Substring(4)}}Release(Handle);
+                        }
+                    """);
+                return;
+            case "setBindGroup": sb.AppendLine(
+                    $$"""
+                        public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
+                            fixed (uint* ptr = dynamicOffsets) {
+                                wgpu{{handleType.Name.Substring(4)}}SetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+                            }
+                        }
+                    """);
                 return;
             case "writeBuffer":
             case "submit":

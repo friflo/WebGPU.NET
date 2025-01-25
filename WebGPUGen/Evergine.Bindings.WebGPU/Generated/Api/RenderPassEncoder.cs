@@ -47,8 +47,10 @@ public unsafe partial struct WGPURenderPassEncoder
         wgpuRenderPassEncoderPushDebugGroup(Handle, groupLabel.AllocString());
     }
 
-    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ulong dynamicOffsetCount, uint* dynamicOffsets) {
-        wgpuRenderPassEncoderSetBindGroup(Handle, groupIndex, group, dynamicOffsetCount, dynamicOffsets);
+    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
+        fixed (uint* ptr = dynamicOffsets) {
+            wgpuRenderPassEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+        }
     }
 
     public void setBlendConstant(WGPUColor color) {
