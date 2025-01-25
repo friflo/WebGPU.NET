@@ -37,26 +37,38 @@ internal unsafe struct ObjectLabel
     internal fixed byte buffer[64];
 }
 
-internal struct ObjectEntry
+public struct ObjectEntry
 {
     internal ObjectLabel    label;
     internal int            count;
     internal HandleType     type;
     
-    public override unsafe string? ToString() {
+    public HandleType       Type    => type;
+    public int              Count   => count;
+    public string?          Label   => GetLabel();
+    
+    private unsafe string? GetLabel() {
         if (label.buffer[0] == 0) {
-            return type.ToString();
+            return null;
         }
-        string labelStr;
         fixed (byte* ptr = label.buffer) {
-            labelStr = Marshal.PtrToStringAnsi((IntPtr)ptr);
+            return Marshal.PtrToStringAnsi((IntPtr)ptr);
         }
-        return $"{type} \"{labelStr}\"";    
+    }
+    
+    public override string ToString() {
+        var labelStr = GetLabel();
+        if (labelStr == null) {
+            return $"{type} count: {count}";
+        }
+        return $"{type} count: {count} label\"{labelStr}\"";
     }
 }
 
 public static class ObjectTracker
 {
+    public static  Dictionary<nint,ObjectEntry>.ValueCollection Entries => HandleMap.Values;
+
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
     // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage 
