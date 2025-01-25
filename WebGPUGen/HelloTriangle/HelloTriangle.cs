@@ -363,7 +363,7 @@ namespace HelloTriangle
                         }
                     };
                     if (n % 10_000 == 0) {
-                        ApiAllocator.Reset();
+                        ArenaAllocator.Reset();
                     }
                 }
 
@@ -396,7 +396,10 @@ namespace HelloTriangle
             {
                 nextInChain = null,
             };
-            WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(Device, &encoderDescriptor);
+            // WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(Device, &encoderDescriptor);
+            var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor() {
+                Label = "123"
+            });
 
             WGPURenderPassColorAttachment renderPassColorAttachment = new WGPURenderPassColorAttachment()
             {
@@ -434,7 +437,8 @@ namespace HelloTriangle
             WGPUCommandBuffer command = wgpuCommandEncoderFinish(encoder, &commandBufferDescriptor);
             wgpuQueueSubmit(Queue, 1, &command);
 
-            wgpuCommandEncoderRelease(encoder);
+            // wgpuCommandEncoderRelease(encoder);
+            encoder.release();
 
             wgpuSurfacePresent(Surface);
         }
