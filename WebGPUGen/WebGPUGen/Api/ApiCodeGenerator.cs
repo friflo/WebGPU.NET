@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace WebGPUGen;
 
@@ -80,31 +81,30 @@ public static class ApiCodeGenerator
                 // These methods occur only once and implemented manually in *_NG.cs files. 
                 sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
                 return;
-            case "reference":
-                sb.AppendLine(
-                    $$"""
-                          public void reference() {
-                              wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
-                              ObjectTracker.IncRef(Handle);
-                          }
-                      """);
+            case "reference":   sb.AppendLine(
+                $$"""
+                    public void reference() {
+                        wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
+                        ObjectTracker.IncRef(Handle);
+                    }
+                """);
                 return;
-            case "release": sb.AppendLine(
-                    $$"""
-                        public void release() {
-                            ObjectTracker.DecRef(Handle);
-                            wgpu{{handleType.Name.Substring(4)}}Release(Handle);
-                        }
-                    """);
+            case "release":     sb.AppendLine(
+                $$"""
+                    public void release() {
+                        ObjectTracker.DecRef(Handle);
+                        wgpu{{handleType.Name.Substring(4)}}Release(Handle);
+                    }
+                """);
                 return;
             case "setBindGroup": sb.AppendLine(
-                    $$"""
-                        public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
-                            fixed (uint* ptr = dynamicOffsets) {
-                                wgpu{{handleType.Name.Substring(4)}}SetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
-                            }
+                $$"""
+                    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
+                        fixed (uint* ptr = dynamicOffsets) {
+                            wgpu{{handleType.Name.Substring(4)}}SetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
                         }
-                    """);
+                    }
+                """);
                 return;
         }
         bool hasReturnValue = returnType != "void";
