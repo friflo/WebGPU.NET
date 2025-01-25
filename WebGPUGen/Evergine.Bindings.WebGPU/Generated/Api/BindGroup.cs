@@ -1,20 +1,20 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUBindGroup
 {
-    public static void setLabel(this WGPUBindGroup bindGroup, ReadOnlySpan<char> label) {
-        wgpuBindGroupSetLabel(bindGroup, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuBindGroupSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPUBindGroup bindGroup) {
-        wgpuBindGroupReference(bindGroup);
-        ObjectTracker.IncRef(bindGroup.Handle);
+    public void reference() {
+        wgpuBindGroupReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUBindGroup bindGroup) {
-        ObjectTracker.DecRef(bindGroup.Handle);
-        wgpuBindGroupRelease(bindGroup);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuBindGroupRelease(Handle);
     }
 
 }

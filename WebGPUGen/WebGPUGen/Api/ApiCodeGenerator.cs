@@ -45,11 +45,11 @@ public static class ApiCodeGenerator
                     sb.AppendLine();
                 }
                 file.WriteLine(
-                    """
+                  $$"""
                     namespace Evergine.Bindings.WebGPU;
                     using static WebGPUNative;
                                
-                    public static unsafe partial class WebGPUExtensions
+                    public unsafe partial struct {{handleType.Name}}
                     {
                     """);
                 file.Write(sb);
@@ -72,15 +72,15 @@ public static class ApiCodeGenerator
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
         switch (commandName) {
             case "reference":
-                sb.AppendLine($"    public static void reference(this {handleType.Name} {handleName}) {{");
-                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Reference({handleName});");
-                sb.AppendLine($"        ObjectTracker.IncRef({handleName}.Handle);");
+                sb.AppendLine($"    public void reference() {{");
+                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Reference(Handle);");
+                sb.AppendLine($"        ObjectTracker.IncRef(Handle);");
                 sb.AppendLine($"    }}");
                 return;
             case "release":
-                sb.AppendLine($"    public static void release(this {handleType.Name} {handleName}) {{");
-                sb.AppendLine($"        ObjectTracker.DecRef({handleName}.Handle);");
-                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Release({handleName});");
+                sb.AppendLine($"    public void release() {{");
+                sb.AppendLine($"        ObjectTracker.DecRef(Handle);");
+                sb.AppendLine($"        wgpu{handleType.Name.Substring(4)}Release(Handle);");
                 sb.AppendLine($"    }}");
                 return;
             case "writeBuffer":
@@ -89,8 +89,11 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"    // {commandName}() - not generated");
                 return;
         }
+        if (commandName.StartsWith("get")) {
+            Console.WriteLine($"{parameters[0].TypeName}   {commandName}");
+        }
                     
-        sb.AppendLine($"    public static {returnType} {commandName}(this {handleType.Name} {handleName}{signature}) {{");
+        sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
         bool hasReturnValue = returnType != "void";
         if (hasReturnValue) {
             sb.Append("        var result = ");
@@ -98,8 +101,7 @@ public static class ApiCodeGenerator
             sb.Append("        ");
         }
         sb.Append(command.Name);
-        sb.Append("(");
-        sb.Append(handleName);
+        sb.Append("(Handle");
         for (int n = 1; n < parameters.Length; n++) {
             var param = parameters[n];
             sb.Append(", ");
@@ -153,9 +155,14 @@ public static class ApiCodeGenerator
     private static string GetParametersSignature(SignatureParam[] parameters)
     {
         StringBuilder signature = new StringBuilder();
+        bool isFirst = true;
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
-            signature.Append(", ");
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                signature.Append(", ");    
+            }
             switch(parameter.Type) {
                 case SignatureParamType.Pointer:
                     signature.Append($"{parameter.TypeNamePure} ");

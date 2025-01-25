@@ -1,34 +1,34 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUQuerySet
 {
-    public static void destroy(this WGPUQuerySet querySet) {
-        wgpuQuerySetDestroy(querySet);
+    public void destroy() {
+        wgpuQuerySetDestroy(Handle);
     }
 
-    public static uint getCount(this WGPUQuerySet querySet) {
-        var result = wgpuQuerySetGetCount(querySet);
+    public uint getCount() {
+        var result = wgpuQuerySetGetCount(Handle);
         return result;
     }
 
-    public static WGPUQueryType getType(this WGPUQuerySet querySet) {
-        var result = wgpuQuerySetGetType(querySet);
+    public WGPUQueryType getType() {
+        var result = wgpuQuerySetGetType(Handle);
         return result;
     }
 
-    public static void setLabel(this WGPUQuerySet querySet, ReadOnlySpan<char> label) {
-        wgpuQuerySetSetLabel(querySet, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuQuerySetSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPUQuerySet querySet) {
-        wgpuQuerySetReference(querySet);
-        ObjectTracker.IncRef(querySet.Handle);
+    public void reference() {
+        wgpuQuerySetReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUQuerySet querySet) {
-        ObjectTracker.DecRef(querySet.Handle);
-        wgpuQuerySetRelease(querySet);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuQuerySetRelease(Handle);
     }
 
 }

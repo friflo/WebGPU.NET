@@ -1,135 +1,135 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUDevice
 {
-    public static delegate* unmanaged<void> cAddress(this WGPUDevice device, ReadOnlySpan<char> procName) {
-        var result = wgpuGetProcAddress(device, procName.AllocString());
+    public delegate* unmanaged<void> cAddress(ReadOnlySpan<char> procName) {
+        var result = wgpuGetProcAddress(Handle, procName.AllocString());
         return result;
     }
 
-    public static WGPUBindGroup createBindGroup(this WGPUDevice device, WGPUBindGroupDescriptor descriptor) {
-        var result = wgpuDeviceCreateBindGroup(device, &descriptor);
+    public WGPUBindGroup createBindGroup(WGPUBindGroupDescriptor descriptor) {
+        var result = wgpuDeviceCreateBindGroup(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroup, descriptor.label);
         return result;
     }
 
-    public static WGPUBindGroupLayout createBindGroupLayout(this WGPUDevice device, WGPUBindGroupLayoutDescriptor descriptor) {
-        var result = wgpuDeviceCreateBindGroupLayout(device, &descriptor);
+    public WGPUBindGroupLayout createBindGroupLayout(WGPUBindGroupLayoutDescriptor descriptor) {
+        var result = wgpuDeviceCreateBindGroupLayout(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroupLayout, descriptor.label);
         return result;
     }
 
-    public static WGPUBuffer createBuffer(this WGPUDevice device, WGPUBufferDescriptor descriptor) {
-        var result = wgpuDeviceCreateBuffer(device, &descriptor);
+    public WGPUBuffer createBuffer(WGPUBufferDescriptor descriptor) {
+        var result = wgpuDeviceCreateBuffer(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBuffer, descriptor.label);
         return result;
     }
 
-    public static WGPUCommandEncoder createCommandEncoder(this WGPUDevice device, WGPUCommandEncoderDescriptor descriptor) {
-        var result = wgpuDeviceCreateCommandEncoder(device, &descriptor);
+    public WGPUCommandEncoder createCommandEncoder(WGPUCommandEncoderDescriptor descriptor) {
+        var result = wgpuDeviceCreateCommandEncoder(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandEncoder, descriptor.label);
         return result;
     }
 
-    public static WGPUComputePipeline createComputePipeline(this WGPUDevice device, WGPUComputePipelineDescriptor descriptor) {
-        var result = wgpuDeviceCreateComputePipeline(device, &descriptor);
+    public WGPUComputePipeline createComputePipeline(WGPUComputePipelineDescriptor descriptor) {
+        var result = wgpuDeviceCreateComputePipeline(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePipeline, descriptor.label);
         return result;
     }
 
-    public static void createComputePipelineAsync(this WGPUDevice device, WGPUComputePipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPUComputePipeline, char*, void*, void> callback, void* userdata) {
-        wgpuDeviceCreateComputePipelineAsync(device, &descriptor, callback, userdata);
+    public void createComputePipelineAsync(WGPUComputePipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPUComputePipeline, char*, void*, void> callback, void* userdata) {
+        wgpuDeviceCreateComputePipelineAsync(Handle, &descriptor, callback, userdata);
     }
 
-    public static WGPUPipelineLayout createPipelineLayout(this WGPUDevice device, WGPUPipelineLayoutDescriptor descriptor) {
-        var result = wgpuDeviceCreatePipelineLayout(device, &descriptor);
+    public WGPUPipelineLayout createPipelineLayout(WGPUPipelineLayoutDescriptor descriptor) {
+        var result = wgpuDeviceCreatePipelineLayout(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUPipelineLayout, descriptor.label);
         return result;
     }
 
-    public static WGPUQuerySet createQuerySet(this WGPUDevice device, WGPUQuerySetDescriptor descriptor) {
-        var result = wgpuDeviceCreateQuerySet(device, &descriptor);
+    public WGPUQuerySet createQuerySet(WGPUQuerySetDescriptor descriptor) {
+        var result = wgpuDeviceCreateQuerySet(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUQuerySet, descriptor.label);
         return result;
     }
 
-    public static WGPURenderBundleEncoder createRenderBundleEncoder(this WGPUDevice device, WGPURenderBundleEncoderDescriptor descriptor) {
-        var result = wgpuDeviceCreateRenderBundleEncoder(device, &descriptor);
+    public WGPURenderBundleEncoder createRenderBundleEncoder(WGPURenderBundleEncoderDescriptor descriptor) {
+        var result = wgpuDeviceCreateRenderBundleEncoder(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundleEncoder, descriptor.label);
         return result;
     }
 
-    public static WGPURenderPipeline createRenderPipeline(this WGPUDevice device, WGPURenderPipelineDescriptor descriptor) {
-        var result = wgpuDeviceCreateRenderPipeline(device, &descriptor);
+    public WGPURenderPipeline createRenderPipeline(WGPURenderPipelineDescriptor descriptor) {
+        var result = wgpuDeviceCreateRenderPipeline(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPipeline, descriptor.label);
         return result;
     }
 
-    public static void createRenderPipelineAsync(this WGPUDevice device, WGPURenderPipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPURenderPipeline, char*, void*, void> callback, void* userdata) {
-        wgpuDeviceCreateRenderPipelineAsync(device, &descriptor, callback, userdata);
+    public void createRenderPipelineAsync(WGPURenderPipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPURenderPipeline, char*, void*, void> callback, void* userdata) {
+        wgpuDeviceCreateRenderPipelineAsync(Handle, &descriptor, callback, userdata);
     }
 
-    public static WGPUSampler createSampler(this WGPUDevice device, WGPUSamplerDescriptor descriptor) {
-        var result = wgpuDeviceCreateSampler(device, &descriptor);
+    public WGPUSampler createSampler(WGPUSamplerDescriptor descriptor) {
+        var result = wgpuDeviceCreateSampler(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSampler, descriptor.label);
         return result;
     }
 
-    public static WGPUShaderModule createShaderModule(this WGPUDevice device, WGPUShaderModuleDescriptor descriptor) {
-        var result = wgpuDeviceCreateShaderModule(device, &descriptor);
+    public WGPUShaderModule createShaderModule(WGPUShaderModuleDescriptor descriptor) {
+        var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor.label);
         return result;
     }
 
-    public static WGPUTexture createTexture(this WGPUDevice device, WGPUTextureDescriptor descriptor) {
-        var result = wgpuDeviceCreateTexture(device, &descriptor);
+    public WGPUTexture createTexture(WGPUTextureDescriptor descriptor) {
+        var result = wgpuDeviceCreateTexture(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTexture, descriptor.label);
         return result;
     }
 
-    public static void destroy(this WGPUDevice device) {
-        wgpuDeviceDestroy(device);
+    public void destroy() {
+        wgpuDeviceDestroy(Handle);
     }
 
-    public static ulong enumerateFeatures(this WGPUDevice device, WGPUFeatureName features) {
-        var result = wgpuDeviceEnumerateFeatures(device, &features);
+    public ulong enumerateFeatures(WGPUFeatureName features) {
+        var result = wgpuDeviceEnumerateFeatures(Handle, &features);
         return result;
     }
 
-    public static WGPUBool getLimits(this WGPUDevice device, WGPUSupportedLimits limits) {
-        var result = wgpuDeviceGetLimits(device, &limits);
+    public WGPUBool getLimits(WGPUSupportedLimits limits) {
+        var result = wgpuDeviceGetLimits(Handle, &limits);
         return result;
     }
 
-    public static WGPUQueue getQueue(this WGPUDevice device) {
-        var result = wgpuDeviceGetQueue(device);
+    public WGPUQueue getQueue() {
+        var result = wgpuDeviceGetQueue(Handle);
         return result;
     }
 
-    public static WGPUBool hasFeature(this WGPUDevice device, WGPUFeatureName feature) {
-        var result = wgpuDeviceHasFeature(device, feature);
+    public WGPUBool hasFeature(WGPUFeatureName feature) {
+        var result = wgpuDeviceHasFeature(Handle, feature);
         return result;
     }
 
 
 
-    public static void setLabel(this WGPUDevice device, ReadOnlySpan<char> label) {
-        wgpuDeviceSetLabel(device, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuDeviceSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPUDevice device) {
-        wgpuDeviceReference(device);
-        ObjectTracker.IncRef(device.Handle);
+    public void reference() {
+        wgpuDeviceReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUDevice device) {
-        ObjectTracker.DecRef(device.Handle);
-        wgpuDeviceRelease(device);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuDeviceRelease(Handle);
     }
 
-    public static WGPUBool poll(this WGPUDevice device, WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
-        var result = wgpuDevicePoll(device, wait, &wrappedSubmissionIndex);
+    public WGPUBool poll(WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
+        var result = wgpuDevicePoll(Handle, wait, &wrappedSubmissionIndex);
         return result;
     }
 

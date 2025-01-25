@@ -1,40 +1,40 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUSurface
 {
-    public static void configure(this WGPUSurface surface, WGPUSurfaceConfiguration config) {
-        wgpuSurfaceConfigure(surface, &config);
+    public void configure(WGPUSurfaceConfiguration config) {
+        wgpuSurfaceConfigure(Handle, &config);
     }
 
-    public static void getCapabilities(this WGPUSurface surface, WGPUAdapter adapter, WGPUSurfaceCapabilities capabilities) {
-        wgpuSurfaceGetCapabilities(surface, adapter, &capabilities);
+    public void getCapabilities(WGPUAdapter adapter, WGPUSurfaceCapabilities capabilities) {
+        wgpuSurfaceGetCapabilities(Handle, adapter, &capabilities);
     }
 
-    public static void getCurrentTexture(this WGPUSurface surface, WGPUSurfaceTexture surfaceTexture) {
-        wgpuSurfaceGetCurrentTexture(surface, &surfaceTexture);
+    public void getCurrentTexture(WGPUSurfaceTexture surfaceTexture) {
+        wgpuSurfaceGetCurrentTexture(Handle, &surfaceTexture);
     }
 
-    public static void present(this WGPUSurface surface) {
-        wgpuSurfacePresent(surface);
+    public void present() {
+        wgpuSurfacePresent(Handle);
     }
 
-    public static void setLabel(this WGPUSurface surface, ReadOnlySpan<char> label) {
-        wgpuSurfaceSetLabel(surface, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuSurfaceSetLabel(Handle, label.AllocString());
     }
 
-    public static void unconfigure(this WGPUSurface surface) {
-        wgpuSurfaceUnconfigure(surface);
+    public void unconfigure() {
+        wgpuSurfaceUnconfigure(Handle);
     }
 
-    public static void reference(this WGPUSurface surface) {
-        wgpuSurfaceReference(surface);
-        ObjectTracker.IncRef(surface.Handle);
+    public void reference() {
+        wgpuSurfaceReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUSurface surface) {
-        ObjectTracker.DecRef(surface.Handle);
-        wgpuSurfaceRelease(surface);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuSurfaceRelease(Handle);
     }
 
 }

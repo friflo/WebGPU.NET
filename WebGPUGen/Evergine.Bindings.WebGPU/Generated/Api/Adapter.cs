@@ -1,39 +1,39 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUAdapter
 {
-    public static ulong enumerateFeatures(this WGPUAdapter adapter, WGPUFeatureName features) {
-        var result = wgpuAdapterEnumerateFeatures(adapter, &features);
+    public ulong enumerateFeatures(WGPUFeatureName features) {
+        var result = wgpuAdapterEnumerateFeatures(Handle, &features);
         return result;
     }
 
-    public static void getInfo(this WGPUAdapter adapter, WGPUAdapterInfo info) {
-        wgpuAdapterGetInfo(adapter, &info);
+    public void getInfo(WGPUAdapterInfo info) {
+        wgpuAdapterGetInfo(Handle, &info);
     }
 
-    public static WGPUBool getLimits(this WGPUAdapter adapter, WGPUSupportedLimits limits) {
-        var result = wgpuAdapterGetLimits(adapter, &limits);
+    public WGPUBool getLimits(WGPUSupportedLimits limits) {
+        var result = wgpuAdapterGetLimits(Handle, &limits);
         return result;
     }
 
-    public static WGPUBool hasFeature(this WGPUAdapter adapter, WGPUFeatureName feature) {
-        var result = wgpuAdapterHasFeature(adapter, feature);
+    public WGPUBool hasFeature(WGPUFeatureName feature) {
+        var result = wgpuAdapterHasFeature(Handle, feature);
         return result;
     }
 
-    public static void requestDevice(this WGPUAdapter adapter, WGPUDeviceDescriptor descriptor, delegate* unmanaged<WGPURequestDeviceStatus, WGPUDevice, char*, void*, void> callback, void* userdata) {
-        wgpuAdapterRequestDevice(adapter, &descriptor, callback, userdata);
+    public void requestDevice(WGPUDeviceDescriptor descriptor, delegate* unmanaged<WGPURequestDeviceStatus, WGPUDevice, char*, void*, void> callback, void* userdata) {
+        wgpuAdapterRequestDevice(Handle, &descriptor, callback, userdata);
     }
 
-    public static void reference(this WGPUAdapter adapter) {
-        wgpuAdapterReference(adapter);
-        ObjectTracker.IncRef(adapter.Handle);
+    public void reference() {
+        wgpuAdapterReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUAdapter adapter) {
-        ObjectTracker.DecRef(adapter.Handle);
-        wgpuAdapterRelease(adapter);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuAdapterRelease(Handle);
     }
 
 }

@@ -1,32 +1,32 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUQueue
 {
-    public static void onSubmittedWorkDone(this WGPUQueue queue, delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
-        wgpuQueueOnSubmittedWorkDone(queue, callback, userdata);
+    public void onSubmittedWorkDone(delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
+        wgpuQueueOnSubmittedWorkDone(Handle, callback, userdata);
     }
 
-    public static void setLabel(this WGPUQueue queue, ReadOnlySpan<char> label) {
-        wgpuQueueSetLabel(queue, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuQueueSetLabel(Handle, label.AllocString());
     }
 
     // submit() - not generated
 
     // writeBuffer() - not generated
 
-    public static void writeTexture(this WGPUQueue queue, WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {
-        wgpuQueueWriteTexture(queue, &destination, data, dataSize, &dataLayout, &writeSize);
+    public void writeTexture(WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {
+        wgpuQueueWriteTexture(Handle, &destination, data, dataSize, &dataLayout, &writeSize);
     }
 
-    public static void reference(this WGPUQueue queue) {
-        wgpuQueueReference(queue);
-        ObjectTracker.IncRef(queue.Handle);
+    public void reference() {
+        wgpuQueueReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUQueue queue) {
-        ObjectTracker.DecRef(queue.Handle);
-        wgpuQueueRelease(queue);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuQueueRelease(Handle);
     }
 
     // submitForIndex() - not generated

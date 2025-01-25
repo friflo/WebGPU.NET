@@ -1,78 +1,78 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUCommandEncoder
 {
-    public static WGPUComputePassEncoder beginComputePass(this WGPUCommandEncoder commandEncoder, WGPUComputePassDescriptor descriptor) {
-        var result = wgpuCommandEncoderBeginComputePass(commandEncoder, &descriptor);
+    public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
+        var result = wgpuCommandEncoderBeginComputePass(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, descriptor.label);
         return result;
     }
 
-    public static WGPURenderPassEncoder beginRenderPass(this WGPUCommandEncoder commandEncoder, WGPURenderPassDescriptor descriptor) {
-        var result = wgpuCommandEncoderBeginRenderPass(commandEncoder, &descriptor);
+    public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
+        var result = wgpuCommandEncoderBeginRenderPass(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPassEncoder, descriptor.label);
         return result;
     }
 
-    public static void clearBuffer(this WGPUCommandEncoder commandEncoder, WGPUBuffer buffer, ulong offset, ulong size) {
-        wgpuCommandEncoderClearBuffer(commandEncoder, buffer, offset, size);
+    public void clearBuffer(WGPUBuffer buffer, ulong offset, ulong size) {
+        wgpuCommandEncoderClearBuffer(Handle, buffer, offset, size);
     }
 
-    public static void copyBufferToBuffer(this WGPUCommandEncoder commandEncoder, WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
-        wgpuCommandEncoderCopyBufferToBuffer(commandEncoder, source, sourceOffset, destination, destinationOffset, size);
+    public void copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
+        wgpuCommandEncoderCopyBufferToBuffer(Handle, source, sourceOffset, destination, destinationOffset, size);
     }
 
-    public static void copyBufferToTexture(this WGPUCommandEncoder commandEncoder, WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        wgpuCommandEncoderCopyBufferToTexture(commandEncoder, &source, &destination, &copySize);
+    public void copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+        wgpuCommandEncoderCopyBufferToTexture(Handle, &source, &destination, &copySize);
     }
 
-    public static void copyTextureToBuffer(this WGPUCommandEncoder commandEncoder, WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
-        wgpuCommandEncoderCopyTextureToBuffer(commandEncoder, &source, &destination, &copySize);
+    public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
+        wgpuCommandEncoderCopyTextureToBuffer(Handle, &source, &destination, &copySize);
     }
 
-    public static void copyTextureToTexture(this WGPUCommandEncoder commandEncoder, WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        wgpuCommandEncoderCopyTextureToTexture(commandEncoder, &source, &destination, &copySize);
+    public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+        wgpuCommandEncoderCopyTextureToTexture(Handle, &source, &destination, &copySize);
     }
 
-    public static WGPUCommandBuffer finish(this WGPUCommandEncoder commandEncoder, WGPUCommandBufferDescriptor descriptor) {
-        var result = wgpuCommandEncoderFinish(commandEncoder, &descriptor);
+    public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
+        var result = wgpuCommandEncoderFinish(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, descriptor.label);
         return result;
     }
 
-    public static void insertDebugMarker(this WGPUCommandEncoder commandEncoder, ReadOnlySpan<char> markerLabel) {
-        wgpuCommandEncoderInsertDebugMarker(commandEncoder, markerLabel.AllocString());
+    public void insertDebugMarker(ReadOnlySpan<char> markerLabel) {
+        wgpuCommandEncoderInsertDebugMarker(Handle, markerLabel.AllocString());
     }
 
-    public static void popDebugGroup(this WGPUCommandEncoder commandEncoder) {
-        wgpuCommandEncoderPopDebugGroup(commandEncoder);
+    public void popDebugGroup() {
+        wgpuCommandEncoderPopDebugGroup(Handle);
     }
 
-    public static void pushDebugGroup(this WGPUCommandEncoder commandEncoder, ReadOnlySpan<char> groupLabel) {
-        wgpuCommandEncoderPushDebugGroup(commandEncoder, groupLabel.AllocString());
+    public void pushDebugGroup(ReadOnlySpan<char> groupLabel) {
+        wgpuCommandEncoderPushDebugGroup(Handle, groupLabel.AllocString());
     }
 
-    public static void resolveQuerySet(this WGPUCommandEncoder commandEncoder, WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
-        wgpuCommandEncoderResolveQuerySet(commandEncoder, querySet, firstQuery, queryCount, destination, destinationOffset);
+    public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
+        wgpuCommandEncoderResolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
     }
 
-    public static void setLabel(this WGPUCommandEncoder commandEncoder, ReadOnlySpan<char> label) {
-        wgpuCommandEncoderSetLabel(commandEncoder, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuCommandEncoderSetLabel(Handle, label.AllocString());
     }
 
-    public static void writeTimestamp(this WGPUCommandEncoder commandEncoder, WGPUQuerySet querySet, uint queryIndex) {
-        wgpuCommandEncoderWriteTimestamp(commandEncoder, querySet, queryIndex);
+    public void writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {
+        wgpuCommandEncoderWriteTimestamp(Handle, querySet, queryIndex);
     }
 
-    public static void reference(this WGPUCommandEncoder commandEncoder) {
-        wgpuCommandEncoderReference(commandEncoder);
-        ObjectTracker.IncRef(commandEncoder.Handle);
+    public void reference() {
+        wgpuCommandEncoderReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUCommandEncoder commandEncoder) {
-        ObjectTracker.DecRef(commandEncoder.Handle);
-        wgpuCommandEncoderRelease(commandEncoder);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuCommandEncoderRelease(Handle);
     }
 
 }

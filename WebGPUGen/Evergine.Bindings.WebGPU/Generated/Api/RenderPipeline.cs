@@ -1,25 +1,25 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPURenderPipeline
 {
-    public static WGPUBindGroupLayout getBindGroupLayout(this WGPURenderPipeline renderPipeline, uint groupIndex) {
-        var result = wgpuRenderPipelineGetBindGroupLayout(renderPipeline, groupIndex);
+    public WGPUBindGroupLayout getBindGroupLayout(uint groupIndex) {
+        var result = wgpuRenderPipelineGetBindGroupLayout(Handle, groupIndex);
         return result;
     }
 
-    public static void setLabel(this WGPURenderPipeline renderPipeline, ReadOnlySpan<char> label) {
-        wgpuRenderPipelineSetLabel(renderPipeline, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuRenderPipelineSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPURenderPipeline renderPipeline) {
-        wgpuRenderPipelineReference(renderPipeline);
-        ObjectTracker.IncRef(renderPipeline.Handle);
+    public void reference() {
+        wgpuRenderPipelineReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPURenderPipeline renderPipeline) {
-        ObjectTracker.DecRef(renderPipeline.Handle);
-        wgpuRenderPipelineRelease(renderPipeline);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuRenderPipelineRelease(Handle);
     }
 
 }

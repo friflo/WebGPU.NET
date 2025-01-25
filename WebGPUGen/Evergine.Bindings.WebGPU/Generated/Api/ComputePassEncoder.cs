@@ -1,60 +1,60 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUComputePassEncoder
 {
-    public static void dispatchWorkgroups(this WGPUComputePassEncoder computePassEncoder, uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
-        wgpuComputePassEncoderDispatchWorkgroups(computePassEncoder, workgroupCountX, workgroupCountY, workgroupCountZ);
+    public void dispatchWorkgroups(uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
+        wgpuComputePassEncoderDispatchWorkgroups(Handle, workgroupCountX, workgroupCountY, workgroupCountZ);
     }
 
-    public static void dispatchWorkgroupsIndirect(this WGPUComputePassEncoder computePassEncoder, WGPUBuffer indirectBuffer, ulong indirectOffset) {
-        wgpuComputePassEncoderDispatchWorkgroupsIndirect(computePassEncoder, indirectBuffer, indirectOffset);
+    public void dispatchWorkgroupsIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        wgpuComputePassEncoderDispatchWorkgroupsIndirect(Handle, indirectBuffer, indirectOffset);
     }
 
-    public static void end(this WGPUComputePassEncoder computePassEncoder) {
-        wgpuComputePassEncoderEnd(computePassEncoder);
+    public void end() {
+        wgpuComputePassEncoderEnd(Handle);
     }
 
-    public static void insertDebugMarker(this WGPUComputePassEncoder computePassEncoder, ReadOnlySpan<char> markerLabel) {
-        wgpuComputePassEncoderInsertDebugMarker(computePassEncoder, markerLabel.AllocString());
+    public void insertDebugMarker(ReadOnlySpan<char> markerLabel) {
+        wgpuComputePassEncoderInsertDebugMarker(Handle, markerLabel.AllocString());
     }
 
-    public static void popDebugGroup(this WGPUComputePassEncoder computePassEncoder) {
-        wgpuComputePassEncoderPopDebugGroup(computePassEncoder);
+    public void popDebugGroup() {
+        wgpuComputePassEncoderPopDebugGroup(Handle);
     }
 
-    public static void pushDebugGroup(this WGPUComputePassEncoder computePassEncoder, ReadOnlySpan<char> groupLabel) {
-        wgpuComputePassEncoderPushDebugGroup(computePassEncoder, groupLabel.AllocString());
+    public void pushDebugGroup(ReadOnlySpan<char> groupLabel) {
+        wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocString());
     }
 
-    public static void setBindGroup(this WGPUComputePassEncoder computePassEncoder, uint groupIndex, WGPUBindGroup group, ulong dynamicOffsetCount, uint* dynamicOffsets) {
-        wgpuComputePassEncoderSetBindGroup(computePassEncoder, groupIndex, group, dynamicOffsetCount, dynamicOffsets);
+    public void setBindGroup(uint groupIndex, WGPUBindGroup group, ulong dynamicOffsetCount, uint* dynamicOffsets) {
+        wgpuComputePassEncoderSetBindGroup(Handle, groupIndex, group, dynamicOffsetCount, dynamicOffsets);
     }
 
-    public static void setLabel(this WGPUComputePassEncoder computePassEncoder, ReadOnlySpan<char> label) {
-        wgpuComputePassEncoderSetLabel(computePassEncoder, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuComputePassEncoderSetLabel(Handle, label.AllocString());
     }
 
-    public static void setPipeline(this WGPUComputePassEncoder computePassEncoder, WGPUComputePipeline pipeline) {
-        wgpuComputePassEncoderSetPipeline(computePassEncoder, pipeline);
+    public void setPipeline(WGPUComputePipeline pipeline) {
+        wgpuComputePassEncoderSetPipeline(Handle, pipeline);
     }
 
-    public static void reference(this WGPUComputePassEncoder computePassEncoder) {
-        wgpuComputePassEncoderReference(computePassEncoder);
-        ObjectTracker.IncRef(computePassEncoder.Handle);
+    public void reference() {
+        wgpuComputePassEncoderReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUComputePassEncoder computePassEncoder) {
-        ObjectTracker.DecRef(computePassEncoder.Handle);
-        wgpuComputePassEncoderRelease(computePassEncoder);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuComputePassEncoderRelease(Handle);
     }
 
-    public static void beginPipelineStatisticsQuery(this WGPUComputePassEncoder computePassEncoder, WGPUQuerySet querySet, uint queryIndex) {
-        wgpuComputePassEncoderBeginPipelineStatisticsQuery(computePassEncoder, querySet, queryIndex);
+    public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
+        wgpuComputePassEncoderBeginPipelineStatisticsQuery(Handle, querySet, queryIndex);
     }
 
-    public static void endPipelineStatisticsQuery(this WGPUComputePassEncoder computePassEncoder) {
-        wgpuComputePassEncoderEndPipelineStatisticsQuery(computePassEncoder);
+    public void endPipelineStatisticsQuery() {
+        wgpuComputePassEncoderEndPipelineStatisticsQuery(Handle);
     }
 
 }

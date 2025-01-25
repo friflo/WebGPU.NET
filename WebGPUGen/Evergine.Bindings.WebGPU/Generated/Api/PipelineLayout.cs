@@ -1,20 +1,20 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUPipelineLayout
 {
-    public static void setLabel(this WGPUPipelineLayout pipelineLayout, ReadOnlySpan<char> label) {
-        wgpuPipelineLayoutSetLabel(pipelineLayout, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuPipelineLayoutSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPUPipelineLayout pipelineLayout) {
-        wgpuPipelineLayoutReference(pipelineLayout);
-        ObjectTracker.IncRef(pipelineLayout.Handle);
+    public void reference() {
+        wgpuPipelineLayoutReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUPipelineLayout pipelineLayout) {
-        ObjectTracker.DecRef(pipelineLayout.Handle);
-        wgpuPipelineLayoutRelease(pipelineLayout);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuPipelineLayoutRelease(Handle);
     }
 
 }

@@ -1,70 +1,70 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
            
-public static unsafe partial class WebGPUExtensions
+public unsafe partial struct WGPUTexture
 {
-    public static WGPUTextureView createView(this WGPUTexture texture, WGPUTextureViewDescriptor descriptor) {
-        var result = wgpuTextureCreateView(texture, &descriptor);
+    public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
+        var result = wgpuTextureCreateView(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTextureView, descriptor.label);
         return result;
     }
 
-    public static void destroy(this WGPUTexture texture) {
-        wgpuTextureDestroy(texture);
+    public void destroy() {
+        wgpuTextureDestroy(Handle);
     }
 
-    public static uint getDepthOrArrayLayers(this WGPUTexture texture) {
-        var result = wgpuTextureGetDepthOrArrayLayers(texture);
+    public uint getDepthOrArrayLayers() {
+        var result = wgpuTextureGetDepthOrArrayLayers(Handle);
         return result;
     }
 
-    public static WGPUTextureDimension getDimension(this WGPUTexture texture) {
-        var result = wgpuTextureGetDimension(texture);
+    public WGPUTextureDimension getDimension() {
+        var result = wgpuTextureGetDimension(Handle);
         return result;
     }
 
-    public static WGPUTextureFormat getFormat(this WGPUTexture texture) {
-        var result = wgpuTextureGetFormat(texture);
+    public WGPUTextureFormat getFormat() {
+        var result = wgpuTextureGetFormat(Handle);
         return result;
     }
 
-    public static uint getHeight(this WGPUTexture texture) {
-        var result = wgpuTextureGetHeight(texture);
+    public uint getHeight() {
+        var result = wgpuTextureGetHeight(Handle);
         return result;
     }
 
-    public static uint getMipLevelCount(this WGPUTexture texture) {
-        var result = wgpuTextureGetMipLevelCount(texture);
+    public uint getMipLevelCount() {
+        var result = wgpuTextureGetMipLevelCount(Handle);
         return result;
     }
 
-    public static uint getSampleCount(this WGPUTexture texture) {
-        var result = wgpuTextureGetSampleCount(texture);
+    public uint getSampleCount() {
+        var result = wgpuTextureGetSampleCount(Handle);
         return result;
     }
 
-    public static WGPUTextureUsage getUsage(this WGPUTexture texture) {
-        var result = wgpuTextureGetUsage(texture);
+    public WGPUTextureUsage getUsage() {
+        var result = wgpuTextureGetUsage(Handle);
         return result;
     }
 
-    public static uint getWidth(this WGPUTexture texture) {
-        var result = wgpuTextureGetWidth(texture);
+    public uint getWidth() {
+        var result = wgpuTextureGetWidth(Handle);
         return result;
     }
 
-    public static void setLabel(this WGPUTexture texture, ReadOnlySpan<char> label) {
-        wgpuTextureSetLabel(texture, label.AllocString());
+    public void setLabel(ReadOnlySpan<char> label) {
+        wgpuTextureSetLabel(Handle, label.AllocString());
     }
 
-    public static void reference(this WGPUTexture texture) {
-        wgpuTextureReference(texture);
-        ObjectTracker.IncRef(texture.Handle);
+    public void reference() {
+        wgpuTextureReference(Handle);
+        ObjectTracker.IncRef(Handle);
     }
 
-    public static void release(this WGPUTexture texture) {
-        ObjectTracker.DecRef(texture.Handle);
-        wgpuTextureRelease(texture);
+    public void release() {
+        ObjectTracker.DecRef(Handle);
+        wgpuTextureRelease(Handle);
     }
 
 }
