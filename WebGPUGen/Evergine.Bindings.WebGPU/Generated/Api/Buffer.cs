@@ -7,17 +7,11 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferDestroy(Handle);
     }
 
-    public void* getConstMappedRange(ulong offset, ulong size) {
-        var result = wgpuBufferGetConstMappedRange(Handle, offset, size);
-        return result;
-    }
+    // getConstMappedRange() - not generated
 
     public WGPUBufferMapState mapState => wgpuBufferGetMapState(Handle);
 
-    public void* getMappedRange(ulong offset, ulong size) {
-        var result = wgpuBufferGetMappedRange(Handle, offset, size);
-        return result;
-    }
+    // getMappedRange() - not generated
 
     public ulong size => wgpuBufferGetSize(Handle);
 

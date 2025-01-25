@@ -85,6 +85,8 @@ public static class ApiCodeGenerator
             case "writeBuffer":
             case "submit":
             case "submitForIndex":
+            case "getMappedRange":
+            case "getConstMappedRange":
                 sb.AppendLine($"    // {commandName}() - not generated");
                 return;
         }
