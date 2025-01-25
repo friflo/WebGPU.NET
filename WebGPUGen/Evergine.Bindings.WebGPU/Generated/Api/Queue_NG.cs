@@ -14,6 +14,12 @@ public unsafe partial struct WGPUQueue
             wgpuQueueWriteBuffer(Handle, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
         }
     }
+    
+    public void writeTexture<T>(WGPUImageCopyTexture destination, Span<T> data, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) where T : unmanaged {
+        fixed (T* ptr = data) {
+            wgpuQueueWriteTexture(Handle, &destination, ptr, (ulong)(data.Length * sizeof(T)), &dataLayout, &writeSize);
+        }
+    }
 
     public ulong submitForIndex(Span<WGPUCommandBuffer> commands) {
         fixed (WGPUCommandBuffer* ptr = commands) {

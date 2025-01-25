@@ -15,9 +15,7 @@ public unsafe partial struct WGPUQueue
 
     // writeBuffer() - not generated. See: Queue_NG.cs
 
-    public void writeTexture(WGPUImageCopyTexture destination, void* data, ulong dataSize, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) {
-        wgpuQueueWriteTexture(Handle, &destination, data, dataSize, &dataLayout, &writeSize);
-    }
+    // writeTexture() - not generated. See: Queue_NG.cs
 
     public void reference() {
         wgpuQueueReference(Handle);

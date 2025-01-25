@@ -71,10 +71,12 @@ public static class ApiCodeGenerator
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
         switch (commandName) {
             case "writeBuffer":
+            case "writeTexture":
             case "submit":
             case "submitForIndex":
             case "getMappedRange":
             case "getConstMappedRange":
+                // These methods occur only once and implemented in files: *_NG.cs
                 sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
                 return;
             case "reference":
