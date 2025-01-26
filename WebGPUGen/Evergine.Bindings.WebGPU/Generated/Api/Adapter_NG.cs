@@ -16,7 +16,7 @@ public unsafe struct RequestDeviceResult {
     }
 }
 
-public delegate Action RequestDeviceCallback(in RequestDeviceResult result);
+public delegate void RequestDeviceCallback(in RequestDeviceResult result);
 
 public unsafe partial struct WGPUAdapter
 {
@@ -28,6 +28,16 @@ public unsafe partial struct WGPUAdapter
             callbackUserData = (void*)Unsafe.As<GCHandle, nuint>(ref callbackHandle);
         }
         wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, callbackUserData);
+    }
+    
+    // untested
+    public Task<RequestDeviceResult> requestDeviceAsync(WGPUDeviceDescriptor descriptor)
+    {
+        var tcs = new TaskCompletionSource<RequestDeviceResult>();
+        requestDevice(descriptor, (in RequestDeviceResult result) => {
+            tcs.SetResult(result);
+        });
+        return tcs.Task;
     }
     
     [UnmanagedCallersOnly]
