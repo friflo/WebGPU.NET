@@ -1,6 +1,7 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
-           
+
+/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUBuffer">MDN documentation</see>           
 public unsafe partial struct WGPUBuffer
 {
     public void destroy() {

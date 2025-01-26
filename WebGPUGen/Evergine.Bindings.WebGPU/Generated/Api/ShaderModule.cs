@@ -1,6 +1,7 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
-           
+
+/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUShaderModule">MDN documentation</see>           
 public unsafe partial struct WGPUShaderModule
 {
     public void getCompilationInfo(delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {

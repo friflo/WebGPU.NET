@@ -1,6 +1,7 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
-           
+
+/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPURenderBundleEncoder">MDN documentation</see>           
 public unsafe partial struct WGPURenderBundleEncoder
 {
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {

@@ -174,12 +174,6 @@ namespace WebGPUGen
                     {
                         continue;
                     }
-                    if (typedef.Name == "WGPUInstance" || typedef.Name == "WGPUSurface") {
-                        file.WriteLine($"\t/// No counterpart in JavaScript WebGPU");
-                    } else {
-                        var name = typedef.Name.Substring(1);
-                        file.WriteLine($"\t/// <see href=\"https://developer.mozilla.org/en-US/docs/Web/API/{name}\">MDN documentation</see>");
-                    }
                     file.WriteLine($"\tpublic partial struct {typedef.Name} : IEquatable<{typedef.Name}>");
                     file.WriteLine("\t{");
                     string handleType = "IntPtr";

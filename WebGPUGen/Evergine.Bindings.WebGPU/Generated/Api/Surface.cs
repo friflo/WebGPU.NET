@@ -1,6 +1,7 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
-           
+
+/// No counterpart in JavaScript WebGPU           
 public unsafe partial struct WGPUSurface
 {
     public void configure(WGPUSurfaceConfiguration config) {

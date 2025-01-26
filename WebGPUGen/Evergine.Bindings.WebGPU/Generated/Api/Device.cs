@@ -1,6 +1,7 @@
 namespace Evergine.Bindings.WebGPU;
 using static WebGPUNative;
-           
+
+/// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice">MDN documentation</see>           
 public unsafe partial struct WGPUDevice
 {
     public delegate* unmanaged<void> cAddress(ReadOnlySpan<char> procName) {

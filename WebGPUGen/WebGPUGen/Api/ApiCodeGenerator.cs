@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace WebGPUGen;
 
@@ -44,11 +43,19 @@ public static class ApiCodeGenerator
                     AppendCommand(sb, handleType, command);
                     sb.AppendLine();
                 }
+                string docs;
+                if (handleType.Name == "WGPUInstance" || handleType.Name == "WGPUSurface") {
+                    docs = "/// No counterpart in JavaScript WebGPU";
+                } else {
+                    var name = handleType.Name.Substring(1);
+                    docs = $"/// <see href=\"https://developer.mozilla.org/en-US/docs/Web/API/{name}\">MDN documentation</see>";
+                }
                 file.WriteLine(
                   $$"""
                     namespace Evergine.Bindings.WebGPU;
                     using static WebGPUNative;
-                               
+                    
+                    {{docs}}           
                     public unsafe partial struct {{handleType.Name}}
                     {
                     """);
