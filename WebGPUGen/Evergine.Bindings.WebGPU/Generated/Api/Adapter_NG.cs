@@ -27,11 +27,11 @@ public unsafe partial struct WGPUAdapter
             var callbackHandle = GCHandle.Alloc(callback);
             callbackUserData = (void*)Unsafe.As<GCHandle, nuint>(ref callbackHandle);
         }
-        wgpuAdapterRequestDevice(Handle, &descriptor, &OnDeviceRequestEnded, callbackUserData);
+        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, callbackUserData);
     }
     
     [UnmanagedCallersOnly]
-    private static void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
+    private static void requestDeviceCallback(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
     {
         var userDataHandle = Unsafe.BitCast<nuint, GCHandle>((nuint)pUserData);
         try {
