@@ -24,9 +24,7 @@ public unsafe partial struct WGPUAdapter
         return result;
     }
 
-    public void requestDevice(WGPUDeviceDescriptor descriptor, delegate* unmanaged<WGPURequestDeviceStatus, WGPUDevice, char*, void*, void> callback, void* userdata) {
-        wgpuAdapterRequestDevice(Handle, &descriptor, callback, userdata);
-    }
+    // requestDevice() - not generated. See: Adapter_NG.cs
 
     public void reference() {
         wgpuAdapterReference(Handle);
