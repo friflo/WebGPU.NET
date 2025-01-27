@@ -10,12 +10,12 @@ internal struct AllocHeader
 
 internal static class AllocValidator
 {
-    private static int[] allocators; 
+    private static int[] allocators;
         
-    internal static unsafe void ValidateRenderPipelineDescriptor(WGPURenderPipelineDescriptor* descriptor) {
-        ValidatePtr(descriptor->label);
-        ValidatePtr(descriptor->nextInChain);
-        ValidateFragmentState(*descriptor->fragment);
+    internal static unsafe void ValidateRenderPipelineDescriptor(in WGPURenderPipelineDescriptor descriptor) {
+        ValidatePtr(descriptor.label);
+        ValidatePtr(descriptor.nextInChain);
+        ValidateFragmentState(*descriptor.fragment);
     }
     
     internal static unsafe void ValidateFragmentState(in WGPUFragmentState fragmentState) {
