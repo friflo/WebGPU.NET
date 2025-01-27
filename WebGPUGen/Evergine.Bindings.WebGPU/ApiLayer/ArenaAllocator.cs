@@ -21,20 +21,24 @@ Values are encoded as follows:
 - {NULL, non_zero_length}: not allowed (null dereference).
 - {non_null_pointer, non_zero_length}: an explictly-sized string view with size non_zero_length (in bytes).
  */
-public static class ArenaAllocator
+public sealed class ArenaAllocator
 {
-    private static  List<nint>  _chunks         = new();
-    private static  int         _chunkIndex;
-    private static  nint        _currentChunk;
-    private static  int         _currentPos     = ChunkSize;
+    private  List<nint>  _chunks         = new();
+    private  int         _chunkIndex;
+    private  nint        _currentChunk;
+    private  int         _currentPos     = ChunkSize;
     private const   int          ChunkSize      = 0x10000;
+    
+    public void Use() {
+        ApiUtils.arenaAllocator = this;
+    }
 
-    public static void Reset() {
+    public void Reset() {
         _chunkIndex = 0;
         _currentPos = ChunkSize;
     }
     
-    public static void FreeGlobalAllocation() {
+    public void FreeGlobalAllocation() {
         foreach (var chunk in _chunks) {
             Marshal.FreeHGlobal(chunk);
         }
@@ -42,7 +46,7 @@ public static class ArenaAllocator
         Reset();
     }
     
-    public static nint Alloc(int size)
+    public nint Alloc(int size)
     {
         var pos = _currentPos;
         if (pos + size < ChunkSize) {
@@ -71,7 +75,7 @@ public static class ArenaAllocator
     
     // WebGPU C API: "Strings are represented in UTF-8, using the WGPUStringView struct"
     // https://webgpu-native.github.io/webgpu-headers/Strings.html
-    internal static unsafe char* AllocString(ReadOnlySpan<char> span)
+    internal unsafe char* AllocString(ReadOnlySpan<char> span)
     {
         var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
         var ptr = (byte*)Alloc((size + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
