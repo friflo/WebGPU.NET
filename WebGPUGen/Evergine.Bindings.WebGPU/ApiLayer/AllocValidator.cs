@@ -4,13 +4,21 @@ namespace Evergine.Bindings.WebGPU;
 
 internal struct AllocHeader
 {
-    internal int allocatorIndex;
-    internal int revision;
+    internal ushort allocatorIndex;
+    internal ushort allocatorRevision;
+    
+    internal int allocRevision;
+}
+
+internal struct AllocatorEntry
+{
+    internal ushort allocatorRevision;
+    internal int    allocRevision;
 }
 
 internal static class AllocValidator
 {
-    private static int[] allocators;
+    private static AllocatorEntry[] allocators;
         
     internal static unsafe void ValidateRenderPipelineDescriptor(in WGPURenderPipelineDescriptor descriptor) {
         ValidatePtr(descriptor.label);
@@ -36,10 +44,14 @@ internal static class AllocValidator
     {
         AllocHeader header = *(((AllocHeader*)buffer) - 1);
         var index = header.allocatorIndex;
-        if (index < 0 || index >= allocators.Length) {
+        if (index >= allocators.Length) {
             throw new InvalidOperationException();
         }
-        if (allocators[index] != header.allocatorIndex) {
+        var entry = allocators[index];
+        if (entry.allocatorRevision != header.allocatorRevision) {
+            throw new InvalidOperationException();
+        }
+        if (entry.allocRevision != header.allocRevision) {
             throw new InvalidOperationException();
         }
     }
