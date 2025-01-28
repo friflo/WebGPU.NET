@@ -7,6 +7,7 @@ public static class ApiUtils
     internal static Arena arena;
     
     public static unsafe Span<T> GetArr<T>(T* dstPtr, ulong count) where T : unmanaged {
+        AllocValidator.ValidatePtr(dstPtr);
         return new Span<T>(dstPtr, (int)count);
     }
     
@@ -20,7 +21,7 @@ public static class ApiUtils
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
-    public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
+    public static unsafe void SetArr<T>(Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
         count = (uint)src.Length;
         dstPtr = (T*)arena.Alloc(sizeof(T) * (int)count);
         src.CopyTo(new Span<T>(dstPtr, (int)count));

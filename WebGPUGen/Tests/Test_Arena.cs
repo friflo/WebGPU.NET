@@ -1,3 +1,4 @@
+using System;
 using Evergine.Bindings.WebGPU;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
@@ -21,4 +22,31 @@ public static class Test_Arena
         AreEqual("pointer expired by Arena.Reset()", e.Message);
     }
     
+    [Test]
+    public static unsafe void Test_Arena_Span()
+    {
+        var arena = new Arena();
+        arena.Use();
+        var myStruct = new MyStruct {
+            Entries = [1,2,3]
+        };
+        AreEqual(3, myStruct.Entries.Length);
+        arena.Reset();
+        
+        var e = Throws<InvalidAllocation>(() => {
+            _ = myStruct.Entries;
+        })!;
+        AreEqual("pointer expired by Arena.Reset()", e.Message);
+    }
+
+    unsafe struct MyStruct
+    {
+        uint  entryCount;
+        int*  entries;
+        
+        public Span<int> Entries {
+            get => ApiUtils.GetArr(entries, entryCount);
+            set => ApiUtils.SetArr(value, out entries, out entryCount);
+        }
+    }
 }
