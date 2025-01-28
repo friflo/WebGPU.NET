@@ -4,7 +4,7 @@ namespace Evergine.Bindings.WebGPU;
 
 public static class ApiUtils
 {
-    internal static ArenaAllocator arenaAllocator;
+    internal static Arena arena;
     
     public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out ulong count) where T : unmanaged {
         // Note:
@@ -12,13 +12,13 @@ public static class ApiUtils
         // When using this approach all struct properties MUST be allocated on the stack. 
         //      dstPtr = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
         count = (ulong)src.Length;
-        dstPtr = (T*)arenaAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)arena.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
     public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
         count = (uint)src.Length;
-        dstPtr = (T*)arenaAllocator.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)arena.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
@@ -31,7 +31,7 @@ public static class ApiUtils
     
     public static unsafe void SetOpt<T>(out T* dstPtr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            dstPtr = (T*)arenaAllocator.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+            dstPtr = (T*)arena.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
             *dstPtr = value.Value;
             return;
         }
@@ -42,7 +42,7 @@ public static class ApiUtils
         if (span.Length == 0) {
             return null;
         }
-        return arenaAllocator.AllocString(span);
+        return arena.AllocString(span);
     }
     
     public static unsafe ReadOnlySpan<char> GetStr(char* label) {
@@ -57,7 +57,7 @@ public static class ApiUtils
             dst = null;
             return;
         }
-        dst = arenaAllocator.AllocString(span);
+        dst = arena.AllocString(span);
     }
     
 }

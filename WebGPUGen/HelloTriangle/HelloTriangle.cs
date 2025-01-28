@@ -28,11 +28,11 @@ namespace HelloTriangle
         private WGPUPipelineLayout pipelineLayout;
         private WGPURenderPipeline pipeline;
         private WGPUBuffer vertexBuffer;
-        private ArenaAllocator arenaAllocator = new ArenaAllocator();
+        private Arena frameArena = new Arena();
 
         public void Run()
         {
-            arenaAllocator.Use();
+            frameArena.Use();
             this.InitWindow();
 
             this.InitWebGPU();
@@ -365,7 +365,7 @@ namespace HelloTriangle
                         }
                     };
                     if (n % 10_000 == 0) {
-                        arenaAllocator.Reset();
+                        frameArena.Reset();
                     }
                 }
 

@@ -21,16 +21,16 @@ Values are encoded as follows:
 - {NULL, non_zero_length}: not allowed (null dereference).
 - {non_null_pointer, non_zero_length}: an explictly-sized string view with size non_zero_length (in bytes).
  */
-public sealed class ArenaAllocator
+public sealed class Arena
 {
     private  List<nint>  _chunks         = new();
     private  int         _chunkIndex;
     private  nint        _currentChunk;
     private  int         _currentPos     = ChunkSize;
-    private const   int          ChunkSize      = 0x10000;
+    private const   int  ChunkSize      = 0x10000;
     
     public void Use() {
-        ApiUtils.arenaAllocator = this;
+        ApiUtils.arena = this;
     }
 
     public void Reset() {
