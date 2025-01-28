@@ -265,8 +265,8 @@ public static class ApiCodeGenerator
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
                         sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
-                        sb.AppendLine($"\t\t\tget => new ({arrayFieldName}, (int){countFieldName});");
-                        sb.AppendLine($"\t\t\tset => value.SetArr(out {arrayFieldName}, out {countFieldName});");
+                        sb.AppendLine($"\t\t\tget => ApiUtils.GetArr({arrayFieldName}, {countFieldName});");
+                        sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out {arrayFieldName}, out {countFieldName});");
                         sb.AppendLine($"\t\t}}");
                         continue;
                     }

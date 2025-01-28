@@ -281,8 +281,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUBindGroupLayout> BindGroupLayouts {
-			get => new (bindGroupLayouts, (int)bindGroupLayoutCount);
-			set => value.SetArr(out bindGroupLayouts, out bindGroupLayoutCount);
+			get => ApiUtils.GetArr(bindGroupLayouts, bindGroupLayoutCount);
+			set => ApiUtils.SetArr(value, out bindGroupLayouts, out bindGroupLayoutCount);
 		}
 	}
 
@@ -379,8 +379,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUTextureFormat> ColorFormats {
-			get => new (colorFormats, (int)colorFormatCount);
-			set => value.SetArr(out colorFormats, out colorFormatCount);
+			get => ApiUtils.GetArr(colorFormats, colorFormatCount);
+			set => ApiUtils.SetArr(value, out colorFormats, out colorFormatCount);
 		}
 	}
 
@@ -548,16 +548,16 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public Span<WGPUTextureFormat> Formats {
-			get => new (formats, (int)formatCount);
-			set => value.SetArr(out formats, out formatCount);
+			get => ApiUtils.GetArr(formats, formatCount);
+			set => ApiUtils.SetArr(value, out formats, out formatCount);
 		}
 		public Span<WGPUPresentMode> PresentModes {
-			get => new (presentModes, (int)presentModeCount);
-			set => value.SetArr(out presentModes, out presentModeCount);
+			get => ApiUtils.GetArr(presentModes, presentModeCount);
+			set => ApiUtils.SetArr(value, out presentModes, out presentModeCount);
 		}
 		public Span<WGPUCompositeAlphaMode> AlphaModes {
-			get => new (alphaModes, (int)alphaModeCount);
-			set => value.SetArr(out alphaModes, out alphaModeCount);
+			get => ApiUtils.GetArr(alphaModes, alphaModeCount);
+			set => ApiUtils.SetArr(value, out alphaModes, out alphaModeCount);
 		}
 	}
 
@@ -580,8 +580,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public Span<WGPUTextureFormat> ViewFormats {
-			get => new (viewFormats, (int)viewFormatCount);
-			set => value.SetArr(out viewFormats, out viewFormatCount);
+			get => ApiUtils.GetArr(viewFormats, viewFormatCount);
+			set => ApiUtils.SetArr(value, out viewFormats, out viewFormatCount);
 		}
 	}
 
@@ -799,8 +799,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUBindGroupEntry> Entries {
-			get => new (entries, (int)entryCount);
-			set => value.SetArr(out entries, out entryCount);
+			get => ApiUtils.GetArr(entries, entryCount);
+			set => ApiUtils.SetArr(value, out entries, out entryCount);
 		}
 	}
 
@@ -840,8 +840,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetOpt(out nextInChain, value);
 		}
 		public Span<WGPUCompilationMessage> Messages {
-			get => new (messages, (int)messageCount);
-			set => value.SetArr(out messages, out messageCount);
+			get => ApiUtils.GetArr(messages, messageCount);
+			set => ApiUtils.SetArr(value, out messages, out messageCount);
 		}
 	}
 
@@ -933,8 +933,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => new (constants, (int)constantCount);
-			set => value.SetArr(out constants, out constantCount);
+			get => ApiUtils.GetArr(constants, constantCount);
+			set => ApiUtils.SetArr(value, out constants, out constantCount);
 		}
 	}
 
@@ -984,8 +984,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUShaderModuleCompilationHint> Hints {
-			get => new (hints, (int)hintCount);
-			set => value.SetArr(out hints, out hintCount);
+			get => ApiUtils.GetArr(hints, hintCount);
+			set => ApiUtils.SetArr(value, out hints, out hintCount);
 		}
 	}
 
@@ -1024,8 +1024,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUTextureFormat> ViewFormats {
-			get => new (viewFormats, (int)viewFormatCount);
-			set => value.SetArr(out viewFormats, out viewFormatCount);
+			get => ApiUtils.GetArr(viewFormats, viewFormatCount);
+			set => ApiUtils.SetArr(value, out viewFormats, out viewFormatCount);
 		}
 	}
 
@@ -1038,8 +1038,8 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUVertexAttribute* attributes;
 		// --- properties
 		public Span<WGPUVertexAttribute> Attributes {
-			get => new (attributes, (int)attributeCount);
-			set => value.SetArr(out attributes, out attributeCount);
+			get => ApiUtils.GetArr(attributes, attributeCount);
+			set => ApiUtils.SetArr(value, out attributes, out attributeCount);
 		}
 	}
 
@@ -1060,8 +1060,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUBindGroupLayoutEntry> Entries {
-			get => new (entries, (int)entryCount);
-			set => value.SetArr(out entries, out entryCount);
+			get => ApiUtils.GetArr(entries, entryCount);
+			set => ApiUtils.SetArr(value, out entries, out entryCount);
 		}
 	}
 
@@ -1123,8 +1123,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPUFeatureName> RequiredFeatures {
-			get => new (requiredFeatures, (int)requiredFeatureCount);
-			set => value.SetArr(out requiredFeatures, out requiredFeatureCount);
+			get => ApiUtils.GetArr(requiredFeatures, requiredFeatureCount);
+			set => ApiUtils.SetArr(value, out requiredFeatures, out requiredFeatureCount);
 		}
 		public WGPURequiredLimits? RequiredLimits {
 			get => ApiUtils.GetOpt(requiredLimits);
@@ -1156,8 +1156,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.label);
 		}
 		public Span<WGPURenderPassColorAttachment> ColorAttachments {
-			get => new (colorAttachments, (int)colorAttachmentCount);
-			set => value.SetArr(out colorAttachments, out colorAttachmentCount);
+			get => ApiUtils.GetArr(colorAttachments, colorAttachmentCount);
+			set => ApiUtils.SetArr(value, out colorAttachments, out colorAttachmentCount);
 		}
 		public WGPURenderPassDepthStencilAttachment? DepthStencilAttachment {
 			get => ApiUtils.GetOpt(depthStencilAttachment);
@@ -1189,12 +1189,12 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => new (constants, (int)constantCount);
-			set => value.SetArr(out constants, out constantCount);
+			get => ApiUtils.GetArr(constants, constantCount);
+			set => ApiUtils.SetArr(value, out constants, out constantCount);
 		}
 		public Span<WGPUVertexBufferLayout> Buffers {
-			get => new (buffers, (int)bufferCount);
-			set => value.SetArr(out buffers, out bufferCount);
+			get => ApiUtils.GetArr(buffers, bufferCount);
+			set => ApiUtils.SetArr(value, out buffers, out bufferCount);
 		}
 	}
 
@@ -1218,12 +1218,12 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => new (constants, (int)constantCount);
-			set => value.SetArr(out constants, out constantCount);
+			get => ApiUtils.GetArr(constants, constantCount);
+			set => ApiUtils.SetArr(value, out constants, out constantCount);
 		}
 		public Span<WGPUColorTargetState> Targets {
-			get => new (targets, (int)targetCount);
-			set => value.SetArr(out targets, out targetCount);
+			get => ApiUtils.GetArr(targets, targetCount);
+			set => ApiUtils.SetArr(value, out targets, out targetCount);
 		}
 	}
 
@@ -1351,8 +1351,8 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUPushConstantRange* pushConstantRanges;
 		// --- properties
 		public Span<WGPUPushConstantRange> PushConstantRanges {
-			get => new (pushConstantRanges, (int)pushConstantRangeCount);
-			set => value.SetArr(out pushConstantRanges, out pushConstantRangeCount);
+			get => ApiUtils.GetArr(pushConstantRanges, pushConstantRangeCount);
+			set => ApiUtils.SetArr(value, out pushConstantRanges, out pushConstantRangeCount);
 		}
 	}
 
@@ -1393,8 +1393,8 @@ namespace Evergine.Bindings.WebGPU
 			set => ApiUtils.SetStr(value, out this.code);
 		}
 		public Span<WGPUShaderDefine> Defines {
-			get => new (defines, (int)defineCount);
-			set => value.SetArr(out defines, out defineCount);
+			get => ApiUtils.GetArr(defines, defineCount);
+			set => ApiUtils.SetArr(value, out defines, out defineCount);
 		}
 	}
 
@@ -1464,16 +1464,16 @@ namespace Evergine.Bindings.WebGPU
 		public ulong textureViewCount;
 		// --- properties
 		public Span<WGPUBuffer> Buffers {
-			get => new (buffers, (int)bufferCount);
-			set => value.SetArr(out buffers, out bufferCount);
+			get => ApiUtils.GetArr(buffers, bufferCount);
+			set => ApiUtils.SetArr(value, out buffers, out bufferCount);
 		}
 		public Span<WGPUSampler> Samplers {
-			get => new (samplers, (int)samplerCount);
-			set => value.SetArr(out samplers, out samplerCount);
+			get => ApiUtils.GetArr(samplers, samplerCount);
+			set => ApiUtils.SetArr(value, out samplers, out samplerCount);
 		}
 		public Span<WGPUTextureView> TextureViews {
-			get => new (textureViews, (int)textureViewCount);
-			set => value.SetArr(out textureViews, out textureViewCount);
+			get => ApiUtils.GetArr(textureViews, textureViewCount);
+			set => ApiUtils.SetArr(value, out textureViews, out textureViewCount);
 		}
 	}
 
@@ -1492,8 +1492,8 @@ namespace Evergine.Bindings.WebGPU
 		public ulong pipelineStatisticCount;
 		// --- properties
 		public Span<WGPUPipelineStatisticName> PipelineStatistics {
-			get => new (pipelineStatistics, (int)pipelineStatisticCount);
-			set => value.SetArr(out pipelineStatistics, out pipelineStatisticCount);
+			get => ApiUtils.GetArr(pipelineStatistics, pipelineStatisticCount);
+			set => ApiUtils.SetArr(value, out pipelineStatistics, out pipelineStatisticCount);
 		}
 	}
 

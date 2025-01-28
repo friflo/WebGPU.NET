@@ -6,7 +6,11 @@ public static class ApiUtils
 {
     internal static Arena arena;
     
-    public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out ulong count) where T : unmanaged {
+    public static unsafe Span<T> GetArr<T>(T* dstPtr, ulong count) where T : unmanaged {
+        return new Span<T>(dstPtr, (int)count);
+    }
+    
+    public static unsafe void SetArr<T>(Span<T> src, out T* dstPtr, out ulong count) where T : unmanaged {
         // Note:
         // Using GetPinnableReference() is only valid in case Span<T> was created on the stack.
         // When using this approach all struct properties MUST be allocated on the stack. 
