@@ -39,7 +39,7 @@ public sealed class Arena
     public void Reset() {
         chunkIndex = 0;
         currentPos = ChunkSize;
-        allocHeader.resetVersion++;
+        allocHeader.version.reset++;
     }
     
     public void FreeGlobalAllocation() {

@@ -1,19 +1,21 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.WebGPU;
 
+[StructLayout(LayoutKind.Explicit, Size = 8)]
 internal struct AllocHeader
 {
-    internal ushort allocatorIndex;
-    internal ushort allocatorVersion;
-    internal ushort resetVersion;
-    internal ushort padding;
+    [FieldOffset (0)] internal ushort       allocatorIndex;     //  2
+    [FieldOffset (4)] internal ArenaVersion version;            //  4
 }
 
+[StructLayout(LayoutKind.Explicit, Size = 4)]
 internal struct ArenaVersion
 {
-    internal ushort allocatorVersion;
-    internal ushort resetVersion;
+    [FieldOffset (0)] internal uint   all;          //  4
+    [FieldOffset (0)] internal ushort allocator;    //  2
+    [FieldOffset (2)] internal ushort reset;        //  2
 }
 
 internal static class AllocValidator
@@ -56,12 +58,9 @@ internal static class AllocValidator
         if (index >= arenas.Length) {
             throw new InvalidOperationException();
         }
-        var entry = arenas[index];
-        if (entry.allocatorVersion != header.allocatorVersion) {
-            throw new InvalidOperationException();
+        if(arenas[index].all == header.version.all) {
+            return;
         }
-        if (entry.resetVersion != header.resetVersion) {
-            throw new InvalidOperationException();
-        }
+        throw new InvalidOperationException();
     }
 }
