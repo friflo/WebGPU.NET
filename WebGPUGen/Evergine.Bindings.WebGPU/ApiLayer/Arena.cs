@@ -23,10 +23,13 @@ Values are encoded as follows:
  */
 public sealed class Arena
 {
-    private  List<nint>  _chunks         = new();
-    private  int         _chunkIndex;
-    private  nint        _currentChunk;
-    private  int         _currentPos     = ChunkSize;
+    private List<nint>      chunks         = new();
+    private int             chunkIndex;
+    private nint            currentChunk;
+    private int             currentPos     = ChunkSize;
+    
+    private AllocHeader     allocHeader;
+    
     private const   int  ChunkSize      = 0x10000;
     
     public void Use() {
@@ -34,39 +37,47 @@ public sealed class Arena
     }
 
     public void Reset() {
-        _chunkIndex = 0;
-        _currentPos = ChunkSize;
+        chunkIndex = 0;
+        currentPos = ChunkSize;
+        allocHeader.resetVersion++;
     }
     
     public void FreeGlobalAllocation() {
-        foreach (var chunk in _chunks) {
+        foreach (var chunk in chunks) {
             Marshal.FreeHGlobal(chunk);
         }
-        _chunks.Clear();
+        chunks.Clear();
         Reset();
     }
     
-    public nint Alloc(int size)
+    public unsafe nint Alloc(int size)
+    {
+        var ptr = AllocInternal(size + 8);
+        *(AllocHeader*)ptr = allocHeader;
+        return ptr + 8;
+    }
+    
+    private nint AllocInternal(int size)
     {
         size = (size + 7) & 0xffffff8; // add pad bytes for 8 byte alignment
-        var pos = _currentPos;
+        var pos = currentPos;
         if (pos + size < ChunkSize) {
-            _currentPos += size;
-            return _currentChunk + pos;
+            currentPos += size;
+            return currentChunk + pos;
         }
         if (size > ChunkSize) {
             throw AllocationTooLarge(size);
         }
-        if (_chunkIndex < _chunks.Count) {
-            _currentPos = size;
-            _currentChunk = _chunks[_chunkIndex++];
-            return _currentChunk;
+        if (chunkIndex < chunks.Count) {
+            currentPos = size;
+            currentChunk = chunks[chunkIndex++];
+            return currentChunk;
         }
         var chunk = Marshal.AllocHGlobal(ChunkSize);
-        _chunks.Add(chunk);
-        _currentChunk = chunk;
-        _chunkIndex++;
-        _currentPos = size;
+        chunks.Add(chunk);
+        currentChunk = chunk;
+        chunkIndex++;
+        currentPos = size;
         return chunk;
     }
     

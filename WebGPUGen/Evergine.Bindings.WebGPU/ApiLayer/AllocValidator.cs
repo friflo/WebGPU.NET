@@ -10,7 +10,7 @@ internal struct AllocHeader
     internal ushort padding;
 }
 
-internal struct ArenaEntry
+internal struct ArenaVersion
 {
     internal ushort allocatorVersion;
     internal ushort resetVersion;
@@ -18,7 +18,7 @@ internal struct ArenaEntry
 
 internal static class AllocValidator
 {
-    private static ArenaEntry[] arenas;
+    private static ArenaVersion[] arenas;
         
     internal static unsafe void ValidateRenderPipelineDescriptor(this in WGPURenderPipelineDescriptor descriptor) {
         ValidatePtr(descriptor.label);
