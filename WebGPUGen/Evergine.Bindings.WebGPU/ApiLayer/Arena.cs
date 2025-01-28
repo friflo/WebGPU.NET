@@ -102,4 +102,29 @@ public sealed class Arena
         return (char*)ptr;
     }
     
+
+    
+    public unsafe byte* AllocUtf8String(ReadOnlySpan<byte> span) {
+        if (span == null) {
+            return null;
+        }
+        var len = span.Length;
+        var ptr = (byte*)Alloc(len + 1);
+        span.CopyTo(new Span<byte>(ptr, len));
+        ptr[len] = 0;
+        return ptr;
+    }
+    
+    public unsafe byte* AllocUtf8String(ReadOnlySpan<char> span)
+    {
+        if (span == null) {
+            return null;
+        }
+        var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
+        var ptr = (byte*)Alloc(size);
+        var len = Encoding.UTF8.GetBytes(span, new Span<byte>(ptr, size));
+        ptr[len] = 0;
+        return ptr;
+    }
+    
 }
