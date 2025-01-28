@@ -12,13 +12,13 @@ public static class ApiUtils
         // When using this approach all struct properties MUST be allocated on the stack. 
         //      dstPtr = (T*)Unsafe.AsPointer(ref src.GetPinnableReference());
         count = (ulong)src.Length;
-        dstPtr = (T*)arena.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)arena.Alloc(sizeof(T) * (int)count);
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
     public static unsafe void SetArr<T>(this Span<T> src, out T* dstPtr, out uint count) where T : unmanaged {
         count = (uint)src.Length;
-        dstPtr = (T*)arena.Alloc(((sizeof(T) * (int)count) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        dstPtr = (T*)arena.Alloc(sizeof(T) * (int)count);
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
@@ -31,7 +31,7 @@ public static class ApiUtils
     
     public static unsafe void SetOpt<T>(out T* dstPtr, T? value) where T : unmanaged {
         if (value.HasValue) {
-            dstPtr = (T*)arena.Alloc((sizeof(T) + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+            dstPtr = (T*)arena.Alloc(sizeof(T));
             *dstPtr = value.Value;
             return;
         }

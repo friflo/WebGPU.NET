@@ -48,6 +48,7 @@ public sealed class Arena
     
     public nint Alloc(int size)
     {
+        size = (size + 7) & 0xffffff8; // add pad bytes for 8 byte alignment
         var pos = _currentPos;
         if (pos + size < ChunkSize) {
             _currentPos += size;
@@ -78,7 +79,7 @@ public sealed class Arena
     internal unsafe char* AllocString(ReadOnlySpan<char> span)
     {
         var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
-        var ptr = (byte*)Alloc((size + 7) & 0xffffff8); // add pad bytes for 8 byte alignment
+        var ptr = (byte*)Alloc(size);
         var len = Encoding.UTF8.GetBytes(span, new Span<byte>(ptr, size));
         ptr[len] = 0;
         return (char*)ptr;
