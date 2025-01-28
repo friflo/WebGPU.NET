@@ -20,7 +20,7 @@ internal struct ArenaVersion
 
 internal static class AllocValidator
 {
-    private static ArenaVersion[] arenas;
+    private static ArenaVersion[] arenaVersions;
         
     internal static unsafe void ValidateRenderPipelineDescriptor(this in WGPURenderPipelineDescriptor descriptor) {
         ValidatePtr(descriptor.label);
@@ -53,12 +53,13 @@ internal static class AllocValidator
         if (ptr == null) {
             return;
         }
-        AllocHeader header = *(((AllocHeader*)ptr) - 1);
-        var index = header.allocatorIndex;
-        if (index >= arenas.Length) {
+        AllocHeader header  = *(((AllocHeader*)ptr) - 1);
+        var index           = header.allocatorIndex;
+        var versions        = arenaVersions;
+        if (index >= versions.Length) {
             throw new InvalidOperationException();
         }
-        if(arenas[index].all == header.version.all) {
+        if(versions[index].all == header.version.all) {
             return;
         }
         throw new InvalidOperationException();
