@@ -4,10 +4,12 @@ using System.Text;
 namespace Evergine.Bindings.WebGPU;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
-public unsafe struct Utf8String
+public readonly unsafe struct Utf8String : IEquatable<Utf8String>
 {
-    private byte* bytePtr;
-    private int   length;
+    private readonly byte* bytePtr;
+    private readonly int   length;
+    
+    public byte* GetPtr() => bytePtr;
     
     public int Length {
         get {
@@ -18,7 +20,7 @@ public unsafe struct Utf8String
         }
     }
 
-    private Utf8String(byte* ptr, int len) {
+    internal Utf8String(byte* ptr, int len) {
         bytePtr = ptr;
         length  = len;
     }
@@ -40,6 +42,53 @@ public unsafe struct Utf8String
             return default;
         }
         return new Utf8String(ApiUtils.arena.AllocUtf8String(value), value.Length);
+    }
+    
+    public bool Equals(Utf8String other) {
+        if (bytePtr == null) {
+            return other.bytePtr == null;
+        }
+        if (other.bytePtr == null) {
+            return false;
+        }
+        return AsSpan().SequenceEqual(other.AsSpan());
+    }
+
+    public override bool Equals(object? obj) {
+        if (obj is Utf8String other) {
+            return Equals(other);
+        }
+        return false;
+    }
+    
+    public override int GetHashCode() {
+        var ptr = bytePtr;
+        if (ptr == null) {
+            return -1;
+        }
+        var hash = new HashCode();
+        hash.AddBytes(AsSpan());
+        return hash.ToHashCode();
+    }
+
+    public static bool operator != (Utf8String obj1, string? obj2) {
+        return !(obj1 == obj2);
+    }
+    
+    public static bool operator == (Utf8String obj1, string? obj2) {
+        if (obj1.bytePtr == null) {
+            return obj2 == null;
+        }
+        if (obj2 == null) {
+            return false;
+        }
+        var size = Encoding.UTF8.GetMaxByteCount(obj2.Length);
+        Span<byte> bytes = stackalloc byte[size];
+        var len = Encoding.UTF8.GetBytes(obj2, bytes);
+        if (obj1.Length != len) {
+            return false;
+        }
+        return obj1.AsSpan().SequenceEqual(bytes);
     }
 
     public override string? ToString()

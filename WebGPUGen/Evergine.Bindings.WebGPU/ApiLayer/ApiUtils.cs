@@ -65,4 +65,20 @@ public static class ApiUtils
         dst = arena.AllocString(span);
     }
     
+    public static unsafe Utf8String GetUtf8(char* str) {
+        if (str == null) {
+            return default;
+        }
+        var ptr = (byte*)str;
+        int len = 0;
+        while (ptr[len] != 0) {
+            len++;
+        }
+        return new Utf8String(ptr, len);
+    }
+    
+    public static unsafe void SetUtf8(Utf8String str, out char* dst) {
+        dst = (char*)str.GetPtr();
+    }
+    
 }

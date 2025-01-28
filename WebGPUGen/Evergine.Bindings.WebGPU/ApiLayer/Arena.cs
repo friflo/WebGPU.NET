@@ -23,10 +23,13 @@ Values are encoded as follows:
  */
 public sealed class Arena
 {
+    public int AllocationCount => allocationCount;
+    
     private List<nint>      chunks         = new();
     private int             chunkIndex;
     private nint            currentChunk;
     private int             currentPos     = ChunkSize;
+    private int             allocationCount;
     
     private AllocHeader     header;
     
@@ -65,6 +68,7 @@ public sealed class Arena
     
     private nint AllocInternal(int size)
     {
+        allocationCount++;
         size = (size + 7) & 0xffffff8; // add pad bytes for 8 byte alignment
         var pos = currentPos;
         if (pos + size < ChunkSize) {
