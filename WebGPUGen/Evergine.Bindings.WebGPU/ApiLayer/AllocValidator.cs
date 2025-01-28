@@ -33,11 +33,17 @@ internal static class AllocValidator
     
     internal static unsafe void ValidateColorTargetStates(Span<WGPUColorTargetState> fragmentStates)
     {
-        ValidatePtr(Unsafe.AsPointer(ref fragmentStates.GetPinnableReference()));
+        ValidateSpan(fragmentStates);
         foreach (var state in fragmentStates) {
             ValidatePtr(state.nextInChain);
             ValidatePtr(state.blend);            
         }
+    }
+    
+    private static unsafe void ValidateSpan<T>(Span<T> span) where T : unmanaged
+    {
+        void* ptr = Unsafe.AsPointer(ref span.GetPinnableReference());
+        ValidatePtr(ptr);
     }
     
     private static unsafe void ValidatePtr(void* ptr)
