@@ -1,3 +1,4 @@
+using System;
 using Evergine.Bindings.WebGPU;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
@@ -24,9 +25,10 @@ public static class Test_Misc
         str = "12345";
         AreEqual("12345", str.ToString());
         AreEqual(5,     str.Length);
-        
-        var yyy = "ddd";
-        yyy = null;
+
         str = null;
+        Throws<NullReferenceException>(() => {
+            _ = str.Length;
+        });
     }
 }

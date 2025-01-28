@@ -9,8 +9,15 @@ public unsafe struct Utf8String
     private byte* bytePtr;
     private int   length;
     
-    public int Length => length;
-    
+    public int Length {
+        get {
+            if (bytePtr != null) {
+                return length;
+            }
+            throw new NullReferenceException();
+        }
+    }
+
     private Utf8String(byte* ptr, int len) {
         bytePtr = ptr;
         length  = len;
