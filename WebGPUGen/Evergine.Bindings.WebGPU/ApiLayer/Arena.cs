@@ -28,9 +28,14 @@ public sealed class Arena
     private nint            currentChunk;
     private int             currentPos     = ChunkSize;
     
-    private AllocHeader     allocHeader;
+    private AllocHeader     header;
     
     private const   int  ChunkSize      = 0x10000;
+    
+    public Arena() {
+        var version = AllocValidator.GetArenaVersion();
+        header.version = version;
+    }
     
     public void Use() {
         ApiUtils.arena = this;
@@ -39,7 +44,8 @@ public sealed class Arena
     public void Reset() {
         chunkIndex = 0;
         currentPos = ChunkSize;
-        allocHeader.version.reset++;
+        header.version.reset++;
+        AllocValidator.UpdateResetVersion(header);
     }
     
     public void FreeGlobalAllocation() {
@@ -53,7 +59,7 @@ public sealed class Arena
     public unsafe nint Alloc(int size)
     {
         var ptr = AllocInternal(size + 8);
-        *(AllocHeader*)ptr = allocHeader;
+        *(AllocHeader*)ptr = header;
         return ptr + 8;
     }
     
@@ -87,7 +93,7 @@ public sealed class Arena
     
     // WebGPU C API: "Strings are represented in UTF-8, using the WGPUStringView struct"
     // https://webgpu-native.github.io/webgpu-headers/Strings.html
-    internal unsafe char* AllocString(ReadOnlySpan<char> span)
+    public unsafe char* AllocString(ReadOnlySpan<char> span)
     {
         var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
         var ptr = (byte*)Alloc(size);
