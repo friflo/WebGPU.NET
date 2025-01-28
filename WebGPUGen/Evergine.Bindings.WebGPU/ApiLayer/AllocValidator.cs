@@ -40,9 +40,12 @@ internal static class AllocValidator
         }
     }
     
-    private static unsafe void ValidatePtr(void* buffer)
+    private static unsafe void ValidatePtr(void* ptr)
     {
-        AllocHeader header = *(((AllocHeader*)buffer) - 1);
+        if (ptr == null) {
+            return;
+        }
+        AllocHeader header = *(((AllocHeader*)ptr) - 1);
         var index = header.allocatorIndex;
         if (index >= arenas.Length) {
             throw new InvalidOperationException();
