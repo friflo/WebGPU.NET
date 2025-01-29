@@ -76,6 +76,7 @@ public static class Test_Utf8
         IsFalse(str1.Equals(str2));
         
         IsTrue (str1.Equals((object)str1));
+        IsFalse(str1.Equals((object)str2));
         IsFalse(str1.Equals(null));
         
         var start = GC.GetAllocatedBytesForCurrentThread();
