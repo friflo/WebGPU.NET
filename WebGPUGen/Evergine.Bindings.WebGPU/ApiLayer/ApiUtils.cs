@@ -80,9 +80,6 @@ public static class ApiUtils
     public static unsafe void SetUtf8(Utf8 utf8, out char* dst) {
         switch (utf8.type)
         {
-            case Utf8Type.Null:
-                dst = null;
-                return;
             case Utf8Type.Span:
                 dst = (char*)arena.AllocUtf8(utf8.span);
                 return;

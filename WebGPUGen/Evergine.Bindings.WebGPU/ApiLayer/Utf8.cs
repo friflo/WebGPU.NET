@@ -4,7 +4,6 @@ namespace Evergine.Bindings.WebGPU;
 
 internal enum Utf8Type
 {
-    Null,
     Span,
     Ptr,
 }
@@ -28,8 +27,6 @@ public readonly unsafe ref struct Utf8
     public ReadOnlySpan<byte>  AsSpan()
     {
         switch (type) {
-            case Utf8Type.Null:
-                return default;
             case Utf8Type.Span:
                 return span;
             case Utf8Type.Ptr:
@@ -41,14 +38,17 @@ public readonly unsafe ref struct Utf8
     public int Length {
         get {
             switch (type) {
-                case Utf8Type.Null:
-                    throw new NullReferenceException();
                 case Utf8Type.Span:
-                    return span.Length;
+                    if (!span.IsEmpty) {
+                        return span.Length;
+                    }
+                    break;
                 case Utf8Type.Ptr:
-                    return GetPtrLength(ptr);
+                    if (ptr != null)
+                        return GetPtrLength(ptr);
+                    break;
             }
-            return 0;
+            throw new NullReferenceException();
         }
     }
 
@@ -68,9 +68,10 @@ public readonly unsafe ref struct Utf8
     public override string? ToString()
     {
         switch (type) {
-            case Utf8Type.Null:
-                return null;
             case Utf8Type.Span:
+                if (span.IsEmpty) {
+                    return null;
+                }
                 return Encoding.UTF8.GetString(span);
             case Utf8Type.Ptr:
                 if (ptr == null) {

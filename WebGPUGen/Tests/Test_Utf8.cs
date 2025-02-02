@@ -9,6 +9,18 @@ namespace Tests;
 public static class Test_Utf8
 {
     [Test]
+    public static unsafe void Test_Utf8_Span()
+    {
+        Span<byte> span1 = new Span<byte>(null, 0);
+        IsTrue(span1.IsEmpty);
+        
+        
+        var arr = new byte[0];
+        Span<byte> span2 = new Span<byte>(arr, 0, 0);
+        IsTrue(span2.IsEmpty);
+    }
+    
+    [Test]
     public static void Test_Utf8_allocations()
     {
         var arena = new Arena();
