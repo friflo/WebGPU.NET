@@ -9,21 +9,37 @@ namespace Tests;
 
 public static class Test_Misc
 {
-    private const int Count = 50_000_000;
+    private const int Count  = 1_000;
+    private const int Repeat = 100_000;
     
     [Test]
     public static unsafe void Test_Misc_Alloc_Free()
     {
-
         var pointers = new nint[Count];
-        for (int n = 0; n < Count; n++) {
-            var ptr = Marshal.AllocHGlobal(0x16);
-            pointers[n] = ptr;
-            var bytePtr = (byte*)ptr;
+        for (int i = 0; i < Repeat; ++i)
+        {
+            for (int n = 0; n < Count; n++) {
+                var ptr = Marshal.AllocHGlobal(16);
+                pointers[n] = ptr;
+                var bytePtr = (byte*)ptr;
+            }
+            // Array.Sort(pointers); pointer hav a distance of 0x20 
+            for (int n = 0; n < Count; n++) {
+                Marshal.FreeHGlobal(pointers[n]);
+            }
         }
-        // Array.Sort(pointers); pointer hav a distance of 0x20 
-        for (int n = 0; n < Count; n++) {
-            Marshal.FreeHGlobal(pointers[n]);
+    }
+    
+    [Test]
+    public static void Test_Misc_Arena()
+    {
+        var arena = new Arena();
+        for (int i = 0; i < Repeat; ++i) {
+            for (int n = 0; n < Count; n++) {
+                arena.Alloc(16);
+            }
+            // Array.Sort(pointers); pointer hav a distance of 0x20
+            arena.Reset();
         }
     }
     
@@ -31,11 +47,14 @@ public static class Test_Misc
     public static void Test_Misc_Dictionary_perf()
     {
         var map = new Dictionary<nint, nint>();
-        for (nint n = 0; n < Count; n++) {
-            map.Add(n, n);
-        }
-        for (nint n = 0; n < Count; n++) {
-            map.Remove(n);
+        for (int i = 0; i < Repeat; ++i)
+        {
+            for (nint n = 0; n < Count; n++) {
+                map.Add(n, n);
+            }
+            for (nint n = 0; n < Count; n++) {
+                map.Remove(n);
+            }
         }
     }
     
