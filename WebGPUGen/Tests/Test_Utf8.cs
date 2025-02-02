@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Evergine.Bindings.WebGPU;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
@@ -14,7 +13,7 @@ public static class Test_Utf8
     {
         var arena = new Arena();
         arena.Use();
-        var str = new Utf8String();
+        var str = new Utf8();
         str = "abc"u8;
         IsTrue("abc"u8.SequenceEqual(str.AsSpan()));
         AreEqual("abc", str.ToString());
@@ -24,13 +23,13 @@ public static class Test_Utf8
         AreEqual("wxyz", str.ToString());
         AreEqual(4,     str.Length);
         
-        str = "12345";
+        str = "12345"u8;
         AreEqual("12345", str.ToString());
         AreEqual(5,     str.Length);
 
-        str = null;
         Throws<NullReferenceException>(() => {
-            _ = str.Length;
+            var str2 = new Utf8();            
+            _ = str2.Length;
         });
     }
     
@@ -40,13 +39,13 @@ public static class Test_Utf8
         var arena = new Arena();
         arena.Use();
         var test = new TestStruct();
-        test.Str = "abc";
+        test.Str = "abc"u8;
         AreEqual(1, arena.AllocationCount);
         
         var str = test.Str;
         AreEqual("abc", str.ToString());
         
-        test.Str = null;
+        test.Str = default;
         str = test.Str;
         IsNull(str.ToString());
         AreEqual(1, arena.AllocationCount);
@@ -55,12 +54,12 @@ public static class Test_Utf8
     
     unsafe struct TestStruct
     {
-        private char* strPtr;
+        private char* str;
 
         // --- properties
-        public Utf8String Str {
-            get => ApiUtils.GetUtf8(strPtr);
-            set => ApiUtils.SetUtf8(value, out strPtr);
+        public Utf8 Str {
+            get => ApiUtils.GetUtf8(str);
+            set => ApiUtils.SetUtf8(value, out str);
         }
     }
     
@@ -93,63 +92,14 @@ public static class Test_Utf8
         AreEqual(2, map[str2]);
     }
     
+    [Test]
     public static void Test_Utf8_new() {
         var test = new UseString();
         test.Str = "abc"u8;
     } 
 }
 
-internal enum Utf8Type
-{
-    Null,
-    Span,
-    Utf8,
-} 
 
-public unsafe ref struct Utf8
-{
-    private ReadOnlySpan<byte>  span;
-    private byte*               ptr;
-    private Utf8Type            Type;
-    
-    internal Utf8(char* strPtr) {
-        Type        = Utf8Type.Utf8;
-        this.ptr = (byte*)strPtr;
-    }
-    
-    private Utf8(ReadOnlySpan<byte> value) {
-        span   = value;
-        Type    = Utf8Type.Span;
-    }
-    
-    public static implicit operator Utf8(ReadOnlySpan<byte> value) {
-        return new Utf8 (value);
-    }
-    
-    
-    private int GetPtrLength() {
-        throw new NotImplementedException();
-        // return new VString (value.AsSpan());
-    }
-    
-    public void AllocUtf8(ref char* strPtr) {
-        throw new NotImplementedException();
-        // return new VString (value.AsSpan());
-    }
-
-    public override string? ToString() {
-        switch (Type) {
-            case Utf8Type.Null:
-                return null;
-            case Utf8Type.Span:
-                return Encoding.UTF8.GetString(span);
-            case Utf8Type.Utf8:
-                int length = GetPtrLength();
-                return Encoding.UTF8.GetString(ptr, length);
-        }
-        throw new NotImplementedException();
-    }
-}
 
 public unsafe struct UseString
 {
@@ -157,7 +107,7 @@ public unsafe struct UseString
 
     // --- properties
     public Utf8 Str {
-        get => new Utf8(strPtr);
-        set => value.AllocUtf8(ref strPtr);
+        get => ApiUtils.GetUtf8(strPtr);
+        set => ApiUtils.SetUtf8(value, out strPtr);
     }
 }

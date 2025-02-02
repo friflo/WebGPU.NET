@@ -7,6 +7,7 @@ namespace Evergine.Bindings.WebGPU;
 internal struct AllocHeader
 {
     [FieldOffset (0)] internal ushort       allocatorIndex;     //  2
+    [FieldOffset (2)] internal ushort       size;               //  2
     [FieldOffset (4)] internal ArenaVersion version;            //  4
     
     public override string ToString() => $"allocator: {version.allocator} reset: {version.reset}";

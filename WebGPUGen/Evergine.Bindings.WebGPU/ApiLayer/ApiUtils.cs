@@ -65,20 +65,31 @@ public static class ApiUtils
         dst = arena.AllocString(span);
     }
     
-    public static unsafe Utf8String GetUtf8(char* str) {
-        if (str == null) {
-            return default;
-        }
-        var ptr = (byte*)str;
-        int len = 0;
-        while (ptr[len] != 0) {
-            len++;
-        }
-        return new Utf8String(ptr, len);
-    }
-    
     public static unsafe void SetUtf8(Utf8String str, out char* dst) {
         dst = (char*)str.GetPtr();
     }
     
+    // ---------- Utf8
+    public static unsafe Utf8 GetUtf8(char* ptr) {
+        if (ptr == null) {
+            return default;
+        }
+        return new Utf8(ptr);
+    }
+    
+    public static unsafe void SetUtf8(Utf8 utf8, out char* dst) {
+        switch (utf8.type)
+        {
+            case Utf8Type.Null:
+                dst = null;
+                return;
+            case Utf8Type.Span:
+                dst = (char*)arena.AllocUtf8(utf8.span);
+                return;
+            case Utf8Type.Ptr:
+                dst = (char*)arena.AllocUtf8(utf8.ptr);
+                return;
+        }
+        throw new InvalidOperationException();
+    }
 }
