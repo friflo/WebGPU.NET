@@ -41,14 +41,12 @@ public readonly unsafe ref struct Utf8
         get {
             switch (type) {
                 case Utf8Type.Span:
-                    if (!span.IsEmpty) {
-                        return span.Length;
-                    }
-                    break;
+                    return span.Length;
+
                 case Utf8Type.Ptr:
                     if (ptr != null)
                         return GetPtrLength(ptr);
-                    break;
+                    return 0;
             }
             throw new NullReferenceException();
         }

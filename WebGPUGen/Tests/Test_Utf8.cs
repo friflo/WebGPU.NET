@@ -39,10 +39,9 @@ public static class Test_Utf8
         AreEqual("12345", str.ToString());
         AreEqual(5,     str.Length);
 
-        Throws<NullReferenceException>(() => {
-            var str2 = new Utf8();            
-            _ = str2.Length;
-        });
+
+        var str2 = new Utf8();
+        AreEqual(0, str2.Length);
     }
     
     [Test]
