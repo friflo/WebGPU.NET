@@ -59,7 +59,7 @@ public static class Test_Utf8
         
         test.Str = default;
         str = test.Str;
-        IsNull(str.ToString());
+        AreEqual("", str.ToString());
         AreEqual(1, arena.AllocationCount);
     }
     
@@ -80,28 +80,14 @@ public static class Test_Utf8
     {
         var arena = new Arena();
         arena.Use();
-        var str1 = new Utf8String();
-        var str2 = new Utf8String();
-        str1 = "abc"u8;
-        str2 = "xyz"u8;
-        IsTrue (str1.Equals(str1));
-        IsFalse(str1.Equals(str2));
+        Utf8 str0 = "abc"u8;
+        Utf8 str1 = "abc"u8;
+        Utf8 str2 = "xyz"u8;
+        Utf8 str3 = default;
         
-        IsTrue (str1.Equals((object)str1));
-        IsFalse(str1.Equals((object)str2));
-        IsFalse(str1.Equals(null));
-        
-        var start = GC.GetAllocatedBytesForCurrentThread();
-        _ = str1.GetHashCode();
-        var diff = GC.GetAllocatedBytesForCurrentThread() - start;
-        AreEqual(0, diff);
-        
-        var map = new Dictionary<Utf8String, byte>();
-        map.Add(str1, 1);
-        map.Add(str2, 2);
-        AreEqual(2, map.Count);
-        AreEqual(1, map[str1]);
-        AreEqual(2, map[str2]);
+        IsTrue (str0 == str1);
+        IsTrue (str1 != str2);
+        IsTrue (str0 != str3);
     }
     
     [Test]

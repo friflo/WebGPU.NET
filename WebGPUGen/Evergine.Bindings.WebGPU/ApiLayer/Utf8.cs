@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
@@ -8,6 +9,7 @@ internal enum Utf8Type
     Ptr,
 }
 
+[DebuggerDisplay("{DebuggerDisplay(),nq}")]
 public readonly unsafe ref struct Utf8
 {
     internal readonly ReadOnlySpan<byte>  span;
@@ -67,19 +69,25 @@ public readonly unsafe ref struct Utf8
 
     public override string? ToString()
     {
-        switch (type) {
-            case Utf8Type.Span:
-                if (span.IsEmpty) {
-                    return null;
-                }
-                return Encoding.UTF8.GetString(span);
-            case Utf8Type.Ptr:
-                if (ptr == null) {
-                    return null;
-                }
-                int length = GetPtrLength(ptr);
-                return Encoding.UTF8.GetString(ptr, length);
+        var span = AsSpan();
+        if (span.Length == 0) {
+            return string.Empty;
         }
-        throw new NotImplementedException();
+        return Encoding.UTF8.GetString(span);
+    }
+    
+    private string? DebuggerDisplay() {
+        return $"\"{ToString()}\"";
+    }
+    
+    public static bool operator != (Utf8 obj1, Utf8 obj2) => !(obj1 == obj2);
+    
+    public static bool operator == (Utf8 str1, Utf8 str2) {
+        var span1 = str1.AsSpan();
+        var span2 = str2.AsSpan();
+        if (span1.Length != span2.Length) {
+            return false;
+        }
+        return span1.SequenceEqual(span2);
     }
 }
