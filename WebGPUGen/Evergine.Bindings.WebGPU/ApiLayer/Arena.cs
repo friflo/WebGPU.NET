@@ -50,7 +50,7 @@ public sealed class Arena
         AllocValidator.UpdateResetVersion(header);
     }
     
-    public void FreeGlobalAllocation() {
+    public void Dispose() {
         foreach (var chunk in chunks) {
             Marshal.FreeHGlobal(chunk);
         }
