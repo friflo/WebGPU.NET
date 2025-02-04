@@ -10,9 +10,9 @@ public unsafe struct RequestDeviceResult {
     public WGPUDevice               device;
     public char*                    message;
     
-    public ReadOnlySpan<char>       Message {
-        get => ApiUtils.GetStr(message);
-        set => ApiUtils.SetStr(value, out message);
+    public Utf8                     Message {
+        get => ApiUtils.GetUtf8(message);
+        set => ApiUtils.SetUtf8(value, out message);
     }
 }
 
