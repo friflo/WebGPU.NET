@@ -19,7 +19,7 @@ namespace HelloTriangle
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.StackTrace);
+                Console.WriteLine(ex);
             }
         }
     }

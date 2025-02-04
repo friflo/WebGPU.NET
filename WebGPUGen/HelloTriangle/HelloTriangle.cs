@@ -422,13 +422,24 @@ namespace HelloTriangle
                 timestampWrites = null,
             };
 
-            WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &renderPassDescriptor);
+            WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
+                nextInChain = null,
+                ColorAttachments = [new WGPURenderPassColorAttachment {
+                    view = nextView,
+                    resolveTarget = WGPUTextureView.Null,
+                    loadOp = WGPULoadOp.Clear,
+                    storeOp = WGPUStoreOp.Store,
+                    clearValue = new WGPUColor() { a = 1.0f },
+                }],
+                depthStencilAttachment = null,
+                timestampWrites = null,
+            });
 
             wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
             wgpuRenderPassEncoderSetVertexBuffer(renderPass, 0, vertexBuffer, 0, WGPU_WHOLE_MAP_SIZE);
             wgpuRenderPassEncoderDraw(renderPass, 3, 1, 0, 0);
             wgpuRenderPassEncoderEnd(renderPass);
-            wgpuRenderPassEncoderRelease(renderPass);
+            renderPass.release();
 
             wgpuTextureViewRelease(nextView);
 
