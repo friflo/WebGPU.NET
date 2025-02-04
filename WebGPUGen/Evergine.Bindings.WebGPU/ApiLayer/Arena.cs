@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
@@ -95,18 +94,9 @@ public sealed class Arena
         return new InvalidOperationException($"Allocation too large. max: {ChunkSize} was: {size}");
     }
     
+
     // WebGPU C API: "Strings are represented in UTF-8, using the WGPUStringView struct"
     // https://webgpu-native.github.io/webgpu-headers/Strings.html
-    public unsafe char* AllocString(ReadOnlySpan<char> span)
-    {
-        var size = Encoding.UTF8.GetMaxByteCount(span.Length) + 1; // +1 for Null terminator
-        var ptr = (byte*)Alloc(size);
-        var len = Encoding.UTF8.GetBytes(span, new Span<byte>(ptr, size));
-        ptr[len] = 0;
-        return (char*)ptr;
-    }
-    
-    
     public unsafe byte* AllocUtf8(ReadOnlySpan<byte> span) {
         if (span == null) {
             return null;

@@ -11,7 +11,7 @@ public static class Test_Arena
     public static unsafe void Test_Arena_allocations()
     {
         var arena = new Arena();
-        var ptr = arena.AllocString("ABC");
+        var ptr = arena.AllocUtf8("ABC"u8);
         AllocValidator.ValidatePtr(ptr);
         
         arena.Reset();
