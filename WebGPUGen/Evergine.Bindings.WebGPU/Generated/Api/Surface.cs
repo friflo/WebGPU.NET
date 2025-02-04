@@ -38,4 +38,5 @@ public unsafe partial struct WGPUSurface
         wgpuSurfaceRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

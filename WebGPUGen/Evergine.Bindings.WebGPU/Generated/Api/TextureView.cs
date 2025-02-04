@@ -18,4 +18,5 @@ public unsafe partial struct WGPUTextureView
         wgpuTextureViewRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

@@ -23,4 +23,5 @@ public unsafe partial struct WGPUComputePipeline
         wgpuComputePipelineRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

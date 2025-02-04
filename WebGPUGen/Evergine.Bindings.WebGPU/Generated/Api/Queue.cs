@@ -30,4 +30,5 @@ public unsafe partial struct WGPUQueue
 
     // submitForIndex() - not generated. See: Queue_NG.cs
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

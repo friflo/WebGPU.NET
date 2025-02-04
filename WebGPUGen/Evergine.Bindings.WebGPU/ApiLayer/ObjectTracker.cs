@@ -63,6 +63,14 @@ public struct ObjectEntry
         }
         return $"{type} count: {count} label: \"{labelStr}\"";
     }
+    
+    public string GetShortLabel() {
+        var labelStr = GetLabel();
+        if (labelStr == null) {
+            return $"count: {count}";
+        }
+        return $"count: {count} label: \"{labelStr}\"";
+    }
 }
 
 public static class ObjectTracker
@@ -120,9 +128,9 @@ public static class ObjectTracker
     
     internal static string? GetLabel(IntPtr handle) {
         if (HandleMap.TryGetValue(handle, out var value)) {
-            return value.ToString();
+            return value.GetShortLabel();
         }
-        return null;
+        return "disposed";
     }
     
     private static InvalidOperationException ObjectNotFoundException() => new InvalidOperationException("WebGPU object not found");

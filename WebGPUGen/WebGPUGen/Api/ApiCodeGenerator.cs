@@ -60,6 +60,7 @@ public static class ApiCodeGenerator
                     {
                     """);
                 file.Write(sb);
+                file.WriteLine("    public override string? ToString() => ObjectTracker.GetLabel(Handle);");
                 file.WriteLine("}");
             }
         }

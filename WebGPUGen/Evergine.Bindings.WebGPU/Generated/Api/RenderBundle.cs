@@ -18,4 +18,5 @@ public unsafe partial struct WGPURenderBundle
         wgpuRenderBundleRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

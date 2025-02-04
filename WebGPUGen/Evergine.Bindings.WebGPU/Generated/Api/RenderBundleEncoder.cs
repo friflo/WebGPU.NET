@@ -64,4 +64,5 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

@@ -423,6 +423,7 @@ namespace HelloTriangle
             };
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
+                Label = "123"u8,
                 nextInChain = null,
                 ColorAttachments = [new WGPURenderPassColorAttachment {
                     view = nextView,
@@ -434,6 +435,7 @@ namespace HelloTriangle
                 depthStencilAttachment = null,
                 timestampWrites = null,
             });
+            var name = renderPass.ToString();
 
             wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
             wgpuRenderPassEncoderSetVertexBuffer(renderPass, 0, vertexBuffer, 0, WGPU_WHOLE_MAP_SIZE);

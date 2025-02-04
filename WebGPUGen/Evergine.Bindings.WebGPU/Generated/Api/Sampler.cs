@@ -18,4 +18,5 @@ public unsafe partial struct WGPUSampler
         wgpuSamplerRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

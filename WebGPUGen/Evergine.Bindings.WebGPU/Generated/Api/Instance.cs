@@ -42,4 +42,5 @@ public unsafe partial struct WGPUInstance
         return result;
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

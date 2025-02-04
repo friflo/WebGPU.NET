@@ -22,4 +22,5 @@ public unsafe partial struct WGPUShaderModule
         wgpuShaderModuleRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

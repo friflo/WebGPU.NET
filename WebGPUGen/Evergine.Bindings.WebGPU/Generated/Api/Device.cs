@@ -131,4 +131,5 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

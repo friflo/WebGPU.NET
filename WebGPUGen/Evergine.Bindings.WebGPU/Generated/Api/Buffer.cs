@@ -40,4 +40,5 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

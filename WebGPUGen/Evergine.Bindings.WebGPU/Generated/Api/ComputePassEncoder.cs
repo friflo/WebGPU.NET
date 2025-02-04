@@ -60,4 +60,5 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderEndPipelineStatisticsQuery(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

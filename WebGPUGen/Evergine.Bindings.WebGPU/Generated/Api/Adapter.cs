@@ -37,4 +37,5 @@ public unsafe partial struct WGPUAdapter
         wgpuAdapterRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

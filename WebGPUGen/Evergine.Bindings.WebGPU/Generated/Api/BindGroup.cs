@@ -18,4 +18,5 @@ public unsafe partial struct WGPUBindGroup
         wgpuBindGroupRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

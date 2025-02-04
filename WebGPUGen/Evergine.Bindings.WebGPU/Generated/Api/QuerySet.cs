@@ -26,4 +26,5 @@ public unsafe partial struct WGPUQuerySet
         wgpuQuerySetRelease(Handle);
     }
 
+    public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }
