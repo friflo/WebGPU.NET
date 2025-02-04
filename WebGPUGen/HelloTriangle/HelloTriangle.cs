@@ -295,7 +295,7 @@ namespace HelloTriangle
                         stepMode = WGPUVertexStepMode.Vertex,
                     }],
                     module = shaderModule,
-                    entryPoint = "vertexMain".ToPointer(),
+                    EntryPoint = "vertexMain"u8,
                     constantCount = 0,
                     constants = null,
                 },
@@ -309,7 +309,7 @@ namespace HelloTriangle
                 Fragment = new WGPUFragmentState() {
                     nextInChain = null,
                     module = shaderModule,
-                    EntryPoint = "fragmentMain",
+                    EntryPoint = "fragmentMain"u8,
                     targetCount = 1,
                     targets = &colorTargetState,
                 },
@@ -400,7 +400,7 @@ namespace HelloTriangle
             };
             // WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(Device, &encoderDescriptor);
             var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor() {
-                Label = "123"
+                Label = "123"u8
             });
 
             WGPURenderPassColorAttachment renderPassColorAttachment = new WGPURenderPassColorAttachment()

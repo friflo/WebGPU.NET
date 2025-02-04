@@ -242,9 +242,9 @@ public static class ApiCodeGenerator
             }
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
-                sb.AppendLine($"\t\tpublic ReadOnlySpan<char> {nameUpper} {{");
-                sb.AppendLine($"\t\t\tget => ApiUtils.GetStr({member.Name});");
-                sb.AppendLine($"\t\t\tset => ApiUtils.SetStr(value, out this.{member.Name});");
+                sb.AppendLine($"\t\tpublic Utf8 {nameUpper} {{");
+                sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8({member.Name});");
+                sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this.{member.Name});");
                 sb.AppendLine($"\t\t}}");
                 continue;
             }
