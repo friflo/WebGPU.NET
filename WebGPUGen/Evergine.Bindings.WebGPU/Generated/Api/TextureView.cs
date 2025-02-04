@@ -4,8 +4,8 @@ using static WebGPUNative;
 /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUTextureView">MDN documentation</see>           
 public unsafe partial struct WGPUTextureView
 {
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuTextureViewSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuTextureViewSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

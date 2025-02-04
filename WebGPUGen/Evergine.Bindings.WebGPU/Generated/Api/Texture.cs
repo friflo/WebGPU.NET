@@ -30,8 +30,8 @@ public unsafe partial struct WGPUTexture
 
     public uint width => wgpuTextureGetWidth(Handle);
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuTextureSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuTextureSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

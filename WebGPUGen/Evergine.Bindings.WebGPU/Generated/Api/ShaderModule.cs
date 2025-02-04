@@ -8,8 +8,8 @@ public unsafe partial struct WGPUShaderModule
         wgpuShaderModuleGetCompilationInfo(Handle, callback, userdata);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuShaderModuleSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuShaderModuleSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

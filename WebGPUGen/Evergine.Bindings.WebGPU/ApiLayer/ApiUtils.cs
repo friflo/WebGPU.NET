@@ -27,6 +27,7 @@ public static class ApiUtils
         src.CopyTo(new Span<T>(dstPtr, (int)count));
     }
     
+    // ---------- Nullable<>
     public static unsafe T? GetOpt<T>(T* ptr) where T : unmanaged {
         if (ptr == null) {
             return null;
@@ -43,14 +44,14 @@ public static class ApiUtils
         dstPtr = null;
     }
     
-    public static unsafe char* AllocString(this ReadOnlySpan<char> span) {
-        if (span.Length == 0) {
+    // ---------- Utf8
+    public static unsafe char* AllocUtf8(in this Utf8 value) {
+        if (value.Length == 0) {
             return null;
         }
-        return arena.AllocString(span);
+        return (char*)arena.AllocUtf8(value.AsSpan());
     }
-    
-    // ---------- Utf8
+
     public static unsafe Utf8 GetUtf8(char* ptr) {
         if (ptr == null) {
             return default;

@@ -4,8 +4,8 @@ using static WebGPUNative;
 /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUBindGroupLayout">MDN documentation</see>           
 public unsafe partial struct WGPUBindGroupLayout
 {
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuBindGroupLayoutSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuBindGroupLayoutSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

@@ -12,8 +12,8 @@ public unsafe partial struct WGPUQuerySet
 
     public WGPUQueryType type => wgpuQuerySetGetType(Handle);
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuQuerySetSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuQuerySetSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

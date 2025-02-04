@@ -42,24 +42,24 @@ public unsafe partial struct WGPUCommandEncoder
         return result;
     }
 
-    public void insertDebugMarker(ReadOnlySpan<char> markerLabel) {
-        wgpuCommandEncoderInsertDebugMarker(Handle, markerLabel.AllocString());
+    public void insertDebugMarker(Utf8 markerLabel) {
+        wgpuCommandEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
     public void popDebugGroup() {
         wgpuCommandEncoderPopDebugGroup(Handle);
     }
 
-    public void pushDebugGroup(ReadOnlySpan<char> groupLabel) {
-        wgpuCommandEncoderPushDebugGroup(Handle, groupLabel.AllocString());
+    public void pushDebugGroup(Utf8 groupLabel) {
+        wgpuCommandEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
     public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
         wgpuCommandEncoderResolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuCommandEncoderSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuCommandEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
     public void writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {

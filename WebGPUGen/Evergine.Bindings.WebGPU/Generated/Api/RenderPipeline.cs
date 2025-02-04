@@ -9,8 +9,8 @@ public unsafe partial struct WGPURenderPipeline
         return result;
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuRenderPipelineSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuRenderPipelineSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

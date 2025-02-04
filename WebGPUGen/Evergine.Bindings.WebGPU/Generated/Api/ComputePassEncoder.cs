@@ -16,16 +16,16 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderEnd(Handle);
     }
 
-    public void insertDebugMarker(ReadOnlySpan<char> markerLabel) {
-        wgpuComputePassEncoderInsertDebugMarker(Handle, markerLabel.AllocString());
+    public void insertDebugMarker(Utf8 markerLabel) {
+        wgpuComputePassEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
     public void popDebugGroup() {
         wgpuComputePassEncoderPopDebugGroup(Handle);
     }
 
-    public void pushDebugGroup(ReadOnlySpan<char> groupLabel) {
-        wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocString());
+    public void pushDebugGroup(Utf8 groupLabel) {
+        wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
@@ -34,8 +34,8 @@ public unsafe partial struct WGPUComputePassEncoder
         }
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuComputePassEncoderSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuComputePassEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
     public void setPipeline(WGPUComputePipeline pipeline) {

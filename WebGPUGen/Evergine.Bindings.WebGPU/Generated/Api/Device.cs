@@ -4,8 +4,8 @@ using static WebGPUNative;
 /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice">MDN documentation</see>           
 public unsafe partial struct WGPUDevice
 {
-    public delegate* unmanaged<void> cAddress(ReadOnlySpan<char> procName) {
-        var result = wgpuGetProcAddress(Handle, procName.AllocString());
+    public delegate* unmanaged<void> cAddress(Utf8 procName) {
+        var result = wgpuGetProcAddress(Handle, procName.AllocUtf8());
         return result;
     }
 
@@ -112,8 +112,8 @@ public unsafe partial struct WGPUDevice
 
 
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuDeviceSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuDeviceSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

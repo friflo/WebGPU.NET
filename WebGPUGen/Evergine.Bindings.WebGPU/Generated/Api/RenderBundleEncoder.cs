@@ -20,16 +20,16 @@ public unsafe partial struct WGPURenderBundleEncoder
         return result;
     }
 
-    public void insertDebugMarker(ReadOnlySpan<char> markerLabel) {
-        wgpuRenderBundleEncoderInsertDebugMarker(Handle, markerLabel.AllocString());
+    public void insertDebugMarker(Utf8 markerLabel) {
+        wgpuRenderBundleEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
     public void popDebugGroup() {
         wgpuRenderBundleEncoderPopDebugGroup(Handle);
     }
 
-    public void pushDebugGroup(ReadOnlySpan<char> groupLabel) {
-        wgpuRenderBundleEncoderPushDebugGroup(Handle, groupLabel.AllocString());
+    public void pushDebugGroup(Utf8 groupLabel) {
+        wgpuRenderBundleEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
@@ -42,8 +42,8 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderSetIndexBuffer(Handle, buffer, format, offset, size);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuRenderBundleEncoderSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuRenderBundleEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
     public void setPipeline(WGPURenderPipeline pipeline) {

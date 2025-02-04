@@ -157,7 +157,7 @@ public static class ApiCodeGenerator
                     sb.Append($"&{param.Name}");
                     break;
                 case SignatureParamType.CharPointer:
-                    sb.Append($"{param.Name}.AllocString()");
+                    sb.Append($"{param.Name}.AllocUtf8()");
                     break;
                 default:
                     sb.Append(param.Name);
@@ -214,7 +214,7 @@ public static class ApiCodeGenerator
                     signature.Append($"{parameter.TypeNamePure} ");
                     break;
                 case SignatureParamType.CharPointer:
-                    signature.Append($"ReadOnlySpan<{parameter.TypeNamePure}> ");
+                    signature.Append($"Utf8 ");
                     break;
                 default:
                     signature.Append($"{parameter.TypeName} ");

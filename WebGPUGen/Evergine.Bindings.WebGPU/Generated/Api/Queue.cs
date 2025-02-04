@@ -8,8 +8,8 @@ public unsafe partial struct WGPUQueue
         wgpuQueueOnSubmittedWorkDone(Handle, callback, userdata);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuQueueSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuQueueSetLabel(Handle, label.AllocUtf8());
     }
 
     // submit() - not generated. See: Queue_NG.cs

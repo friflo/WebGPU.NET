@@ -22,8 +22,8 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferMapAsync(Handle, mode, offset, size, callback, userdata);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuBufferSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuBufferSetLabel(Handle, label.AllocUtf8());
     }
 
     public void unmap() {

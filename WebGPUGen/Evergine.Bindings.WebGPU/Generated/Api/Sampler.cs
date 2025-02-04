@@ -4,8 +4,8 @@ using static WebGPUNative;
 /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/GPUSampler">MDN documentation</see>           
 public unsafe partial struct WGPUSampler
 {
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuSamplerSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuSamplerSetLabel(Handle, label.AllocUtf8());
     }
 
     public void reference() {

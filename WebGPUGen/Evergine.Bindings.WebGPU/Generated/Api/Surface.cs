@@ -20,8 +20,8 @@ public unsafe partial struct WGPUSurface
         wgpuSurfacePresent(Handle);
     }
 
-    public void setLabel(ReadOnlySpan<char> label) {
-        wgpuSurfaceSetLabel(Handle, label.AllocString());
+    public void setLabel(Utf8 label) {
+        wgpuSurfaceSetLabel(Handle, label.AllocUtf8());
     }
 
     public void unconfigure() {
