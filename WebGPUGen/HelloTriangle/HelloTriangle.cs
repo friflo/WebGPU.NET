@@ -272,21 +272,18 @@ namespace HelloTriangle
                 targets = &colorTargetState,
             };
 
-            // pipeline = wgpuDeviceCreateRenderPipeline(Device, &pipelineDescriptor);
-            pipeline = Device.createRenderPipeline(new WGPURenderPipelineDescriptor() {
+
+            var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 layout = pipelineLayout,
-                vertex = new WGPUVertexState()
-                {
-                    Buffers = [new WGPUVertexBufferLayout() {
+                vertex = new WGPUVertexState {
+                    Buffers = [new WGPUVertexBufferLayout {
                         Attributes = [
-                            new WGPUVertexAttribute()
-                            {
+                            new WGPUVertexAttribute {
                                 format = WGPUVertexFormat.Float32x4,
                                 offset = 0,
                                 shaderLocation = 0,
                             },
-                            new WGPUVertexAttribute()
-                            {
+                            new WGPUVertexAttribute {
                                 format = WGPUVertexFormat.Float32x4,
                                 offset = 16,
                                 shaderLocation = 1,
@@ -300,28 +297,31 @@ namespace HelloTriangle
                     constantCount = 0,
                     constants = null,
                 },
-                primitive = new WGPUPrimitiveState()
-                {
+                primitive = new WGPUPrimitiveState {
                     topology = WGPUPrimitiveTopology.TriangleList,
                     stripIndexFormat = WGPUIndexFormat.Undefined,
                     frontFace = WGPUFrontFace.CCW,
                     cullMode = WGPUCullMode.None,
                 },
-                Fragment = new WGPUFragmentState() {
+                Fragment = new WGPUFragmentState {
                     nextInChain = null,
                     module = shaderModule,
                     EntryPoint = "fragmentMain"u8,
-                    targetCount = 1,
-                    targets = &colorTargetState,
+                    Targets = [new WGPUColorTargetState {
+                        nextInChain = null,
+                        format = SwapChainFormat,
+                        blend = &blendState,
+                        writeMask = WGPUColorWriteMask.All,
+                    }]
                 },
                 depthStencil = null,
-                multisample = new WGPUMultisampleState()
-                {
+                multisample = new WGPUMultisampleState {
                     count = 1,
                     mask = ~0u,
                     alphaToCoverageEnabled = false,
                 }
-            });
+            };
+            pipeline = Device.createRenderPipeline(pipelineDescriptor);
             
             wgpuShaderModuleRelease(shaderModule);
 
