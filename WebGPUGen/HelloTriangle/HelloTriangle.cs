@@ -191,7 +191,8 @@ namespace HelloTriangle
 
             pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
 
-            string shaderSource = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
+
+            Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
             WGPUShaderModuleWGSLDescriptor shaderCodeDescriptor = new()
             {
@@ -200,7 +201,7 @@ namespace HelloTriangle
                     next = null,
                     sType = WGPUSType.ShaderModuleWGSLDescriptor,
                 },
-                code = shaderSource.ToPointer(),
+                Code = shaderSource,
             };
 
             WGPUShaderModuleDescriptor moduleDescriptor = new()
@@ -264,7 +265,7 @@ namespace HelloTriangle
             {
                 nextInChain = null,
                 module = shaderModule,
-                entryPoint = "fragmentMain".ToPointer(),
+                EntryPoint = "fragmentMain"u8,
                 constantCount = 0,
                 constants = null,
                 targetCount = 1,

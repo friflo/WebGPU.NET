@@ -56,6 +56,10 @@ public readonly unsafe ref struct Utf8
         return new Utf8 (value);
     }
     
+    public static implicit operator Utf8(byte[] value) {
+        return new Utf8 (value);
+    }
+    
     
     private static int GetPtrLength(byte* ptr) {
         int len = 0;
