@@ -97,7 +97,7 @@ public sealed class Arena
 
     // WebGPU C API: "Strings are represented in UTF-8, using the WGPUStringView struct"
     // https://webgpu-native.github.io/webgpu-headers/Strings.html
-    public unsafe byte* AllocUtf8(ReadOnlySpan<byte> span) {
+    public unsafe byte* AllocUtf8(in ReadOnlySpan<byte> span) {
         if (span == null) {
             return null;
         }

@@ -58,7 +58,7 @@ public static class ApiUtils
         return new Utf8(ptr);
     }
     
-    public static unsafe void SetUtf8(Utf8 utf8, out char* dst) {
+    public static unsafe void SetUtf8(in Utf8 utf8, out char* dst) {
         switch (utf8.type)
         {
             case Utf8Type.Span:
