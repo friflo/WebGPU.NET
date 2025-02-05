@@ -4,15 +4,12 @@ using static Evergine.Bindings.WebGPU.WebGPUNative;
 namespace Evergine.Bindings.WebGPU;
 
 
-public unsafe struct RequestDeviceResult {
-    public WGPURequestDeviceStatus  status;
-    public WGPUDevice               device;
-    public char*                    message;
-    
-    public Utf8                     Message {
-        get => ApiUtils.GetUtf8(message);
-        set => ApiUtils.SetUtf8(value, out message);
-    }
+public unsafe struct RequestDeviceResult
+{
+    public      WGPURequestDeviceStatus  status;
+    public      WGPUDevice               device;
+    internal    char*                    message;
+    public      Utf8                     Message => ApiUtils.GetUtf8(message);
 }
 
 public delegate void RequestDeviceCallback(in RequestDeviceResult result);

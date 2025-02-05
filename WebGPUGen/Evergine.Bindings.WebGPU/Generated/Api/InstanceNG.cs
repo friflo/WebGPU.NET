@@ -5,14 +5,10 @@ namespace Evergine.Bindings.WebGPU;
 
 public unsafe struct RequestAdapterResult
 {
-    public WGPURequestAdapterStatus status;
-    public WGPUAdapter              adapter;
-    public char*                    message;
-    
-    public Utf8                     Message {
-        get => ApiUtils.GetUtf8(message);
-        set => ApiUtils.SetUtf8(value, out message);
-    }
+    public      WGPURequestAdapterStatus status;
+    public      WGPUAdapter              adapter;
+    internal    char*                    message;
+    public      Utf8                     Message => ApiUtils.GetUtf8(message);
 }
 
 public delegate void RequestAdapterCallback(in RequestAdapterResult result);
