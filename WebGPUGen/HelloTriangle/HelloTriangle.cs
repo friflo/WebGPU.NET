@@ -149,7 +149,7 @@ namespace HelloTriangle
             Queue = Device.queue;
 
             var capabilities = Surface.getCapabilities(Adapter);
-            SwapChainFormat = capabilities.formats[0];
+            SwapChainFormat = capabilities.Formats[0];
 
             int width = window.ClientSize.Width;
             int height = window.ClientSize.Height;
