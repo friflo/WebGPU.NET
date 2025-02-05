@@ -351,7 +351,8 @@ namespace HelloTriangle
                 size = size,
                 mappedAtCreation = false,
             };
-            vertexBuffer = wgpuDeviceCreateBuffer(Device, &bufferDescriptor);
+            vertexBuffer = Device.createBuffer(bufferDescriptor);
+            // vertexBuffer = wgpuDeviceCreateBuffer(Device, &bufferDescriptor);
             Queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
