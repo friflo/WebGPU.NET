@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
@@ -22,11 +21,7 @@ public unsafe partial struct WGPUAdapter
 {
     public void requestDevice(WGPUDeviceDescriptor descriptor, RequestDeviceCallback? callback)
     {
-        var userData = UserData.Create(descriptor.Label);
-        if (callback is not null) {
-            var callbackHandle = GCHandle.Alloc(callback);
-            userData->callbackHandle = Unsafe.As<GCHandle, nuint>(ref callbackHandle);
-        }
+        var userData = UserData.Create(descriptor.Label, callback);
         wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, userData);
     }
     
@@ -45,7 +40,7 @@ public unsafe partial struct WGPUAdapter
     private static void requestDeviceCallback(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
     {
         var userData = (UserData*)pUserData;
-        var callbackHandle = Unsafe.BitCast<nuint, GCHandle>(userData->callbackHandle);
+        var callbackHandle = userData->callbackHandle;
         try {
             if (!callbackHandle.IsAllocated) {
                 return;
@@ -60,7 +55,6 @@ public unsafe partial struct WGPUAdapter
             callback(result);
         }
         finally {
-            callbackHandle.Free();
             UserData.Free(userData);
         }
     }
