@@ -10,7 +10,7 @@ using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 namespace HelloTriangle
 {
-    public unsafe class HelloTriangle
+    public class HelloTriangle
     {
         const uint WIDTH = 800;
         const uint HEIGHT = 600;
@@ -52,7 +52,7 @@ namespace HelloTriangle
             window.Show();
         }
 
-        private void InitWebGPU()
+        private unsafe void InitWebGPU()
         {
             WGPUInstanceExtras instanceExtras = new WGPUInstanceExtras()
             {
@@ -148,13 +148,13 @@ namespace HelloTriangle
         }
 
         [UnmanagedCallersOnly]
-        private static void HandleUncapturedErrorCallback(WGPUErrorType type, char* pMessage, void* pUserData)
+        private static unsafe void HandleUncapturedErrorCallback(WGPUErrorType type, char* pMessage, void* pUserData)
         {
             Console.WriteLine($"Uncaptured device error: type: {type} ({Helpers.GetString(pMessage)})");
         }
 
         [UnmanagedCallersOnly]
-        private static void OnAdapterRequestEnded(WGPURequestAdapterStatus status, WGPUAdapter candidateAdapter, char* message, void* pUserData)
+        private static unsafe void OnAdapterRequestEnded(WGPURequestAdapterStatus status, WGPUAdapter candidateAdapter, char* message, void* pUserData)
         {
             if (status == WGPURequestAdapterStatus.Success)
             {
@@ -167,7 +167,7 @@ namespace HelloTriangle
         }
 
         [UnmanagedCallersOnly]
-        private static void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
+        private static unsafe void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
         {
             if (status == WGPURequestDeviceStatus.Success)
             {
@@ -179,7 +179,7 @@ namespace HelloTriangle
             }
         }
 
-        private void InitResources()
+        private unsafe void InitResources()
         {
             WGPUPipelineLayoutDescriptor layoutDescription = new()
             {
@@ -371,7 +371,7 @@ namespace HelloTriangle
             }
         }
 
-        private void DrawFrame()
+        private unsafe void DrawFrame()
         {
             WGPUSurfaceTexture surfaceTexture = default;
             wgpuSurfaceGetCurrentTexture(Surface, &surfaceTexture);
