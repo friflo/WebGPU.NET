@@ -392,8 +392,8 @@ namespace HelloTriangle
                 Console.WriteLine("Surface texture is outdated, reconfigure the surface!");
                 return;
             }
-
-            WGPUTextureView nextView = wgpuTextureCreateView(surfaceTexture.texture, null);
+            WGPUTextureView nextView = surfaceTexture.texture.createView();
+            //WGPUTextureView nextView = wgpuTextureCreateView(surfaceTexture.texture, null);
 
             WGPUCommandEncoderDescriptor encoderDescriptor = new WGPUCommandEncoderDescriptor()
             {
@@ -437,13 +437,12 @@ namespace HelloTriangle
             });
             var name = renderPass.ToString();
 
-            wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
-            wgpuRenderPassEncoderSetVertexBuffer(renderPass, 0, vertexBuffer, 0, WGPU_WHOLE_MAP_SIZE);
-            wgpuRenderPassEncoderDraw(renderPass, 3, 1, 0, 0);
-            wgpuRenderPassEncoderEnd(renderPass);
+            renderPass.setPipeline(pipeline);
+            renderPass.setVertexBuffer(0, vertexBuffer, 0, WGPU_WHOLE_MAP_SIZE);
+            renderPass.draw(3, 1, 0, 0);
+            renderPass.end();
             renderPass.release();
-
-            wgpuTextureViewRelease(nextView);
+            nextView.release();
 
             WGPUCommandBufferDescriptor commandBufferDescriptor = new WGPUCommandBufferDescriptor()
             {
