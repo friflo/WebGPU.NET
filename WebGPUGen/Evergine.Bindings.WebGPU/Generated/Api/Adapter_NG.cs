@@ -20,27 +20,14 @@ public delegate void RequestDeviceCallback(in RequestDeviceResult result);
 
 public unsafe partial struct WGPUAdapter
 {
-    struct RequestDeviceData
-    {
-        internal nuint callbackHandle;
-        internal byte* label;
-    }
-    
     public void requestDevice(WGPUDeviceDescriptor descriptor, RequestDeviceCallback? callback)
     {
-        var data = (RequestDeviceData*)NativeMemory.Alloc((nuint)sizeof(RequestDeviceData));
-        var label = descriptor.Label.AsSpan();
-        if (!label.IsEmpty) {
-            var len = label.Length;
-            data->label = (byte*)NativeMemory.Alloc((nuint)len + 1);
-            label.CopyTo(new Span<byte>(data->label, len));
-            data->label[len] = 0;
-        }
+        var userData = UserData.Create(descriptor.Label);
         if (callback is not null) {
             var callbackHandle = GCHandle.Alloc(callback);
-            data->callbackHandle = Unsafe.As<GCHandle, nuint>(ref callbackHandle);
+            userData->callbackHandle = Unsafe.As<GCHandle, nuint>(ref callbackHandle);
         }
-        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, data);
+        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, userData);
     }
     
     // untested
@@ -57,14 +44,14 @@ public unsafe partial struct WGPUAdapter
     // delegate* unmanaged                   <WGPURequestDeviceStatus,        WGPUDevice,        char*,         void*, void> callback
     private static void requestDeviceCallback(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
     {
-        var data = (RequestDeviceData*)pUserData;
-        var userDataHandle = Unsafe.BitCast<nuint, GCHandle>(data->callbackHandle);
+        var userData = (UserData*)pUserData;
+        var callbackHandle = Unsafe.BitCast<nuint, GCHandle>(userData->callbackHandle);
         try {
-            if (!userDataHandle.IsAllocated) {
+            if (!callbackHandle.IsAllocated) {
                 return;
             }
-            var callback = (RequestDeviceCallback)userDataHandle.Target!;
-            ObjectTracker.CreateRef(device.Handle, HandleType.WGPUDevice, (char*)data->label);
+            var callback = (RequestDeviceCallback)callbackHandle.Target!;
+            ObjectTracker.CreateRef(device.Handle, HandleType.WGPUDevice, (char*)userData->label);
             var result = new RequestDeviceResult {
                 status = status,
                 device = device,
@@ -73,9 +60,8 @@ public unsafe partial struct WGPUAdapter
             callback(result);
         }
         finally {
-            userDataHandle.Free();
-            NativeMemory.Free(data->label);
-            NativeMemory.Free(data);
+            callbackHandle.Free();
+            UserData.Free(userData);
         }
     }
     
