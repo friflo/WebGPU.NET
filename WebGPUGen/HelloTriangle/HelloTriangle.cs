@@ -441,12 +441,7 @@ namespace HelloTriangle
             renderPass.release();
             nextView.release();
 
-            WGPUCommandBufferDescriptor commandBufferDescriptor = new WGPUCommandBufferDescriptor()
-            {
-                nextInChain = null,
-            };
-
-            WGPUCommandBuffer command = wgpuCommandEncoderFinish(encoder, &commandBufferDescriptor);
+            var command = encoder.finish();
             Queue.submit([command]);
 
             // wgpuCommandEncoderRelease(encoder);

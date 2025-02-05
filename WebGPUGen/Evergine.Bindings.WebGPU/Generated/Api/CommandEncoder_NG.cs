@@ -9,4 +9,10 @@ public unsafe partial struct WGPUCommandEncoder
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, null);
         return result;
     }
+    
+    public WGPUCommandBuffer finish() {
+        var result = wgpuCommandEncoderFinish(Handle, null);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, null);
+        return result;
+    }
 }
