@@ -124,7 +124,8 @@ namespace HelloTriangle
             wgpuAdapterRequestDevice(Adapter, &deviceDescriptor, &OnDeviceRequestEnded, &device);
             Device = device;
 
-            Queue = wgpuDeviceGetQueue(Device);
+            // Queue = wgpuDeviceGetQueue(Device);
+            Queue = Device.queue;
 
             var capabilities = Surface.getCapabilities(Adapter);
             SwapChainFormat = capabilities.formats[0];
@@ -323,15 +324,14 @@ namespace HelloTriangle
             
             wgpuShaderModuleRelease(shaderModule);
 
-            Vector4* vertexData = stackalloc Vector4[]
-            {
+            Span<Vector4> vertexData = [
                 new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
                 new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
                 new Vector4(0.5f, -0.5f, 0.5f, 1.0f),
                 new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
                 new Vector4(-0.5f, -0.5f, 0.5f, 1.0f),
                 new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
-            };
+            ];
 
             ulong size = (ulong)(6 * sizeof(Vector4));
             WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor()
@@ -342,7 +342,7 @@ namespace HelloTriangle
                 mappedAtCreation = false,
             };
             vertexBuffer = wgpuDeviceCreateBuffer(Device, &bufferDescriptor);
-            wgpuQueueWriteBuffer(Queue, vertexBuffer, 0, vertexData, size);
+            Queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
 
@@ -448,7 +448,7 @@ namespace HelloTriangle
             };
 
             WGPUCommandBuffer command = wgpuCommandEncoderFinish(encoder, &commandBufferDescriptor);
-            wgpuQueueSubmit(Queue, 1, &command);
+            Queue.submit([command]);
 
             // wgpuCommandEncoderRelease(encoder);
             encoder.release();
@@ -457,6 +457,7 @@ namespace HelloTriangle
 
         private void CleanUp()
         {
+            // Queue is not released
             Surface.release();
             wgpuDeviceDestroy(Device);
             wgpuDeviceRelease(Device);

@@ -9,7 +9,7 @@ public unsafe partial struct WGPUQueue
         }
     }
 
-    public void writeBuffer<T>(WGPUBuffer buffer, ulong bufferOffset, ReadOnlySpan<T> data) where T : unmanaged {
+    public void writeBuffer<T>(WGPUBuffer buffer, ulong bufferOffset, Span<T> data) where T : unmanaged {
         fixed (T* ptr = data) {
             wgpuQueueWriteBuffer(Handle, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
         }
