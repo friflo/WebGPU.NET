@@ -15,7 +15,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUAdapter left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUAdapter left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUAdapter h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUAdapter h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUAdapter h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -30,7 +30,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUBindGroup left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUBindGroup left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUBindGroup h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUBindGroup h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUBindGroup h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -45,7 +45,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUBindGroupLayout left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUBindGroupLayout left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUBindGroupLayout h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUBindGroupLayout h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUBindGroupLayout h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -60,7 +60,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUBuffer left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUBuffer left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUBuffer h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUBuffer h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUBuffer h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -75,7 +75,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUCommandBuffer left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUCommandBuffer left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUCommandBuffer h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUCommandBuffer h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUCommandBuffer h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -90,7 +90,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUCommandEncoder left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUCommandEncoder left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUCommandEncoder h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUCommandEncoder h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUCommandEncoder h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -105,7 +105,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUComputePassEncoder left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUComputePassEncoder left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUComputePassEncoder h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUComputePassEncoder h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUComputePassEncoder h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -120,7 +120,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUComputePipeline left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUComputePipeline left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUComputePipeline h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUComputePipeline h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUComputePipeline h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -135,7 +135,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUDevice left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUDevice left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUDevice h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUDevice h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUDevice h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -150,7 +150,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUInstance left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUInstance left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUInstance h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUInstance h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUInstance h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -165,7 +165,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUPipelineLayout left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUPipelineLayout left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUPipelineLayout h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUPipelineLayout h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUPipelineLayout h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -180,7 +180,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUQuerySet left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUQuerySet left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUQuerySet h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUQuerySet h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUQuerySet h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -195,7 +195,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUQueue left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUQueue left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUQueue h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUQueue h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUQueue h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -210,7 +210,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPURenderBundle left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPURenderBundle left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPURenderBundle h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPURenderBundle h && Equals(h);
+	public override bool Equals(object? o) => o is WGPURenderBundle h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -225,7 +225,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPURenderBundleEncoder left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPURenderBundleEncoder left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPURenderBundleEncoder h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPURenderBundleEncoder h && Equals(h);
+	public override bool Equals(object? o) => o is WGPURenderBundleEncoder h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -240,7 +240,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPURenderPassEncoder left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPURenderPassEncoder left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPURenderPassEncoder h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPURenderPassEncoder h && Equals(h);
+	public override bool Equals(object? o) => o is WGPURenderPassEncoder h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -255,7 +255,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPURenderPipeline left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPURenderPipeline left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPURenderPipeline h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPURenderPipeline h && Equals(h);
+	public override bool Equals(object? o) => o is WGPURenderPipeline h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -270,7 +270,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUSampler left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUSampler left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUSampler h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUSampler h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUSampler h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -285,7 +285,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUShaderModule left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUShaderModule left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUShaderModule h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUShaderModule h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUShaderModule h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -300,7 +300,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUSurface left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUSurface left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUSurface h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUSurface h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUSurface h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -315,7 +315,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUTexture left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUTexture left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUTexture h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUTexture h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUTexture h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 
@@ -330,7 +330,7 @@ namespace Evergine.Bindings.WebGPU
 	public static bool operator ==(WGPUTextureView left, IntPtr right) => left.Handle == right;
 	public static bool operator !=(WGPUTextureView left, IntPtr right) => left.Handle != right;
 	public bool Equals(WGPUTextureView h) => Handle == h.Handle;
-	public override bool Equals(object o) => o is WGPUTextureView h && Equals(h);
+	public override bool Equals(object? o) => o is WGPUTextureView h && Equals(h);
 	public override int GetHashCode() => Handle.GetHashCode();
 	}
 

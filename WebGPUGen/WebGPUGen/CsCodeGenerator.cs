@@ -189,7 +189,7 @@ namespace WebGPUGen
                     file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {handleType} right) => left.Handle == right;");
                     file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {handleType} right) => left.Handle != right;");
                     file.WriteLine($"\tpublic bool Equals({typedef.Name} h) => Handle == h.Handle;");
-                    file.WriteLine($"\tpublic override bool Equals(object o) => o is {typedef.Name} h && Equals(h);");
+                    file.WriteLine($"\tpublic override bool Equals(object? o) => o is {typedef.Name} h && Equals(h);");
                     file.WriteLine($"\tpublic override int GetHashCode() => Handle.GetHashCode();");
                     file.WriteLine("\t}\n");
                 }
