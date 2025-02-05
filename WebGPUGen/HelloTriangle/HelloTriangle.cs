@@ -371,10 +371,9 @@ namespace HelloTriangle
             }
         }
 
-        private unsafe void DrawFrame()
+        private void DrawFrame()
         {
-            WGPUSurfaceTexture surfaceTexture = default;
-            wgpuSurfaceGetCurrentTexture(Surface, &surfaceTexture);
+            var surfaceTexture = Surface.currentTexture;
 
             // Getting the texture may fail, in particular if the window has been resized
             // and thus the target surface changed.
@@ -390,34 +389,10 @@ namespace HelloTriangle
                 return;
             }
             WGPUTextureView nextView = surfaceTexture.texture.createView();
-            //WGPUTextureView nextView = wgpuTextureCreateView(surfaceTexture.texture, null);
 
-            WGPUCommandEncoderDescriptor encoderDescriptor = new WGPUCommandEncoderDescriptor()
-            {
-                nextInChain = null,
-            };
-            // WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(Device, &encoderDescriptor);
-            var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor() {
+            var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
                 Label = "123"u8
             });
-
-            WGPURenderPassColorAttachment renderPassColorAttachment = new WGPURenderPassColorAttachment()
-            {
-                view = nextView,
-                resolveTarget = WGPUTextureView.Null,
-                loadOp = WGPULoadOp.Clear,
-                storeOp = WGPUStoreOp.Store,
-                clearValue = new WGPUColor() { a = 1.0f },
-            };
-
-            WGPURenderPassDescriptor renderPassDescriptor = new WGPURenderPassDescriptor()
-            {
-                nextInChain = null,
-                colorAttachmentCount = 1,
-                colorAttachments = &renderPassColorAttachment,
-                depthStencilAttachment = null,
-                timestampWrites = null,
-            };
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
                 Label = "123"u8,
