@@ -123,7 +123,7 @@ namespace HelloTriangle
             WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor()
             {
                 nextInChain = null,
-                label = null,
+                Label = "Device"u8,
                 requiredFeatures = null,
                 requiredFeatureCount = 0,
                 requiredLimits = null,
@@ -465,8 +465,8 @@ namespace HelloTriangle
         {
             // Queue is not released
             Surface.release();
-            wgpuDeviceDestroy(Device);
-            wgpuDeviceRelease(Device);
+            Device.destroy();
+            Device.release();
             wgpuAdapterRelease(Adapter);
             wgpuInstanceRelease(Instance);
 

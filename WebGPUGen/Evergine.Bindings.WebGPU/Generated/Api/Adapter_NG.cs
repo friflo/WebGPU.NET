@@ -20,14 +20,27 @@ public delegate void RequestDeviceCallback(in RequestDeviceResult result);
 
 public unsafe partial struct WGPUAdapter
 {
+    struct RequestDeviceData
+    {
+        internal nuint callbackHandle;
+        internal byte* label;
+    }
+    
     public void requestDevice(WGPUDeviceDescriptor descriptor, RequestDeviceCallback? callback)
     {
-        void* callbackUserData = null;
+        var data = (RequestDeviceData*)NativeMemory.Alloc((nuint)sizeof(RequestDeviceData));
+        var label = descriptor.Label.AsSpan();
+        if (!label.IsEmpty) {
+            var len = label.Length;
+            data->label = (byte*)NativeMemory.Alloc((nuint)len + 1);
+            label.CopyTo(new Span<byte>(data->label, len));
+            data->label[len] = 0;
+        }
         if (callback is not null) {
             var callbackHandle = GCHandle.Alloc(callback);
-            callbackUserData = (void*)Unsafe.As<GCHandle, nuint>(ref callbackHandle);
+            data->callbackHandle = Unsafe.As<GCHandle, nuint>(ref callbackHandle);
         }
-        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, callbackUserData);
+        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, data);
     }
     
     // untested
@@ -44,12 +57,14 @@ public unsafe partial struct WGPUAdapter
     // delegate* unmanaged                   <WGPURequestDeviceStatus,        WGPUDevice,        char*,         void*, void> callback
     private static void requestDeviceCallback(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
     {
-        var userDataHandle = Unsafe.BitCast<nuint, GCHandle>((nuint)pUserData);
+        var data = (RequestDeviceData*)pUserData;
+        var userDataHandle = Unsafe.BitCast<nuint, GCHandle>(data->callbackHandle);
         try {
             if (!userDataHandle.IsAllocated) {
                 return;
             }
             var callback = (RequestDeviceCallback)userDataHandle.Target!;
+            ObjectTracker.CreateRef(device.Handle, HandleType.WGPUBuffer, (char*)data->label);
             var result = new RequestDeviceResult {
                 status = status,
                 device = device,
@@ -59,6 +74,8 @@ public unsafe partial struct WGPUAdapter
         }
         finally {
             userDataHandle.Free();
+            NativeMemory.Free(data->label);
+            NativeMemory.Free(data);
         }
     }
     
