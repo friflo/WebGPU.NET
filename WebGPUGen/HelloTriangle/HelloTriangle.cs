@@ -126,9 +126,16 @@ namespace HelloTriangle
                 }
             };
 
-            WGPUDevice device = WGPUDevice.Null;
-            wgpuAdapterRequestDevice(Adapter, &deviceDescriptor, &OnDeviceRequestEnded, &device);
-            Device = device;
+            // WGPUDevice device = WGPUDevice.Null;
+            // wgpuAdapterRequestDevice(Adapter, &deviceDescriptor, &OnDeviceRequestEnded, &device);
+            // Device = device;
+
+            Adapter.requestDevice(deviceDescriptor, (in RequestDeviceResult result) => {
+                if (result.status != WGPURequestDeviceStatus.Success) {
+                    throw new Exception($"Failed to request device. {result.Message.ToString()}");
+                }
+                Device = result.device;
+            });
 
             // Queue = wgpuDeviceGetQueue(Device);
             Queue = Device.queue;
@@ -172,7 +179,7 @@ namespace HelloTriangle
             }
         }
 
-        [UnmanagedCallersOnly]
+        /* [UnmanagedCallersOnly]
         private static unsafe void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
         {
             if (status == WGPURequestDeviceStatus.Success)
@@ -183,7 +190,7 @@ namespace HelloTriangle
             {
                 Console.WriteLine($"Could not get WebGPU device: {Helpers.GetString(message)}");
             }
-        }
+        }*/
 
         private void InitResources()
         {
