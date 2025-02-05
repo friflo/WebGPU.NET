@@ -32,4 +32,12 @@ public unsafe partial struct WGPUDevice
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor.label);
         return result;
     }
+    
+    public WGPUSupportedLimits limits {
+        get {
+            WGPUSupportedLimits result;
+            var success = wgpuDeviceGetLimits(Handle, &result);
+            return result;
+        }
+    }
 }

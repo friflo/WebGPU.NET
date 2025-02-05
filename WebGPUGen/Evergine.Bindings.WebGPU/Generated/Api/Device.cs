@@ -98,10 +98,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
-    public WGPUBool getLimits(WGPUSupportedLimits limits) {
-        var result = wgpuDeviceGetLimits(Handle, &limits);
-        return result;
-    }
+    // getLimits() - not generated. See: Device_NG.cs
 
     public WGPUQueue queue => wgpuDeviceGetQueue(Handle);
 

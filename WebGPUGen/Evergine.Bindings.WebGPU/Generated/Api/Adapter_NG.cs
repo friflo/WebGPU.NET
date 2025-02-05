@@ -61,4 +61,12 @@ public unsafe partial struct WGPUAdapter
             userDataHandle.Free();
         }
     }
+    
+    public WGPUSupportedLimits limits {
+        get {
+            WGPUSupportedLimits result;
+            var success = wgpuAdapterGetLimits(Handle, &result);
+            return result;
+        }
+    }
 }

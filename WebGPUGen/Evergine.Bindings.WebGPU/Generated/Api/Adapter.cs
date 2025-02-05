@@ -15,10 +15,7 @@ public unsafe partial struct WGPUAdapter
         return result;
     } }
 
-    public WGPUBool getLimits(WGPUSupportedLimits limits) {
-        var result = wgpuAdapterGetLimits(Handle, &limits);
-        return result;
-    }
+    // getLimits() - not generated. See: Adapter_NG.cs
 
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         var result = wgpuAdapterHasFeature(Handle, feature);

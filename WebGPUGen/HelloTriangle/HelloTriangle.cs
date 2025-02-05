@@ -114,12 +114,11 @@ namespace HelloTriangle
             AdapterInfo = adapter.info;
             window.Text = $"WGPU-Native Triangle ({AdapterInfo.backendType})";
 
-            WGPUSupportedLimits limits;
-            wgpuAdapterGetLimits(adapter, &limits);
+            
+            // WGPUSupportedLimits limits;
+            // wgpuAdapterGetLimits(adapter, &limits);
+            AdapterLimits = adapter.limits;
             this.Adapter = adapter;
-
-            AdapterLimits = limits;
-
 
             WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor()
             {
@@ -144,6 +143,7 @@ namespace HelloTriangle
                 }
                 Device = result.device;
             });
+            var deviceLimits = Device.limits;
 
             // Queue = wgpuDeviceGetQueue(Device);
             Queue = Device.queue;
