@@ -108,15 +108,16 @@ namespace HelloTriangle
                 adapter = result.adapter;    
             });
 
-            WGPUAdapterInfo properties;
-            wgpuAdapterGetInfo(adapter, &properties);
-            window.Text = $"WGPU-Native Triangle ({properties.backendType})";
+            
+            // WGPUAdapterInfo properties;
+            // wgpuAdapterGetInfo(adapter, &properties);
+            AdapterInfo = adapter.info;
+            window.Text = $"WGPU-Native Triangle ({AdapterInfo.backendType})";
 
             WGPUSupportedLimits limits;
             wgpuAdapterGetLimits(adapter, &limits);
             this.Adapter = adapter;
 
-            AdapterInfo = properties;
             AdapterLimits = limits;
 
 
