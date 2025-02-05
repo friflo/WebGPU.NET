@@ -8,6 +8,8 @@ public static unsafe partial class WebGPUNative
         WGPUInstanceDescriptor instanceDescriptor = new WGPUInstanceDescriptor {
             nextInChain = &instanceExtras.chain
         };
-        return wgpuCreateInstance(&instanceDescriptor);
+        var result = wgpuCreateInstance(&instanceDescriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUInstance, null);
+        return result;
     }
 }
