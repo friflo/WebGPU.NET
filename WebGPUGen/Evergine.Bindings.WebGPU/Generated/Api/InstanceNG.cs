@@ -1,9 +1,7 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 namespace Evergine.Bindings.WebGPU;
-using static WebGPUNative;
-
 
 public unsafe struct RequestAdapterResult
 {
