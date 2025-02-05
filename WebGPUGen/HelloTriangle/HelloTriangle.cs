@@ -100,7 +100,14 @@ namespace HelloTriangle
             };
 
             WGPUAdapter adapter = WGPUAdapter.Null;
-            wgpuInstanceRequestAdapter(Instance, &options, &OnAdapterRequestEnded, &adapter);
+            // wgpuInstanceRequestAdapter(Instance, &options, &OnAdapterRequestEnded, &adapter);
+            Instance.requestAdapter(options, (in RequestAdapterResult result) => {
+                if (result.status != WGPURequestAdapterStatus.Success) {
+                    throw new Exception($"Failed to create adapter: {result.Message.ToString()}");
+                }
+                adapter = result.adapter;    
+            });
+
             WGPUAdapterInfo properties;
             wgpuAdapterGetInfo(adapter, &properties);
             window.Text = $"WGPU-Native Triangle ({properties.backendType})";
@@ -166,7 +173,7 @@ namespace HelloTriangle
             Console.WriteLine($"Uncaptured device error: type: {type} ({Helpers.GetString(pMessage)})");
         }
 
-        [UnmanagedCallersOnly]
+        /* [UnmanagedCallersOnly]
         private static unsafe void OnAdapterRequestEnded(WGPURequestAdapterStatus status, WGPUAdapter candidateAdapter, char* message, void* pUserData)
         {
             if (status == WGPURequestAdapterStatus.Success)
@@ -177,7 +184,7 @@ namespace HelloTriangle
             {
                 Console.WriteLine($"Could not get WebGPU adapter: {Helpers.GetString(message)}");
             }
-        }
+        } */
 
         /* [UnmanagedCallersOnly]
         private static unsafe void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)

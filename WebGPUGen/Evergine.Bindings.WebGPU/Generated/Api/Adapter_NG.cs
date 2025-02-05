@@ -41,6 +41,7 @@ public unsafe partial struct WGPUAdapter
     }
     
     [UnmanagedCallersOnly]
+    // delegate* unmanaged                   <WGPURequestDeviceStatus,        WGPUDevice,        char*,         void*, void> callback
     private static void requestDeviceCallback(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
     {
         var userDataHandle = Unsafe.BitCast<nuint, GCHandle>((nuint)pUserData);
