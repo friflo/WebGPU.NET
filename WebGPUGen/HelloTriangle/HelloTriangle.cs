@@ -210,7 +210,7 @@ namespace HelloTriangle
                 hints = null,
             };
             WGPUShaderModule shaderModule = Device.createShaderModule(moduleDescriptor);
-
+            /*
             WGPUVertexAttribute* vertexAttributes = stackalloc WGPUVertexAttribute[2]
             {
                 new WGPUVertexAttribute()
@@ -269,7 +269,7 @@ namespace HelloTriangle
                 targetCount = 1,
                 targets = &colorTargetState,
             };
-
+            */
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 layout = pipelineLayout,
@@ -308,7 +308,18 @@ namespace HelloTriangle
                     Targets = [new WGPUColorTargetState {
                         nextInChain = null,
                         format = SwapChainFormat,
-                        blend = &blendState,
+                        Blend = new WGPUBlendState {
+                            color = new WGPUBlendComponent {
+                                srcFactor = WGPUBlendFactor.One,
+                                dstFactor = WGPUBlendFactor.Zero,
+                                operation = WGPUBlendOperation.Add,
+                            },
+                            alpha = new WGPUBlendComponent {
+                                srcFactor = WGPUBlendFactor.One,
+                                dstFactor = WGPUBlendFactor.Zero,
+                                operation = WGPUBlendOperation.Add,
+                            }
+                        },
                         writeMask = WGPUColorWriteMask.All,
                     }]
                 },
