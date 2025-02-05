@@ -209,8 +209,7 @@ namespace HelloTriangle
                 hintCount = 0,
                 hints = null,
             };
-
-            WGPUShaderModule shaderModule = wgpuDeviceCreateShaderModule(Device, &moduleDescriptor);
+            WGPUShaderModule shaderModule = Device.createShaderModule(moduleDescriptor);
 
             WGPUVertexAttribute* vertexAttributes = stackalloc WGPUVertexAttribute[2]
             {
@@ -321,8 +320,8 @@ namespace HelloTriangle
                 }
             };
             pipeline = Device.createRenderPipeline(pipelineDescriptor);
+            shaderModule.release();
             
-            wgpuShaderModuleRelease(shaderModule);
 
             Span<Vector4> vertexData = [
                 new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
