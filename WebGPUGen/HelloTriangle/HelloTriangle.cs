@@ -287,7 +287,7 @@ namespace HelloTriangle
                                 shaderLocation = 1,
                             },
                         ],
-                        arrayStride = (ulong)sizeof(Vector4) * 2,
+                        arrayStride = (ulong)Marshal.SizeOf<Vector4>() * 2,
                         stepMode = WGPUVertexStepMode.Vertex,
                     }],
                     module = shaderModule,
@@ -344,7 +344,7 @@ namespace HelloTriangle
                 new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
             ];
 
-            ulong size = (ulong)(6 * sizeof(Vector4));
+            ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
             WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor()
             {
                 nextInChain = null,
