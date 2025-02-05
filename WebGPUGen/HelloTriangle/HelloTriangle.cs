@@ -54,7 +54,7 @@ namespace HelloTriangle
 
         private unsafe void InitWebGPU()
         {
-            WGPUInstanceExtras instanceExtras = new WGPUInstanceExtras()
+            /*WGPUInstanceExtras instanceExtras = new WGPUInstanceExtras()
             {
                 chain = new WGPUChainedStruct()
                 {
@@ -68,6 +68,10 @@ namespace HelloTriangle
                 nextInChain = &instanceExtras.chain,
             };
             Instance = wgpuCreateInstance(&instanceDescriptor);
+            */
+            Instance = wgpuCreateInstance(new WGPUInstanceExtras {
+                backends = WGPUInstanceBackend.Vulkan
+            });
 
             WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
             {
