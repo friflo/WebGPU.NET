@@ -127,6 +127,9 @@ public static class ObjectTracker
     }
     
     internal static string? GetLabel(IntPtr handle) {
+        if (handle == IntPtr.Zero) {
+            return "null";
+        }
         if (HandleMap.TryGetValue(handle, out var value)) {
             return value.GetShortLabel();
         }

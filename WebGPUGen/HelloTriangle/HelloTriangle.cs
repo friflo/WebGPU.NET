@@ -209,7 +209,8 @@ namespace HelloTriangle
                 hintCount = 0,
                 hints = null,
             };
-            WGPUShaderModule shaderModule = Device.createShaderModule(moduleDescriptor);
+            WGPUShaderModule shaderModule;
+            shaderModule = Device.createShaderModule(moduleDescriptor);
             /*
             WGPUVertexAttribute* vertexAttributes = stackalloc WGPUVertexAttribute[2]
             {
