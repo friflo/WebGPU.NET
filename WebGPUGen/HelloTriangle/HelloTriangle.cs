@@ -84,7 +84,7 @@ namespace HelloTriangle
                 nextInChain = &windowsSurface.chain,
             };
 
-            Surface = wgpuInstanceCreateSurface(Instance, &surfaceDescriptor);
+            Surface = Instance.createSurface(surfaceDescriptor);
 
             WGPURequestAdapterOptions options = new WGPURequestAdapterOptions()
             {
@@ -126,8 +126,7 @@ namespace HelloTriangle
 
             Queue = wgpuDeviceGetQueue(Device);
 
-            WGPUSurfaceCapabilities capabilities;
-            wgpuSurfaceGetCapabilities(Surface, Adapter, &capabilities);
+            var capabilities = Surface.getCapabilities(Adapter);
             SwapChainFormat = capabilities.formats[0];
 
             int width = window.ClientSize.Width;
@@ -144,8 +143,7 @@ namespace HelloTriangle
                 height = (uint)height,
                 presentMode = WGPUPresentMode.Fifo,
             };
-
-            wgpuSurfaceConfigure(Surface,  &surfaceConfiguration);
+            Surface.configure(surfaceConfiguration);
         }
 
         [UnmanagedCallersOnly]
@@ -454,13 +452,12 @@ namespace HelloTriangle
 
             // wgpuCommandEncoderRelease(encoder);
             encoder.release();
-
-            wgpuSurfacePresent(Surface);
+            Surface.present();
         }
 
         private void CleanUp()
         {
-            wgpuSurfaceRelease(Surface);
+            Surface.release();
             wgpuDeviceDestroy(Device);
             wgpuDeviceRelease(Device);
             wgpuAdapterRelease(Adapter);
