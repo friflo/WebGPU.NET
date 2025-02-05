@@ -14,7 +14,9 @@ unsafe struct UserData
             userData->callbackHandle = GCHandle.Alloc(callback);
         }
         var label = utf8Label.AsSpan();
-        if (!label.IsEmpty) {
+        if (label.IsEmpty) {
+            userData->label = null;
+        } else {
             var len = label.Length;
             userData->label = (byte*)NativeMemory.Alloc((nuint)len + 1);
             label.CopyTo(new Span<byte>(userData->label, len));

@@ -39,26 +39,23 @@ public unsafe partial struct WGPUInstance
         return result;
     }
     
-    public void requestAdapter(WGPURequestAdapterOptions options, RequestAdapterCallback callback)
+    public void requestAdapter(WGPURequestAdapterOptions options, RequestAdapterCallback? callback)
     {
-        void* callbackUserData = null;
-        if (callback is not null) {
-            var callbackHandle = GCHandle.Alloc(callback);
-            callbackUserData = (void*)Unsafe.As<GCHandle, nuint>(ref callbackHandle);
-        }
-        wgpuInstanceRequestAdapter(Handle, &options, &requestAdapterCallback, callbackUserData);
+        var userData = UserData.Create(default, callback);
+        wgpuInstanceRequestAdapter(Handle, &options, &requestAdapterCallback, userData);
     }
     
     [UnmanagedCallersOnly]
     // delegate* unmanaged                    <WGPURequestAdapterStatus,        WGPUAdapter,         char*,         void*, void> callback
     private static void requestAdapterCallback(WGPURequestAdapterStatus status, WGPUAdapter adapter, char* message, void* pUserData)
     {
-        var userDataHandle = Unsafe.BitCast<nuint, GCHandle>((nuint)pUserData);
+        var userData = (UserData*)pUserData;
+        var callbackHandle = userData->callbackHandle;
         try {
-            if (!userDataHandle.IsAllocated) {
+            if (!callbackHandle.IsAllocated) {
                 return;
             }
-            var callback = (RequestAdapterCallback)userDataHandle.Target!;
+            var callback = (RequestAdapterCallback)callbackHandle.Target!;
             var result = new RequestAdapterResult {
                 status = status,
                 adapter = adapter,
@@ -67,7 +64,7 @@ public unsafe partial struct WGPUInstance
             callback(result);
         }
         finally {
-            userDataHandle.Free();
+            UserData.Free(userData);
         }
     }
 }
