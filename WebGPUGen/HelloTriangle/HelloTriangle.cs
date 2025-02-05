@@ -73,7 +73,7 @@ namespace HelloTriangle
                 backends = WGPUInstanceBackend.Vulkan
             });
 
-            WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
+            /*WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
             {
                 chain = new WGPUChainedStruct()
                 {
@@ -89,6 +89,8 @@ namespace HelloTriangle
             };
 
             Surface = Instance.createSurface(surfaceDescriptor);
+            */
+            Surface = Instance.createSurfaceHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, window.Handle);
 
             WGPURequestAdapterOptions options = new WGPURequestAdapterOptions()
             {
