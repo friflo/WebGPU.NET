@@ -179,7 +179,7 @@ namespace HelloTriangle
             }
         }
 
-        private unsafe void InitResources()
+        private void InitResources()
         {
             WGPUPipelineLayoutDescriptor layoutDescription = new()
             {
@@ -193,6 +193,7 @@ namespace HelloTriangle
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
+            /*
             WGPUShaderModuleWGSLDescriptor shaderCodeDescriptor = new()
             {
                 chain = new WGPUChainedStruct()
@@ -209,8 +210,9 @@ namespace HelloTriangle
                 hintCount = 0,
                 hints = null,
             };
-            WGPUShaderModule shaderModule;
-            shaderModule = Device.createShaderModule(moduleDescriptor);
+            var shaderModule = Device.createShaderModule(moduleDescriptor);
+            */
+            var shaderModule = Device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
             /*
             WGPUVertexAttribute* vertexAttributes = stackalloc WGPUVertexAttribute[2]
             {

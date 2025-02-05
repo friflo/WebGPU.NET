@@ -15,4 +15,21 @@ public unsafe partial struct WGPUDevice
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSampler, null);
         return result;
     }
+    
+    public WGPUShaderModule createShaderModuleWGSL(WGPUShaderModuleDescriptor descriptor, Utf8 code)
+    {
+        WGPUShaderModuleWGSLDescriptor wgslDescriptor = new()
+        {
+            chain = new WGPUChainedStruct()
+            {
+                next = null,
+                sType = WGPUSType.ShaderModuleWGSLDescriptor,
+            },
+            Code = code,
+        };
+        descriptor.nextInChain = &wgslDescriptor.chain;
+        var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor.label);
+        return result;
+    }
 }
