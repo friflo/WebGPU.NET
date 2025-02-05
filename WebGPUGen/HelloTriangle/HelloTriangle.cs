@@ -25,7 +25,7 @@ namespace HelloTriangle
         private WGPUTextureFormat SwapChainFormat;
         private WGPUQueue Queue;
 
-        private WGPUPipelineLayout pipelineLayout;
+        // private WGPUPipelineLayout pipelineLayout;
         private WGPURenderPipeline pipeline;
         private WGPUBuffer vertexBuffer;
         private Arena frameArena = new Arena();
@@ -187,8 +187,8 @@ namespace HelloTriangle
                 bindGroupLayoutCount = 0,
                 bindGroupLayouts = null,
             };
-
-            pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
+            var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
+            // pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
 
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
@@ -332,6 +332,7 @@ namespace HelloTriangle
             };
             pipeline = Device.createRenderPipeline(pipelineDescriptor);
             shaderModule.release();
+            pipelineLayout.release();
             
 
             Span<Vector4> vertexData = [
