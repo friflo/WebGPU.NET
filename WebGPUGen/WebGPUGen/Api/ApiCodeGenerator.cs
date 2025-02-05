@@ -232,6 +232,9 @@ public static class ApiCodeGenerator
         var fields = structure.Fields;
         foreach (var member in fields)
         {
+            if (member.Name == "nextInChain") {
+                continue; // nextInChain fields are not part of WebGPU API
+            }
             string type = Helpers.ConvertToCSharpType(member.Type);
             if (type == "void*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
