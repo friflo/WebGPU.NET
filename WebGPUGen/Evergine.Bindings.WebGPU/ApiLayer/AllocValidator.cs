@@ -51,7 +51,7 @@ public static class AllocValidator
     
     internal static unsafe void ValidateFragmentState(in WGPUFragmentState fragmentState) {
         ValidatePtr(fragmentState._entryPoint);
-        ValidateColorTargetStates(fragmentState.Targets);
+        ValidateColorTargetStates(fragmentState.targets);
     }
     
     internal static unsafe void ValidateColorTargetStates(Span<WGPUColorTargetState> fragmentStates)

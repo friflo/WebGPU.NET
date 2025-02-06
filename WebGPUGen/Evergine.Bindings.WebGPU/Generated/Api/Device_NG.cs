@@ -25,7 +25,7 @@ public unsafe partial struct WGPUDevice
                 _next = null,
                 sType = WGPUSType.ShaderModuleWGSLDescriptor,
             },
-            Code = code,
+            code = code,
         };
         descriptor.nextInChain = &wgslDescriptor.chain;
         var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);

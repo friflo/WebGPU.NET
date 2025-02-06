@@ -125,7 +125,7 @@ namespace HelloTriangle
             WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor()
             {
                 nextInChain = null,
-                Label = "Device"u8,
+                label = "Device"u8,
                 // uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
                 //    callback = &HandleUncapturedErrorCallback
                 // }
@@ -147,7 +147,7 @@ namespace HelloTriangle
             Queue = Device.queue;
 
             var capabilities = Surface.getCapabilities(Adapter);
-            SwapChainFormat = capabilities.Formats[0];
+            SwapChainFormat = capabilities.formats[0];
 
             int width = window.ClientSize.Width;
             int height = window.ClientSize.Height;
@@ -294,8 +294,8 @@ namespace HelloTriangle
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 layout = pipelineLayout,
                 vertex = new WGPUVertexState {
-                    Buffers = [new WGPUVertexBufferLayout {
-                        Attributes = [
+                    buffers = [new WGPUVertexBufferLayout {
+                        attributes = [
                             new WGPUVertexAttribute {
                                 format = WGPUVertexFormat.Float32x4,
                                 offset = 0,
@@ -311,7 +311,7 @@ namespace HelloTriangle
                         stepMode = WGPUVertexStepMode.Vertex,
                     }],
                     module = shaderModule,
-                    EntryPoint = "vertexMain"u8,
+                    entryPoint = "vertexMain"u8,
                 },
                 primitive = new WGPUPrimitiveState {
                     topology = WGPUPrimitiveTopology.TriangleList,
@@ -319,14 +319,14 @@ namespace HelloTriangle
                     frontFace = WGPUFrontFace.CCW,
                     cullMode = WGPUCullMode.None,
                 },
-                Fragment = new WGPUFragmentState {
+                fragment = new WGPUFragmentState {
                     nextInChain = null,
                     module = shaderModule,
-                    EntryPoint = "fragmentMain"u8,
-                    Targets = [new WGPUColorTargetState {
+                    entryPoint = "fragmentMain"u8,
+                    targets = [new WGPUColorTargetState {
                         nextInChain = null,
                         format = SwapChainFormat,
-                        Blend = new WGPUBlendState {
+                        blend = new WGPUBlendState {
                             color = new WGPUBlendComponent {
                                 srcFactor = WGPUBlendFactor.One,
                                 dstFactor = WGPUBlendFactor.Zero,
@@ -388,7 +388,7 @@ namespace HelloTriangle
                 this.DrawFrame();
                 for (int n = 0; n < 100_000; n++) {
                     var desc = new WGPURenderPipelineDescriptor() {
-                        Fragment = new WGPUFragmentState { }
+                        fragment = new WGPUFragmentState { }
                     };
                     if (n % 10_000 == 0) {
                         frameArena.Reset();
@@ -419,13 +419,13 @@ namespace HelloTriangle
             WGPUTextureView nextView = surfaceTexture.texture.createView();
 
             var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
-                Label = "123"u8
+                label = "123"u8
             });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
-                Label = "123"u8,
+                label = "123"u8,
                 nextInChain = null,
-                ColorAttachments = [new WGPURenderPassColorAttachment {
+                colorAttachments = [new WGPURenderPassColorAttachment {
                     view = nextView,
                     resolveTarget = WGPUTextureView.Null,
                     loadOp = WGPULoadOp.Clear,

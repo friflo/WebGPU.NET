@@ -9,9 +9,9 @@ public unsafe partial struct WGPUSurface
         
         wgpuSurfaceGetCapabilities(Handle, adapter, &value);
         var result = value;
-        result.Formats      = new Span<WGPUTextureFormat>       (value._formats,      (int)value._formatCount);
-        result.PresentModes = new Span<WGPUPresentMode>         (value._presentModes, (int)value._presentModeCount);
-        result.AlphaModes   = new Span<WGPUCompositeAlphaMode>  (value._alphaModes,   (int)value._alphaModeCount);
+        result.formats      = new Span<WGPUTextureFormat>       (value._formats,      (int)value._formatCount);
+        result.presentModes = new Span<WGPUPresentMode>         (value._presentModes, (int)value._presentModeCount);
+        result.alphaModes   = new Span<WGPUCompositeAlphaMode>  (value._alphaModes,   (int)value._alphaModeCount);
         wgpuSurfaceCapabilitiesFreeMembers(value);
         return result;
     }

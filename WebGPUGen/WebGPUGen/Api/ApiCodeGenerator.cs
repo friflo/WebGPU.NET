@@ -304,8 +304,8 @@ public static class ApiCodeGenerator
                 continue;
             }
             if (type == "char*") {
-                var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
-                sb.AppendLine($"\t\tpublic Utf8 {nameUpper} {{");
+                var propertyName = member.Name;
+                sb.AppendLine($"\t\tpublic Utf8 {propertyName} {{");
                 sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8(_{member.Name});");
                 sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t\t}}");
@@ -326,7 +326,7 @@ public static class ApiCodeGenerator
                     CppField countField = fields.FirstOrDefault(field => field.Name == countFieldName);
                     if (countField != null) {
                         var arrayFieldType = type.Substring(0, type.Length - 1);
-                        var propertyName = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
+                        var propertyName = arrayFieldName;
                         sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
                         sb.AppendLine($"\t\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
                         sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
@@ -337,7 +337,7 @@ public static class ApiCodeGenerator
                 {
                     // case: Pointer field used for an optional values. 
                     var fieldType = type.Substring(0, type.Length - 1);
-                    var propertyName = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
+                    var propertyName = member.Name;
                     sb.AppendLine($"\t\tpublic {fieldType}? {propertyName} {{");
                     sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt(_{member.Name});");
                     sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");

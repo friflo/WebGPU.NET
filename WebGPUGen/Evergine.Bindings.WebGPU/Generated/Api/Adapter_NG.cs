@@ -28,7 +28,7 @@ public unsafe partial struct WGPUAdapter
                 userdata = errorUserData
             };
         }
-        var userData = UserData.Create(descriptor.Label, callback);
+        var userData = UserData.Create(descriptor.label, callback);
         wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, userData);
     }
     
