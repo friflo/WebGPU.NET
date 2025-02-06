@@ -49,8 +49,12 @@ namespace HelloTriangle
             window.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             window.Show();
         }
+        
+        private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
+            Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
+        }
 
-        private unsafe void InitWebGPU()
+        private void InitWebGPU()
         {
             /*WGPUInstanceExtras instanceExtras = new WGPUInstanceExtras()
             {
@@ -125,17 +129,16 @@ namespace HelloTriangle
                 requiredFeatures = null,
                 requiredFeatureCount = 0,
                 requiredLimits = null,
-                uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo()
-                {
-                    callback = &HandleUncapturedErrorCallback
-                }
+                // uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
+                //    callback = &HandleUncapturedErrorCallback
+                // }
             };
 
             // WGPUDevice device = WGPUDevice.Null;
             // wgpuAdapterRequestDevice(Adapter, &deviceDescriptor, &OnDeviceRequestEnded, &device);
             // Device = device;
 
-            Adapter.requestDevice(deviceDescriptor, (in RequestDeviceResult result) => {
+            Adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
                 if (result.status != WGPURequestDeviceStatus.Success) {
                     throw new Exception($"Failed to request device. {result.Message.ToString()}");
                 }
@@ -166,11 +169,11 @@ namespace HelloTriangle
             Surface.configure(surfaceConfiguration);
         }
 
-        [UnmanagedCallersOnly]
+        /* [UnmanagedCallersOnly]
         private static unsafe void HandleUncapturedErrorCallback(WGPUErrorType type, char* pMessage, void* pUserData)
         {
             Console.WriteLine($"Uncaptured device error: type: {type} ({Helpers.GetString(pMessage)})");
-        }
+        } */
 
         /* [UnmanagedCallersOnly]
         private static unsafe void OnAdapterRequestEnded(WGPURequestAdapterStatus status, WGPUAdapter candidateAdapter, char* message, void* pUserData)
