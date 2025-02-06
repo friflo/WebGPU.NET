@@ -1,12 +1,10 @@
 ﻿using Evergine.Bindings.WebGPU;
-using Microsoft.VisualBasic.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 namespace HelloTriangle
 {
@@ -69,7 +67,7 @@ namespace HelloTriangle
             };
             Instance = wgpuCreateInstance(&instanceDescriptor);
             */
-            Instance = wgpuCreateInstance(new WGPUInstanceExtras {
+            Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Vulkan
             });
 
@@ -447,7 +445,7 @@ namespace HelloTriangle
             var name = renderPass.ToString();
 
             renderPass.setPipeline(pipeline);
-            renderPass.setVertexBuffer(0, vertexBuffer, 0, WGPU_WHOLE_MAP_SIZE);
+            renderPass.setVertexBuffer(0, vertexBuffer, 0, WebGPUNative.WGPU_WHOLE_MAP_SIZE);
             renderPass.draw(3, 1, 0, 0);
             renderPass.end();
             renderPass.release();
