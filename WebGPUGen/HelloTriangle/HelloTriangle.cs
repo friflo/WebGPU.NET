@@ -467,7 +467,7 @@ namespace HelloTriangle
             Surface.release();
             Device.destroy();
             Device.release();
-            wgpuAdapterRelease(Adapter);
+            Adapter.release();
             Instance.release();
 
             this.window.Dispose();

@@ -50,6 +50,7 @@ public unsafe partial struct WGPUInstance
                 return;
             }
             var callback = (RequestAdapterCallback)callbackHandle.Target!;
+            ObjectTracker.CreateRef(adapter.Handle, HandleType.WGPUAdapter, (char*)userData->label);
             var result = new RequestAdapterResult {
                 status = status,
                 adapter = adapter,
