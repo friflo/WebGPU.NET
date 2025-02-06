@@ -230,7 +230,8 @@ namespace WebGPUGen
                         }
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
                         var visibility = isInternalField ? "internal   " : "public     ";
-                        file.WriteLine($"\t\t{visibility} {type,-23} {member.Name};");
+                        var prefix = isInternalField ? "_" : "";
+                        file.WriteLine($"\t\t{visibility} {type,-23} {prefix}{member.Name};");
                     }
                     ApiCodeGenerator.AddStructProperties(file, structure);
 

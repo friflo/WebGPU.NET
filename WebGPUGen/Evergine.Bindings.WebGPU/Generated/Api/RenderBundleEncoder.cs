@@ -16,7 +16,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public WGPURenderBundle finish(WGPURenderBundleDescriptor descriptor) {
         var result = wgpuRenderBundleEncoderFinish(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundle, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundle, descriptor._label);
         return result;
     }
 

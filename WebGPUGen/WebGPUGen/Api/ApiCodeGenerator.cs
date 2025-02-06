@@ -172,7 +172,7 @@ public static class ApiCodeGenerator
             if (command.ReturnType is CppTypedef handleReturnType) {
                 if (objects.ContainsKey(handleReturnType)) {
                     if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result.Handle, HandleType.{handleReturnType.Name}, descriptor.label);");
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result.Handle, HandleType.{handleReturnType.Name}, descriptor._label);");
                     }
                 }
             }
@@ -306,8 +306,8 @@ public static class ApiCodeGenerator
             if (type == "char*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                 sb.AppendLine($"\t\tpublic Utf8 {nameUpper} {{");
-                sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8({member.Name});");
-                sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this.{member.Name});");
+                sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8(_{member.Name});");
+                sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t\t}}");
                 continue;
             }
@@ -328,8 +328,8 @@ public static class ApiCodeGenerator
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = char.ToUpper(arrayFieldName[0]) + arrayFieldName.Substring(1);
                         sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
-                        sb.AppendLine($"\t\t\tget => ApiUtils.GetArr({arrayFieldName}, {countFieldName});");
-                        sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out {arrayFieldName}, out {countFieldName});");
+                        sb.AppendLine($"\t\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
+                        sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
                         sb.AppendLine($"\t\t}}");
                         continue;
                     }
@@ -339,8 +339,8 @@ public static class ApiCodeGenerator
                     var fieldType = type.Substring(0, type.Length - 1);
                     var propertyName = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
                     sb.AppendLine($"\t\tpublic {fieldType}? {propertyName} {{");
-                    sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt({member.Name});");
-                    sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out {member.Name}, value);");
+                    sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt(_{member.Name});");
+                    sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
                     sb.AppendLine($"\t\t}}");
                     continue;
                 }

@@ -29,7 +29,7 @@ public unsafe partial struct WGPUInstance
         };
         descriptor.nextInChain = &windowsSurface.chain;
         var result = wgpuInstanceCreateSurface(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
     

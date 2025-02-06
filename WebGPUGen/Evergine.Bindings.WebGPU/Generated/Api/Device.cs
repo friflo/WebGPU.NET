@@ -11,31 +11,31 @@ public unsafe partial struct WGPUDevice
 
     public WGPUBindGroup createBindGroup(WGPUBindGroupDescriptor descriptor) {
         var result = wgpuDeviceCreateBindGroup(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroup, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroup, descriptor._label);
         return result;
     }
 
     public WGPUBindGroupLayout createBindGroupLayout(WGPUBindGroupLayoutDescriptor descriptor) {
         var result = wgpuDeviceCreateBindGroupLayout(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroupLayout, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBindGroupLayout, descriptor._label);
         return result;
     }
 
     public WGPUBuffer createBuffer(WGPUBufferDescriptor descriptor) {
         var result = wgpuDeviceCreateBuffer(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBuffer, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUBuffer, descriptor._label);
         return result;
     }
 
     public WGPUCommandEncoder createCommandEncoder(WGPUCommandEncoderDescriptor descriptor) {
         var result = wgpuDeviceCreateCommandEncoder(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandEncoder, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandEncoder, descriptor._label);
         return result;
     }
 
     public WGPUComputePipeline createComputePipeline(WGPUComputePipelineDescriptor descriptor) {
         var result = wgpuDeviceCreateComputePipeline(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePipeline, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePipeline, descriptor._label);
         return result;
     }
 
@@ -45,25 +45,25 @@ public unsafe partial struct WGPUDevice
 
     public WGPUPipelineLayout createPipelineLayout(WGPUPipelineLayoutDescriptor descriptor) {
         var result = wgpuDeviceCreatePipelineLayout(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUPipelineLayout, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUPipelineLayout, descriptor._label);
         return result;
     }
 
     public WGPUQuerySet createQuerySet(WGPUQuerySetDescriptor descriptor) {
         var result = wgpuDeviceCreateQuerySet(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUQuerySet, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUQuerySet, descriptor._label);
         return result;
     }
 
     public WGPURenderBundleEncoder createRenderBundleEncoder(WGPURenderBundleEncoderDescriptor descriptor) {
         var result = wgpuDeviceCreateRenderBundleEncoder(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundleEncoder, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundleEncoder, descriptor._label);
         return result;
     }
 
     public WGPURenderPipeline createRenderPipeline(WGPURenderPipelineDescriptor descriptor) {
         var result = wgpuDeviceCreateRenderPipeline(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPipeline, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPipeline, descriptor._label);
         return result;
     }
 
@@ -73,19 +73,19 @@ public unsafe partial struct WGPUDevice
 
     public WGPUSampler createSampler(WGPUSamplerDescriptor descriptor) {
         var result = wgpuDeviceCreateSampler(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSampler, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSampler, descriptor._label);
         return result;
     }
 
     public WGPUShaderModule createShaderModule(WGPUShaderModuleDescriptor descriptor) {
         var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor._label);
         return result;
     }
 
     public WGPUTexture createTexture(WGPUTextureDescriptor descriptor) {
         var result = wgpuDeviceCreateTexture(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTexture, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTexture, descriptor._label);
         return result;
     }
 

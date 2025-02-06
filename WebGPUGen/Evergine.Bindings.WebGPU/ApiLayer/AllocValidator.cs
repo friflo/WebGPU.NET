@@ -44,13 +44,13 @@ public static class AllocValidator
     } 
         
     internal static unsafe void ValidateRenderPipelineDescriptor(this in WGPURenderPipelineDescriptor descriptor) {
-        ValidatePtr(descriptor.label);
+        ValidatePtr(descriptor._label);
         ValidatePtr(descriptor.nextInChain);
-        ValidateFragmentState(*descriptor.fragment);
+        ValidateFragmentState(*descriptor._fragment);
     }
     
     internal static unsafe void ValidateFragmentState(in WGPUFragmentState fragmentState) {
-        ValidatePtr(fragmentState.entryPoint);
+        ValidatePtr(fragmentState._entryPoint);
         ValidateColorTargetStates(fragmentState.Targets);
     }
     
@@ -59,7 +59,7 @@ public static class AllocValidator
         ValidateSpan(fragmentStates);
         foreach (var state in fragmentStates) {
             ValidatePtr(state.nextInChain);
-            ValidatePtr(state.blend);            
+            ValidatePtr(state._blend);            
         }
     }
     

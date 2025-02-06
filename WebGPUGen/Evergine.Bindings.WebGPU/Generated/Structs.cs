@@ -7,30 +7,30 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUAdapterInfo
 	{
 		public      WGPUChainedStructOut*   nextInChain;
-		internal    char*                   vendor;
-		internal    char*                   architecture;
-		internal    char*                   device;
-		internal    char*                   description;
+		internal    char*                   _vendor;
+		internal    char*                   _architecture;
+		internal    char*                   _device;
+		internal    char*                   _description;
 		public      WGPUBackendType         backendType;
 		public      WGPUAdapterType         adapterType;
 		public      uint                    vendorID;
 		public      uint                    deviceID;
 		// --- properties
 		public Utf8 Vendor {
-			get => ApiUtils.GetUtf8(vendor);
-			set => ApiUtils.SetUtf8(value, out this.vendor);
+			get => ApiUtils.GetUtf8(_vendor);
+			set => ApiUtils.SetUtf8(value, out this._vendor);
 		}
 		public Utf8 Architecture {
-			get => ApiUtils.GetUtf8(architecture);
-			set => ApiUtils.SetUtf8(value, out this.architecture);
+			get => ApiUtils.GetUtf8(_architecture);
+			set => ApiUtils.SetUtf8(value, out this._architecture);
 		}
 		public Utf8 Device {
-			get => ApiUtils.GetUtf8(device);
-			set => ApiUtils.SetUtf8(value, out this.device);
+			get => ApiUtils.GetUtf8(_device);
+			set => ApiUtils.SetUtf8(value, out this._device);
 		}
 		public Utf8 Description {
-			get => ApiUtils.GetUtf8(description);
-			set => ApiUtils.SetUtf8(value, out this.description);
+			get => ApiUtils.GetUtf8(_description);
+			set => ApiUtils.SetUtf8(value, out this._description);
 		}
 	}
 
@@ -67,14 +67,14 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUBufferDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUBufferUsage         usage;
 		public      ulong                   size;
 		public      WGPUBool                mappedAtCreation;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -91,11 +91,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUCommandBufferDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -103,11 +103,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUCommandEncoderDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -115,7 +115,7 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUCompilationMessage
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   message;
+		internal    char*                   _message;
 		public      WGPUCompilationMessageType type;
 		public      ulong                   lineNum;
 		public      ulong                   linePos;
@@ -126,8 +126,8 @@ namespace Evergine.Bindings.WebGPU
 		public      ulong                   utf16Length;
 		// --- properties
 		public Utf8 Message {
-			get => ApiUtils.GetUtf8(message);
-			set => ApiUtils.SetUtf8(value, out this.message);
+			get => ApiUtils.GetUtf8(_message);
+			set => ApiUtils.SetUtf8(value, out this._message);
 		}
 	}
 
@@ -143,12 +143,12 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUConstantEntry
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   key;
+		internal    char*                   _key;
 		public      double                  value;
 		// --- properties
 		public Utf8 Key {
-			get => ApiUtils.GetUtf8(key);
-			set => ApiUtils.SetUtf8(value, out this.key);
+			get => ApiUtils.GetUtf8(_key);
+			set => ApiUtils.SetUtf8(value, out this._key);
 		}
 	}
 
@@ -224,17 +224,17 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUPipelineLayoutDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   bindGroupLayoutCount;
-		internal    WGPUBindGroupLayout*    bindGroupLayouts;
+		internal    char*                   _label;
+		internal    ulong                   _bindGroupLayoutCount;
+		internal    WGPUBindGroupLayout*    _bindGroupLayouts;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUBindGroupLayout> BindGroupLayouts {
-			get => ApiUtils.GetArr(bindGroupLayouts, bindGroupLayoutCount);
-			set => ApiUtils.SetArr(value, out bindGroupLayouts, out bindGroupLayoutCount);
+			get => ApiUtils.GetArr(_bindGroupLayouts, _bindGroupLayoutCount);
+			set => ApiUtils.SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);
 		}
 	}
 
@@ -259,13 +259,13 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUQuerySetDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUQueryType           type;
 		public      uint                    count;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -273,11 +273,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUQueueDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -285,11 +285,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPURenderBundleDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -297,21 +297,21 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPURenderBundleEncoderDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   colorFormatCount;
-		internal    WGPUTextureFormat*      colorFormats;
+		internal    char*                   _label;
+		internal    ulong                   _colorFormatCount;
+		internal    WGPUTextureFormat*      _colorFormats;
 		public      WGPUTextureFormat       depthStencilFormat;
 		public      uint                    sampleCount;
 		public      WGPUBool                depthReadOnly;
 		public      WGPUBool                stencilReadOnly;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUTextureFormat> ColorFormats {
-			get => ApiUtils.GetArr(colorFormats, colorFormatCount);
-			set => ApiUtils.SetArr(value, out colorFormats, out colorFormatCount);
+			get => ApiUtils.GetArr(_colorFormats, _colorFormatCount);
+			set => ApiUtils.SetArr(value, out _colorFormats, out _colorFormatCount);
 		}
 	}
 
@@ -365,7 +365,7 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUSamplerDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUAddressMode         addressModeU;
 		public      WGPUAddressMode         addressModeV;
 		public      WGPUAddressMode         addressModeW;
@@ -378,8 +378,8 @@ namespace Evergine.Bindings.WebGPU
 		public      ushort                  maxAnisotropy;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -387,12 +387,12 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUShaderModuleCompilationHint
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   entryPoint;
+		internal    char*                   _entryPoint;
 		public      WGPUPipelineLayout      layout;
 		// --- properties
 		public Utf8 EntryPoint {
-			get => ApiUtils.GetUtf8(entryPoint);
-			set => ApiUtils.SetUtf8(value, out this.entryPoint);
+			get => ApiUtils.GetUtf8(_entryPoint);
+			set => ApiUtils.SetUtf8(value, out this._entryPoint);
 		}
 	}
 
@@ -401,11 +401,11 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct       chain;
 		public      uint                    codeSize;
-		internal    uint*                   code;
+		internal    uint*                   _code;
 		// --- properties
 		public uint? Code {
-			get => ApiUtils.GetOpt(code);
-			set => ApiUtils.SetOpt(out code, value);
+			get => ApiUtils.GetOpt(_code);
+			set => ApiUtils.SetOpt(out _code, value);
 		}
 	}
 
@@ -413,11 +413,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUShaderModuleWGSLDescriptor
 	{
 		public      WGPUChainedStruct       chain;
-		internal    char*                   code;
+		internal    char*                   _code;
 		// --- properties
 		public Utf8 Code {
-			get => ApiUtils.GetUtf8(code);
-			set => ApiUtils.SetUtf8(value, out this.code);
+			get => ApiUtils.GetUtf8(_code);
+			set => ApiUtils.SetUtf8(value, out this._code);
 		}
 	}
 
@@ -444,24 +444,24 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStructOut*   nextInChain;
 		public      WGPUTextureUsage        usages;
-		internal    ulong                   formatCount;
-		internal    WGPUTextureFormat*      formats;
-		internal    ulong                   presentModeCount;
-		internal    WGPUPresentMode*        presentModes;
-		internal    ulong                   alphaModeCount;
-		internal    WGPUCompositeAlphaMode* alphaModes;
+		internal    ulong                   _formatCount;
+		internal    WGPUTextureFormat*      _formats;
+		internal    ulong                   _presentModeCount;
+		internal    WGPUPresentMode*        _presentModes;
+		internal    ulong                   _alphaModeCount;
+		internal    WGPUCompositeAlphaMode* _alphaModes;
 		// --- properties
 		public Span<WGPUTextureFormat> Formats {
-			get => ApiUtils.GetArr(formats, formatCount);
-			set => ApiUtils.SetArr(value, out formats, out formatCount);
+			get => ApiUtils.GetArr(_formats, _formatCount);
+			set => ApiUtils.SetArr(value, out _formats, out _formatCount);
 		}
 		public Span<WGPUPresentMode> PresentModes {
-			get => ApiUtils.GetArr(presentModes, presentModeCount);
-			set => ApiUtils.SetArr(value, out presentModes, out presentModeCount);
+			get => ApiUtils.GetArr(_presentModes, _presentModeCount);
+			set => ApiUtils.SetArr(value, out _presentModes, out _presentModeCount);
 		}
 		public Span<WGPUCompositeAlphaMode> AlphaModes {
-			get => ApiUtils.GetArr(alphaModes, alphaModeCount);
-			set => ApiUtils.SetArr(value, out alphaModes, out alphaModeCount);
+			get => ApiUtils.GetArr(_alphaModes, _alphaModeCount);
+			set => ApiUtils.SetArr(value, out _alphaModes, out _alphaModeCount);
 		}
 	}
 
@@ -472,16 +472,16 @@ namespace Evergine.Bindings.WebGPU
 		public      WGPUDevice              device;
 		public      WGPUTextureFormat       format;
 		public      WGPUTextureUsage        usage;
-		internal    ulong                   viewFormatCount;
-		internal    WGPUTextureFormat*      viewFormats;
+		internal    ulong                   _viewFormatCount;
+		internal    WGPUTextureFormat*      _viewFormats;
 		public      WGPUCompositeAlphaMode  alphaMode;
 		public      uint                    width;
 		public      uint                    height;
 		public      WGPUPresentMode         presentMode;
 		// --- properties
 		public Span<WGPUTextureFormat> ViewFormats {
-			get => ApiUtils.GetArr(viewFormats, viewFormatCount);
-			set => ApiUtils.SetArr(value, out viewFormats, out viewFormatCount);
+			get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
+			set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 		}
 	}
 
@@ -489,11 +489,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUSurfaceDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -513,11 +513,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUSurfaceDescriptorFromCanvasHTMLSelector
 	{
 		public      WGPUChainedStruct       chain;
-		internal    char*                   selector;
+		internal    char*                   _selector;
 		// --- properties
 		public Utf8 Selector {
-			get => ApiUtils.GetUtf8(selector);
-			set => ApiUtils.SetUtf8(value, out this.selector);
+			get => ApiUtils.GetUtf8(_selector);
+			set => ApiUtils.SetUtf8(value, out this._selector);
 		}
 	}
 
@@ -623,7 +623,7 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUTextureViewDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUTextureFormat       format;
 		public      WGPUTextureViewDimension dimension;
 		public      uint                    baseMipLevel;
@@ -633,8 +633,8 @@ namespace Evergine.Bindings.WebGPU
 		public      WGPUTextureAspect       aspect;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -663,18 +663,18 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUBindGroupDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUBindGroupLayout     layout;
-		internal    ulong                   entryCount;
-		internal    WGPUBindGroupEntry*     entries;
+		internal    ulong                   _entryCount;
+		internal    WGPUBindGroupEntry*     _entries;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUBindGroupEntry> Entries {
-			get => ApiUtils.GetArr(entries, entryCount);
-			set => ApiUtils.SetArr(value, out entries, out entryCount);
+			get => ApiUtils.GetArr(_entries, _entryCount);
+			set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 		}
 	}
 
@@ -701,12 +701,12 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUCompilationInfo
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    ulong                   messageCount;
-		internal    WGPUCompilationMessage* messages;
+		internal    ulong                   _messageCount;
+		internal    WGPUCompilationMessage* _messages;
 		// --- properties
 		public Span<WGPUCompilationMessage> Messages {
-			get => ApiUtils.GetArr(messages, messageCount);
-			set => ApiUtils.SetArr(value, out messages, out messageCount);
+			get => ApiUtils.GetArr(_messages, _messageCount);
+			set => ApiUtils.SetArr(value, out _messages, out _messageCount);
 		}
 	}
 
@@ -714,16 +714,16 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUComputePassDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    WGPUComputePassTimestampWrites* timestampWrites;
+		internal    char*                   _label;
+		internal    WGPUComputePassTimestampWrites* _timestampWrites;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public WGPUComputePassTimestampWrites? TimestampWrites {
-			get => ApiUtils.GetOpt(timestampWrites);
-			set => ApiUtils.SetOpt(out timestampWrites, value);
+			get => ApiUtils.GetOpt(_timestampWrites);
+			set => ApiUtils.SetOpt(out _timestampWrites, value);
 		}
 	}
 
@@ -766,17 +766,17 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct*      nextInChain;
 		public      WGPUShaderModule        module;
-		internal    char*                   entryPoint;
-		internal    ulong                   constantCount;
-		internal    WGPUConstantEntry*      constants;
+		internal    char*                   _entryPoint;
+		internal    ulong                   _constantCount;
+		internal    WGPUConstantEntry*      _constants;
 		// --- properties
 		public Utf8 EntryPoint {
-			get => ApiUtils.GetUtf8(entryPoint);
-			set => ApiUtils.SetUtf8(value, out this.entryPoint);
+			get => ApiUtils.GetUtf8(_entryPoint);
+			set => ApiUtils.SetUtf8(value, out this._entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => ApiUtils.GetArr(constants, constantCount);
-			set => ApiUtils.SetArr(value, out constants, out constantCount);
+			get => ApiUtils.GetArr(_constants, _constantCount);
+			set => ApiUtils.SetArr(value, out _constants, out _constantCount);
 		}
 	}
 
@@ -803,17 +803,17 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUShaderModuleDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   hintCount;
-		internal    WGPUShaderModuleCompilationHint* hints;
+		internal    char*                   _label;
+		internal    ulong                   _hintCount;
+		internal    WGPUShaderModuleCompilationHint* _hints;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUShaderModuleCompilationHint> Hints {
-			get => ApiUtils.GetArr(hints, hintCount);
-			set => ApiUtils.SetArr(value, out hints, out hintCount);
+			get => ApiUtils.GetArr(_hints, _hintCount);
+			set => ApiUtils.SetArr(value, out _hints, out _hintCount);
 		}
 	}
 
@@ -828,23 +828,23 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUTextureDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUTextureUsage        usage;
 		public      WGPUTextureDimension    dimension;
 		public      WGPUExtent3D            size;
 		public      WGPUTextureFormat       format;
 		public      uint                    mipLevelCount;
 		public      uint                    sampleCount;
-		internal    ulong                   viewFormatCount;
-		internal    WGPUTextureFormat*      viewFormats;
+		internal    ulong                   _viewFormatCount;
+		internal    WGPUTextureFormat*      _viewFormats;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUTextureFormat> ViewFormats {
-			get => ApiUtils.GetArr(viewFormats, viewFormatCount);
-			set => ApiUtils.SetArr(value, out viewFormats, out viewFormatCount);
+			get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
+			set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 		}
 	}
 
@@ -853,12 +853,12 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      ulong                   arrayStride;
 		public      WGPUVertexStepMode      stepMode;
-		internal    ulong                   attributeCount;
-		internal    WGPUVertexAttribute*    attributes;
+		internal    ulong                   _attributeCount;
+		internal    WGPUVertexAttribute*    _attributes;
 		// --- properties
 		public Span<WGPUVertexAttribute> Attributes {
-			get => ApiUtils.GetArr(attributes, attributeCount);
-			set => ApiUtils.SetArr(value, out attributes, out attributeCount);
+			get => ApiUtils.GetArr(_attributes, _attributeCount);
+			set => ApiUtils.SetArr(value, out _attributes, out _attributeCount);
 		}
 	}
 
@@ -866,17 +866,17 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUBindGroupLayoutDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   entryCount;
-		internal    WGPUBindGroupLayoutEntry* entries;
+		internal    char*                   _label;
+		internal    ulong                   _entryCount;
+		internal    WGPUBindGroupLayoutEntry* _entries;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUBindGroupLayoutEntry> Entries {
-			get => ApiUtils.GetArr(entries, entryCount);
-			set => ApiUtils.SetArr(value, out entries, out entryCount);
+			get => ApiUtils.GetArr(_entries, _entryCount);
+			set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 		}
 	}
 
@@ -885,12 +885,12 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct*      nextInChain;
 		public      WGPUTextureFormat       format;
-		internal    WGPUBlendState*         blend;
+		internal    WGPUBlendState*         _blend;
 		public      WGPUColorWriteMask      writeMask;
 		// --- properties
 		public WGPUBlendState? Blend {
-			get => ApiUtils.GetOpt(blend);
-			set => ApiUtils.SetOpt(out blend, value);
+			get => ApiUtils.GetOpt(_blend);
+			set => ApiUtils.SetOpt(out _blend, value);
 		}
 	}
 
@@ -898,13 +898,13 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUComputePipelineDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUPipelineLayout      layout;
 		public      WGPUProgrammableStageDescriptor compute;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 	}
 
@@ -912,26 +912,26 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUDeviceDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   requiredFeatureCount;
-		internal    WGPUFeatureName*        requiredFeatures;
-		internal    WGPURequiredLimits*     requiredLimits;
+		internal    char*                   _label;
+		internal    ulong                   _requiredFeatureCount;
+		internal    WGPUFeatureName*        _requiredFeatures;
+		internal    WGPURequiredLimits*     _requiredLimits;
 		public      WGPUQueueDescriptor     defaultQueue;
 		public      delegate* unmanaged<WGPUDeviceLostReason, char*, void*, void> deviceLostCallback;
 		public      void*                   deviceLostUserdata;
 		public      WGPUUncapturedErrorCallbackInfo uncapturedErrorCallbackInfo;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPUFeatureName> RequiredFeatures {
-			get => ApiUtils.GetArr(requiredFeatures, requiredFeatureCount);
-			set => ApiUtils.SetArr(value, out requiredFeatures, out requiredFeatureCount);
+			get => ApiUtils.GetArr(_requiredFeatures, _requiredFeatureCount);
+			set => ApiUtils.SetArr(value, out _requiredFeatures, out _requiredFeatureCount);
 		}
 		public WGPURequiredLimits? RequiredLimits {
-			get => ApiUtils.GetOpt(requiredLimits);
-			set => ApiUtils.SetOpt(out requiredLimits, value);
+			get => ApiUtils.GetOpt(_requiredLimits);
+			set => ApiUtils.SetOpt(out _requiredLimits, value);
 		}
 		public IntPtr DeviceLostUserdata {
 			get => new IntPtr(deviceLostUserdata);
@@ -943,28 +943,28 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPURenderPassDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
-		internal    ulong                   colorAttachmentCount;
-		internal    WGPURenderPassColorAttachment* colorAttachments;
-		internal    WGPURenderPassDepthStencilAttachment* depthStencilAttachment;
+		internal    char*                   _label;
+		internal    ulong                   _colorAttachmentCount;
+		internal    WGPURenderPassColorAttachment* _colorAttachments;
+		internal    WGPURenderPassDepthStencilAttachment* _depthStencilAttachment;
 		public      WGPUQuerySet            occlusionQuerySet;
-		internal    WGPURenderPassTimestampWrites* timestampWrites;
+		internal    WGPURenderPassTimestampWrites* _timestampWrites;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public Span<WGPURenderPassColorAttachment> ColorAttachments {
-			get => ApiUtils.GetArr(colorAttachments, colorAttachmentCount);
-			set => ApiUtils.SetArr(value, out colorAttachments, out colorAttachmentCount);
+			get => ApiUtils.GetArr(_colorAttachments, _colorAttachmentCount);
+			set => ApiUtils.SetArr(value, out _colorAttachments, out _colorAttachmentCount);
 		}
 		public WGPURenderPassDepthStencilAttachment? DepthStencilAttachment {
-			get => ApiUtils.GetOpt(depthStencilAttachment);
-			set => ApiUtils.SetOpt(out depthStencilAttachment, value);
+			get => ApiUtils.GetOpt(_depthStencilAttachment);
+			set => ApiUtils.SetOpt(out _depthStencilAttachment, value);
 		}
 		public WGPURenderPassTimestampWrites? TimestampWrites {
-			get => ApiUtils.GetOpt(timestampWrites);
-			set => ApiUtils.SetOpt(out timestampWrites, value);
+			get => ApiUtils.GetOpt(_timestampWrites);
+			set => ApiUtils.SetOpt(out _timestampWrites, value);
 		}
 	}
 
@@ -973,23 +973,23 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct*      nextInChain;
 		public      WGPUShaderModule        module;
-		internal    char*                   entryPoint;
-		internal    ulong                   constantCount;
-		internal    WGPUConstantEntry*      constants;
-		internal    ulong                   bufferCount;
-		internal    WGPUVertexBufferLayout* buffers;
+		internal    char*                   _entryPoint;
+		internal    ulong                   _constantCount;
+		internal    WGPUConstantEntry*      _constants;
+		internal    ulong                   _bufferCount;
+		internal    WGPUVertexBufferLayout* _buffers;
 		// --- properties
 		public Utf8 EntryPoint {
-			get => ApiUtils.GetUtf8(entryPoint);
-			set => ApiUtils.SetUtf8(value, out this.entryPoint);
+			get => ApiUtils.GetUtf8(_entryPoint);
+			set => ApiUtils.SetUtf8(value, out this._entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => ApiUtils.GetArr(constants, constantCount);
-			set => ApiUtils.SetArr(value, out constants, out constantCount);
+			get => ApiUtils.GetArr(_constants, _constantCount);
+			set => ApiUtils.SetArr(value, out _constants, out _constantCount);
 		}
 		public Span<WGPUVertexBufferLayout> Buffers {
-			get => ApiUtils.GetArr(buffers, bufferCount);
-			set => ApiUtils.SetArr(value, out buffers, out bufferCount);
+			get => ApiUtils.GetArr(_buffers, _bufferCount);
+			set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
 		}
 	}
 
@@ -998,23 +998,23 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct*      nextInChain;
 		public      WGPUShaderModule        module;
-		internal    char*                   entryPoint;
-		internal    ulong                   constantCount;
-		internal    WGPUConstantEntry*      constants;
-		internal    ulong                   targetCount;
-		internal    WGPUColorTargetState*   targets;
+		internal    char*                   _entryPoint;
+		internal    ulong                   _constantCount;
+		internal    WGPUConstantEntry*      _constants;
+		internal    ulong                   _targetCount;
+		internal    WGPUColorTargetState*   _targets;
 		// --- properties
 		public Utf8 EntryPoint {
-			get => ApiUtils.GetUtf8(entryPoint);
-			set => ApiUtils.SetUtf8(value, out this.entryPoint);
+			get => ApiUtils.GetUtf8(_entryPoint);
+			set => ApiUtils.SetUtf8(value, out this._entryPoint);
 		}
 		public Span<WGPUConstantEntry> Constants {
-			get => ApiUtils.GetArr(constants, constantCount);
-			set => ApiUtils.SetArr(value, out constants, out constantCount);
+			get => ApiUtils.GetArr(_constants, _constantCount);
+			set => ApiUtils.SetArr(value, out _constants, out _constantCount);
 		}
 		public Span<WGPUColorTargetState> Targets {
-			get => ApiUtils.GetArr(targets, targetCount);
-			set => ApiUtils.SetArr(value, out targets, out targetCount);
+			get => ApiUtils.GetArr(_targets, _targetCount);
+			set => ApiUtils.SetArr(value, out _targets, out _targetCount);
 		}
 	}
 
@@ -1022,49 +1022,49 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPURenderPipelineDescriptor
 	{
 		public      WGPUChainedStruct*      nextInChain;
-		internal    char*                   label;
+		internal    char*                   _label;
 		public      WGPUPipelineLayout      layout;
 		public      WGPUVertexState         vertex;
 		public      WGPUPrimitiveState      primitive;
-		internal    WGPUDepthStencilState*  depthStencil;
+		internal    WGPUDepthStencilState*  _depthStencil;
 		public      WGPUMultisampleState    multisample;
-		internal    WGPUFragmentState*      fragment;
+		internal    WGPUFragmentState*      _fragment;
 		// --- properties
 		public Utf8 Label {
-			get => ApiUtils.GetUtf8(label);
-			set => ApiUtils.SetUtf8(value, out this.label);
+			get => ApiUtils.GetUtf8(_label);
+			set => ApiUtils.SetUtf8(value, out this._label);
 		}
 		public WGPUDepthStencilState? DepthStencil {
-			get => ApiUtils.GetOpt(depthStencil);
-			set => ApiUtils.SetOpt(out depthStencil, value);
+			get => ApiUtils.GetOpt(_depthStencil);
+			set => ApiUtils.SetOpt(out _depthStencil, value);
 		}
 		public WGPUFragmentState? Fragment {
-			get => ApiUtils.GetOpt(fragment);
-			set => ApiUtils.SetOpt(out fragment, value);
+			get => ApiUtils.GetOpt(_fragment);
+			set => ApiUtils.SetOpt(out _fragment, value);
 		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
 	public unsafe struct WGPUChainedStruct
 	{
-		internal    WGPUChainedStruct*      next;
+		internal    WGPUChainedStruct*      _next;
 		public      WGPUSType               sType;
 		// --- properties
 		public WGPUChainedStruct? Next {
-			get => ApiUtils.GetOpt(next);
-			set => ApiUtils.SetOpt(out next, value);
+			get => ApiUtils.GetOpt(_next);
+			set => ApiUtils.SetOpt(out _next, value);
 		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
 	public unsafe struct WGPUChainedStructOut
 	{
-		internal    WGPUChainedStructOut*   next;
+		internal    WGPUChainedStructOut*   _next;
 		public      WGPUSType               sType;
 		// --- properties
 		public WGPUChainedStructOut? Next {
-			get => ApiUtils.GetOpt(next);
-			set => ApiUtils.SetOpt(out next, value);
+			get => ApiUtils.GetOpt(_next);
+			set => ApiUtils.SetOpt(out _next, value);
 		}
 	}
 
@@ -1076,16 +1076,16 @@ namespace Evergine.Bindings.WebGPU
 		public      WGPUInstance            flags;
 		public      WGPUDx12Compiler        dx12ShaderCompiler;
 		public      WGPUGles3MinorVersion   gles3MinorVersion;
-		internal    char*                   dxilPath;
-		internal    char*                   dxcPath;
+		internal    char*                   _dxilPath;
+		internal    char*                   _dxcPath;
 		// --- properties
 		public Utf8 DxilPath {
-			get => ApiUtils.GetUtf8(dxilPath);
-			set => ApiUtils.SetUtf8(value, out this.dxilPath);
+			get => ApiUtils.GetUtf8(_dxilPath);
+			set => ApiUtils.SetUtf8(value, out this._dxilPath);
 		}
 		public Utf8 DxcPath {
-			get => ApiUtils.GetUtf8(dxcPath);
-			set => ApiUtils.SetUtf8(value, out this.dxcPath);
+			get => ApiUtils.GetUtf8(_dxcPath);
+			set => ApiUtils.SetUtf8(value, out this._dxcPath);
 		}
 	}
 
@@ -1093,11 +1093,11 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUDeviceExtras
 	{
 		public      WGPUChainedStruct       chain;
-		internal    char*                   tracePath;
+		internal    char*                   _tracePath;
 		// --- properties
 		public Utf8 TracePath {
-			get => ApiUtils.GetUtf8(tracePath);
-			set => ApiUtils.SetUtf8(value, out this.tracePath);
+			get => ApiUtils.GetUtf8(_tracePath);
+			set => ApiUtils.SetUtf8(value, out this._tracePath);
 		}
 	}
 
@@ -1134,12 +1134,12 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUPipelineLayoutExtras
 	{
 		public      WGPUChainedStruct       chain;
-		internal    ulong                   pushConstantRangeCount;
-		internal    WGPUPushConstantRange*  pushConstantRanges;
+		internal    ulong                   _pushConstantRangeCount;
+		internal    WGPUPushConstantRange*  _pushConstantRanges;
 		// --- properties
 		public Span<WGPUPushConstantRange> PushConstantRanges {
-			get => ApiUtils.GetArr(pushConstantRanges, pushConstantRangeCount);
-			set => ApiUtils.SetArr(value, out pushConstantRanges, out pushConstantRangeCount);
+			get => ApiUtils.GetArr(_pushConstantRanges, _pushConstantRangeCount);
+			set => ApiUtils.SetArr(value, out _pushConstantRanges, out _pushConstantRangeCount);
 		}
 	}
 
@@ -1153,16 +1153,16 @@ namespace Evergine.Bindings.WebGPU
 	[StructLayout(LayoutKind.Sequential)]
 	public unsafe struct WGPUShaderDefine
 	{
-		internal    char*                   name;
-		internal    char*                   value;
+		internal    char*                   _name;
+		internal    char*                   _value;
 		// --- properties
 		public Utf8 Name {
-			get => ApiUtils.GetUtf8(name);
-			set => ApiUtils.SetUtf8(value, out this.name);
+			get => ApiUtils.GetUtf8(_name);
+			set => ApiUtils.SetUtf8(value, out this._name);
 		}
 		public Utf8 Value {
-			get => ApiUtils.GetUtf8(value);
-			set => ApiUtils.SetUtf8(value, out this.value);
+			get => ApiUtils.GetUtf8(_value);
+			set => ApiUtils.SetUtf8(value, out this._value);
 		}
 	}
 
@@ -1171,17 +1171,17 @@ namespace Evergine.Bindings.WebGPU
 	{
 		public      WGPUChainedStruct       chain;
 		public      WGPUShaderStage         stage;
-		internal    char*                   code;
-		internal    uint                    defineCount;
-		internal    WGPUShaderDefine*       defines;
+		internal    char*                   _code;
+		internal    uint                    _defineCount;
+		internal    WGPUShaderDefine*       _defines;
 		// --- properties
 		public Utf8 Code {
-			get => ApiUtils.GetUtf8(code);
-			set => ApiUtils.SetUtf8(value, out this.code);
+			get => ApiUtils.GetUtf8(_code);
+			set => ApiUtils.SetUtf8(value, out this._code);
 		}
 		public Span<WGPUShaderDefine> Defines {
-			get => ApiUtils.GetArr(defines, defineCount);
-			set => ApiUtils.SetArr(value, out defines, out defineCount);
+			get => ApiUtils.GetArr(_defines, _defineCount);
+			set => ApiUtils.SetArr(value, out _defines, out _defineCount);
 		}
 	}
 
@@ -1238,24 +1238,24 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUBindGroupEntryExtras
 	{
 		public      WGPUChainedStruct       chain;
-		internal    WGPUBuffer*             buffers;
-		internal    ulong                   bufferCount;
-		internal    WGPUSampler*            samplers;
-		internal    ulong                   samplerCount;
-		internal    WGPUTextureView*        textureViews;
-		internal    ulong                   textureViewCount;
+		internal    WGPUBuffer*             _buffers;
+		internal    ulong                   _bufferCount;
+		internal    WGPUSampler*            _samplers;
+		internal    ulong                   _samplerCount;
+		internal    WGPUTextureView*        _textureViews;
+		internal    ulong                   _textureViewCount;
 		// --- properties
 		public Span<WGPUBuffer> Buffers {
-			get => ApiUtils.GetArr(buffers, bufferCount);
-			set => ApiUtils.SetArr(value, out buffers, out bufferCount);
+			get => ApiUtils.GetArr(_buffers, _bufferCount);
+			set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
 		}
 		public Span<WGPUSampler> Samplers {
-			get => ApiUtils.GetArr(samplers, samplerCount);
-			set => ApiUtils.SetArr(value, out samplers, out samplerCount);
+			get => ApiUtils.GetArr(_samplers, _samplerCount);
+			set => ApiUtils.SetArr(value, out _samplers, out _samplerCount);
 		}
 		public Span<WGPUTextureView> TextureViews {
-			get => ApiUtils.GetArr(textureViews, textureViewCount);
-			set => ApiUtils.SetArr(value, out textureViews, out textureViewCount);
+			get => ApiUtils.GetArr(_textureViews, _textureViewCount);
+			set => ApiUtils.SetArr(value, out _textureViews, out _textureViewCount);
 		}
 	}
 
@@ -1270,12 +1270,12 @@ namespace Evergine.Bindings.WebGPU
 	public unsafe struct WGPUQuerySetDescriptorExtras
 	{
 		public      WGPUChainedStruct       chain;
-		internal    WGPUPipelineStatisticName* pipelineStatistics;
-		internal    ulong                   pipelineStatisticCount;
+		internal    WGPUPipelineStatisticName* _pipelineStatistics;
+		internal    ulong                   _pipelineStatisticCount;
 		// --- properties
 		public Span<WGPUPipelineStatisticName> PipelineStatistics {
-			get => ApiUtils.GetArr(pipelineStatistics, pipelineStatisticCount);
-			set => ApiUtils.SetArr(value, out pipelineStatistics, out pipelineStatisticCount);
+			get => ApiUtils.GetArr(_pipelineStatistics, _pipelineStatisticCount);
+			set => ApiUtils.SetArr(value, out _pipelineStatistics, out _pipelineStatisticCount);
 		}
 	}
 

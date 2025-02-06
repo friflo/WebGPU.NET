@@ -22,14 +22,14 @@ public unsafe partial struct WGPUDevice
         {
             chain = new WGPUChainedStruct()
             {
-                next = null,
+                _next = null,
                 sType = WGPUSType.ShaderModuleWGSLDescriptor,
             },
             Code = code,
         };
         descriptor.nextInChain = &wgslDescriptor.chain;
         var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor.label);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor._label);
         return result;
     }
     
