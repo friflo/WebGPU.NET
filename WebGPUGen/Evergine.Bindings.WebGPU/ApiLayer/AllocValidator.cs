@@ -41,34 +41,8 @@ public static class AllocValidator
     
     internal static void UpdateResetVersion(AllocHeader header) {
         _arenaVersions[header.allocatorIndex] = header.version;
-    } 
-        
-    internal static unsafe void ValidateRenderPipelineDescriptor(this in WGPURenderPipelineDescriptor descriptor) {
-        ValidatePtr(descriptor._label);
-        ValidatePtr(descriptor.nextInChain);
-        ValidateFragmentState(*descriptor._fragment);
     }
-    
-    internal static unsafe void ValidateFragmentState(in WGPUFragmentState fragmentState) {
-        ValidatePtr(fragmentState._entryPoint);
-        ValidateColorTargetStates(fragmentState.targets);
-    }
-    
-    internal static unsafe void ValidateColorTargetStates(Span<WGPUColorTargetState> fragmentStates)
-    {
-        ValidateSpan(fragmentStates);
-        foreach (var state in fragmentStates) {
-            ValidatePtr(state.nextInChain);
-            ValidatePtr(state._blend);            
-        }
-    }
-    
-    public static unsafe void ValidateSpan<T>(Span<T> span) where T : unmanaged
-    {
-        void* ptr = Unsafe.AsPointer(ref span.GetPinnableReference());
-        ValidatePtr(ptr);
-    }
-    
+
     public static unsafe void ValidatePtr(void* ptr)
     {
         if (ptr == null) {
