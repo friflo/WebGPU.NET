@@ -126,9 +126,6 @@ namespace HelloTriangle
             {
                 nextInChain = null,
                 Label = "Device"u8,
-                requiredFeatures = null,
-                requiredFeatureCount = 0,
-                requiredLimits = null,
                 // uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
                 //    callback = &HandleUncapturedErrorCallback
                 // }
@@ -206,8 +203,6 @@ namespace HelloTriangle
             WGPUPipelineLayoutDescriptor layoutDescription = new()
             {
                 nextInChain = null,
-                bindGroupLayoutCount = 0,
-                bindGroupLayouts = null,
             };
             var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
             // pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
@@ -317,8 +312,6 @@ namespace HelloTriangle
                     }],
                     module = shaderModule,
                     EntryPoint = "vertexMain"u8,
-                    constantCount = 0,
-                    constants = null,
                 },
                 primitive = new WGPUPrimitiveState {
                     topology = WGPUPrimitiveTopology.TriangleList,
@@ -348,7 +341,6 @@ namespace HelloTriangle
                         writeMask = WGPUColorWriteMask.All,
                     }]
                 },
-                depthStencil = null,
                 multisample = new WGPUMultisampleState {
                     count = 1,
                     mask = ~0u,
@@ -396,9 +388,7 @@ namespace HelloTriangle
                 this.DrawFrame();
                 for (int n = 0; n < 100_000; n++) {
                     var desc = new WGPURenderPipelineDescriptor() {
-                        Fragment = new WGPUFragmentState() {
-                            constantCount = (ulong)n
-                        }
+                        Fragment = new WGPUFragmentState { }
                     };
                     if (n % 10_000 == 0) {
                         frameArena.Reset();
@@ -442,8 +432,6 @@ namespace HelloTriangle
                     storeOp = WGPUStoreOp.Store,
                     clearValue = new WGPUColor() { a = 1.0f },
                 }],
-                depthStencilAttachment = null,
-                timestampWrites = null,
             });
             var name = renderPass.ToString();
 

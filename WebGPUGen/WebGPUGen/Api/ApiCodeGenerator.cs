@@ -226,6 +226,64 @@ public static class ApiCodeGenerator
         }
         return signature.ToString();
     }
+    
+    internal static bool IsInternalField(CppField field, CppClass parent)
+    {
+        if (field.Name == "nextInChain") {
+            return false;
+        }
+        string type = Helpers.ConvertToCSharpType(field.Type);
+        if (type == "void*") {
+            return false;
+        }
+        if (type == "char*") {
+            return true;
+        }
+        if (type.EndsWith("*")) {
+            if (field.Name.EndsWith("s")) {
+                // case: Field tuples used for arrays. e.g.
+                //      public WGPUBuffer* buffers;
+                //      public ulong bufferCount;
+                var arrayFieldName = field.Name;
+                string countFieldName;
+                if (field.Name == "entries") {
+                    countFieldName = "entryCount";
+                } else {
+                    countFieldName = field.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
+                }
+                CppField countField = parent.Fields.FirstOrDefault(field => field.Name == countFieldName);
+                if (countField != null) {
+                    return true;
+                }
+            }
+            // case: Pointer field used for an optional values. 
+            return true;
+        }
+        if (field.Name == "colorFormatCount") {
+            int i = 111;
+        }
+        if (field.Name.EndsWith("Count")) {
+            var arrayFieldName = field.Name.Substring(0, field.Name.Length - "Count".Length) + "s";
+            if (field.Name == "entryCount") {
+                arrayFieldName = "entries";
+            }
+            CppField arrayField = parent.Fields.FirstOrDefault(field => field.Name == arrayFieldName);
+            if (arrayField != null) {
+                return true;
+            }
+        }
+        /* if (field.Type is CppTypedef typedef) {
+            if (typedef.ElementType is CppPrimitiveType primitiveType) {
+                countFieldName = field.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
+                switch (primitiveType.Kind) {
+                    case CppPrimitiveKind.UnsignedLongLong:
+                    case CppPrimitiveKind.LongLong:
+                        return true;
+                }
+            }
+        } */
+        return false;
+    }
 
     public static void AddStructProperties(StreamWriter file, CppClass structure)
     {

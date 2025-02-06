@@ -228,7 +228,9 @@ namespace WebGPUGen
                             // https://stackoverflow.com/questions/32110152/c-sharp-marshalling-bool
                             file.WriteLine($"\t\t[MarshalAs(UnmanagedType.I1)]");
                         }
-                        file.WriteLine($"\t\tpublic {type} {member.Name};");
+                        bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
+                        var visibility = isInternalField ? "internal   " : "public     ";
+                        file.WriteLine($"\t\t{visibility} {type,-23} {member.Name};");
                     }
                     ApiCodeGenerator.AddStructProperties(file, structure);
 
