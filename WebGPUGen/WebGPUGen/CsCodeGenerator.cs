@@ -36,7 +36,7 @@ namespace WebGPUGen
                        && t.ElementType is CppPointerType
                        && ((CppPointerType)t.ElementType).ElementType.TypeKind == CppTypeKind.Function)
                 .ToList();
-
+            ApiCodeGenerator.CollectStructsWithPointers(compilation);
             GenerateConstants(compilation, outputPath);
             GenerateDelegates(compilation, outputPath);
             GenerateEnums(compilation, outputPath);

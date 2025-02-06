@@ -34,6 +34,13 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_description);
 			set => ApiUtils.SetUtf8(value, out this._description);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_vendor);
+			AllocValidator.ValidatePtr(_architecture);
+			AllocValidator.ValidatePtr(_device);
+			AllocValidator.ValidatePtr(_description);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -78,6 +85,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -99,6 +110,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -110,6 +125,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 label {
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
 		}
 	}
 
@@ -131,6 +150,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_message);
 			set => ApiUtils.SetUtf8(value, out this._message);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_message);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -151,6 +174,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 key {
 			get => ApiUtils.GetUtf8(_key);
 			set => ApiUtils.SetUtf8(value, out this._key);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_key);
 		}
 	}
 
@@ -238,6 +265,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_bindGroupLayouts, _bindGroupLayoutCount);
 			set => ApiUtils.SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_bindGroupLayouts);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -269,6 +301,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -281,6 +317,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -292,6 +332,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 label {
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
 		}
 	}
 
@@ -314,6 +358,11 @@ namespace Evergine.Bindings.WebGPU
 		public Span<WGPUTextureFormat> colorFormats {
 			get => ApiUtils.GetArr(_colorFormats, _colorFormatCount);
 			set => ApiUtils.SetArr(value, out _colorFormats, out _colorFormatCount);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_colorFormats);
 		}
 	}
 
@@ -383,6 +432,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -395,6 +448,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 entryPoint {
 			get => ApiUtils.GetUtf8(_entryPoint);
 			set => ApiUtils.SetUtf8(value, out this._entryPoint);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_entryPoint);
 		}
 	}
 
@@ -409,6 +466,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetOpt(_code);
 			set => ApiUtils.SetOpt(out _code, value);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_code);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -420,6 +481,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 code {
 			get => ApiUtils.GetUtf8(_code);
 			set => ApiUtils.SetUtf8(value, out this._code);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_code);
 		}
 	}
 
@@ -465,6 +530,12 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_alphaModes, _alphaModeCount);
 			set => ApiUtils.SetArr(value, out _alphaModes, out _alphaModeCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_formats);
+			AllocValidator.ValidatePtr(_presentModes);
+			AllocValidator.ValidatePtr(_alphaModes);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -485,6 +556,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
 			set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_viewFormats);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -496,6 +571,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 label {
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
 		}
 	}
 
@@ -520,6 +599,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 selector {
 			get => ApiUtils.GetUtf8(_selector);
 			set => ApiUtils.SetUtf8(value, out this._selector);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_selector);
 		}
 	}
 
@@ -638,6 +721,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -678,6 +765,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_entries, _entryCount);
 			set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_entries);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -710,6 +802,13 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_messages, _messageCount);
 			set => ApiUtils.SetArr(value, out _messages, out _messageCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_messages);
+			foreach (var element in messages) {
+			    element.Validate();
+			}
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -726,6 +825,11 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUComputePassTimestampWrites? timestampWrites {
 			get => ApiUtils.GetOpt(_timestampWrites);
 			set => ApiUtils.SetOpt(out _timestampWrites, value);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_timestampWrites);
 		}
 	}
 
@@ -780,6 +884,14 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_constants, _constantCount);
 			set => ApiUtils.SetArr(value, out _constants, out _constantCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_entryPoint);
+			AllocValidator.ValidatePtr(_constants);
+			foreach (var element in constants) {
+			    element.Validate();
+			}
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -817,6 +929,14 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_hints, _hintCount);
 			set => ApiUtils.SetArr(value, out _hints, out _hintCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_hints);
+			foreach (var element in hints) {
+			    element.Validate();
+			}
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -848,6 +968,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
 			set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_viewFormats);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -861,6 +986,10 @@ namespace Evergine.Bindings.WebGPU
 		public Span<WGPUVertexAttribute> attributes {
 			get => ApiUtils.GetArr(_attributes, _attributeCount);
 			set => ApiUtils.SetArr(value, out _attributes, out _attributeCount);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_attributes);
 		}
 	}
 
@@ -880,6 +1009,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_entries, _entryCount);
 			set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_entries);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -894,6 +1028,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetOpt(_blend);
 			set => ApiUtils.SetOpt(out _blend, value);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_blend);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -907,6 +1045,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 label {
 			get => ApiUtils.GetUtf8(_label);
 			set => ApiUtils.SetUtf8(value, out this._label);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
 		}
 	}
 
@@ -939,6 +1081,12 @@ namespace Evergine.Bindings.WebGPU
 			get => new IntPtr(deviceLostUserdata);
 			set => deviceLostUserdata = (void*)value;
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_requiredFeatures);
+			AllocValidator.ValidatePtr(_requiredLimits);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -968,6 +1116,13 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetOpt(_timestampWrites);
 			set => ApiUtils.SetOpt(out _timestampWrites, value);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_colorAttachments);
+			AllocValidator.ValidatePtr(_depthStencilAttachment);
+			AllocValidator.ValidatePtr(_timestampWrites);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -992,6 +1147,18 @@ namespace Evergine.Bindings.WebGPU
 		public Span<WGPUVertexBufferLayout> buffers {
 			get => ApiUtils.GetArr(_buffers, _bufferCount);
 			set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_entryPoint);
+			AllocValidator.ValidatePtr(_constants);
+			foreach (var element in constants) {
+			    element.Validate();
+			}
+			AllocValidator.ValidatePtr(_buffers);
+			foreach (var element in buffers) {
+			    element.Validate();
+			}
 		}
 	}
 
@@ -1018,6 +1185,18 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_targets, _targetCount);
 			set => ApiUtils.SetArr(value, out _targets, out _targetCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_entryPoint);
+			AllocValidator.ValidatePtr(_constants);
+			foreach (var element in constants) {
+			    element.Validate();
+			}
+			AllocValidator.ValidatePtr(_targets);
+			foreach (var element in targets) {
+			    element.Validate();
+			}
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1043,6 +1222,12 @@ namespace Evergine.Bindings.WebGPU
 		public WGPUFragmentState? fragment {
 			get => ApiUtils.GetOpt(_fragment);
 			set => ApiUtils.SetOpt(out _fragment, value);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_label);
+			AllocValidator.ValidatePtr(_depthStencil);
+			AllocValidator.ValidatePtr(_fragment);
 		}
 	}
 
@@ -1089,6 +1274,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_dxcPath);
 			set => ApiUtils.SetUtf8(value, out this._dxcPath);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_dxilPath);
+			AllocValidator.ValidatePtr(_dxcPath);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1100,6 +1290,10 @@ namespace Evergine.Bindings.WebGPU
 		public Utf8 tracePath {
 			get => ApiUtils.GetUtf8(_tracePath);
 			set => ApiUtils.SetUtf8(value, out this._tracePath);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_tracePath);
 		}
 	}
 
@@ -1143,6 +1337,10 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_pushConstantRanges, _pushConstantRangeCount);
 			set => ApiUtils.SetArr(value, out _pushConstantRanges, out _pushConstantRangeCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_pushConstantRanges);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1166,6 +1364,11 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetUtf8(_value);
 			set => ApiUtils.SetUtf8(value, out this._value);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_name);
+			AllocValidator.ValidatePtr(_value);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1184,6 +1387,11 @@ namespace Evergine.Bindings.WebGPU
 		public Span<WGPUShaderDefine> defines {
 			get => ApiUtils.GetArr(_defines, _defineCount);
 			set => ApiUtils.SetArr(value, out _defines, out _defineCount);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_code);
+			AllocValidator.ValidatePtr(_defines);
 		}
 	}
 
@@ -1259,6 +1467,12 @@ namespace Evergine.Bindings.WebGPU
 			get => ApiUtils.GetArr(_textureViews, _textureViewCount);
 			set => ApiUtils.SetArr(value, out _textureViews, out _textureViewCount);
 		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_buffers);
+			AllocValidator.ValidatePtr(_samplers);
+			AllocValidator.ValidatePtr(_textureViews);
+		}
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
@@ -1278,6 +1492,10 @@ namespace Evergine.Bindings.WebGPU
 		public Span<WGPUPipelineStatisticName> pipelineStatistics {
 			get => ApiUtils.GetArr(_pipelineStatistics, _pipelineStatisticCount);
 			set => ApiUtils.SetArr(value, out _pipelineStatistics, out _pipelineStatisticCount);
+		}
+
+		public void Validate() {
+			AllocValidator.ValidatePtr(_pipelineStatistics);
 		}
 	}
 

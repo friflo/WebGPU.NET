@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace WebGPUGen;
 
@@ -8,6 +9,32 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
+public enum PropertyType
+{
+    Utf8,
+    Arr,
+    Opt,
+    Void,
+    Value,
+}
+
+public class Property {
+    public readonly     string              name;
+    public readonly     CppType             cppType;
+    public readonly     CppQualifiedType    elementType;
+    public readonly     PropertyType        type;
+
+    public Property(string name, CppType cppType, PropertyType type) {
+        this.name       = name;
+        this.type       = type;
+        if (cppType is CppPointerType pointerType) {
+            elementType  = pointerType.ElementType as CppQualifiedType;    
+        }
+        this.cppType    = cppType;
+    }
+
+    public override string ToString() => name;
+}
 
 public static class ApiCodeGenerator
 {
@@ -281,11 +308,37 @@ public static class ApiCodeGenerator
         } */
         return false;
     }
+    
+    private static readonly HashSet<CppClass> StructsWithPointers = new HashSet<CppClass>();
+    
+    public static void CollectStructsWithPointers(CppCompilation compilation)
+    {
+        var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
+        foreach (var structure in structs) {
+            if (structure.Name == "WGPUChainedStruct") {
+                int  i = 1;
+            }
+            foreach (var field in structure.Fields) {
+                if (field.Name == "nextInChain" || field.Name == "chain" || field.Name == "next") {
+                    continue;
+                }
+                string type = Helpers.ConvertToCSharpType(field.Type);
+                if (type == "void*") {
+                    continue;
+                }
+                if (type == "char*" || type.EndsWith("*")) {
+                    StructsWithPointers.Add(structure);
+                    break;
+                }
+            }
+        }
+    }
 
     public static void AddStructProperties(StreamWriter file, CppClass structure)
     {
         var sb = new StringBuilder();
         var fields = structure.Fields;
+        var properties = new List<Property>();
         foreach (var member in fields)
         {
             if (member.Name == "nextInChain") {
@@ -306,6 +359,7 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8(_{member.Name});");
                 sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t\t}}");
+                properties.Add(new Property(propertyName, member.Type, PropertyType.Utf8));
                 continue;
             }
             if (type.EndsWith("*")) {
@@ -328,6 +382,7 @@ public static class ApiCodeGenerator
                         sb.AppendLine($"\t\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
                         sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
                         sb.AppendLine($"\t\t}}");
+                        properties.Add(new Property(propertyName, member.Type, PropertyType.Arr));
                         continue;
                     }
                 }
@@ -339,14 +394,49 @@ public static class ApiCodeGenerator
                     sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt(_{member.Name});");
                     sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
                     sb.AppendLine($"\t\t}}");
+                    properties.Add(new Property(propertyName, member.Type, PropertyType.Opt));
                     continue;
                 }
             }
+            properties.Add(new Property(member.Name, member.Type, PropertyType.Value));
         }
-        if (sb.Length > 0) {
-            file.WriteLine("\t\t// --- properties");
-            file.Write(sb.ToString());
+        if (sb.Length == 0) {
+            return;
         }
+        if (structure.Name == "WGPUSurfaceDescriptorFromAndroidNativeWindow") {
+            int i = 1;
+        }
+        // --- add Validate()
+        if (StructsWithPointers.Contains(structure))
+        {
+            sb.AppendLine();
+            sb.AppendLine("\t\tpublic void Validate() {");
+            foreach (var property in properties) {
+                switch (property.type) {
+                    case PropertyType.Utf8:
+                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
+                        break;
+                    case PropertyType.Opt:
+                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
+                        break;
+                    case PropertyType.Arr:
+                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
+                        if (property.elementType != null) {
+                            if (StructsWithPointers.Contains(property.elementType.ElementType)) {
+                                // sb.AppendLine($"\t\t\t// hasElements");
+                                sb.AppendLine($"\t\t\tforeach (var element in {property.name}) {{");
+                                sb.AppendLine($"\t\t\t    element.Validate();");
+                                sb.AppendLine($"\t\t\t}}");
+                            }
+                        }
+                        break;
+                }
+            }
+            sb.AppendLine("\t\t}");
+        }
+
+        file.WriteLine("\t\t// --- properties");
+        file.Write(sb.ToString());
     }
 }
 
