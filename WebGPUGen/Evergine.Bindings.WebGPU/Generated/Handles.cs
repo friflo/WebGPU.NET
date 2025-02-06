@@ -1,7 +1,7 @@
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
+// ReSharper disable InconsistentNaming
+// ReSharper disable StructCanBeMadeReadOnly
+// ReSharper disable ConvertToPrimaryConstructor
+// ReSharper disable MemberCanBePrivate.Global
 namespace Evergine.Bindings.WebGPU
 {
 	public partial struct WGPUAdapter : IEquatable<WGPUAdapter>

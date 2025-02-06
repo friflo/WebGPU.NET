@@ -1,6 +1,8 @@
-using System;
 using System.Runtime.InteropServices;
 
+
+// ReSharper disable RedundantUnsafeContext;
+// ReSharper disable InconsistentNaming;
 namespace Evergine.Bindings.WebGPU
 {
 	[StructLayout(LayoutKind.Sequential)]

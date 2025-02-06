@@ -156,9 +156,10 @@ namespace WebGPUGen
 
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Handles.cs")))
             {
-                file.WriteLine("using System;");
-                file.WriteLine("using System.Diagnostics;");
-                file.WriteLine("using System.Runtime.InteropServices;\n");
+                file.WriteLine("// ReSharper disable InconsistentNaming");
+                file.WriteLine("// ReSharper disable StructCanBeMadeReadOnly");
+                file.WriteLine("// ReSharper disable ConvertToPrimaryConstructor");
+                file.WriteLine("// ReSharper disable MemberCanBePrivate.Global");
                 file.WriteLine("namespace Evergine.Bindings.WebGPU");
                 file.WriteLine("{");
 
@@ -204,8 +205,10 @@ namespace WebGPUGen
 
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Structs.cs")))
             {
-                file.WriteLine("using System;");
                 file.WriteLine("using System.Runtime.InteropServices;\n");
+                file.WriteLine();
+                file.WriteLine("// ReSharper disable RedundantUnsafeContext;");
+                file.WriteLine("// ReSharper disable InconsistentNaming;");
                 file.WriteLine("namespace Evergine.Bindings.WebGPU");
                 file.WriteLine("{");
 
