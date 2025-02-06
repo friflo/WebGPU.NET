@@ -1228,6 +1228,7 @@ namespace Evergine.Bindings.WebGPU
 			AllocValidator.ValidatePtr(_label);
 			AllocValidator.ValidatePtr(_depthStencil);
 			AllocValidator.ValidatePtr(_fragment);
+			_fragment->Validate();
 		}
 	}
 

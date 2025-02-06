@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ClangSharp;
 
 namespace WebGPUGen;
 
@@ -8,33 +9,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
-public enum PropertyType
-{
-    Utf8,
-    Arr,
-    Opt,
-    Void,
-    Value,
-}
-
-public class Property {
-    public readonly     string              name;
-    public readonly     CppType             cppType;
-    public readonly     CppQualifiedType    elementType;
-    public readonly     PropertyType        type;
-
-    public Property(string name, CppType cppType, PropertyType type) {
-        this.name       = name;
-        this.type       = type;
-        if (cppType is CppPointerType pointerType) {
-            elementType  = pointerType.ElementType as CppQualifiedType;    
-        }
-        this.cppType    = cppType;
-    }
-
-    public override string ToString() => name;
-}
 
 public static class ApiCodeGenerator
 {
@@ -338,7 +312,7 @@ public static class ApiCodeGenerator
     {
         var sb = new StringBuilder();
         var fields = structure.Fields;
-        var properties = new List<Property>();
+        var arrayFields = new List<string>();
         foreach (var member in fields)
         {
             if (member.Name == "nextInChain") {
@@ -359,7 +333,6 @@ public static class ApiCodeGenerator
                 sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8(_{member.Name});");
                 sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t\t}}");
-                properties.Add(new Property(propertyName, member.Type, PropertyType.Utf8));
                 continue;
             }
             if (type.EndsWith("*")) {
@@ -376,13 +349,13 @@ public static class ApiCodeGenerator
                     }
                     CppField countField = fields.FirstOrDefault(field => field.Name == countFieldName);
                     if (countField != null) {
+                        arrayFields.Add(arrayFieldName);
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = arrayFieldName;
                         sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
                         sb.AppendLine($"\t\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
                         sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
                         sb.AppendLine($"\t\t}}");
-                        properties.Add(new Property(propertyName, member.Type, PropertyType.Arr));
                         continue;
                     }
                 }
@@ -394,49 +367,54 @@ public static class ApiCodeGenerator
                     sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt(_{member.Name});");
                     sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
                     sb.AppendLine($"\t\t}}");
-                    properties.Add(new Property(propertyName, member.Type, PropertyType.Opt));
                     continue;
                 }
             }
-            properties.Add(new Property(member.Name, member.Type, PropertyType.Value));
         }
-        if (sb.Length == 0) {
-            return;
+        if (sb.Length > 0) {
+            file.WriteLine("\t\t// --- properties");
         }
+        AddValidateMethods(sb, structure, arrayFields);
+        file.Write(sb.ToString());
+    }
+    
+    private static void AddValidateMethods(StringBuilder sb, CppClass structure, List<string> arrayFields)
+    {
         if (structure.Name == "WGPUSurfaceDescriptorFromAndroidNativeWindow") {
             int i = 1;
         }
         // --- add Validate()
-        if (StructsWithPointers.Contains(structure))
-        {
-            sb.AppendLine();
-            sb.AppendLine("\t\tpublic void Validate() {");
-            foreach (var property in properties) {
-                switch (property.type) {
-                    case PropertyType.Utf8:
-                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
-                        break;
-                    case PropertyType.Opt:
-                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
-                        break;
-                    case PropertyType.Arr:
-                        sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{property.name});");
-                        if (property.elementType != null) {
-                            if (StructsWithPointers.Contains(property.elementType.ElementType)) {
-                                // sb.AppendLine($"\t\t\t// hasElements");
-                                sb.AppendLine($"\t\t\tforeach (var element in {property.name}) {{");
-                                sb.AppendLine($"\t\t\t    element.Validate();");
-                                sb.AppendLine($"\t\t\t}}");
-                            }
-                        }
-                        break;
-                }
-            }
-            sb.AppendLine("\t\t}");
+        if (!StructsWithPointers.Contains(structure)) {
+            return;
         }
-
-        file.WriteLine("\t\t// --- properties");
-        file.Write(sb.ToString());
+        sb.AppendLine();
+        sb.AppendLine("\t\tpublic void Validate() {");
+        foreach (var field in structure.Fields)
+        {
+            if (field.Name == "nextInChain" ||
+                field.Name == "deviceLostUserdata") {
+                continue;
+            }
+            if (field.Name == "constants") {
+                int i = 11;
+            }
+            if (field.Type is CppPointerType pointerType) {
+                sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{field.Name});");
+                if (pointerType.ElementType is CppQualifiedType cppQualifiedType) {
+                    if (StructsWithPointers.Contains(cppQualifiedType.ElementType)) {
+                        if (arrayFields.Contains(field.Name)) {
+                            sb.AppendLine($"\t\t\tforeach (var element in {field.Name}) {{");
+                            sb.AppendLine($"\t\t\t    element.Validate();");
+                            sb.AppendLine($"\t\t\t}}");
+                        } else {
+                            sb.AppendLine($"\t\t\t_{field.Name}->Validate();");
+                        }
+                    }
+                }
+                continue;
+            }
+        }
+        sb.AppendLine("\t\t}");
     }
 }
 
