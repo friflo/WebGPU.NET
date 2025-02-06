@@ -395,8 +395,13 @@ public static class ApiCodeGenerator
                 field.Name == "deviceLostUserdata") {
                 continue;
             }
-            if (field.Name == "constants") {
+            if (field.Name == "vertex") {
                 int i = 11;
+            }
+            if (field.Type is CppClass cppClass) {
+                if (StructsWithPointers.Contains(cppClass)) {
+                    sb.AppendLine($"\t\t\t{field.Name}.Validate();");
+                }
             }
             if (field.Type is CppPointerType pointerType) {
                 sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{field.Name});");

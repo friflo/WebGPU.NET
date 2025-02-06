@@ -1049,6 +1049,7 @@ namespace Evergine.Bindings.WebGPU
 
 		public void Validate() {
 			AllocValidator.ValidatePtr(_label);
+			compute.Validate();
 		}
 	}
 
@@ -1086,6 +1087,7 @@ namespace Evergine.Bindings.WebGPU
 			AllocValidator.ValidatePtr(_label);
 			AllocValidator.ValidatePtr(_requiredFeatures);
 			AllocValidator.ValidatePtr(_requiredLimits);
+			defaultQueue.Validate();
 		}
 	}
 
@@ -1226,6 +1228,7 @@ namespace Evergine.Bindings.WebGPU
 
 		public void Validate() {
 			AllocValidator.ValidatePtr(_label);
+			vertex.Validate();
 			AllocValidator.ValidatePtr(_depthStencil);
 			AllocValidator.ValidatePtr(_fragment);
 			_fragment->Validate();
