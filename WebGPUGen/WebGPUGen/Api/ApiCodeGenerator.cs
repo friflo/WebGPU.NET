@@ -259,9 +259,6 @@ public static class ApiCodeGenerator
             // case: Pointer field used for an optional values. 
             return true;
         }
-        if (field.Name == "colorFormatCount") {
-            int i = 111;
-        }
         if (field.Name.EndsWith("Count")) {
             var arrayFieldName = field.Name.Substring(0, field.Name.Length - "Count".Length) + "s";
             if (field.Name == "entryCount") {
