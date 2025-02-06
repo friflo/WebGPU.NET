@@ -117,7 +117,7 @@ namespace HelloTriangle
             
             // WGPUSupportedLimits limits;
             // wgpuAdapterGetLimits(adapter, &limits);
-            AdapterLimits = adapter.limits;
+            AdapterLimits = adapter.getLimits();
             this.Adapter = adapter;
 
             WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor()
@@ -143,7 +143,7 @@ namespace HelloTriangle
                 }
                 Device = result.device;
             });
-            var deviceLimits = Device.limits;
+            var deviceLimits = Device.getLimits();
 
             // Queue = wgpuDeviceGetQueue(Device);
             Queue = Device.queue;

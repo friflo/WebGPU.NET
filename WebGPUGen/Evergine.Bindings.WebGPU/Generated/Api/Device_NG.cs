@@ -33,11 +33,9 @@ public unsafe partial struct WGPUDevice
         return result;
     }
     
-    public WGPUSupportedLimits limits {
-        get {
-            WGPUSupportedLimits result;
-            var success = wgpuDeviceGetLimits(Handle, &result);
-            return result;
-        }
+    public WGPUSupportedLimits getLimits() {
+        WGPUSupportedLimits result;
+        var success = wgpuDeviceGetLimits(Handle, &result);
+        return result;
     }
 }

@@ -56,11 +56,9 @@ public unsafe partial struct WGPUAdapter
         }
     }
     
-    public WGPUSupportedLimits limits {
-        get {
-            WGPUSupportedLimits result;
-            var success = wgpuAdapterGetLimits(Handle, &result);
-            return result;
-        }
+    public WGPUSupportedLimits getLimits() {
+        WGPUSupportedLimits result;
+        var success = wgpuAdapterGetLimits(Handle, &result);
+        return result;
     }
 }
