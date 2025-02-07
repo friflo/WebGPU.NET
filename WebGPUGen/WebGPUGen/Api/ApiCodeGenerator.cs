@@ -245,7 +245,7 @@ public static class ApiCodeGenerator
     internal static bool IsInternalField(CppField field, CppClass parent)
     {
         if (field.Name == "nextInChain") {
-            return false;
+            return true;
         }
         string type = Helpers.ConvertToCSharpType(field.Type);
         if (type == "void*") {

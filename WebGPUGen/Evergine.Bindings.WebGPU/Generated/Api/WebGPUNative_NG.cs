@@ -7,7 +7,7 @@ public static unsafe partial class WebGPUNative
         instanceExtras.Validate();
         instanceExtras.chain.sType = (WGPUSType)WGPUNativeSType.InstanceExtras;
         WGPUInstanceDescriptor instanceDescriptor = new WGPUInstanceDescriptor {
-            nextInChain = &instanceExtras.chain
+            _nextInChain = &instanceExtras.chain
         };
         var result = wgpuCreateInstance(&instanceDescriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUInstance, null);

@@ -28,7 +28,7 @@ public unsafe partial struct WGPUInstance
             Hinstance = hInstance,
             Hwnd = hWnd
         };
-        descriptor.nextInChain = &windowsSurface.chain;
+        descriptor._nextInChain = &windowsSurface.chain;
         var result = wgpuInstanceCreateSurface(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;

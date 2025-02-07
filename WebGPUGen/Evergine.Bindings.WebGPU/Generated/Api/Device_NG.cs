@@ -28,7 +28,7 @@ public unsafe partial struct WGPUDevice
             },
             code = code,
         };
-        descriptor.nextInChain = &wgslDescriptor.chain;
+        descriptor._nextInChain = &wgslDescriptor.chain;
         var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor._label);
         return result;

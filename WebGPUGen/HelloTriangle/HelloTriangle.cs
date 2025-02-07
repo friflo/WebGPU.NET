@@ -94,9 +94,7 @@ namespace HelloTriangle
             */
             Surface = Instance.createSurfaceHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, window.Handle);
 
-            WGPURequestAdapterOptions options = new WGPURequestAdapterOptions()
-            {
-                nextInChain = null,
+            WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {
                 compatibleSurface = Surface,
                 powerPreference = WGPUPowerPreference.HighPerformance
             };
@@ -122,9 +120,7 @@ namespace HelloTriangle
             AdapterLimits = adapter.getLimits();
             this.Adapter = adapter;
 
-            WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor()
-            {
-                nextInChain = null,
+            WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor {
                 label = "Device"u8,
                 // uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
                 //    callback = &HandleUncapturedErrorCallback
@@ -153,9 +149,7 @@ namespace HelloTriangle
             int height = window.ClientSize.Height;
 
             WGPUTextureFormat textureFormat = SwapChainFormat;
-            WGPUSurfaceConfiguration surfaceConfiguration = new WGPUSurfaceConfiguration()
-            {
-                nextInChain = null,
+            WGPUSurfaceConfiguration surfaceConfiguration = new WGPUSurfaceConfiguration {
                 device = Device,
                 format = SwapChainFormat,
                 usage = WGPUTextureUsage.RenderAttachment,
@@ -200,10 +194,6 @@ namespace HelloTriangle
 
         private void InitResources()
         {
-            WGPUPipelineLayoutDescriptor layoutDescription = new()
-            {
-                nextInChain = null,
-            };
             var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
             // pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
 
@@ -320,11 +310,9 @@ namespace HelloTriangle
                     cullMode = WGPUCullMode.None,
                 },
                 fragment = new WGPUFragmentState {
-                    nextInChain = null,
                     module = shaderModule,
                     entryPoint = "fragmentMain"u8,
                     targets = [new WGPUColorTargetState {
-                        nextInChain = null,
                         format = SwapChainFormat,
                         blend = new WGPUBlendState {
                             color = new WGPUBlendComponent {
@@ -362,9 +350,7 @@ namespace HelloTriangle
             ];
 
             ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
-            WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor()
-            {
-                nextInChain = null,
+            WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor {
                 usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
                 size = size,
                 mappedAtCreation = false,
@@ -424,7 +410,6 @@ namespace HelloTriangle
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
                 label = "123"u8,
-                nextInChain = null,
                 colorAttachments = [new WGPURenderPassColorAttachment {
                     view = nextView,
                     resolveTarget = WGPUTextureView.Null,
