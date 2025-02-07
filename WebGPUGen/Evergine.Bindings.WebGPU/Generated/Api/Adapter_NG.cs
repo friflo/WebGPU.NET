@@ -21,6 +21,7 @@ public unsafe partial struct WGPUAdapter
 {
     public void requestDevice(WGPUDeviceDescriptor descriptor, UncapturedErrorCallback? errorCallback, RequestDeviceCallback? callback)
     {
+        descriptor.Validate();
         if (errorCallback is not null) {
             var errorUserData = UserData.Create(default, errorCallback);
             descriptor.uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {

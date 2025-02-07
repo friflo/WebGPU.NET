@@ -18,6 +18,7 @@ public unsafe partial struct WGPUInstance
 {
     public WGPUSurface createSurfaceHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
     {
+        descriptor.Validate();
         WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
         {
             chain = new WGPUChainedStruct()

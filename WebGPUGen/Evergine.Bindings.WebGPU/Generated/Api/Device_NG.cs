@@ -18,6 +18,7 @@ public unsafe partial struct WGPUDevice
     
     public WGPUShaderModule createShaderModuleWGSL(WGPUShaderModuleDescriptor descriptor, Utf8 code)
     {
+        descriptor.Validate();
         WGPUShaderModuleWGSLDescriptor wgslDescriptor = new()
         {
             chain = new WGPUChainedStruct()
