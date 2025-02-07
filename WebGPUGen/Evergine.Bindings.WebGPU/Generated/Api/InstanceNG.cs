@@ -17,7 +17,7 @@ public delegate void RequestAdapterCallback(in RequestAdapterResult result);
 /// No counterpart in JavaScript WebGPU           
 public unsafe partial struct WGPUInstance
 {
-#region request Surface
+#region create Surface
     public WGPUSurface createSurfaceFromWindowsHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
     {
         descriptor.Validate();
