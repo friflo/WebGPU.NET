@@ -16,6 +16,7 @@ public delegate void RequestAdapterCallback(in RequestAdapterResult result);
 /// No counterpart in JavaScript WebGPU           
 public unsafe partial struct WGPUInstance
 {
+#region request Surface
     public WGPUSurface createSurfaceFromWindowsHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
     {
         descriptor.Validate();
@@ -47,6 +48,71 @@ public unsafe partial struct WGPUInstance
         return result;
     }
     
+    public WGPUSurface createSurfaceFromWaylandSurface(WGPUSurfaceDescriptor descriptor, IntPtr surface, IntPtr display)
+    {
+        descriptor.Validate();
+        var windowsSurface = new WGPUSurfaceDescriptorFromWaylandSurface {
+            chain = new WGPUChainedStruct {
+                sType = WGPUSType.SurfaceDescriptorFromWaylandSurface
+            },
+            Surface = surface,
+            Display = display
+        };
+        descriptor._nextInChain = &windowsSurface.chain;
+        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
+        return result;
+    }
+    
+    public WGPUSurface createSurfaceFromAndroidNativeWindow(WGPUSurfaceDescriptor descriptor, IntPtr window)
+    {
+        descriptor.Validate();
+        var windowsSurface = new WGPUSurfaceDescriptorFromAndroidNativeWindow {
+            chain = new WGPUChainedStruct {
+                sType = WGPUSType.SurfaceDescriptorFromAndroidNativeWindow
+            },
+            Window = window
+        };
+        descriptor._nextInChain = &windowsSurface.chain;
+        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
+        return result;
+    }
+    
+    public WGPUSurface createSurfaceFromXlibWindow(WGPUSurfaceDescriptor descriptor, ulong window, IntPtr display)
+    {
+        descriptor.Validate();
+        var windowsSurface = new WGPUSurfaceDescriptorFromXlibWindow {
+            chain = new WGPUChainedStruct {
+                sType = WGPUSType.SurfaceDescriptorFromXlibWindow
+            },
+            window = window,
+            Display = display,
+        };
+        descriptor._nextInChain = &windowsSurface.chain;
+        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
+        return result;
+    }
+    
+    public WGPUSurface createSurfaceFromXcbWindow(WGPUSurfaceDescriptor descriptor, uint window, IntPtr connection)
+    {
+        descriptor.Validate();
+        var windowsSurface = new WGPUSurfaceDescriptorFromXcbWindow {
+            chain = new WGPUChainedStruct {
+                sType = WGPUSType.SurfaceDescriptorFromXcbWindow
+            },
+            window = window,
+            Connection = connection
+        };
+        descriptor._nextInChain = &windowsSurface.chain;
+        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
+        return result;
+    }
+    #endregion
+    
+#region request Adapter
     public void requestAdapter(WGPURequestAdapterOptions options, RequestAdapterCallback? callback)
     {
         var userData = UserData.Create(default, callback);
@@ -76,4 +142,5 @@ public unsafe partial struct WGPUInstance
             UserData.Free(userData);
         }
     }
+    #endregion
 }
