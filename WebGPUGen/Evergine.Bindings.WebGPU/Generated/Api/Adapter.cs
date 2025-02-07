@@ -25,8 +25,8 @@ public unsafe partial struct WGPUAdapter
     // requestDevice() - not generated. See: Adapter_NG.cs
 
     public void reference() {
-        wgpuAdapterReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuAdapterReference(Handle);
     }
 
     public void release() {

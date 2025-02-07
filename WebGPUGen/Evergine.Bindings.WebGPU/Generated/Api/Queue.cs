@@ -19,8 +19,8 @@ public unsafe partial struct WGPUQueue
     // writeTexture() - not generated. See: Queue_NG.cs
 
     public void reference() {
-        wgpuQueueReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuQueueReference(Handle);
     }
 
     public void release() {

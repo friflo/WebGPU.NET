@@ -96,8 +96,8 @@ public static class ApiCodeGenerator
             case "reference":   sb.AppendLine(
                 $$"""
                     public void reference() {
-                        wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
                         ObjectTracker.IncRef(Handle);
+                        wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
                     }
                 """);
                 return;

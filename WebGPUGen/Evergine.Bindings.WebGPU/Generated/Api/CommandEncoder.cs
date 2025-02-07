@@ -70,8 +70,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     public void reference() {
-        wgpuCommandEncoderReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuCommandEncoderReference(Handle);
     }
 
     public void release() {

@@ -56,8 +56,8 @@ public unsafe partial struct WGPURenderBundleEncoder
     }
 
     public void reference() {
-        wgpuRenderBundleEncoderReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuRenderBundleEncoderReference(Handle);
     }
 
     public void release() {

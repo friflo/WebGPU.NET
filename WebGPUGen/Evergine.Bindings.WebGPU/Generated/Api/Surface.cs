@@ -30,8 +30,8 @@ public unsafe partial struct WGPUSurface
     }
 
     public void reference() {
-        wgpuSurfaceReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuSurfaceReference(Handle);
     }
 
     public void release() {

@@ -128,8 +128,8 @@ public unsafe partial struct WGPUDevice
     }
 
     public void reference() {
-        wgpuDeviceReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuDeviceReference(Handle);
     }
 
     public void release() {

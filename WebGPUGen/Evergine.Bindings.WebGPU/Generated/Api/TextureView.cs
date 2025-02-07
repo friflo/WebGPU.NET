@@ -9,8 +9,8 @@ public unsafe partial struct WGPUTextureView
     }
 
     public void reference() {
-        wgpuTextureViewReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuTextureViewReference(Handle);
     }
 
     public void release() {

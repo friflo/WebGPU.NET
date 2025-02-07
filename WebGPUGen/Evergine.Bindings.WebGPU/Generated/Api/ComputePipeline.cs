@@ -14,8 +14,8 @@ public unsafe partial struct WGPUComputePipeline
     }
 
     public void reference() {
-        wgpuComputePipelineReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuComputePipelineReference(Handle);
     }
 
     public void release() {

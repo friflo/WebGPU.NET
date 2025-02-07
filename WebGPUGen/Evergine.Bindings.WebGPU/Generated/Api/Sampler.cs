@@ -9,8 +9,8 @@ public unsafe partial struct WGPUSampler
     }
 
     public void reference() {
-        wgpuSamplerReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuSamplerReference(Handle);
     }
 
     public void release() {

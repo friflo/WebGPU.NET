@@ -9,8 +9,8 @@ public unsafe partial struct WGPUCommandBuffer
     }
 
     public void reference() {
-        wgpuCommandBufferReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuCommandBufferReference(Handle);
     }
 
     public void release() {

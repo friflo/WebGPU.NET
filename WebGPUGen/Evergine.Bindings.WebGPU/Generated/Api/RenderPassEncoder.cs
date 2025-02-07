@@ -87,8 +87,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     public void reference() {
-        wgpuRenderPassEncoderReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuRenderPassEncoderReference(Handle);
     }
 
     public void release() {

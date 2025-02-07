@@ -25,8 +25,8 @@ public unsafe partial struct WGPUInstance
     }
 
     public void reference() {
-        wgpuInstanceReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuInstanceReference(Handle);
     }
 
     public void release() {

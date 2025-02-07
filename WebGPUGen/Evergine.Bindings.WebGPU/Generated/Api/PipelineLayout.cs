@@ -9,8 +9,8 @@ public unsafe partial struct WGPUPipelineLayout
     }
 
     public void reference() {
-        wgpuPipelineLayoutReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuPipelineLayoutReference(Handle);
     }
 
     public void release() {

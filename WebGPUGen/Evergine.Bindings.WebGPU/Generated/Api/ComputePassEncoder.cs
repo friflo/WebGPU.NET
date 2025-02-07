@@ -43,8 +43,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     public void reference() {
-        wgpuComputePassEncoderReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuComputePassEncoderReference(Handle);
     }
 
     public void release() {

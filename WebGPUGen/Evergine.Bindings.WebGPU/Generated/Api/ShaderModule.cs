@@ -13,8 +13,8 @@ public unsafe partial struct WGPUShaderModule
     }
 
     public void reference() {
-        wgpuShaderModuleReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuShaderModuleReference(Handle);
     }
 
     public void release() {

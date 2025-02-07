@@ -31,8 +31,8 @@ public unsafe partial struct WGPUBuffer
     }
 
     public void reference() {
-        wgpuBufferReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuBufferReference(Handle);
     }
 
     public void release() {

@@ -17,8 +17,8 @@ public unsafe partial struct WGPUQuerySet
     }
 
     public void reference() {
-        wgpuQuerySetReference(Handle);
         ObjectTracker.IncRef(Handle);
+        wgpuQuerySetReference(Handle);
     }
 
     public void release() {
