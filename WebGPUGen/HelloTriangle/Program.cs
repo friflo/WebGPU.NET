@@ -5,27 +5,41 @@ namespace HelloTriangle
 {
     class Program
     {
+        const uint WIDTH = 800;
+        const uint HEIGHT = 600;
+        
         static void Main(string[] args)
         {
             HelloTriangle app = new HelloTriangle();
             app.frameArena.Use();
-            app.InitWindow();
+            var window = InitWindow();
 
-            app.InitSurface();
-            app.InitDevice(app.window.ClientSize.Width, app.window.ClientSize.Height);
-            app.window.Text = $"WGPU-Native Triangle ({app.Adapter.info.backendType})";
+            app.InitSurface(window.Handle);
+            app.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
+            window.Text = $"WGPU-Native Triangle ({app.Adapter.info.backendType})";
             
             app.InitResources();
 
-            MainLoop(app);
+            MainLoop(app, window);
 
             app.CleanUp();
+            window.Dispose();
+            window.Close();
         }
         
-        private static void MainLoop(HelloTriangle app)
+        private static Form InitWindow()
+        {
+            var window = new Form();
+            window.Size = new System.Drawing.Size((int)WIDTH, (int)HEIGHT);
+            window.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            window.Show();
+            return window;
+        }
+        
+        private static void MainLoop(HelloTriangle app, Form window)
         {
             bool isClosing = false;
-            app.window.FormClosing += (s, e) =>
+            window.FormClosing += (s, e) =>
             {
                 isClosing = true;
             };

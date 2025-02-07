@@ -4,16 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace HelloTriangle
 {
     public class HelloTriangle
     {
-        const uint WIDTH = 800;
-        const uint HEIGHT = 600;
-
-        internal Form                window;
         private WGPUInstance        Instance;
         private WGPUSurface         Surface;
         internal WGPUAdapter         Adapter;
@@ -25,23 +20,17 @@ namespace HelloTriangle
         private WGPUBuffer          vertexBuffer;
         internal Arena               frameArena = new Arena();
 
-        internal void InitWindow()
-        {
-            window = new Form();
-            window.Size = new System.Drawing.Size((int)WIDTH, (int)HEIGHT);
-            window.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            window.Show();
-        }
+
         
         private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
             Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
         }
         
-        internal void InitSurface() {
+        internal void InitSurface(IntPtr hWnd) {
             Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Vulkan
             });
-            Surface = Instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, window.Handle);
+            Surface = Instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
         }
 
         internal void InitDevice(int width, int height)
@@ -305,9 +294,6 @@ namespace HelloTriangle
             Device.release();
             Adapter.release();
             Instance.release();
-
-            this.window.Dispose();
-            this.window.Close();
         }
 
     }
