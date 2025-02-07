@@ -2,12 +2,12 @@
 
 namespace HelloTriangle
 {
-    class Program
+    static class Program
     {
         private const uint Width  = 800;
         private const uint Height = 600;
-        
-        static void Main()
+
+        private static void Main()
         {
             var window = InitWindow();
             var gpu = new GPU();
