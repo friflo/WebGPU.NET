@@ -125,14 +125,12 @@ namespace HelloTriangle
 
             // Getting the texture may fail, in particular if the window has been resized
             // and thus the target surface changed.
-            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Timeout)
-            {
+            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Timeout) {
                 Console.WriteLine("Cannot acquire next swap chain texture");
                 return;
             }
 
-            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Outdated)
-            {
+            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Outdated) {
                 Console.WriteLine("Surface texture is outdated, reconfigure the surface!");
                 return;
             }
