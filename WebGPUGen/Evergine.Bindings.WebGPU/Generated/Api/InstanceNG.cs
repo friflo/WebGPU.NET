@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
+// ReSharper disable InconsistentNaming
 namespace Evergine.Bindings.WebGPU;
 
 public unsafe struct RequestAdapterResult
