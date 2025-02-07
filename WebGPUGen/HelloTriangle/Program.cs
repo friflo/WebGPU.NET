@@ -12,15 +12,7 @@ namespace HelloTriangle
         static void Main(string[] args)
         {
             HelloTriangle app = new HelloTriangle();
-
-            try
-            {
-                app.Run();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            app.Run();
         }
     }
 }
