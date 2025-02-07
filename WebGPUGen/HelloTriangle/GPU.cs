@@ -18,7 +18,8 @@ public class GPU
         Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
     }
     
-    internal void InitSurface(IntPtr hWnd) {
+    /// platform specific WGPU initialization
+    internal void CreateSurface(IntPtr hWnd) {
         initArena.Use();
         instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
             backends = WGPUInstanceBackend.Vulkan
@@ -26,7 +27,8 @@ public class GPU
         surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
     }
 
-    internal void InitDevice(int width, int height)
+    /// general WGPU initialization
+    internal void RequestDevice(int width, int height)
     {
         // --- create Adapter
         WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {

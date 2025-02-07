@@ -11,8 +11,8 @@ namespace HelloTriangle
         {
             var window = InitWindow();
             var gpu = new GPU();
-            gpu.InitSurface(window.Handle);
-            gpu.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
+            gpu.CreateSurface(window.Handle);
+            gpu.RequestDevice(window.ClientSize.Width, window.ClientSize.Height);
             var app = new HelloTriangle(gpu);
             window.Text = $"WGPU-Native Triangle ({gpu.adapter.info.backendType})";
             
