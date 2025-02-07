@@ -126,6 +126,14 @@ public static class ObjectTracker
         throw ObjectNotFoundException();
     }
     
+    public static void ValidateHandle(IntPtr handle)
+    {
+        if (HandleMap.ContainsKey(handle)) {
+            return;
+        }
+        throw ObjectNotFoundException();
+    }
+    
     internal static string? GetLabel(IntPtr handle) {
         if (handle == IntPtr.Zero) {
             return "null";
