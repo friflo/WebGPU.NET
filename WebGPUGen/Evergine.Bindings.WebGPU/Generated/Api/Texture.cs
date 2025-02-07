@@ -7,14 +7,24 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUTexture
 {
     public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
-        descriptor.Validate();
+        Validate_createView(Handle, descriptor);
         var result = wgpuTextureCreateView(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTextureView, descriptor._label);
         return result;
     }
 
+    private static void Validate_createView(IntPtr handle, WGPUTextureViewDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(handle);
+        descriptor.Validate();
+    }
+
     public void destroy() {
+        Validate_destroy(Handle);
         wgpuTextureDestroy(Handle);
+    }
+
+    private static void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(Handle);
@@ -34,7 +44,12 @@ public unsafe partial struct WGPUTexture
     public uint width => wgpuTextureGetWidth(Handle);
 
     public void setLabel(Utf8 label) {
+        Validate_setLabel(Handle, label);
         wgpuTextureSetLabel(Handle, label.AllocUtf8());
+    }
+
+    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void reference() {

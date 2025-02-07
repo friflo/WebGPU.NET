@@ -7,8 +7,13 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUSurface
 {
     public void configure(WGPUSurfaceConfiguration config) {
-        config.Validate();
+        Validate_configure(Handle, config);
         wgpuSurfaceConfigure(Handle, &config);
+    }
+
+    private static void Validate_configure(IntPtr handle, WGPUSurfaceConfiguration config) {
+        ObjectTracker.ValidateHandle(handle);
+        config.Validate();
     }
 
     // getCapabilities() - not generated. See: Surface_NG.cs
@@ -20,15 +25,30 @@ public unsafe partial struct WGPUSurface
     } }
 
     public void present() {
+        Validate_present(Handle);
         wgpuSurfacePresent(Handle);
     }
 
+    private static void Validate_present(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setLabel(Utf8 label) {
+        Validate_setLabel(Handle, label);
         wgpuSurfaceSetLabel(Handle, label.AllocUtf8());
     }
 
+    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void unconfigure() {
+        Validate_unconfigure(Handle);
         wgpuSurfaceUnconfigure(Handle);
+    }
+
+    private static void Validate_unconfigure(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void reference() {

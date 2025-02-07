@@ -147,7 +147,8 @@ public static class ApiCodeGenerator
         }
                     
         sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
-        AddValidations(sb, parameters);
+        AddValidationCall(sb, commandName, parameters);
+
         if (hasReturnValue) {
             sb.Append("        var result = ");
         } else {
@@ -183,10 +184,41 @@ public static class ApiCodeGenerator
             sb.AppendLine("        return result;");
         }
         sb.AppendLine($"    }}");
+        AddValidationMethod(sb, commandName, signature, parameters);
+    }
+    
+    private static void AddValidationCall(StringBuilder sb, string commandName, SignatureParam[] parameters)
+    {
+        sb.Append($"        Validate_{commandName}");
+        sb.Append("(Handle");
+        for (int n = 1; n < parameters.Length; n++) {
+            var param = parameters[n];
+            if (parameters.Length > 1) {
+                sb.Append(", ");
+            }
+            switch (param.Type) {
+                case SignatureParamType.Pointer: 
+                    sb.Append($"{param.Name}");
+                    break;
+                case SignatureParamType.CharPointer:
+                    sb.Append($"{param.Name}");
+                    break;
+                default:
+                    sb.Append(param.Name);
+                    break;
+            }
+        }
+        sb.AppendLine(");");
     }
 
-    private static void AddValidations(StringBuilder sb, SignatureParam[] parameters)
+    private static void AddValidationMethod(StringBuilder sb, string commandName, string signature, SignatureParam[] parameters)
     {
+        sb.AppendLine();
+        if (signature.Length > 0) {
+            signature = ", " + signature;
+        }
+        sb.AppendLine($"    private static void Validate_{commandName}(IntPtr handle{signature}) {{");
+        sb.AppendLine($"        ObjectTracker.ValidateHandle(handle);");
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             if (parameter.CppParameter.Type is CppPointerType pointerType) {
@@ -196,6 +228,7 @@ public static class ApiCodeGenerator
                 }
             }
         }
+        sb.AppendLine($"    }}");
     }
 
     private static List<CppTypedef> GetHandles(CppCompilation compilation)

@@ -7,7 +7,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUQuerySet
 {
     public void destroy() {
+        Validate_destroy(Handle);
         wgpuQuerySetDestroy(Handle);
+    }
+
+    private static void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public uint count => wgpuQuerySetGetCount(Handle);
@@ -15,7 +20,12 @@ public unsafe partial struct WGPUQuerySet
     public WGPUQueryType type => wgpuQuerySetGetType(Handle);
 
     public void setLabel(Utf8 label) {
+        Validate_setLabel(Handle, label);
         wgpuQuerySetSetLabel(Handle, label.AllocUtf8());
+    }
+
+    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void reference() {

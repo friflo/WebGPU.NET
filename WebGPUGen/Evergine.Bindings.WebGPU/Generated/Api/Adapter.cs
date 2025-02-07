@@ -7,8 +7,13 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUAdapter
 {
     public ulong enumerateFeatures(WGPUFeatureName features) {
+        Validate_enumerateFeatures(Handle, features);
         var result = wgpuAdapterEnumerateFeatures(Handle, &features);
         return result;
+    }
+
+    private static void Validate_enumerateFeatures(IntPtr handle, WGPUFeatureName features) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public WGPUAdapterInfo info { get {
@@ -20,8 +25,13 @@ public unsafe partial struct WGPUAdapter
     // getLimits() - not generated. See: Adapter_NG.cs
 
     public WGPUBool hasFeature(WGPUFeatureName feature) {
+        Validate_hasFeature(Handle, feature);
         var result = wgpuAdapterHasFeature(Handle, feature);
         return result;
+    }
+
+    private static void Validate_hasFeature(IntPtr handle, WGPUFeatureName feature) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     // requestDevice() - not generated. See: Adapter_NG.cs

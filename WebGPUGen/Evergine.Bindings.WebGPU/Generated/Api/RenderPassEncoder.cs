@@ -7,47 +7,102 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPURenderPassEncoder
 {
     public void beginOcclusionQuery(uint queryIndex) {
+        Validate_beginOcclusionQuery(Handle, queryIndex);
         wgpuRenderPassEncoderBeginOcclusionQuery(Handle, queryIndex);
     }
 
+    private static void Validate_beginOcclusionQuery(IntPtr handle, uint queryIndex) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
+        Validate_draw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
         wgpuRenderPassEncoderDraw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
     }
 
+    private static void Validate_draw(IntPtr handle, uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
+        Validate_drawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
         wgpuRenderPassEncoderDrawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
     }
 
+    private static void Validate_drawIndexed(IntPtr handle, uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void drawIndexedIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        Validate_drawIndexedIndirect(Handle, indirectBuffer, indirectOffset);
         wgpuRenderPassEncoderDrawIndexedIndirect(Handle, indirectBuffer, indirectOffset);
     }
 
+    private static void Validate_drawIndexedIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void drawIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        Validate_drawIndirect(Handle, indirectBuffer, indirectOffset);
         wgpuRenderPassEncoderDrawIndirect(Handle, indirectBuffer, indirectOffset);
     }
 
+    private static void Validate_drawIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void end() {
+        Validate_end(Handle);
         wgpuRenderPassEncoderEnd(Handle);
     }
 
+    private static void Validate_end(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void endOcclusionQuery() {
+        Validate_endOcclusionQuery(Handle);
         wgpuRenderPassEncoderEndOcclusionQuery(Handle);
     }
 
+    private static void Validate_endOcclusionQuery(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void executeBundles(ulong bundleCount, WGPURenderBundle bundles) {
+        Validate_executeBundles(Handle, bundleCount, bundles);
         wgpuRenderPassEncoderExecuteBundles(Handle, bundleCount, &bundles);
     }
 
+    private static void Validate_executeBundles(IntPtr handle, ulong bundleCount, WGPURenderBundle bundles) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void insertDebugMarker(Utf8 markerLabel) {
+        Validate_insertDebugMarker(Handle, markerLabel);
         wgpuRenderPassEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
+    private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void popDebugGroup() {
+        Validate_popDebugGroup(Handle);
         wgpuRenderPassEncoderPopDebugGroup(Handle);
     }
 
+    private static void Validate_popDebugGroup(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void pushDebugGroup(Utf8 groupLabel) {
+        Validate_pushDebugGroup(Handle, groupLabel);
         wgpuRenderPassEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
+    }
+
+    private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
@@ -57,35 +112,75 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     public void setBlendConstant(WGPUColor color) {
+        Validate_setBlendConstant(Handle, color);
         wgpuRenderPassEncoderSetBlendConstant(Handle, &color);
     }
 
+    private static void Validate_setBlendConstant(IntPtr handle, WGPUColor color) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
+        Validate_setIndexBuffer(Handle, buffer, format, offset, size);
         wgpuRenderPassEncoderSetIndexBuffer(Handle, buffer, format, offset, size);
     }
 
+    private static void Validate_setIndexBuffer(IntPtr handle, WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setLabel(Utf8 label) {
+        Validate_setLabel(Handle, label);
         wgpuRenderPassEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
+    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setPipeline(WGPURenderPipeline pipeline) {
+        Validate_setPipeline(Handle, pipeline);
         wgpuRenderPassEncoderSetPipeline(Handle, pipeline);
     }
 
+    private static void Validate_setPipeline(IntPtr handle, WGPURenderPipeline pipeline) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setScissorRect(uint x, uint y, uint width, uint height) {
+        Validate_setScissorRect(Handle, x, y, width, height);
         wgpuRenderPassEncoderSetScissorRect(Handle, x, y, width, height);
     }
 
+    private static void Validate_setScissorRect(IntPtr handle, uint x, uint y, uint width, uint height) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setStencilReference(uint reference) {
+        Validate_setStencilReference(Handle, reference);
         wgpuRenderPassEncoderSetStencilReference(Handle, reference);
     }
 
+    private static void Validate_setStencilReference(IntPtr handle, uint reference) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
+        Validate_setVertexBuffer(Handle, slot, buffer, offset, size);
         wgpuRenderPassEncoderSetVertexBuffer(Handle, slot, buffer, offset, size);
     }
 
+    private static void Validate_setVertexBuffer(IntPtr handle, uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setViewport(float x, float y, float width, float height, float minDepth, float maxDepth) {
+        Validate_setViewport(Handle, x, y, width, height, minDepth, maxDepth);
         wgpuRenderPassEncoderSetViewport(Handle, x, y, width, height, minDepth, maxDepth);
+    }
+
+    private static void Validate_setViewport(IntPtr handle, float x, float y, float width, float height, float minDepth, float maxDepth) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void reference() {
@@ -101,27 +196,57 @@ public unsafe partial struct WGPURenderPassEncoder
     // setPushConstants() - not generated. See: RenderPassEncoder_NG.cs
 
     public void multiDrawIndirect(WGPUBuffer buffer, ulong offset, uint count) {
+        Validate_multiDrawIndirect(Handle, buffer, offset, count);
         wgpuRenderPassEncoderMultiDrawIndirect(Handle, buffer, offset, count);
     }
 
+    private static void Validate_multiDrawIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void multiDrawIndexedIndirect(WGPUBuffer buffer, ulong offset, uint count) {
+        Validate_multiDrawIndexedIndirect(Handle, buffer, offset, count);
         wgpuRenderPassEncoderMultiDrawIndexedIndirect(Handle, buffer, offset, count);
     }
 
+    private static void Validate_multiDrawIndexedIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void multiDrawIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        Validate_multiDrawIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
         wgpuRenderPassEncoderMultiDrawIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
     }
 
+    private static void Validate_multiDrawIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void multiDrawIndexedIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        Validate_multiDrawIndexedIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
         wgpuRenderPassEncoderMultiDrawIndexedIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
     }
 
+    private static void Validate_multiDrawIndexedIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
+        Validate_beginPipelineStatisticsQuery(Handle, querySet, queryIndex);
         wgpuRenderPassEncoderBeginPipelineStatisticsQuery(Handle, querySet, queryIndex);
     }
 
+    private static void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void endPipelineStatisticsQuery() {
+        Validate_endPipelineStatisticsQuery(Handle);
         wgpuRenderPassEncoderEndPipelineStatisticsQuery(Handle);
+    }
+
+    private static void Validate_endPipelineStatisticsQuery(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

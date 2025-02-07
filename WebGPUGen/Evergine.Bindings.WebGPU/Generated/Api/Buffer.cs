@@ -7,7 +7,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUBuffer
 {
     public void destroy() {
+        Validate_destroy(Handle);
         wgpuBufferDestroy(Handle);
+    }
+
+    private static void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     // getConstMappedRange() - not generated. See: Buffer_NG.cs
@@ -21,15 +26,30 @@ public unsafe partial struct WGPUBuffer
     public WGPUBufferUsage usage => wgpuBufferGetUsage(Handle);
 
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
+        Validate_mapAsync(Handle, mode, offset, size, callback, userdata);
         wgpuBufferMapAsync(Handle, mode, offset, size, callback, userdata);
     }
 
+    private static void Validate_mapAsync(IntPtr handle, WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void setLabel(Utf8 label) {
+        Validate_setLabel(Handle, label);
         wgpuBufferSetLabel(Handle, label.AllocUtf8());
     }
 
+    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
+        ObjectTracker.ValidateHandle(handle);
+    }
+
     public void unmap() {
+        Validate_unmap(Handle);
         wgpuBufferUnmap(Handle);
+    }
+
+    private static void Validate_unmap(IntPtr handle) {
+        ObjectTracker.ValidateHandle(handle);
     }
 
     public void reference() {
