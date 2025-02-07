@@ -13,33 +13,33 @@ namespace HelloTriangle
         const uint WIDTH = 800;
         const uint HEIGHT = 600;
 
-        private Form window;
-        private WGPUInstance Instance;
-        private WGPUSurface Surface;
-        private WGPUAdapter Adapter;
-        private WGPUAdapterInfo AdapterInfo;
-        private WGPUSupportedLimits AdapterLimits;
-        private WGPUDevice Device;
-        private WGPUTextureFormat SwapChainFormat;
-        private WGPUQueue Queue;
+        private Form                window;
+        private WGPUInstance        Instance;
+        private WGPUSurface         Surface;
+        private WGPUAdapter         Adapter;
+        private WGPUDevice          Device;
+        private WGPUTextureFormat   SwapChainFormat;
+        private WGPUQueue           Queue;
 
         // private WGPUPipelineLayout pipelineLayout;
-        private WGPURenderPipeline pipeline;
-        private WGPUBuffer vertexBuffer;
-        private Arena frameArena = new Arena();
+        private WGPURenderPipeline  pipeline;
+        private WGPUBuffer          vertexBuffer;
+        private Arena               frameArena = new Arena();
 
         public void Run()
         {
             frameArena.Use();
-            this.InitWindow();
+            InitWindow();
 
-            this.InitWebGPU();
+            InitSurface();
+            InitDevice(window.ClientSize.Width, window.ClientSize.Height);
+            window.Text = $"WGPU-Native Triangle ({Adapter.info.backendType})";
+            
+            InitResources();
 
-            this.InitResources();
+            MainLoop();
 
-            this.MainLoop();
-
-            this.CleanUp();
+            CleanUp();
         }
 
         private void InitWindow()
@@ -53,108 +53,45 @@ namespace HelloTriangle
         private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
             Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
         }
-
-        private void InitWebGPU()
-        {
-            /*WGPUInstanceExtras instanceExtras = new WGPUInstanceExtras()
-            {
-                chain = new WGPUChainedStruct()
-                {
-                    sType = (WGPUSType)WGPUNativeSType.InstanceExtras,
-                },
-                backends = WGPUInstanceBackend.Vulkan,
-            };
-
-            WGPUInstanceDescriptor instanceDescriptor = new WGPUInstanceDescriptor()
-            {
-                nextInChain = &instanceExtras.chain,
-            };
-            Instance = wgpuCreateInstance(&instanceDescriptor);
-            */
+        
+        private void InitSurface() {
             Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Vulkan
             });
-
-            /*WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
-            {
-                chain = new WGPUChainedStruct()
-                {
-                    sType = WGPUSType.SurfaceDescriptorFromWindowsHWND,
-                },
-                hinstance = (void*)Process.GetCurrentProcess().Handle,
-                hwnd = (void*)window.Handle,
-            };
-
-            WGPUSurfaceDescriptor surfaceDescriptor = new WGPUSurfaceDescriptor()
-            {
-                nextInChain = &windowsSurface.chain,
-            };
-
-            Surface = Instance.createSurface(surfaceDescriptor);
-            */
             Surface = Instance.createSurfaceHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, window.Handle);
+        }
 
+        private void InitDevice(int width, int height)
+        {
+            // --- create Adapter
             WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {
-                compatibleSurface = Surface,
-                powerPreference = WGPUPowerPreference.HighPerformance
+                compatibleSurface   = Surface,
+                powerPreference     = WGPUPowerPreference.HighPerformance
             };
-
-            WGPUAdapter adapter = WGPUAdapter.Null;
-            // wgpuInstanceRequestAdapter(Instance, &options, &OnAdapterRequestEnded, &adapter);
             Instance.requestAdapter(options, (in RequestAdapterResult result) => {
                 if (result.status != WGPURequestAdapterStatus.Success) {
                     throw new Exception($"Failed to create adapter: {result.Message.ToString()}");
                 }
-                adapter = result.adapter;    
+                Adapter = result.adapter;    
             });
-
-            
-            // WGPUAdapterInfo properties;
-            // wgpuAdapterGetInfo(adapter, &properties);
-            AdapterInfo = adapter.info;
-            window.Text = $"WGPU-Native Triangle ({AdapterInfo.backendType})";
-
-            
-            // WGPUSupportedLimits limits;
-            // wgpuAdapterGetLimits(adapter, &limits);
-            AdapterLimits = adapter.getLimits();
-            this.Adapter = adapter;
-
-            WGPUDeviceDescriptor deviceDescriptor = new WGPUDeviceDescriptor {
-                label = "Device"u8,
-                // uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
-                //    callback = &HandleUncapturedErrorCallback
-                // }
-            };
-
-            // WGPUDevice device = WGPUDevice.Null;
-            // wgpuAdapterRequestDevice(Adapter, &deviceDescriptor, &OnDeviceRequestEnded, &device);
-            // Device = device;
-
+            // --- create Device
+            var deviceDescriptor = new WGPUDeviceDescriptor { label = "Device"u8 };
             Adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
                 if (result.status != WGPURequestDeviceStatus.Success) {
                     throw new Exception($"Failed to request device. {result.Message.ToString()}");
                 }
                 Device = result.device;
             });
-            var deviceLimits = Device.getLimits();
-
-            // Queue = wgpuDeviceGetQueue(Device);
             Queue = Device.queue;
-
             var capabilities = Surface.getCapabilities(Adapter);
             SwapChainFormat = capabilities.formats[0];
 
-            int width = window.ClientSize.Width;
-            int height = window.ClientSize.Height;
-
-            WGPUTextureFormat textureFormat = SwapChainFormat;
-            WGPUSurfaceConfiguration surfaceConfiguration = new WGPUSurfaceConfiguration {
-                device = Device,
-                format = SwapChainFormat,
-                usage = WGPUTextureUsage.RenderAttachment,
-                width = (uint)width,
-                height = (uint)height,
+            var surfaceConfiguration = new WGPUSurfaceConfiguration {
+                device      = Device,
+                format      = SwapChainFormat,
+                usage       = WGPUTextureUsage.RenderAttachment,
+                width       = (uint)width,
+                height      = (uint)height,
                 presentMode = WGPUPresentMode.Fifo,
             };
             Surface.configure(surfaceConfiguration);
