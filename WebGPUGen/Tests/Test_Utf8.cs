@@ -23,7 +23,7 @@ public static class Test_Utf8
     [Test]
     public static void Test_Utf8_allocations()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Utf8_allocations");
         arena.Use();
         var str = new Utf8();
         str = "abc"u8;
@@ -47,7 +47,7 @@ public static class Test_Utf8
     [Test]
     public static void Test_Utf8_struct()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Utf8_struct");
         arena.Use();
         var test = new TestStruct();
         test.Str = "abc"u8;
@@ -77,7 +77,7 @@ public static class Test_Utf8
     [Test]
     public static void Test_Utf8_equals()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Utf8_equals");
         arena.Use();
         Utf8 str0 = "abc"u8;
         Utf8 str1 = "abc"u8;

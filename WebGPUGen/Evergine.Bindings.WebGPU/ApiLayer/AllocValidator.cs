@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.WebGPU;
@@ -10,7 +9,10 @@ internal struct AllocHeader
     [FieldOffset (2)] internal ushort       size;               //  2
     [FieldOffset (4)] internal ArenaVersion version;            //  4
     
-    public override string ToString() => $"allocator: {version.allocator} reset: {version.reset}";
+    public override string ToString() {
+        
+        return $"allocator: {version.allocator} reset: {version.reset}";
+    }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -28,7 +30,7 @@ public static class AllocValidator
     private static ArenaVersion[] _arenaVersions = [];
     private static ArenaVersion _nextVersion;
     
-    internal static ArenaVersion GetArenaVersion() {
+    internal static AllocHeader GetArenaHeader() {
         _nextVersion.allocator++;
         _nextVersion.reset = 0;
         var len = _arenaVersions.Length;
@@ -36,7 +38,11 @@ public static class AllocValidator
         Array.Copy(_arenaVersions, 0, versions, 0, len);
         versions[len] = _nextVersion;
         _arenaVersions = versions;
-        return _nextVersion;
+        var header = new AllocHeader {
+            version         = _nextVersion,
+            allocatorIndex  = (ushort)len
+        };
+        return header;
     }
     
     internal static void UpdateResetVersion(AllocHeader header) {

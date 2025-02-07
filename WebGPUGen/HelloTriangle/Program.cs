@@ -10,13 +10,11 @@ namespace HelloTriangle
         
         static void Main(string[] args)
         {
-            HelloTriangle app = new HelloTriangle();
-            app.frameArena.Use();
             var window = InitWindow();
             var gpu = new GPU();
             gpu.InitSurface(window.Handle);
             gpu.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
-            app.InitGPU(gpu);
+            var app = new HelloTriangle(gpu);
             window.Text = $"WGPU-Native Triangle ({gpu.Adapter.info.backendType})";
             
             app.InitResources();
@@ -48,18 +46,8 @@ namespace HelloTriangle
             while (!isClosing)
             {
                 app.DrawFrame();
-                for (int n = 0; n < 100_000; n++) {
-                    var desc = new WGPURenderPipelineDescriptor() {
-                        fragment = new WGPUFragmentState { }
-                    };
-                    if (n % 10_000 == 0) {
-                        app.frameArena.Reset();
-                    }
-                }
-
                 Application.DoEvents();
             }
         }
-        
     }
 }

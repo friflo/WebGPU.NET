@@ -24,6 +24,7 @@ public sealed class Arena
 {
     public int AllocationCount => allocationCount;
     
+    private readonly string name;
     private List<nint>      chunks         = new();
     private int             chunkIndex;
     private nint            currentChunk;
@@ -34,9 +35,9 @@ public sealed class Arena
     
     private const   int  ChunkSize      = 0x10000;
     
-    public Arena() {
-        var version = AllocValidator.GetArenaVersion();
-        header.version = version;
+    public Arena(string name) {
+        this.name   = name;
+        header = AllocValidator.GetArenaHeader();
     }
     
     public void Use() {

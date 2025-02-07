@@ -10,7 +10,7 @@ public static class Test_Arena
     [Test]
     public static unsafe void Test_Arena_allocations()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Arena_allocations");
         var ptr = arena.AllocUtf8("ABC"u8);
         AllocValidator.ValidatePtr(ptr);
         
@@ -25,7 +25,7 @@ public static class Test_Arena
     [Test]
     public static unsafe void Test_Arena_Span()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Arena_Span");
         arena.Use();
         var myStruct = new MyStruct {
             Entries = [1,2,3]

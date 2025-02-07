@@ -33,7 +33,7 @@ public static class Test_Misc
     [Test]
     public static void Test_Misc_Arena()
     {
-        var arena = new Arena();
+        var arena = new Arena("Test_Misc_Arena");
         for (int i = 0; i < Repeat; ++i) {
             for (int n = 0; n < Count; n++) {
                 arena.Alloc(16);

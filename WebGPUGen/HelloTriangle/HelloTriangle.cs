@@ -8,29 +8,30 @@ namespace HelloTriangle
 {
     public class HelloTriangle
     {
-        private WGPUSurface         Surface;
-        private WGPUDevice          Device;
-        private WGPUTextureFormat   SwapChainFormat;
-        private WGPUQueue           Queue;
+        private readonly    WGPUSurface         surface;
+        private readonly    WGPUDevice          device;
+        private readonly    WGPUTextureFormat   swapChainFormat;
+        private readonly    WGPUQueue           queue;
 
-        private WGPURenderPipeline  pipeline;
-        private WGPUBuffer          vertexBuffer;
-        internal Arena              frameArena = new Arena();
+        private             WGPURenderPipeline  pipeline;
+        private             WGPUBuffer          vertexBuffer;
+        private readonly    Arena               frameArena = new Arena("frameArena");
 
-        internal void InitGPU(GPU gpu) {
-            Surface         = gpu.Surface;
-            Device          = gpu.Device;
-            SwapChainFormat = gpu.SwapChainFormat;
-            Queue           = gpu.Queue;
+        internal HelloTriangle(GPU gpu) {
+            surface         = gpu.Surface;
+            device          = gpu.Device;
+            swapChainFormat = gpu.SwapChainFormat;
+            queue           = gpu.Queue;
         }
 
         internal void InitResources()
         {
-            var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
+            frameArena.Use();
+            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
-            var shaderModule = Device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
+            var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 layout = pipelineLayout,
@@ -64,7 +65,7 @@ namespace HelloTriangle
                     module = shaderModule,
                     entryPoint = "fragmentMain"u8,
                     targets = [new WGPUColorTargetState {
-                        format = SwapChainFormat,
+                        format = swapChainFormat,
                         blend = new WGPUBlendState {
                             color = new WGPUBlendComponent {
                                 srcFactor = WGPUBlendFactor.One,
@@ -86,7 +87,7 @@ namespace HelloTriangle
                     alphaToCoverageEnabled = false,
                 }
             };
-            pipeline = Device.createRenderPipeline(pipelineDescriptor);
+            pipeline = device.createRenderPipeline(pipelineDescriptor);
             shaderModule.release();
             pipelineLayout.release();
 
@@ -105,13 +106,22 @@ namespace HelloTriangle
                 size = size,
                 mappedAtCreation = false,
             };
-            vertexBuffer = Device.createBuffer(bufferDescriptor);
-            Queue.writeBuffer(vertexBuffer, 0, vertexData);
+            vertexBuffer = device.createBuffer(bufferDescriptor);
+            queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
         internal void DrawFrame()
         {
-            var surfaceTexture = Surface.currentTexture;
+            for (int n = 0; n < 100_000; n++) {
+                var desc = new WGPURenderPipelineDescriptor() {
+                    fragment = new WGPUFragmentState { }
+                };
+                if (n % 10_000 == 0) {
+                    frameArena.Reset();
+                }
+            }
+            
+            var surfaceTexture = surface.currentTexture;
 
             // Getting the texture may fail, in particular if the window has been resized
             // and thus the target surface changed.
@@ -128,7 +138,7 @@ namespace HelloTriangle
             }
             WGPUTextureView nextView = surfaceTexture.texture.createView();
 
-            var encoder = Device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
+            var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
                 label = "123"u8
             });
 
@@ -152,10 +162,10 @@ namespace HelloTriangle
             nextView.release();
 
             var command = encoder.finish();
-            Queue.submit([command]);
+            queue.submit([command]);
 
             encoder.release();
-            Surface.present();
+            surface.present();
         }
     }
 }

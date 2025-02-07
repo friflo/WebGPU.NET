@@ -6,18 +6,20 @@ namespace HelloTriangle;
 
 public class GPU
 {
-    internal WGPUInstance        Instance;
-    internal WGPUSurface         Surface;
-    internal WGPUAdapter         Adapter;
-    internal WGPUDevice          Device;
-    internal WGPUTextureFormat   SwapChainFormat;
-    internal WGPUQueue           Queue;
+    internal    WGPUInstance        Instance;
+    internal    WGPUSurface         Surface;
+    internal    WGPUAdapter         Adapter;
+    internal    WGPUDevice          Device;
+    internal    WGPUTextureFormat   SwapChainFormat;
+    internal    WGPUQueue           Queue;
+    internal    Arena               initArena = new Arena("initArena");
     
     private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
         Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
     }
     
     internal void InitSurface(IntPtr hWnd) {
+        initArena.Use();
         Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
             backends = WGPUInstanceBackend.Vulkan
         });
