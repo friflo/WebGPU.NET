@@ -380,7 +380,7 @@ public static class ApiCodeGenerator
     
     private static void AddValidateMethods(StringBuilder sb, CppClass structure, List<string> arrayFields)
     {
-        if (structure.Name == "WGPUSurfaceDescriptorFromAndroidNativeWindow") {
+        if (structure.Name == "WGPUShaderModuleGLSLDescriptor") {
             int i = 1;
         }
         // --- add Validate()
@@ -405,8 +405,9 @@ public static class ApiCodeGenerator
             }
             if (field.Type is CppPointerType pointerType) {
                 sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{field.Name});");
-                if (pointerType.ElementType is CppQualifiedType cppQualifiedType) {
-                    if (StructsWithPointers.Contains(cppQualifiedType.ElementType)) {
+                var cppType = GetPointerCppType(pointerType);
+                if (cppType != null) {
+                    if (StructsWithPointers.Contains(cppType)) {
                         if (arrayFields.Contains(field.Name)) {
                             sb.AppendLine($"\t\t\tforeach (var element in {field.Name}) {{");
                             sb.AppendLine($"\t\t\t    element.Validate();");
@@ -421,5 +422,17 @@ public static class ApiCodeGenerator
         }
         sb.AppendLine("\t\t}");
     }
+    
+    private static CppType GetPointerCppType(CppPointerType pointerType)
+    {
+        if (pointerType.ElementType is CppQualifiedType cppQualifiedType) {
+            return cppQualifiedType.ElementType;
+        }
+        if (pointerType.ElementType is CppClass cppClass) {
+            return cppClass;
+        }
+        return null;
+    }
+    
 }
 

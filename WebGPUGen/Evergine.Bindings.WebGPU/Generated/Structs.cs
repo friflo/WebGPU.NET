@@ -1396,6 +1396,9 @@ namespace Evergine.Bindings.WebGPU
 		public void Validate() {
 			AllocValidator.ValidatePtr(_code);
 			AllocValidator.ValidatePtr(_defines);
+			foreach (var element in defines) {
+			    element.Validate();
+			}
 		}
 	}
 
