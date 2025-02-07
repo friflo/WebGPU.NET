@@ -16,17 +16,30 @@ public delegate void RequestAdapterCallback(in RequestAdapterResult result);
 /// No counterpart in JavaScript WebGPU           
 public unsafe partial struct WGPUInstance
 {
-    public WGPUSurface createSurfaceHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
+    public WGPUSurface createSurfaceFromWindowsHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
     {
         descriptor.Validate();
-        WGPUSurfaceDescriptorFromWindowsHWND windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND()
-        {
-            chain = new WGPUChainedStruct()
-            {
+        var windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND {
+            chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromWindowsHWND,
             },
             Hinstance = hInstance,
             Hwnd = hWnd
+        };
+        descriptor._nextInChain = &windowsSurface.chain;
+        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
+        return result;
+    }
+    
+    public WGPUSurface createSurfaceFromMetalLayer(WGPUSurfaceDescriptor descriptor, IntPtr layer)
+    {
+        descriptor.Validate();
+        var windowsSurface = new WGPUSurfaceDescriptorFromMetalLayer {
+            chain = new WGPUChainedStruct {
+                sType = WGPUSType.SurfaceDescriptorFromMetalLayer
+            },
+            Layer = layer
         };
         descriptor._nextInChain = &windowsSurface.chain;
         var result = wgpuInstanceCreateSurface(Handle, &descriptor);
