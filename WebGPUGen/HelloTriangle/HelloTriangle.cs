@@ -97,38 +97,6 @@ namespace HelloTriangle
             Surface.configure(surfaceConfiguration);
         }
 
-        /* [UnmanagedCallersOnly]
-        private static unsafe void HandleUncapturedErrorCallback(WGPUErrorType type, char* pMessage, void* pUserData)
-        {
-            Console.WriteLine($"Uncaptured device error: type: {type} ({Helpers.GetString(pMessage)})");
-        } */
-
-        /* [UnmanagedCallersOnly]
-        private static unsafe void OnAdapterRequestEnded(WGPURequestAdapterStatus status, WGPUAdapter candidateAdapter, char* message, void* pUserData)
-        {
-            if (status == WGPURequestAdapterStatus.Success)
-            {
-                *(WGPUAdapter*)pUserData = candidateAdapter;
-            }
-            else
-            {
-                Console.WriteLine($"Could not get WebGPU adapter: {Helpers.GetString(message)}");
-            }
-        } */
-
-        /* [UnmanagedCallersOnly]
-        private static unsafe void OnDeviceRequestEnded(WGPURequestDeviceStatus status, WGPUDevice device, char* message, void* pUserData)
-        {
-            if (status == WGPURequestDeviceStatus.Success)
-            {
-                *(WGPUDevice*)pUserData = device;
-            }
-            else
-            {
-                Console.WriteLine($"Could not get WebGPU device: {Helpers.GetString(message)}");
-            }
-        }*/
-
         private void InitResources()
         {
             var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
