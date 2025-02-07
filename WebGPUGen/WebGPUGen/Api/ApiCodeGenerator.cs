@@ -338,9 +338,6 @@ public static class ApiCodeGenerator
     {
         var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
         foreach (var structure in structs) {
-            if (structure.Name == "WGPUChainedStruct") {
-                int  i = 1;
-            }
             foreach (var field in structure.Fields) {
                 if (field.Name == "nextInChain" || field.Name == "chain" || field.Name == "next") {
                     continue;
@@ -429,9 +426,6 @@ public static class ApiCodeGenerator
     
     private static void AddValidateMethods(StringBuilder sb, CppClass structure, List<string> arrayFields)
     {
-        if (structure.Name == "WGPUShaderModuleGLSLDescriptor") {
-            int i = 1;
-        }
         // --- add Validate()
         if (!StructsWithPointers.Contains(structure)) {
             return;
@@ -443,9 +437,6 @@ public static class ApiCodeGenerator
             if (field.Name == "nextInChain" ||
                 field.Name == "deviceLostUserdata") {
                 continue;
-            }
-            if (field.Name == "vertex") {
-                int i = 11;
             }
             if (field.Type is CppClass cppClass) {
                 if (StructsWithPointers.Contains(cppClass)) {
