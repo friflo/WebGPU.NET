@@ -5,6 +5,7 @@ using static WebGPUNative;
 public unsafe partial struct WGPUSurface
 {
     public void configure(WGPUSurfaceConfiguration config) {
+        config.Validate();
         wgpuSurfaceConfigure(Handle, &config);
     }
 

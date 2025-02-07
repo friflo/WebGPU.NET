@@ -5,6 +5,7 @@ using static WebGPUNative;
 public unsafe partial struct WGPUTexture
 {
     public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
+        descriptor.Validate();
         var result = wgpuTextureCreateView(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTextureView, descriptor._label);
         return result;

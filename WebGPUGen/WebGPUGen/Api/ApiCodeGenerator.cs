@@ -145,6 +145,7 @@ public static class ApiCodeGenerator
         }
                     
         sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
+        AddValidations(sb, parameters);
         if (hasReturnValue) {
             sb.Append("        var result = ");
         } else {
@@ -181,7 +182,20 @@ public static class ApiCodeGenerator
         }
         sb.AppendLine($"    }}");
     }
-    
+
+    private static void AddValidations(StringBuilder sb, SignatureParam[] parameters)
+    {
+        for (int i = 1; i < parameters.Length; i++) {
+            var parameter = parameters[i];
+            if (parameter.CppParameter.Type is CppPointerType pointerType) {
+                var cppType = GetPointerCppType(pointerType);
+                if (StructsWithPointers.Contains(cppType)) {
+                    sb.AppendLine($"        {parameter.Name}.Validate();");                
+                }
+            }
+        }
+    }
+
     private static List<CppTypedef> GetHandles(CppCompilation compilation)
     {
         var handles = new List<CppTypedef>();

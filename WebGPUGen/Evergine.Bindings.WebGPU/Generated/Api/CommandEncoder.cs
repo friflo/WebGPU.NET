@@ -5,12 +5,14 @@ using static WebGPUNative;
 public unsafe partial struct WGPUCommandEncoder
 {
     public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
+        descriptor.Validate();
         var result = wgpuCommandEncoderBeginComputePass(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, descriptor._label);
         return result;
     }
 
     public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
+        descriptor.Validate();
         var result = wgpuCommandEncoderBeginRenderPass(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPassEncoder, descriptor._label);
         return result;
@@ -37,6 +39,7 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
+        descriptor.Validate();
         var result = wgpuCommandEncoderFinish(Handle, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, descriptor._label);
         return result;
