@@ -1,6 +1,5 @@
 ﻿using Evergine.Bindings.WebGPU;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -9,64 +8,20 @@ namespace HelloTriangle
 {
     public class HelloTriangle
     {
-        private WGPUInstance        Instance;
         private WGPUSurface         Surface;
-        internal WGPUAdapter         Adapter;
         private WGPUDevice          Device;
         private WGPUTextureFormat   SwapChainFormat;
         private WGPUQueue           Queue;
 
         private WGPURenderPipeline  pipeline;
         private WGPUBuffer          vertexBuffer;
-        internal Arena               frameArena = new Arena();
+        internal Arena              frameArena = new Arena();
 
-
-        
-        private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
-            Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
-        }
-        
-        internal void InitSurface(IntPtr hWnd) {
-            Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
-                backends = WGPUInstanceBackend.Vulkan
-            });
-            Surface = Instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
-        }
-
-        internal void InitDevice(int width, int height)
-        {
-            // --- create Adapter
-            WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {
-                compatibleSurface   = Surface,
-                powerPreference     = WGPUPowerPreference.HighPerformance
-            };
-            Instance.requestAdapter(options, (in RequestAdapterResult result) => {
-                if (result.status != WGPURequestAdapterStatus.Success) {
-                    throw new Exception($"Failed to create adapter: {result.Message.ToString()}");
-                }
-                Adapter = result.adapter;    
-            });
-            // --- create Device
-            var deviceDescriptor = new WGPUDeviceDescriptor { label = "Device"u8 };
-            Adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
-                if (result.status != WGPURequestDeviceStatus.Success) {
-                    throw new Exception($"Failed to request device. {result.Message.ToString()}");
-                }
-                Device = result.device;
-            });
-            Queue = Device.queue;
-            var capabilities = Surface.getCapabilities(Adapter);
-            SwapChainFormat = capabilities.formats[0];
-
-            var surfaceConfiguration = new WGPUSurfaceConfiguration {
-                device      = Device,
-                format      = SwapChainFormat,
-                usage       = WGPUTextureUsage.RenderAttachment,
-                width       = (uint)width,
-                height      = (uint)height,
-                presentMode = WGPUPresentMode.Fifo,
-            };
-            Surface.configure(surfaceConfiguration);
+        internal void InitGPU(GPU gpu) {
+            Surface         = gpu.Surface;
+            Device          = gpu.Device;
+            SwapChainFormat = gpu.SwapChainFormat;
+            Queue           = gpu.Queue;
         }
 
         internal void InitResources()
@@ -201,16 +156,6 @@ namespace HelloTriangle
 
             encoder.release();
             Surface.present();
-        }
-
-        internal void CleanUp()
-        {
-            // Queue is not released
-            Surface.release();
-            Device.destroy();
-            Device.release();
-            Adapter.release();
-            Instance.release();
         }
     }
 }

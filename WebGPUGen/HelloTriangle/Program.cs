@@ -13,16 +13,17 @@ namespace HelloTriangle
             HelloTriangle app = new HelloTriangle();
             app.frameArena.Use();
             var window = InitWindow();
-
-            app.InitSurface(window.Handle);
-            app.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
-            window.Text = $"WGPU-Native Triangle ({app.Adapter.info.backendType})";
+            var gpu = new GPU();
+            gpu.InitSurface(window.Handle);
+            gpu.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
+            app.InitGPU(gpu);
+            window.Text = $"WGPU-Native Triangle ({gpu.Adapter.info.backendType})";
             
             app.InitResources();
 
             MainLoop(app, window);
 
-            app.CleanUp();
+            gpu.CleanUp();
             window.Dispose();
             window.Close();
         }
