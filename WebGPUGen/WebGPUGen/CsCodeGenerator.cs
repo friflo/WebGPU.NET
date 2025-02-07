@@ -211,16 +211,16 @@ namespace WebGPUGen
                 file.WriteLine();
                 file.WriteLine("// ReSharper disable RedundantUnsafeContext;");
                 file.WriteLine("// ReSharper disable InconsistentNaming;");
-                file.WriteLine("namespace Evergine.Bindings.WebGPU");
-                file.WriteLine("{");
+                file.WriteLine("namespace Evergine.Bindings.WebGPU;");
+
 
                 var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
 
                 foreach (var structure in structs)
                 {
-                    file.WriteLine("\t[StructLayout(LayoutKind.Sequential)]");
-                    file.WriteLine($"\tpublic unsafe struct {structure.Name}");
-                    file.WriteLine("\t{");
+                    file.WriteLine("[StructLayout(LayoutKind.Sequential)]");
+                    file.WriteLine($"public unsafe struct {structure.Name}");
+                    file.WriteLine("{");
                     foreach (var member in structure.Fields)
                     {
                         string type = Helpers.ConvertToCSharpType(member.Type);
@@ -231,18 +231,17 @@ namespace WebGPUGen
                             // https://stackoverflow.com/questions/28514373/what-is-the-size-of-a-boolean-in-c-does-it-really-take-4-bytes/28515361
                             // https://stackoverflow.com/questions/11416433/marshalling-non-blittable-structs-from-c-sharp-to-c
                             // https://stackoverflow.com/questions/32110152/c-sharp-marshalling-bool
-                            file.WriteLine($"\t\t[MarshalAs(UnmanagedType.I1)]");
+                            file.WriteLine($"[MarshalAs(UnmanagedType.I1)]");
                         }
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
                         var visibility = isInternalField ? "[Browse(Never)] internal   " : "                public     ";
                         var prefix = isInternalField ? "_" : "";
-                        file.WriteLine($"\t\t{visibility} {type,-23} {prefix}{member.Name};");
+                        file.WriteLine($"\t{visibility} {type,-23} {prefix}{member.Name};");
                     }
                     ApiCodeGenerator.AddStructProperties(file, structure);
 
-                    file.WriteLine("\t}\n");
+                    file.WriteLine("}\n");
                 }
-                file.WriteLine("}\n");
             }
         }
 

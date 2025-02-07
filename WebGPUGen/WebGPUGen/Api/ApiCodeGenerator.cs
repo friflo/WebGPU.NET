@@ -335,18 +335,18 @@ public static class ApiCodeGenerator
             string type = Helpers.ConvertToCSharpType(member.Type);
             if (type == "void*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
-                sb.AppendLine($"\t\tpublic IntPtr {nameUpper} {{");
-                sb.AppendLine($"\t\t\tget => new IntPtr({member.Name});");
-                sb.AppendLine($"\t\t\tset => {member.Name} = (void*)value;");
-                sb.AppendLine($"\t\t}}");
+                sb.AppendLine($"\tpublic IntPtr {nameUpper} {{");
+                sb.AppendLine($"\t\tget => new IntPtr({member.Name});");
+                sb.AppendLine($"\t\tset => {member.Name} = (void*)value;");
+                sb.AppendLine($"\t}}");
                 continue;
             }
             if (type == "char*") {
                 var propertyName = member.Name;
-                sb.AppendLine($"\t\tpublic Utf8 {propertyName} {{");
-                sb.AppendLine($"\t\t\tget => ApiUtils.GetUtf8(_{member.Name});");
-                sb.AppendLine($"\t\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
-                sb.AppendLine($"\t\t}}");
+                sb.AppendLine($"\tpublic Utf8 {propertyName} {{");
+                sb.AppendLine($"\t\tget => ApiUtils.GetUtf8(_{member.Name});");
+                sb.AppendLine($"\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
+                sb.AppendLine($"\t}}");
                 continue;
             }
             if (type.EndsWith("*")) {
@@ -366,10 +366,10 @@ public static class ApiCodeGenerator
                         arrayFields.Add(arrayFieldName);
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = arrayFieldName;
-                        sb.AppendLine($"\t\tpublic Span<{arrayFieldType}> {propertyName} {{");
-                        sb.AppendLine($"\t\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
-                        sb.AppendLine($"\t\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
-                        sb.AppendLine($"\t\t}}");
+                        sb.AppendLine($"\tpublic Span<{arrayFieldType}> {propertyName} {{");
+                        sb.AppendLine($"\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
+                        sb.AppendLine($"\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
+                        sb.AppendLine($"\t}}");
                         continue;
                     }
                 }
@@ -377,16 +377,16 @@ public static class ApiCodeGenerator
                     // case: Pointer field used for an optional values. 
                     var fieldType = type.Substring(0, type.Length - 1);
                     var propertyName = member.Name;
-                    sb.AppendLine($"\t\tpublic {fieldType}? {propertyName} {{");
-                    sb.AppendLine($"\t\t\tget => ApiUtils.GetOpt(_{member.Name});");
-                    sb.AppendLine($"\t\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
-                    sb.AppendLine($"\t\t}}");
+                    sb.AppendLine($"\tpublic {fieldType}? {propertyName} {{");
+                    sb.AppendLine($"\t\tget => ApiUtils.GetOpt(_{member.Name});");
+                    sb.AppendLine($"\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
+                    sb.AppendLine($"\t}}");
                     continue;
                 }
             }
         }
         if (sb.Length > 0) {
-            file.WriteLine("\t\t// --- properties");
+            file.WriteLine("\t// --- properties");
         }
         AddValidateMethods(sb, structure, arrayFields);
         file.Write(sb.ToString());
@@ -402,7 +402,7 @@ public static class ApiCodeGenerator
             return;
         }
         sb.AppendLine();
-        sb.AppendLine("\t\tpublic void Validate() {");
+        sb.AppendLine("\tpublic void Validate() {");
         foreach (var field in structure.Fields)
         {
             if (field.Name == "nextInChain" ||
@@ -414,27 +414,27 @@ public static class ApiCodeGenerator
             }
             if (field.Type is CppClass cppClass) {
                 if (StructsWithPointers.Contains(cppClass)) {
-                    sb.AppendLine($"\t\t\t{field.Name}.Validate();");
+                    sb.AppendLine($"\t\t{field.Name}.Validate();");
                 }
             }
             if (field.Type is CppPointerType pointerType) {
-                sb.AppendLine($"\t\t\tAllocValidator.ValidatePtr(_{field.Name});");
+                sb.AppendLine($"\t\tAllocValidator.ValidatePtr(_{field.Name});");
                 var cppType = GetPointerCppType(pointerType);
                 if (cppType != null) {
                     if (StructsWithPointers.Contains(cppType)) {
                         if (arrayFields.Contains(field.Name)) {
-                            sb.AppendLine($"\t\t\tforeach (var element in {field.Name}) {{");
-                            sb.AppendLine($"\t\t\t    element.Validate();");
-                            sb.AppendLine($"\t\t\t}}");
+                            sb.AppendLine($"\t\tforeach (var element in {field.Name}) {{");
+                            sb.AppendLine($"\t\t    element.Validate();");
+                            sb.AppendLine($"\t\t}}");
                         } else {
-                            sb.AppendLine($"\t\t\t_{field.Name}->Validate();");
+                            sb.AppendLine($"\t\t_{field.Name}->Validate();");
                         }
                     }
                 }
                 continue;
             }
         }
-        sb.AppendLine("\t\t}");
+        sb.AppendLine("\t}");
     }
     
     private static CppType GetPointerCppType(CppPointerType pointerType)
