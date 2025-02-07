@@ -72,91 +72,10 @@ namespace HelloTriangle
         internal void InitResources()
         {
             var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
-            // pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
-
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
-            /*
-            WGPUShaderModuleWGSLDescriptor shaderCodeDescriptor = new()
-            {
-                chain = new WGPUChainedStruct()
-                {
-                    next = null,
-                    sType = WGPUSType.ShaderModuleWGSLDescriptor,
-                },
-                Code = shaderSource,
-            };
-
-            WGPUShaderModuleDescriptor moduleDescriptor = new()
-            {
-                nextInChain = &shaderCodeDescriptor.chain,
-                hintCount = 0,
-                hints = null,
-            };
-            var shaderModule = Device.createShaderModule(moduleDescriptor);
-            */
             var shaderModule = Device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
-            /*
-            WGPUVertexAttribute* vertexAttributes = stackalloc WGPUVertexAttribute[2]
-            {
-                new WGPUVertexAttribute()
-                {
-                    format = WGPUVertexFormat.Float32x4,
-                    offset = 0,
-                    shaderLocation = 0,
-                },
-                new WGPUVertexAttribute()
-                {
-                    format = WGPUVertexFormat.Float32x4,
-                    offset = 16,
-                    shaderLocation = 1,
-                },
-            };
-
-            WGPUVertexBufferLayout vertexLayout = new WGPUVertexBufferLayout()
-            {
-                attributeCount = 2,
-                attributes = vertexAttributes,
-                arrayStride = (ulong)sizeof(Vector4) * 2,
-                stepMode = WGPUVertexStepMode.Vertex,
-            };
-
-            WGPUBlendState blendState = new WGPUBlendState()
-            {
-                color = new WGPUBlendComponent()
-                {
-                    srcFactor = WGPUBlendFactor.One,
-                    dstFactor = WGPUBlendFactor.Zero,
-                    operation = WGPUBlendOperation.Add,
-                },
-                alpha = new WGPUBlendComponent()
-                {
-                    srcFactor = WGPUBlendFactor.One,
-                    dstFactor = WGPUBlendFactor.Zero,
-                    operation = WGPUBlendOperation.Add,
-                }
-            };
-
-            WGPUColorTargetState colorTargetState = new WGPUColorTargetState()
-            {
-                nextInChain = null,
-                format = SwapChainFormat,
-                blend = &blendState,
-                writeMask = WGPUColorWriteMask.All,
-            };
-
-            WGPUFragmentState fragmentState = new WGPUFragmentState()
-            {
-                nextInChain = null,
-                module = shaderModule,
-                EntryPoint = "fragmentMain"u8,
-                constantCount = 0,
-                constants = null,
-                targetCount = 1,
-                targets = &colorTargetState,
-            };
-            */
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 layout = pipelineLayout,
@@ -215,7 +134,6 @@ namespace HelloTriangle
             pipeline = Device.createRenderPipeline(pipelineDescriptor);
             shaderModule.release();
             pipelineLayout.release();
-            
 
             Span<Vector4> vertexData = [
                 new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
@@ -233,7 +151,6 @@ namespace HelloTriangle
                 mappedAtCreation = false,
             };
             vertexBuffer = Device.createBuffer(bufferDescriptor);
-            // vertexBuffer = wgpuDeviceCreateBuffer(Device, &bufferDescriptor);
             Queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
@@ -295,6 +212,5 @@ namespace HelloTriangle
             Adapter.release();
             Instance.release();
         }
-
     }
 }
