@@ -347,7 +347,6 @@ namespace HelloTriangle
                     alphaToCoverageEnabled = false,
                 }
             };
-            pipelineDescriptor.Validate();
             pipeline = Device.createRenderPipeline(pipelineDescriptor);
             shaderModule.release();
             pipelineLayout.release();
