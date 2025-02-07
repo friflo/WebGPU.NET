@@ -13,36 +13,19 @@ namespace HelloTriangle
         const uint WIDTH = 800;
         const uint HEIGHT = 600;
 
-        private Form                window;
+        internal Form                window;
         private WGPUInstance        Instance;
         private WGPUSurface         Surface;
-        private WGPUAdapter         Adapter;
+        internal WGPUAdapter         Adapter;
         private WGPUDevice          Device;
         private WGPUTextureFormat   SwapChainFormat;
         private WGPUQueue           Queue;
 
-        // private WGPUPipelineLayout pipelineLayout;
         private WGPURenderPipeline  pipeline;
         private WGPUBuffer          vertexBuffer;
-        private Arena               frameArena = new Arena();
+        internal Arena               frameArena = new Arena();
 
-        public void Run()
-        {
-            frameArena.Use();
-            InitWindow();
-
-            InitSurface();
-            InitDevice(window.ClientSize.Width, window.ClientSize.Height);
-            window.Text = $"WGPU-Native Triangle ({Adapter.info.backendType})";
-            
-            InitResources();
-
-            MainLoop();
-
-            CleanUp();
-        }
-
-        private void InitWindow()
+        internal void InitWindow()
         {
             window = new Form();
             window.Size = new System.Drawing.Size((int)WIDTH, (int)HEIGHT);
@@ -54,14 +37,14 @@ namespace HelloTriangle
             Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
         }
         
-        private void InitSurface() {
+        internal void InitSurface() {
             Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Vulkan
             });
             Surface = Instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, window.Handle);
         }
 
-        private void InitDevice(int width, int height)
+        internal void InitDevice(int width, int height)
         {
             // --- create Adapter
             WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {
@@ -97,7 +80,7 @@ namespace HelloTriangle
             Surface.configure(surfaceConfiguration);
         }
 
-        private void InitResources()
+        internal void InitResources()
         {
             var pipelineLayout = Device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
             // pipelineLayout = wgpuDeviceCreatePipelineLayout(Device, &layoutDescription);
@@ -265,32 +248,7 @@ namespace HelloTriangle
             Queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
-
-        private void MainLoop()
-        {
-            bool isClosing = false;
-            window.FormClosing += (s, e) =>
-            {
-                isClosing = true;
-            };
-
-            while (!isClosing)
-            {
-                this.DrawFrame();
-                for (int n = 0; n < 100_000; n++) {
-                    var desc = new WGPURenderPipelineDescriptor() {
-                        fragment = new WGPUFragmentState { }
-                    };
-                    if (n % 10_000 == 0) {
-                        frameArena.Reset();
-                    }
-                }
-
-                Application.DoEvents();
-            }
-        }
-
-        private void DrawFrame()
+        internal void DrawFrame()
         {
             var surfaceTexture = Surface.currentTexture;
 
@@ -335,12 +293,11 @@ namespace HelloTriangle
             var command = encoder.finish();
             Queue.submit([command]);
 
-            // wgpuCommandEncoderRelease(encoder);
             encoder.release();
             Surface.present();
         }
 
-        private void CleanUp()
+        internal void CleanUp()
         {
             // Queue is not released
             Surface.release();
