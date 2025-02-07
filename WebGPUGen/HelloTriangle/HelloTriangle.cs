@@ -112,6 +112,7 @@ namespace HelloTriangle
 
         internal void DrawFrame()
         {
+            frameArena.Use();
             for (int n = 0; n < 100_000; n++) {
                 _ = new WGPURenderPipelineDescriptor {
                     fragment = new WGPUFragmentState()
