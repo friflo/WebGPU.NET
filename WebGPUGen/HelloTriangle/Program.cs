@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Evergine.Bindings.WebGPU;
 
 namespace HelloTriangle
 {
@@ -18,7 +19,7 @@ namespace HelloTriangle
             
             triangle.InitResources();
 
-            MainLoop(triangle, window);
+            MainLoop(triangle, window, gpu.frameArena);
 
             gpu.CleanUp();
             window.Dispose();
@@ -34,7 +35,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static void MainLoop(Triangle triangle, Form window)
+        private static void MainLoop(Triangle triangle, Form window, Arena frameArena)
         {
             bool isClosing = false;
             window.FormClosing += (_, e) => {
@@ -43,6 +44,8 @@ namespace HelloTriangle
 
             while (!isClosing) {
                 triangle.DrawFrame();
+                frameArena.Reset();
+                
                 Application.DoEvents();
             }
         }

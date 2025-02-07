@@ -15,13 +15,14 @@ namespace HelloTriangle
 
         private             WGPURenderPipeline  pipeline;
         private             WGPUBuffer          vertexBuffer;
-        private readonly    Arena               frameArena = new Arena("frameArena");
+        private readonly    Arena               frameArena;
 
         internal Triangle(GPU gpu) {
             surface         = gpu.surface;
             device          = gpu.device;
             swapChainFormat = gpu.swapChainFormat;
             queue           = gpu.queue;
+            frameArena      = gpu.frameArena;
         }
 
         internal void InitResources()
@@ -113,15 +114,6 @@ namespace HelloTriangle
         internal void DrawFrame()
         {
             frameArena.Use();
-            for (int n = 0; n < 100_000; n++) {
-                _ = new WGPURenderPipelineDescriptor {
-                    fragment = new WGPUFragmentState()
-                };
-                if (n % 10_000 == 0) {
-                    frameArena.Reset();
-                }
-            }
-            
             var surfaceTexture = surface.currentTexture;
 
             // Getting the texture may fail, in particular if the window has been resized

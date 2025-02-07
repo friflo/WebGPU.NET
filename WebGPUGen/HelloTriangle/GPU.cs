@@ -12,7 +12,7 @@ public class GPU
     internal            WGPUDevice          device;
     internal            WGPUTextureFormat   swapChainFormat;
     internal            WGPUQueue           queue;
-    private readonly    Arena               initArena = new Arena("initArena");
+    internal readonly   Arena               frameArena = new Arena("frameArena");
     
     private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
         Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
@@ -20,7 +20,7 @@ public class GPU
     
     /// platform specific WGPU initialization
     internal void CreateSurface(IntPtr hWnd) {
-        initArena.Use();
+        frameArena.Use();
         instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
             backends = WGPUInstanceBackend.Vulkan
         });
