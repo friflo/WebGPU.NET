@@ -92,12 +92,12 @@ namespace HelloTriangle
             pipelineLayout.release();
 
             Span<Vector4> vertexData = [
-                new Vector4(0.0f, 0.5f, 0.5f, 1.0f),
-                new Vector4(1.0f, 0.0f, 0.0f, 1.0f),
-                new Vector4(0.5f, -0.5f, 0.5f, 1.0f),
-                new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
-                new Vector4(-0.5f, -0.5f, 0.5f, 1.0f),
-                new Vector4(0.0f, 0.0f, 1.0f, 1.0f)
+                new (0.0f, 0.5f, 0.5f, 1.0f),
+                new (1.0f, 0.0f, 0.0f, 1.0f),
+                new (0.5f, -0.5f, 0.5f, 1.0f),
+                new (0.0f, 1.0f, 0.0f, 1.0f),
+                new (-0.5f, -0.5f, 0.5f, 1.0f),
+                new (0.0f, 0.0f, 1.0f, 1.0f)
             ];
 
             ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
@@ -113,8 +113,8 @@ namespace HelloTriangle
         internal void DrawFrame()
         {
             for (int n = 0; n < 100_000; n++) {
-                var desc = new WGPURenderPipelineDescriptor() {
-                    fragment = new WGPUFragmentState { }
+                _ = new WGPURenderPipelineDescriptor {
+                    fragment = new WGPUFragmentState()
                 };
                 if (n % 10_000 == 0) {
                     frameArena.Reset();
@@ -150,7 +150,7 @@ namespace HelloTriangle
                     clearValue = new WGPUColor() { a = 1.0f },
                 }],
             });
-            var name = renderPass.ToString();
+            _ = renderPass.ToString();
 
             renderPass.setPipeline(pipeline);
             renderPass.setVertexBuffer(0, vertexBuffer, 0, WebGPUNative.WGPU_WHOLE_MAP_SIZE);
