@@ -13,12 +13,12 @@ namespace HelloTriangle
             var gpu = new GPU();
             gpu.CreateSurface(window.Handle);
             gpu.RequestDevice(window.ClientSize.Width, window.ClientSize.Height);
-            var app = new HelloTriangle(gpu);
+            var triangle = new HelloTriangle(gpu);
             window.Text = $"WGPU-Native Triangle ({gpu.adapter.info.backendType})";
             
-            app.InitResources();
+            triangle.InitResources();
 
-            MainLoop(app, window);
+            MainLoop(triangle, window);
 
             gpu.CleanUp();
             window.Dispose();
@@ -34,7 +34,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static void MainLoop(HelloTriangle app, Form window)
+        private static void MainLoop(HelloTriangle triangle, Form window)
         {
             bool isClosing = false;
             window.FormClosing += (_, e) => {
@@ -42,7 +42,7 @@ namespace HelloTriangle
             };
 
             while (!isClosing) {
-                app.DrawFrame();
+                triangle.DrawFrame();
                 Application.DoEvents();
             }
         }
