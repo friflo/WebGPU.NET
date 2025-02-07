@@ -18,10 +18,10 @@ namespace HelloTriangle
         private readonly    Arena               frameArena = new Arena("frameArena");
 
         internal HelloTriangle(GPU gpu) {
-            surface         = gpu.Surface;
-            device          = gpu.Device;
-            swapChainFormat = gpu.SwapChainFormat;
-            queue           = gpu.Queue;
+            surface         = gpu.surface;
+            device          = gpu.device;
+            swapChainFormat = gpu.swapChainFormat;
+            queue           = gpu.queue;
         }
 
         internal void InitResources()

@@ -6,13 +6,13 @@ namespace HelloTriangle;
 
 public class GPU
 {
-    internal    WGPUInstance        Instance;
-    internal    WGPUSurface         Surface;
-    internal    WGPUAdapter         Adapter;
-    internal    WGPUDevice          Device;
-    internal    WGPUTextureFormat   SwapChainFormat;
-    internal    WGPUQueue           Queue;
-    internal    Arena               initArena = new Arena("initArena");
+    private             WGPUInstance        instance;
+    internal            WGPUSurface         surface;
+    internal            WGPUAdapter         adapter;
+    internal            WGPUDevice          device;
+    internal            WGPUTextureFormat   swapChainFormat;
+    internal            WGPUQueue           queue;
+    private readonly    Arena               initArena = new Arena("initArena");
     
     private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
         Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
@@ -20,55 +20,55 @@ public class GPU
     
     internal void InitSurface(IntPtr hWnd) {
         initArena.Use();
-        Instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
+        instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
             backends = WGPUInstanceBackend.Vulkan
         });
-        Surface = Instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
+        surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
     }
 
     internal void InitDevice(int width, int height)
     {
         // --- create Adapter
         WGPURequestAdapterOptions options = new WGPURequestAdapterOptions {
-            compatibleSurface   = Surface,
+            compatibleSurface   = surface,
             powerPreference     = WGPUPowerPreference.HighPerformance
         };
-        Instance.requestAdapter(options, (in RequestAdapterResult result) => {
+        instance.requestAdapter(options, (in RequestAdapterResult result) => {
             if (result.status != WGPURequestAdapterStatus.Success) {
                 throw new Exception($"Failed to create adapter: {result.Message.ToString()}");
             }
-            Adapter = result.adapter;    
+            adapter = result.adapter;    
         });
         // --- create Device
         var deviceDescriptor = new WGPUDeviceDescriptor { label = "Device"u8 };
-        Adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
+        adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
             if (result.status != WGPURequestDeviceStatus.Success) {
                 throw new Exception($"Failed to request device. {result.Message.ToString()}");
             }
-            Device = result.device;
+            device = result.device;
         });
-        Queue = Device.queue;
-        var capabilities = Surface.getCapabilities(Adapter);
-        SwapChainFormat = capabilities.formats[0];
+        queue = device.queue;
+        var capabilities = surface.getCapabilities(adapter);
+        swapChainFormat = capabilities.formats[0];
 
         var surfaceConfiguration = new WGPUSurfaceConfiguration {
-            device      = Device,
-            format      = SwapChainFormat,
+            device      = device,
+            format      = swapChainFormat,
             usage       = WGPUTextureUsage.RenderAttachment,
             width       = (uint)width,
             height      = (uint)height,
             presentMode = WGPUPresentMode.Fifo,
         };
-        Surface.configure(surfaceConfiguration);
+        surface.configure(surfaceConfiguration);
     }
     
     internal void CleanUp()
     {
         // Queue is not released
-        Surface.release();
-        Device.destroy();
-        Device.release();
-        Adapter.release();
-        Instance.release();
+        surface.release();
+        device.destroy();
+        device.release();
+        adapter.release();
+        instance.release();
     }
 }

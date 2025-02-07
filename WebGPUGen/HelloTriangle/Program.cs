@@ -1,21 +1,20 @@
 ﻿using System.Windows.Forms;
-using Evergine.Bindings.WebGPU;
 
 namespace HelloTriangle
 {
     class Program
     {
-        const uint WIDTH = 800;
-        const uint HEIGHT = 600;
+        private const uint Width  = 800;
+        private const uint Height = 600;
         
-        static void Main(string[] args)
+        static void Main()
         {
             var window = InitWindow();
             var gpu = new GPU();
             gpu.InitSurface(window.Handle);
             gpu.InitDevice(window.ClientSize.Width, window.ClientSize.Height);
             var app = new HelloTriangle(gpu);
-            window.Text = $"WGPU-Native Triangle ({gpu.Adapter.info.backendType})";
+            window.Text = $"WGPU-Native Triangle ({gpu.adapter.info.backendType})";
             
             app.InitResources();
 
@@ -29,7 +28,7 @@ namespace HelloTriangle
         private static Form InitWindow()
         {
             var window = new Form();
-            window.Size = new System.Drawing.Size((int)WIDTH, (int)HEIGHT);
+            window.Size = new System.Drawing.Size((int)Width, (int)Height);
             window.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             window.Show();
             return window;
@@ -38,13 +37,11 @@ namespace HelloTriangle
         private static void MainLoop(HelloTriangle app, Form window)
         {
             bool isClosing = false;
-            window.FormClosing += (s, e) =>
-            {
+            window.FormClosing += (_, e) => {
                 isClosing = true;
             };
 
-            while (!isClosing)
-            {
+            while (!isClosing) {
                 app.DrawFrame();
                 Application.DoEvents();
             }
