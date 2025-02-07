@@ -13,7 +13,7 @@ namespace HelloTriangle
             var gpu = new GPU();
             gpu.CreateSurface(window.Handle);
             gpu.RequestDevice(window.ClientSize.Width, window.ClientSize.Height);
-            var triangle = new HelloTriangle(gpu);
+            var triangle = new Triangle(gpu);
             window.Text = $"WGPU-Native Triangle ({gpu.adapter.info.backendType})";
             
             triangle.InitResources();
@@ -34,7 +34,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static void MainLoop(HelloTriangle triangle, Form window)
+        private static void MainLoop(Triangle triangle, Form window)
         {
             bool isClosing = false;
             window.FormClosing += (_, e) => {

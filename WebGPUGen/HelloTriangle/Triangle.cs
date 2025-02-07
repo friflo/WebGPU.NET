@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace HelloTriangle
 {
-    public class HelloTriangle
+    public class Triangle
     {
         private readonly    WGPUSurface         surface;
         private readonly    WGPUDevice          device;
@@ -17,7 +17,7 @@ namespace HelloTriangle
         private             WGPUBuffer          vertexBuffer;
         private readonly    Arena               frameArena = new Arena("frameArena");
 
-        internal HelloTriangle(GPU gpu) {
+        internal Triangle(GPU gpu) {
             surface         = gpu.surface;
             device          = gpu.device;
             swapChainFormat = gpu.swapChainFormat;
