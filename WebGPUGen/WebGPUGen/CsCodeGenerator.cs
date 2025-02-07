@@ -205,7 +205,9 @@ namespace WebGPUGen
 
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Structs.cs")))
             {
-                file.WriteLine("using System.Runtime.InteropServices;\n");
+                file.WriteLine("using System.Runtime.InteropServices;");
+                file.WriteLine("using static System.Diagnostics.DebuggerBrowsableState;");
+                file.WriteLine("using Browse = System.Diagnostics.DebuggerBrowsableAttribute;");
                 file.WriteLine();
                 file.WriteLine("// ReSharper disable RedundantUnsafeContext;");
                 file.WriteLine("// ReSharper disable InconsistentNaming;");
@@ -232,7 +234,7 @@ namespace WebGPUGen
                             file.WriteLine($"\t\t[MarshalAs(UnmanagedType.I1)]");
                         }
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
-                        var visibility = isInternalField ? "internal   " : "public     ";
+                        var visibility = isInternalField ? "[Browse(Never)] internal   " : "                public     ";
                         var prefix = isInternalField ? "_" : "";
                         file.WriteLine($"\t\t{visibility} {type,-23} {prefix}{member.Name};");
                     }
