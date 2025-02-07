@@ -53,8 +53,10 @@ public static class ApiCodeGenerator
                 }
                 file.WriteLine(
                   $$"""
+                    using static Evergine.Bindings.WebGPU.WebGPUNative;
+                    
+                    // ReSharper disable InconsistentNaming
                     namespace Evergine.Bindings.WebGPU;
-                    using static WebGPUNative;
                     
                     {{docs}}           
                     public unsafe partial struct {{handleType.Name}}

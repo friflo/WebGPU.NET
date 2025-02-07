@@ -1,5 +1,7 @@
+using static Evergine.Bindings.WebGPU.WebGPUNative;
+
+// ReSharper disable InconsistentNaming
 namespace Evergine.Bindings.WebGPU;
-using static WebGPUNative;
 
 /// No counterpart in JavaScript WebGPU           
 public unsafe partial struct WGPUSurface
