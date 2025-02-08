@@ -24,6 +24,11 @@ namespace HelloTriangle
             queue           = gpu.queue;
             frameArena      = gpu.frameArena;
         }
+        
+        internal void ReleaseResources() {
+            vertexBuffer.release();
+            pipeline.release();
+        }
 
         internal void InitResources()
         {
@@ -154,7 +159,8 @@ namespace HelloTriangle
 
             var command = encoder.finish();
             queue.submit([command]);
-
+            
+            command.release();
             encoder.release();
             surface.present();
         }

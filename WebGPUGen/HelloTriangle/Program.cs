@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using Evergine.Bindings.WebGPU;
 
 namespace HelloTriangle
@@ -21,7 +22,9 @@ namespace HelloTriangle
 
             MainLoop(triangle, window, gpu.frameArena);
 
+            triangle.ReleaseResources();
             gpu.CleanUp();
+            Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Entries.Count}");
             window.Dispose();
             window.Close();
         }
