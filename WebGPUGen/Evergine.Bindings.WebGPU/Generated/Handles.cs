@@ -1,183 +1,206 @@
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
 // ReSharper disable InconsistentNaming
 // ReSharper disable StructCanBeMadeReadOnly
 // ReSharper disable ConvertToPrimaryConstructor
 // ReSharper disable MemberCanBePrivate.Global
 namespace Evergine.Bindings.WebGPU
 {
-	public partial struct WGPUAdapter : IEquatable<WGPUAdapter>
+	public readonly partial struct WGPUAdapter : IEquatable<WGPUAdapter>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUAdapter h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUAdapter h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUAdapter h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUAdapter h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUBindGroup : IEquatable<WGPUBindGroup>
+	public readonly partial struct WGPUBindGroup : IEquatable<WGPUBindGroup>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUBindGroup h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUBindGroup h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUBindGroup h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUBindGroup h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUBindGroupLayout : IEquatable<WGPUBindGroupLayout>
+	public readonly partial struct WGPUBindGroupLayout : IEquatable<WGPUBindGroupLayout>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUBindGroupLayout h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUBindGroupLayout h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUBindGroupLayout h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUBindGroupLayout h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUBuffer : IEquatable<WGPUBuffer>
+	public readonly partial struct WGPUBuffer : IEquatable<WGPUBuffer>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUBuffer h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUBuffer h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUBuffer h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUBuffer h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUCommandBuffer : IEquatable<WGPUCommandBuffer>
+	public readonly partial struct WGPUCommandBuffer : IEquatable<WGPUCommandBuffer>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUCommandBuffer h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUCommandBuffer h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUCommandBuffer h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUCommandBuffer h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUCommandEncoder : IEquatable<WGPUCommandEncoder>
+	public readonly partial struct WGPUCommandEncoder : IEquatable<WGPUCommandEncoder>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUCommandEncoder h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUCommandEncoder h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUCommandEncoder h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUCommandEncoder h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUComputePassEncoder : IEquatable<WGPUComputePassEncoder>
+	public readonly partial struct WGPUComputePassEncoder : IEquatable<WGPUComputePassEncoder>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUComputePassEncoder h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUComputePassEncoder h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUComputePassEncoder h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUComputePassEncoder h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUComputePipeline : IEquatable<WGPUComputePipeline>
+	public readonly partial struct WGPUComputePipeline : IEquatable<WGPUComputePipeline>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUComputePipeline h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUComputePipeline h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUComputePipeline h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUComputePipeline h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUDevice : IEquatable<WGPUDevice>
+	public readonly partial struct WGPUDevice : IEquatable<WGPUDevice>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUDevice h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUDevice h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUDevice h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUDevice h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUInstance : IEquatable<WGPUInstance>
+	public readonly partial struct WGPUInstance : IEquatable<WGPUInstance>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUInstance h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUInstance h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUInstance h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUInstance h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUPipelineLayout : IEquatable<WGPUPipelineLayout>
+	public readonly partial struct WGPUPipelineLayout : IEquatable<WGPUPipelineLayout>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUPipelineLayout h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUPipelineLayout h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUPipelineLayout h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUPipelineLayout h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUQuerySet : IEquatable<WGPUQuerySet>
+	public readonly partial struct WGPUQuerySet : IEquatable<WGPUQuerySet>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUQuerySet h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUQuerySet h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUQuerySet h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUQuerySet h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUQueue : IEquatable<WGPUQueue>
+	public readonly partial struct WGPUQueue : IEquatable<WGPUQueue>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUQueue h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUQueue h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUQueue h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUQueue h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPURenderBundle : IEquatable<WGPURenderBundle>
+	public readonly partial struct WGPURenderBundle : IEquatable<WGPURenderBundle>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPURenderBundle h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPURenderBundle h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPURenderBundle h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPURenderBundle h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPURenderBundleEncoder : IEquatable<WGPURenderBundleEncoder>
+	public readonly partial struct WGPURenderBundleEncoder : IEquatable<WGPURenderBundleEncoder>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPURenderBundleEncoder h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPURenderBundleEncoder h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPURenderBundleEncoder h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPURenderBundleEncoder h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPURenderPassEncoder : IEquatable<WGPURenderPassEncoder>
+	public readonly partial struct WGPURenderPassEncoder : IEquatable<WGPURenderPassEncoder>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPURenderPassEncoder h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPURenderPassEncoder h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPURenderPassEncoder h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPURenderPassEncoder h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPURenderPipeline : IEquatable<WGPURenderPipeline>
+	public readonly partial struct WGPURenderPipeline : IEquatable<WGPURenderPipeline>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPURenderPipeline h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPURenderPipeline h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPURenderPipeline h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPURenderPipeline h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUSampler : IEquatable<WGPUSampler>
+	public readonly partial struct WGPUSampler : IEquatable<WGPUSampler>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUSampler h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUSampler h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUSampler h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUSampler h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUShaderModule : IEquatable<WGPUShaderModule>
+	public readonly partial struct WGPUShaderModule : IEquatable<WGPUShaderModule>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUShaderModule h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUShaderModule h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUShaderModule h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUShaderModule h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUSurface : IEquatable<WGPUSurface>
+	public readonly partial struct WGPUSurface : IEquatable<WGPUSurface>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUSurface h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUSurface h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUSurface h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUSurface h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUTexture : IEquatable<WGPUTexture>
+	public readonly partial struct WGPUTexture : IEquatable<WGPUTexture>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUTexture h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUTexture h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUTexture h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUTexture h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public partial struct WGPUTextureView : IEquatable<WGPUTextureView>
+	public readonly partial struct WGPUTextureView : IEquatable<WGPUTextureView>, IHandle
 	{
-	public readonly IntPtr Handle;
-	public bool Equals(WGPUTextureView h) => Handle == h.Handle;
-	public override bool Equals(object? o) => o is WGPUTextureView h && Equals(h);
-	public override int GetHashCode() => Handle.GetHashCode();
+		internal readonly   IntPtr  Handle;
+		public              IntPtr  GetHandle()           => Handle;
+		public              bool    Equals(WGPUTextureView h) => Handle == h.Handle;
+		public   override   bool    Equals(object? o)     => o is WGPUTextureView h && Equals(h);
+		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
 }

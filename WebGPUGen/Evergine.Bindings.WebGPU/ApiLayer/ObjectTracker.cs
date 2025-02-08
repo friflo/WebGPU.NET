@@ -37,6 +37,11 @@ internal unsafe struct ObjectLabel
     internal fixed byte buffer[64];
 }
 
+public interface IHandle
+{
+    IntPtr GetHandle();
+}
+
 public struct ObjectEntry
 {
     internal ObjectLabel    label;

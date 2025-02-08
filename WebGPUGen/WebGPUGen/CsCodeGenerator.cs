@@ -156,6 +156,8 @@ namespace WebGPUGen
 
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Handles.cs")))
             {
+
+                file.WriteLine("#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value");
                 file.WriteLine("// ReSharper disable InconsistentNaming");
                 file.WriteLine("// ReSharper disable StructCanBeMadeReadOnly");
                 file.WriteLine("// ReSharper disable ConvertToPrimaryConstructor");
@@ -175,12 +177,11 @@ namespace WebGPUGen
                     {
                         continue;
                     }
-                    file.WriteLine($"\tpublic partial struct {typedef.Name} : IEquatable<{typedef.Name}>");
+                    file.WriteLine($"\tpublic readonly partial struct {typedef.Name} : IEquatable<{typedef.Name}>, IHandle");
                     file.WriteLine("\t{");
                     string handleType = "IntPtr";
-                    string nullValue = "IntPtr.Zero";
 
-                    file.WriteLine($"\tpublic readonly {handleType} Handle;");
+                    file.WriteLine($"\t\tinternal readonly   {handleType}  Handle;");
 
                 //  file.WriteLine($"\tpublic {typedef.Name}({handleType} existingHandle) {{ Handle = existingHandle; }}");
                 //  file.WriteLine($"\tpublic static {typedef.Name} Null => new {typedef.Name}({nullValue});");
@@ -189,9 +190,10 @@ namespace WebGPUGen
                 //  file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {typedef.Name} right) => left.Handle != right.Handle;");
                 //  file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {handleType} right) => left.Handle == right;");
                 //  file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {handleType} right) => left.Handle != right;");
-                    file.WriteLine($"\tpublic bool Equals({typedef.Name} h) => Handle == h.Handle;");
-                    file.WriteLine($"\tpublic override bool Equals(object? o) => o is {typedef.Name} h && Equals(h);");
-                    file.WriteLine($"\tpublic override int GetHashCode() => Handle.GetHashCode();");
+                    file.WriteLine($"\t\tpublic              IntPtr  GetHandle()           => Handle;");
+                    file.WriteLine($"\t\tpublic              bool    Equals({typedef.Name} h) => Handle == h.Handle;");
+                    file.WriteLine($"\t\tpublic   override   bool    Equals(object? o)     => o is {typedef.Name} h && Equals(h);");
+                    file.WriteLine($"\t\tpublic   override   int     GetHashCode()         => Handle.GetHashCode();");
                     file.WriteLine("\t}\n");
                 }
 
