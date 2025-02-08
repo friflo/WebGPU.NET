@@ -16,7 +16,7 @@ namespace HelloTriangle
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
             var triangle = new Triangle(gpu);
-            SDL.SDL_SetWindowTitle(window, $"WGPU-Native Triangle ({gpu.adapter.info.backendType})");
+            SDL.SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL - {gpu.adapter.info.backendType})");
             
             triangle.InitResources();
 
