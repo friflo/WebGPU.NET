@@ -8,7 +8,6 @@ namespace HelloTriangle
 {
     public class Triangle
     {
-        private readonly    WGPUSurface         surface;
         private readonly    WGPUDevice          device;
         private readonly    WGPUTextureFormat   swapChainFormat;
         private readonly    WGPUQueue           queue;
@@ -18,7 +17,6 @@ namespace HelloTriangle
         private readonly    Arena               frameArena;
 
         internal Triangle(GPU gpu) {
-            surface         = gpu.surface;
             device          = gpu.device;
             swapChainFormat = gpu.swapChainFormat;
             queue           = gpu.queue;
@@ -33,13 +31,14 @@ namespace HelloTriangle
         internal void InitResources()
         {
             frameArena.Use();
-            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor());
+            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = "triangle"u8 });
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
             var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
+                label  = "triangle"u8, 
                 layout = pipelineLayout,
                 vertex = new WGPUVertexState {
                     buffers = [new WGPUVertexBufferLayout {
@@ -108,6 +107,7 @@ namespace HelloTriangle
 
             ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
             WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor {
+                label = "triangle"u8,
                 usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
                 size = size,
                 mappedAtCreation = false,
@@ -116,36 +116,22 @@ namespace HelloTriangle
             queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
-        internal void DrawFrame()
+        internal void DrawFrame(WGPUTextureView view)
         {
             frameArena.Use();
-            var surfaceTexture = surface.currentTexture;
-
-            // Getting the texture may fail, in particular if the window has been resized
-            // and thus the target surface changed.
-            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Timeout) {
-                Console.WriteLine("Cannot acquire next swap chain texture");
-                return;
-            }
-
-            if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Outdated) {
-                Console.WriteLine("Surface texture is outdated, reconfigure the surface!");
-                return;
-            }
-            WGPUTextureView nextView = surfaceTexture.texture.createView();
 
             var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
-                label = "123"u8
+                label = "triangle"u8
             });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
-                label = "123"u8,
+                label = "triangle"u8,
                 colorAttachments = [new WGPURenderPassColorAttachment {
-                    view = nextView,
-                    resolveTarget = WGPUTextureView.Null,
-                    loadOp = WGPULoadOp.Clear,
-                    storeOp = WGPUStoreOp.Store,
-                    clearValue = new WGPUColor() { a = 1.0f },
+                    view            = view,
+                    resolveTarget   = WGPUTextureView.Null,
+                    loadOp          = WGPULoadOp.Clear,
+                    storeOp         = WGPUStoreOp.Store,
+                    clearValue      = new WGPUColor() { a = 1.0f },
                 }],
             });
             _ = renderPass.ToString();
@@ -155,14 +141,12 @@ namespace HelloTriangle
             renderPass.draw(3, 1, 0, 0);
             renderPass.end();
             renderPass.release();
-            nextView.release();
 
             var command = encoder.finish();
+            encoder.release();
             queue.submit([command]);
             
             command.release();
-            encoder.release();
-            surface.present();
         }
     }
 }

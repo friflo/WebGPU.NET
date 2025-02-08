@@ -20,7 +20,7 @@ namespace HelloTriangle
             
             triangle.InitResources();
 
-            MainLoop(triangle, window, gpu.frameArena);
+            MainLoop(triangle, window, gpu.frameArena, gpu.surface);
 
             triangle.ReleaseResources();
             gpu.CleanUp();
@@ -38,16 +38,34 @@ namespace HelloTriangle
             return window;
         }
         
-        private static void MainLoop(Triangle triangle, Form window, Arena frameArena)
+        private static void MainLoop(Triangle triangle, Form window, Arena frameArena, WGPUSurface surface)
         {
             bool isClosing = false;
-            window.FormClosing += (_, e) => {
+            window.FormClosing += (_, _) => {
                 isClosing = true;
             };
 
             while (!isClosing) {
-                triangle.DrawFrame();
+                var surfaceTexture = surface.currentTexture;
+
+                // Getting the texture may fail, in particular if the window has been resized
+                // and thus the target surface changed.
+                if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Timeout) {
+                    Console.WriteLine("Cannot acquire next swap chain texture");
+                    return;
+                }
+
+                if (surfaceTexture.status == WGPUSurfaceGetCurrentTextureStatus.Outdated) {
+                    Console.WriteLine("Surface texture is outdated, reconfigure the surface!");
+                    return;
+                }
+                WGPUTextureView nextView = surfaceTexture.texture.createView();
+                
                 frameArena.Reset();
+                triangle.DrawFrame(nextView);
+                
+                nextView.release();
+                surface.present();
                 
                 Application.DoEvents();
             }
