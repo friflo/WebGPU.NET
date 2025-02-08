@@ -8,12 +8,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUBuffer
 {
     public void destroy() {
-        Validate_destroy(Handle);
+        Validate_destroy();
         wgpuBufferDestroy(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_destroy(IntPtr handle) {
+    private void Validate_destroy() {
         ObjectTracker.ValidateHandle(this);
     }
 
@@ -28,23 +28,23 @@ public unsafe partial struct WGPUBuffer
     public WGPUBufferUsage usage => wgpuBufferGetUsage(this);
 
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
-        Validate_mapAsync(Handle, mode, offset, size, callback, userdata);
+        Validate_mapAsync(mode, offset, size, callback, userdata);
         wgpuBufferMapAsync(this, mode, offset, size, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_mapAsync(IntPtr handle, WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
+    private void Validate_mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(this);
     }
 
 
     public void unmap() {
-        Validate_unmap(Handle);
+        Validate_unmap();
         wgpuBufferUnmap(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_unmap(IntPtr handle) {
+    private void Validate_unmap() {
         ObjectTracker.ValidateHandle(this);
     }
 

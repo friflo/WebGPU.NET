@@ -8,13 +8,13 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUComputePipeline
 {
     public WGPUBindGroupLayout getBindGroupLayout(uint groupIndex) {
-        Validate_getBindGroupLayout(Handle, groupIndex);
+        Validate_getBindGroupLayout(groupIndex);
         var result = wgpuComputePipelineGetBindGroupLayout(this, groupIndex);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_getBindGroupLayout(IntPtr handle, uint groupIndex) {
+    private void Validate_getBindGroupLayout(uint groupIndex) {
         ObjectTracker.ValidateHandle(this);
     }
 

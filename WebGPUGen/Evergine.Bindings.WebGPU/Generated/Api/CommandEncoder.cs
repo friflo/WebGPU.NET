@@ -8,142 +8,142 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUCommandEncoder
 {
     public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
-        Validate_beginComputePass(Handle, descriptor);
+        Validate_beginComputePass(descriptor);
         var result = wgpuCommandEncoderBeginComputePass(this, &descriptor);
         ObjectTracker.CreateRef(result, HandleType.WGPUComputePassEncoder, descriptor._label);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_beginComputePass(IntPtr handle, WGPUComputePassDescriptor descriptor) {
+    private void Validate_beginComputePass(WGPUComputePassDescriptor descriptor) {
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
     public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
-        Validate_beginRenderPass(Handle, descriptor);
+        Validate_beginRenderPass(descriptor);
         var result = wgpuCommandEncoderBeginRenderPass(this, &descriptor);
         ObjectTracker.CreateRef(result, HandleType.WGPURenderPassEncoder, descriptor._label);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_beginRenderPass(IntPtr handle, WGPURenderPassDescriptor descriptor) {
+    private void Validate_beginRenderPass(WGPURenderPassDescriptor descriptor) {
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
     public void clearBuffer(WGPUBuffer buffer, ulong offset, ulong size) {
-        Validate_clearBuffer(Handle, buffer, offset, size);
+        Validate_clearBuffer(buffer, offset, size);
         wgpuCommandEncoderClearBuffer(this, buffer, offset, size);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_clearBuffer(IntPtr handle, WGPUBuffer buffer, ulong offset, ulong size) {
+    private void Validate_clearBuffer(WGPUBuffer buffer, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
-        Validate_copyBufferToBuffer(Handle, source, sourceOffset, destination, destinationOffset, size);
+        Validate_copyBufferToBuffer(source, sourceOffset, destination, destinationOffset, size);
         wgpuCommandEncoderCopyBufferToBuffer(this, source, sourceOffset, destination, destinationOffset, size);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_copyBufferToBuffer(IntPtr handle, WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
+    private void Validate_copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        Validate_copyBufferToTexture(Handle, source, destination, copySize);
+        Validate_copyBufferToTexture(source, destination, copySize);
         wgpuCommandEncoderCopyBufferToTexture(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_copyBufferToTexture(IntPtr handle, WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+    private void Validate_copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
-        Validate_copyTextureToBuffer(Handle, source, destination, copySize);
+        Validate_copyTextureToBuffer(source, destination, copySize);
         wgpuCommandEncoderCopyTextureToBuffer(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_copyTextureToBuffer(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
+    private void Validate_copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        Validate_copyTextureToTexture(Handle, source, destination, copySize);
+        Validate_copyTextureToTexture(source, destination, copySize);
         wgpuCommandEncoderCopyTextureToTexture(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_copyTextureToTexture(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+    private void Validate_copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
-        Validate_finish(Handle, descriptor);
+        Validate_finish(descriptor);
         var result = wgpuCommandEncoderFinish(this, &descriptor);
         ObjectTracker.CreateRef(result, HandleType.WGPUCommandBuffer, descriptor._label);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_finish(IntPtr handle, WGPUCommandBufferDescriptor descriptor) {
+    private void Validate_finish(WGPUCommandBufferDescriptor descriptor) {
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
     public void insertDebugMarker(Utf8 markerLabel) {
-        Validate_insertDebugMarker(Handle, markerLabel);
+        Validate_insertDebugMarker(markerLabel);
         wgpuCommandEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+    private void Validate_insertDebugMarker(Utf8 markerLabel) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void popDebugGroup() {
-        Validate_popDebugGroup(Handle);
+        Validate_popDebugGroup();
         wgpuCommandEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_popDebugGroup(IntPtr handle) {
+    private void Validate_popDebugGroup() {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void pushDebugGroup(Utf8 groupLabel) {
-        Validate_pushDebugGroup(Handle, groupLabel);
+        Validate_pushDebugGroup(groupLabel);
         wgpuCommandEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+    private void Validate_pushDebugGroup(Utf8 groupLabel) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
-        Validate_resolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
+        Validate_resolveQuerySet(querySet, firstQuery, queryCount, destination, destinationOffset);
         wgpuCommandEncoderResolveQuerySet(this, querySet, firstQuery, queryCount, destination, destinationOffset);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_resolveQuerySet(IntPtr handle, WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
+    private void Validate_resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
         ObjectTracker.ValidateHandle(this);
     }
 
 
     public void writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {
-        Validate_writeTimestamp(Handle, querySet, queryIndex);
+        Validate_writeTimestamp(querySet, queryIndex);
         wgpuCommandEncoderWriteTimestamp(this, querySet, queryIndex);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_writeTimestamp(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
+    private void Validate_writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {
         ObjectTracker.ValidateHandle(this);
     }
 

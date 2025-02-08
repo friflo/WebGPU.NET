@@ -194,10 +194,10 @@ public static class ApiCodeGenerator
     private static void AddValidationCall(StringBuilder sb, string commandName, SignatureParam[] parameters)
     {
         sb.Append($"        Validate_{commandName}");
-        sb.Append("(Handle");
+        sb.Append("(");
         for (int n = 1; n < parameters.Length; n++) {
             var param = parameters[n];
-            if (parameters.Length > 1) {
+            if (n > 1) {
                 sb.Append(", ");
             }
             switch (param.Type) {
@@ -218,12 +218,9 @@ public static class ApiCodeGenerator
     private static void AddValidationMethod(StringBuilder sb, string commandName, string signature, SignatureParam[] parameters)
     {
         sb.AppendLine();
-        if (signature.Length > 0) {
-            signature = ", " + signature;
-        }
         
         sb.AppendLine($"    [Conditional(\"VALIDATE\")]");
-        sb.AppendLine($"    private void Validate_{commandName}(IntPtr handle{signature}) {{");
+        sb.AppendLine($"    private void Validate_{commandName}({signature}) {{");
         sb.AppendLine($"        ObjectTracker.ValidateHandle(this);");
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];

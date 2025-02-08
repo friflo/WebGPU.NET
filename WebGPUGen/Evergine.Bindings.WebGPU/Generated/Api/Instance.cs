@@ -8,46 +8,46 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUInstance
 {
     public WGPUSurface createSurface(WGPUSurfaceDescriptor descriptor) {
-        Validate_createSurface(Handle, descriptor);
+        Validate_createSurface(descriptor);
         var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_createSurface(IntPtr handle, WGPUSurfaceDescriptor descriptor) {
+    private void Validate_createSurface(WGPUSurfaceDescriptor descriptor) {
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
     public WGPUBool hasWGSLLanguageFeature(WGPUWGSLFeatureName feature) {
-        Validate_hasWGSLLanguageFeature(Handle, feature);
+        Validate_hasWGSLLanguageFeature(feature);
         var result = wgpuInstanceHasWGSLLanguageFeature(this, feature);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_hasWGSLLanguageFeature(IntPtr handle, WGPUWGSLFeatureName feature) {
+    private void Validate_hasWGSLLanguageFeature(WGPUWGSLFeatureName feature) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void processEvents() {
-        Validate_processEvents(Handle);
+        Validate_processEvents();
         wgpuInstanceProcessEvents(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_processEvents(IntPtr handle) {
+    private void Validate_processEvents() {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void requestAdapter(WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
-        Validate_requestAdapter(Handle, options, callback, userdata);
+        Validate_requestAdapter(options, callback, userdata);
         wgpuInstanceRequestAdapter(this, &options, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_requestAdapter(IntPtr handle, WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
+    private void Validate_requestAdapter(WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(this);
     }
 
@@ -62,23 +62,23 @@ public unsafe partial struct WGPUInstance
     }
 
     public void report(WGPUGlobalReport report) {
-        Validate_report(Handle, report);
+        Validate_report(report);
         wgpuGenerateReport(this, &report);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_report(IntPtr handle, WGPUGlobalReport report) {
+    private void Validate_report(WGPUGlobalReport report) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public ulong enumerateAdapters(WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
-        Validate_enumerateAdapters(Handle, options, adapters);
+        Validate_enumerateAdapters(options, adapters);
         var result = wgpuInstanceEnumerateAdapters(this, &options, &adapters);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_enumerateAdapters(IntPtr handle, WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
+    private void Validate_enumerateAdapters(WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
         ObjectTracker.ValidateHandle(this);
     }
 

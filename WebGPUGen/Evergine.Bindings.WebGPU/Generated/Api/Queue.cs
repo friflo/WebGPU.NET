@@ -8,12 +8,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUQueue
 {
     public void onSubmittedWorkDone(delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
-        Validate_onSubmittedWorkDone(Handle, callback, userdata);
+        Validate_onSubmittedWorkDone(callback, userdata);
         wgpuQueueOnSubmittedWorkDone(this, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_onSubmittedWorkDone(IntPtr handle, delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
+    private void Validate_onSubmittedWorkDone(delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(this);
     }
 

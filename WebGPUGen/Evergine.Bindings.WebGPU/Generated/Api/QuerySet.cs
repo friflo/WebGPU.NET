@@ -8,12 +8,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUQuerySet
 {
     public void destroy() {
-        Validate_destroy(Handle);
+        Validate_destroy();
         wgpuQuerySetDestroy(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_destroy(IntPtr handle) {
+    private void Validate_destroy() {
         ObjectTracker.ValidateHandle(this);
     }
 

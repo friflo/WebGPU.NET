@@ -8,67 +8,67 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPURenderBundleEncoder
 {
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
-        Validate_draw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
+        Validate_draw(vertexCount, instanceCount, firstVertex, firstInstance);
         wgpuRenderBundleEncoderDraw(this, vertexCount, instanceCount, firstVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_draw(IntPtr handle, uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
+    private void Validate_draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
-        Validate_drawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
+        Validate_drawIndexed(indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
         wgpuRenderBundleEncoderDrawIndexed(this, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_drawIndexed(IntPtr handle, uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
+    private void Validate_drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
         ObjectTracker.ValidateHandle(this);
     }
 
 
 
     public WGPURenderBundle finish(WGPURenderBundleDescriptor descriptor) {
-        Validate_finish(Handle, descriptor);
+        Validate_finish(descriptor);
         var result = wgpuRenderBundleEncoderFinish(this, &descriptor);
         ObjectTracker.CreateRef(result, HandleType.WGPURenderBundle, descriptor._label);
         return result;
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_finish(IntPtr handle, WGPURenderBundleDescriptor descriptor) {
+    private void Validate_finish(WGPURenderBundleDescriptor descriptor) {
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
     public void insertDebugMarker(Utf8 markerLabel) {
-        Validate_insertDebugMarker(Handle, markerLabel);
+        Validate_insertDebugMarker(markerLabel);
         wgpuRenderBundleEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+    private void Validate_insertDebugMarker(Utf8 markerLabel) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void popDebugGroup() {
-        Validate_popDebugGroup(Handle);
+        Validate_popDebugGroup();
         wgpuRenderBundleEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_popDebugGroup(IntPtr handle) {
+    private void Validate_popDebugGroup() {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void pushDebugGroup(Utf8 groupLabel) {
-        Validate_pushDebugGroup(Handle, groupLabel);
+        Validate_pushDebugGroup(groupLabel);
         wgpuRenderBundleEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+    private void Validate_pushDebugGroup(Utf8 groupLabel) {
         ObjectTracker.ValidateHandle(this);
     }
 
@@ -79,33 +79,33 @@ public unsafe partial struct WGPURenderBundleEncoder
     }
 
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
-        Validate_setIndexBuffer(Handle, buffer, format, offset, size);
+        Validate_setIndexBuffer(buffer, format, offset, size);
         wgpuRenderBundleEncoderSetIndexBuffer(this, buffer, format, offset, size);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_setIndexBuffer(IntPtr handle, WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
+    private void Validate_setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(this);
     }
 
 
     public void setPipeline(WGPURenderPipeline pipeline) {
-        Validate_setPipeline(Handle, pipeline);
+        Validate_setPipeline(pipeline);
         wgpuRenderBundleEncoderSetPipeline(this, pipeline);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_setPipeline(IntPtr handle, WGPURenderPipeline pipeline) {
+    private void Validate_setPipeline(WGPURenderPipeline pipeline) {
         ObjectTracker.ValidateHandle(this);
     }
 
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
-        Validate_setVertexBuffer(Handle, slot, buffer, offset, size);
+        Validate_setVertexBuffer(slot, buffer, offset, size);
         wgpuRenderBundleEncoderSetVertexBuffer(this, slot, buffer, offset, size);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_setVertexBuffer(IntPtr handle, uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
+    private void Validate_setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(this);
     }
 

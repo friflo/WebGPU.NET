@@ -8,12 +8,12 @@ namespace Evergine.Bindings.WebGPU;
 public unsafe partial struct WGPUShaderModule
 {
     public void getCompilationInfo(delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
-        Validate_getCompilationInfo(Handle, callback, userdata);
+        Validate_getCompilationInfo(callback, userdata);
         wgpuShaderModuleGetCompilationInfo(this, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
-    private void Validate_getCompilationInfo(IntPtr handle, delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
+    private void Validate_getCompilationInfo(delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(this);
     }
 
