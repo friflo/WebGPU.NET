@@ -141,6 +141,9 @@ public static class ObjectTracker
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();
+        if (handlePtr == IntPtr.Zero) {
+            return;
+        }
         if (HandleMap.ContainsKey(handlePtr)) {
             return;
         }

@@ -49,6 +49,7 @@ public unsafe partial struct WGPUInstance
     [Conditional("VALIDATE")]
     private void Validate_requestAdapter(WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(this);
+        options.Validate();
     }
 
     public void reference() {

@@ -254,6 +254,7 @@ public unsafe partial struct WGPUDevice
     [Conditional("VALIDATE")]
     private void Validate_poll(WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
         ObjectTracker.ValidateHandle(this);
+        wrappedSubmissionIndex.Validate();
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

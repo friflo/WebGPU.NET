@@ -64,6 +64,8 @@ public unsafe partial struct WGPUCommandEncoder
     [Conditional("VALIDATE")]
     private void Validate_copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
+        source.Validate();
+        destination.Validate();
     }
 
     public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
@@ -74,6 +76,8 @@ public unsafe partial struct WGPUCommandEncoder
     [Conditional("VALIDATE")]
     private void Validate_copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
+        source.Validate();
+        destination.Validate();
     }
 
     public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
@@ -84,6 +88,8 @@ public unsafe partial struct WGPUCommandEncoder
     [Conditional("VALIDATE")]
     private void Validate_copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(this);
+        source.Validate();
+        destination.Validate();
     }
 
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {

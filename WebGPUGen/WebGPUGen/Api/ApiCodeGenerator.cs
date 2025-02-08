@@ -14,14 +14,16 @@ public static class ApiCodeGenerator
 {
     private static Dictionary<CppTypedef, List<CppFunction>> objects = new();
     
-    public static void GenerateApiCommands(CppCompilation compilation, string outputPath)
-    {
-        Debug.WriteLine("Generating API Commands...");
+    public static void GetObjects(CppCompilation compilation) {
         var handles = GetHandles(compilation).ToArray();
         foreach (var handle in handles) {
             objects.Add(handle, new List<CppFunction>());
         }
-
+    }
+    
+    public static void GenerateApiCommands(CppCompilation compilation, string outputPath)
+    {
+        Debug.WriteLine("Generating API Commands...");
         foreach (var command in compilation.Functions)
         {
             if (command.Parameters.Count == 0) {
@@ -217,8 +219,10 @@ public static class ApiCodeGenerator
 
     private static void AddValidationMethod(StringBuilder sb, string commandName, string signature, SignatureParam[] parameters)
     {
+        if (commandName == "copyBufferToTexture") {
+            int n = 1;
+        }
         sb.AppendLine();
-        
         sb.AppendLine($"    [Conditional(\"VALIDATE\")]");
         sb.AppendLine($"    private void Validate_{commandName}({signature}) {{");
         sb.AppendLine($"        ObjectTracker.ValidateHandle(this);");
@@ -346,6 +350,9 @@ public static class ApiCodeGenerator
     {
         var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
         foreach (var structure in structs) {
+            if (structure.Name == "WGPUImageCopyBuffer") {
+                int i = 1;
+            }
             foreach (var field in structure.Fields) {
                 if (field.Name == "nextInChain" || field.Name == "chain" || field.Name == "next") {
                     continue;
@@ -357,6 +364,12 @@ public static class ApiCodeGenerator
                 if (type == "char*" || type.EndsWith("*")) {
                     StructsWithPointers.Add(structure);
                     break;
+                }
+                if (field.Type is CppTypedef typedef) {
+                    if (objects.ContainsKey(typedef)) {
+                        StructsWithPointers.Add(structure);
+                        break;
+                    }
                 }
             }
         }
@@ -451,6 +464,12 @@ public static class ApiCodeGenerator
                     sb.AppendLine($"\t\t{field.Name}.Validate();");
                 }
             }
+            if (field.Type is CppTypedef handleType) {
+                if (objects.ContainsKey(handleType)) {
+                    sb.AppendLine($"        ObjectTracker.ValidateHandle({field.Name});");
+                    continue;
+                }
+            }
             if (field.Type is CppPointerType pointerType) {
                 sb.AppendLine($"\t\tAllocValidator.ValidatePtr(_{field.Name});");
                 var cppType = GetPointerCppType(pointerType);
@@ -461,7 +480,9 @@ public static class ApiCodeGenerator
                             sb.AppendLine($"\t\t    element.Validate();");
                             sb.AppendLine($"\t\t}}");
                         } else {
-                            sb.AppendLine($"\t\t_{field.Name}->Validate();");
+                            sb.AppendLine($"\t\tif (_{field.Name} != null) {{");
+                            sb.AppendLine($"\t\t    _{field.Name}->Validate();");
+                            sb.AppendLine($"\t\t}}");
                         }
                     }
                 }
