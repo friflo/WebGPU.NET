@@ -236,7 +236,7 @@ public static class ApiCodeGenerator
             }
             if (parameter.CppParameter.Type is CppTypedef handleType) {
                 if (objects.ContainsKey(handleType)) {
-                    sb.AppendLine($"        ObjectTracker.ValidateHandle({parameter.Name});");
+                    sb.AppendLine($"        ObjectTracker.ValidateHandleParam({parameter.Name});");
                 }
             }
         }
@@ -466,7 +466,7 @@ public static class ApiCodeGenerator
             }
             if (field.Type is CppTypedef handleType) {
                 if (objects.ContainsKey(handleType)) {
-                    sb.AppendLine($"        ObjectTracker.ValidateHandle({field.Name});");
+                    sb.AppendLine($"        ObjectTracker.ValidateHandleParam({field.Name});");
                     continue;
                 }
             }

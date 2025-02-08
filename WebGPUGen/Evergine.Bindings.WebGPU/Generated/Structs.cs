@@ -55,9 +55,9 @@ public unsafe struct WGPUBindGroupEntry
 	                public      WGPUTextureView         textureView;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(buffer);
-        ObjectTracker.ValidateHandle(sampler);
-        ObjectTracker.ValidateHandle(textureView);
+        ObjectTracker.ValidateHandleParam(buffer);
+        ObjectTracker.ValidateHandleParam(sampler);
+        ObjectTracker.ValidateHandleParam(textureView);
 	}
 }
 
@@ -170,7 +170,7 @@ public unsafe struct WGPUComputePassTimestampWrites
 	                public      uint                    endOfPassWriteIndex;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(querySet);
+        ObjectTracker.ValidateHandleParam(querySet);
 	}
 }
 
@@ -390,7 +390,7 @@ public unsafe struct WGPURenderPassDepthStencilAttachment
 	                public      WGPUBool                stencilReadOnly;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(view);
+        ObjectTracker.ValidateHandleParam(view);
 	}
 }
 
@@ -409,7 +409,7 @@ public unsafe struct WGPURenderPassTimestampWrites
 	                public      uint                    endOfPassWriteIndex;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(querySet);
+        ObjectTracker.ValidateHandleParam(querySet);
 	}
 }
 
@@ -423,7 +423,7 @@ public unsafe struct WGPURequestAdapterOptions
 	                public      WGPUBool                forceFallbackAdapter;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(compatibleSurface);
+        ObjectTracker.ValidateHandleParam(compatibleSurface);
 	}
 }
 
@@ -474,7 +474,7 @@ public unsafe struct WGPUShaderModuleCompilationHint
 
 	public void Validate() {
 		AllocValidator.ValidatePtr(_entryPoint);
-        ObjectTracker.ValidateHandle(layout);
+        ObjectTracker.ValidateHandleParam(layout);
 	}
 }
 
@@ -581,7 +581,7 @@ public unsafe struct WGPUSurfaceConfiguration
 	}
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(device);
+        ObjectTracker.ValidateHandleParam(device);
 		AllocValidator.ValidatePtr(_viewFormats);
 	}
 }
@@ -710,7 +710,7 @@ public unsafe struct WGPUSurfaceTexture
 	                public      WGPUSurfaceGetCurrentTextureStatus status;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(texture);
+        ObjectTracker.ValidateHandleParam(texture);
 	}
 }
 
@@ -796,7 +796,7 @@ public unsafe struct WGPUBindGroupDescriptor
 
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
-        ObjectTracker.ValidateHandle(layout);
+        ObjectTracker.ValidateHandleParam(layout);
 		AllocValidator.ValidatePtr(_entries);
 		foreach (var element in entries) {
 		    element.Validate();
@@ -892,7 +892,7 @@ public unsafe struct WGPUImageCopyBuffer
 	                public      WGPUBuffer              buffer;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(buffer);
+        ObjectTracker.ValidateHandleParam(buffer);
 	}
 }
 
@@ -906,7 +906,7 @@ public unsafe struct WGPUImageCopyTexture
 	                public      WGPUTextureAspect       aspect;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(texture);
+        ObjectTracker.ValidateHandleParam(texture);
 	}
 }
 
@@ -929,7 +929,7 @@ public unsafe struct WGPUProgrammableStageDescriptor
 	}
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(module);
+        ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
 		AllocValidator.ValidatePtr(_constants);
 		foreach (var element in constants) {
@@ -950,8 +950,8 @@ public unsafe struct WGPURenderPassColorAttachment
 	                public      WGPUColor               clearValue;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(view);
-        ObjectTracker.ValidateHandle(resolveTarget);
+        ObjectTracker.ValidateHandleParam(view);
+        ObjectTracker.ValidateHandleParam(resolveTarget);
 	}
 }
 
@@ -1098,7 +1098,7 @@ public unsafe struct WGPUComputePipelineDescriptor
 
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
-        ObjectTracker.ValidateHandle(layout);
+        ObjectTracker.ValidateHandleParam(layout);
 		compute.Validate();
 	}
 }
@@ -1179,7 +1179,7 @@ public unsafe struct WGPURenderPassDescriptor
 		if (_depthStencilAttachment != null) {
 		    _depthStencilAttachment->Validate();
 		}
-        ObjectTracker.ValidateHandle(occlusionQuerySet);
+        ObjectTracker.ValidateHandleParam(occlusionQuerySet);
 		AllocValidator.ValidatePtr(_timestampWrites);
 		if (_timestampWrites != null) {
 		    _timestampWrites->Validate();
@@ -1212,7 +1212,7 @@ public unsafe struct WGPUVertexState
 	}
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(module);
+        ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
 		AllocValidator.ValidatePtr(_constants);
 		foreach (var element in constants) {
@@ -1250,7 +1250,7 @@ public unsafe struct WGPUFragmentState
 	}
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(module);
+        ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
 		AllocValidator.ValidatePtr(_constants);
 		foreach (var element in constants) {
@@ -1290,7 +1290,7 @@ public unsafe struct WGPURenderPipelineDescriptor
 
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
-        ObjectTracker.ValidateHandle(layout);
+        ObjectTracker.ValidateHandleParam(layout);
 		vertex.Validate();
 		AllocValidator.ValidatePtr(_depthStencil);
 		AllocValidator.ValidatePtr(_fragment);
@@ -1419,7 +1419,7 @@ public unsafe struct WGPUWrappedSubmissionIndex
 	                public      ulong                   submissionIndex;
 
 	public void Validate() {
-        ObjectTracker.ValidateHandle(queue);
+        ObjectTracker.ValidateHandleParam(queue);
 	}
 }
 

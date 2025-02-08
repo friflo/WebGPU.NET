@@ -137,7 +137,19 @@ public static class ObjectTracker
         throw ObjectNotFoundException<THandle>();
     }
     
+    /// Validated handle must not be null
     public static void ValidateHandle<THandle>(THandle handle)
+        where THandle : struct, IHandle
+    {
+        var handlePtr = handle.GetHandle();
+        if (HandleMap.ContainsKey(handlePtr)) {
+            return;
+        }
+        throw ObjectNotFoundException<THandle>();
+    }
+    
+    /// Validated handle can be null
+    public static void ValidateHandleParam<THandle>(THandle handle)
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();

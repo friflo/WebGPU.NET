@@ -86,7 +86,7 @@ public unsafe partial struct WGPURenderBundleEncoder
     [Conditional("VALIDATE")]
     private void Validate_setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(this);
-        ObjectTracker.ValidateHandle(buffer);
+        ObjectTracker.ValidateHandleParam(buffer);
     }
 
 
@@ -98,7 +98,7 @@ public unsafe partial struct WGPURenderBundleEncoder
     [Conditional("VALIDATE")]
     private void Validate_setPipeline(WGPURenderPipeline pipeline) {
         ObjectTracker.ValidateHandle(this);
-        ObjectTracker.ValidateHandle(pipeline);
+        ObjectTracker.ValidateHandleParam(pipeline);
     }
 
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
@@ -109,7 +109,7 @@ public unsafe partial struct WGPURenderBundleEncoder
     [Conditional("VALIDATE")]
     private void Validate_setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(this);
-        ObjectTracker.ValidateHandle(buffer);
+        ObjectTracker.ValidateHandleParam(buffer);
     }
 
     public void reference() {
