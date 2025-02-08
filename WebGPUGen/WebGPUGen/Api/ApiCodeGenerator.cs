@@ -53,6 +53,7 @@ public static class ApiCodeGenerator
                 }
                 file.WriteLine(
                   $$"""
+                    using System.Diagnostics;
                     using static Evergine.Bindings.WebGPU.WebGPUNative;
                     
                     // ReSharper disable InconsistentNaming
@@ -218,6 +219,8 @@ public static class ApiCodeGenerator
         if (signature.Length > 0) {
             signature = ", " + signature;
         }
+        
+        sb.AppendLine($"    [Conditional(\"VALIDATE\")]");
         sb.AppendLine($"    private static void Validate_{commandName}(IntPtr handle{signature}) {{");
         sb.AppendLine($"        ObjectTracker.ValidateHandle(handle);");
         for (int i = 1; i < parameters.Length; i++) {

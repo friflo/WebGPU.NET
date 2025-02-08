@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -13,6 +14,7 @@ public unsafe partial struct WGPUInstance
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createSurface(IntPtr handle, WGPUSurfaceDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -24,6 +26,7 @@ public unsafe partial struct WGPUInstance
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_hasWGSLLanguageFeature(IntPtr handle, WGPUWGSLFeatureName feature) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -33,6 +36,7 @@ public unsafe partial struct WGPUInstance
         wgpuInstanceProcessEvents(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_processEvents(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -42,6 +46,7 @@ public unsafe partial struct WGPUInstance
         wgpuInstanceRequestAdapter(Handle, &options, callback, userdata);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_requestAdapter(IntPtr handle, WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -61,6 +66,7 @@ public unsafe partial struct WGPUInstance
         wgpuGenerateReport(Handle, &report);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_report(IntPtr handle, WGPUGlobalReport report) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -71,6 +77,7 @@ public unsafe partial struct WGPUInstance
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_enumerateAdapters(IntPtr handle, WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
         ObjectTracker.ValidateHandle(handle);
     }

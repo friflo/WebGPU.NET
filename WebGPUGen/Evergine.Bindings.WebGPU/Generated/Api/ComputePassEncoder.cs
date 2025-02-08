@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -11,6 +12,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderDispatchWorkgroups(Handle, workgroupCountX, workgroupCountY, workgroupCountZ);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_dispatchWorkgroups(IntPtr handle, uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -20,6 +22,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderDispatchWorkgroupsIndirect(Handle, indirectBuffer, indirectOffset);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_dispatchWorkgroupsIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -29,6 +32,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderEnd(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_end(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -38,6 +42,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -47,6 +52,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderPopDebugGroup(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_popDebugGroup(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -56,6 +62,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -71,6 +78,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -80,6 +88,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderSetPipeline(Handle, pipeline);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setPipeline(IntPtr handle, WGPUComputePipeline pipeline) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -99,6 +108,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderBeginPipelineStatisticsQuery(Handle, querySet, queryIndex);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -108,6 +118,7 @@ public unsafe partial struct WGPUComputePassEncoder
         wgpuComputePassEncoderEndPipelineStatisticsQuery(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_endPipelineStatisticsQuery(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }

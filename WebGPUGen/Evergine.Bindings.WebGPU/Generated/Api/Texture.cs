@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -13,6 +14,7 @@ public unsafe partial struct WGPUTexture
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createView(IntPtr handle, WGPUTextureViewDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -23,6 +25,7 @@ public unsafe partial struct WGPUTexture
         wgpuTextureDestroy(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_destroy(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -48,6 +51,7 @@ public unsafe partial struct WGPUTexture
         wgpuTextureSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -12,6 +13,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_cAddress(IntPtr handle, Utf8 procName) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -23,6 +25,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createBindGroup(IntPtr handle, WGPUBindGroupDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -35,6 +38,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createBindGroupLayout(IntPtr handle, WGPUBindGroupLayoutDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -47,6 +51,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createBuffer(IntPtr handle, WGPUBufferDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -59,6 +64,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createCommandEncoder(IntPtr handle, WGPUCommandEncoderDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -71,6 +77,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createComputePipeline(IntPtr handle, WGPUComputePipelineDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -81,6 +88,7 @@ public unsafe partial struct WGPUDevice
         wgpuDeviceCreateComputePipelineAsync(Handle, &descriptor, callback, userdata);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createComputePipelineAsync(IntPtr handle, WGPUComputePipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPUComputePipeline, char*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -93,6 +101,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createPipelineLayout(IntPtr handle, WGPUPipelineLayoutDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -105,6 +114,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createQuerySet(IntPtr handle, WGPUQuerySetDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -117,6 +127,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createRenderBundleEncoder(IntPtr handle, WGPURenderBundleEncoderDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -129,6 +140,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createRenderPipeline(IntPtr handle, WGPURenderPipelineDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -139,6 +151,7 @@ public unsafe partial struct WGPUDevice
         wgpuDeviceCreateRenderPipelineAsync(Handle, &descriptor, callback, userdata);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createRenderPipelineAsync(IntPtr handle, WGPURenderPipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPURenderPipeline, char*, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -151,6 +164,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createSampler(IntPtr handle, WGPUSamplerDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -163,6 +177,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createShaderModule(IntPtr handle, WGPUShaderModuleDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -175,6 +190,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_createTexture(IntPtr handle, WGPUTextureDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -185,6 +201,7 @@ public unsafe partial struct WGPUDevice
         wgpuDeviceDestroy(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_destroy(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -195,6 +212,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_enumerateFeatures(IntPtr handle, WGPUFeatureName features) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -209,6 +227,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_hasFeature(IntPtr handle, WGPUFeatureName feature) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -220,6 +239,7 @@ public unsafe partial struct WGPUDevice
         wgpuDeviceSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -240,6 +260,7 @@ public unsafe partial struct WGPUDevice
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_poll(IntPtr handle, WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
         ObjectTracker.ValidateHandle(handle);
     }

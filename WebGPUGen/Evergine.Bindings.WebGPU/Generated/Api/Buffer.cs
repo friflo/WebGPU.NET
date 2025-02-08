@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -11,6 +12,7 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferDestroy(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_destroy(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -30,6 +32,7 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferMapAsync(Handle, mode, offset, size, callback, userdata);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_mapAsync(IntPtr handle, WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -39,6 +42,7 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -48,6 +52,7 @@ public unsafe partial struct WGPUBuffer
         wgpuBufferUnmap(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_unmap(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }

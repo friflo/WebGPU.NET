@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -12,6 +13,7 @@ public unsafe partial struct WGPUAdapter
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_enumerateFeatures(IntPtr handle, WGPUFeatureName features) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -30,6 +32,7 @@ public unsafe partial struct WGPUAdapter
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_hasFeature(IntPtr handle, WGPUFeatureName feature) {
         ObjectTracker.ValidateHandle(handle);
     }

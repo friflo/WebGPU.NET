@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -11,6 +12,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderDraw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_draw(IntPtr handle, uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -20,6 +22,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderDrawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_drawIndexed(IntPtr handle, uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -33,6 +36,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_finish(IntPtr handle, WGPURenderBundleDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -43,6 +47,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -52,6 +57,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderPopDebugGroup(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_popDebugGroup(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -61,6 +67,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -76,6 +83,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderSetIndexBuffer(Handle, buffer, format, offset, size);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setIndexBuffer(IntPtr handle, WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -85,6 +93,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -94,6 +103,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderSetPipeline(Handle, pipeline);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setPipeline(IntPtr handle, WGPURenderPipeline pipeline) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -103,6 +113,7 @@ public unsafe partial struct WGPURenderBundleEncoder
         wgpuRenderBundleEncoderSetVertexBuffer(Handle, slot, buffer, offset, size);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setVertexBuffer(IntPtr handle, uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(handle);
     }

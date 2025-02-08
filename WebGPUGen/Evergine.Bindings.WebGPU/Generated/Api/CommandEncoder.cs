@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 // ReSharper disable InconsistentNaming
@@ -13,6 +14,7 @@ public unsafe partial struct WGPUCommandEncoder
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_beginComputePass(IntPtr handle, WGPUComputePassDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -25,6 +27,7 @@ public unsafe partial struct WGPUCommandEncoder
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_beginRenderPass(IntPtr handle, WGPURenderPassDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -35,6 +38,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderClearBuffer(Handle, buffer, offset, size);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_clearBuffer(IntPtr handle, WGPUBuffer buffer, ulong offset, ulong size) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -44,6 +48,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderCopyBufferToBuffer(Handle, source, sourceOffset, destination, destinationOffset, size);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_copyBufferToBuffer(IntPtr handle, WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -53,6 +58,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderCopyBufferToTexture(Handle, &source, &destination, &copySize);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_copyBufferToTexture(IntPtr handle, WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -62,6 +68,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderCopyTextureToBuffer(Handle, &source, &destination, &copySize);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_copyTextureToBuffer(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -71,6 +78,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderCopyTextureToTexture(Handle, &source, &destination, &copySize);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_copyTextureToTexture(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -82,6 +90,7 @@ public unsafe partial struct WGPUCommandEncoder
         return result;
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_finish(IntPtr handle, WGPUCommandBufferDescriptor descriptor) {
         ObjectTracker.ValidateHandle(handle);
         descriptor.Validate();
@@ -92,6 +101,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -101,6 +111,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderPopDebugGroup(Handle);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_popDebugGroup(IntPtr handle) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -110,6 +121,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -119,6 +131,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderResolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_resolveQuerySet(IntPtr handle, WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -128,6 +141,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderSetLabel(Handle, label.AllocUtf8());
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_setLabel(IntPtr handle, Utf8 label) {
         ObjectTracker.ValidateHandle(handle);
     }
@@ -137,6 +151,7 @@ public unsafe partial struct WGPUCommandEncoder
         wgpuCommandEncoderWriteTimestamp(Handle, querySet, queryIndex);
     }
 
+    [Conditional("VALIDATE")]
     private static void Validate_writeTimestamp(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
         ObjectTracker.ValidateHandle(handle);
     }
