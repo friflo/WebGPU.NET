@@ -120,9 +120,7 @@ namespace HelloTriangle
         {
             frameArena.Use();
 
-            var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor {
-                label = "triangle"u8
-            });
+            var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = "triangle"u8 });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
                 label = "triangle"u8,
@@ -134,8 +132,6 @@ namespace HelloTriangle
                     clearValue      = new WGPUColor() { a = 1.0f },
                 }],
             });
-            _ = renderPass.ToString();
-
             renderPass.setPipeline(pipeline);
             renderPass.setVertexBuffer(0, vertexBuffer, 0, WebGPUNative.WGPU_WHOLE_MAP_SIZE);
             renderPass.draw(3, 1, 0, 0);
