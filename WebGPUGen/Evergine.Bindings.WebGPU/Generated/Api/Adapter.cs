@@ -14,8 +14,8 @@ public unsafe partial struct WGPUAdapter
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_enumerateFeatures(IntPtr handle, WGPUFeatureName features) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_enumerateFeatures(IntPtr handle, WGPUFeatureName features) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public WGPUAdapterInfo info { get {
@@ -33,8 +33,8 @@ public unsafe partial struct WGPUAdapter
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_hasFeature(IntPtr handle, WGPUFeatureName feature) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_hasFeature(IntPtr handle, WGPUFeatureName feature) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     // requestDevice() - not generated. See: Adapter_NG.cs

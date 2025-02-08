@@ -42,7 +42,7 @@ public unsafe partial struct WGPUDevice
     
     public WGPUQueue queue {
         get {
-            ObjectTracker.ValidateHandle(Handle);
+            ObjectTracker.ValidateHandle(this);
             var result = wgpuDeviceGetQueue(this);
             ObjectTracker.CreateRef(result, HandleType.WGPUQueue, null);
             return result;

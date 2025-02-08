@@ -13,8 +13,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_dispatchWorkgroups(IntPtr handle, uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_dispatchWorkgroups(IntPtr handle, uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void dispatchWorkgroupsIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
@@ -23,8 +23,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_dispatchWorkgroupsIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_dispatchWorkgroupsIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void end() {
@@ -33,8 +33,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_end(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_end(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void insertDebugMarker(Utf8 markerLabel) {
@@ -43,8 +43,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void popDebugGroup() {
@@ -53,8 +53,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_popDebugGroup(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_popDebugGroup(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void pushDebugGroup(Utf8 groupLabel) {
@@ -63,8 +63,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
@@ -80,8 +80,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setPipeline(IntPtr handle, WGPUComputePipeline pipeline) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setPipeline(IntPtr handle, WGPUComputePipeline pipeline) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {
@@ -100,8 +100,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void endPipelineStatisticsQuery() {
@@ -110,8 +110,8 @@ public unsafe partial struct WGPUComputePassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_endPipelineStatisticsQuery(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_endPipelineStatisticsQuery(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

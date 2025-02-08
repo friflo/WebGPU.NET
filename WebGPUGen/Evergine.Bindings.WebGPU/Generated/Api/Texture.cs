@@ -15,8 +15,8 @@ public unsafe partial struct WGPUTexture
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_createView(IntPtr handle, WGPUTextureViewDescriptor descriptor) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_createView(IntPtr handle, WGPUTextureViewDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
@@ -26,8 +26,8 @@ public unsafe partial struct WGPUTexture
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_destroy(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(this);

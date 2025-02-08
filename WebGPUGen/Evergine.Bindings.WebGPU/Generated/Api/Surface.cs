@@ -13,8 +13,8 @@ public unsafe partial struct WGPUSurface
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_configure(IntPtr handle, WGPUSurfaceConfiguration config) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_configure(IntPtr handle, WGPUSurfaceConfiguration config) {
+        ObjectTracker.ValidateHandle(this);
         config.Validate();
     }
 
@@ -32,8 +32,8 @@ public unsafe partial struct WGPUSurface
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_present(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_present(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 
@@ -43,8 +43,8 @@ public unsafe partial struct WGPUSurface
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_unconfigure(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_unconfigure(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {

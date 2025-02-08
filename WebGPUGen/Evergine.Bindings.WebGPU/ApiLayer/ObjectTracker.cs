@@ -137,9 +137,11 @@ public static class ObjectTracker
         throw ObjectNotFoundException();
     }
     
-    public static void ValidateHandle(IntPtr handle)
+    public static void ValidateHandle<THandle>(THandle handle)
+        where THandle : struct, IHandle
     {
-        if (HandleMap.ContainsKey(handle)) {
+        var handlePtr = handle.GetHandle();
+        if (HandleMap.ContainsKey(handlePtr)) {
             return;
         }
         throw ObjectNotFoundException();

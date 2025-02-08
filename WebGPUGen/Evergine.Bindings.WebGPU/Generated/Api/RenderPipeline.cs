@@ -14,8 +14,8 @@ public unsafe partial struct WGPURenderPipeline
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_getBindGroupLayout(IntPtr handle, uint groupIndex) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_getBindGroupLayout(IntPtr handle, uint groupIndex) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 

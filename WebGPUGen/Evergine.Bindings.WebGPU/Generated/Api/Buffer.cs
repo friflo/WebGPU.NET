@@ -13,8 +13,8 @@ public unsafe partial struct WGPUBuffer
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_destroy(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     // getConstMappedRange() - not generated. See: Buffer_NG.cs
@@ -33,8 +33,8 @@ public unsafe partial struct WGPUBuffer
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_mapAsync(IntPtr handle, WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_mapAsync(IntPtr handle, WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 
@@ -44,8 +44,8 @@ public unsafe partial struct WGPUBuffer
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_unmap(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_unmap(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {

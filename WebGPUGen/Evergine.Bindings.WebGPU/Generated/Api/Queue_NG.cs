@@ -13,10 +13,10 @@ public unsafe partial struct WGPUQueue
     }
     
     [Conditional("VALIDATE")]
-    private static void Validate_submit(IntPtr handle, Span<WGPUCommandBuffer> commands) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_submit(IntPtr handle, Span<WGPUCommandBuffer> commands) {
+        ObjectTracker.ValidateHandle(this);
         foreach (var command in commands) {
-            ObjectTracker.ValidateHandle(command.Handle);
+            ObjectTracker.ValidateHandle(command);
         }
     }
 

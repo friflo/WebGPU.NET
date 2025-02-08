@@ -13,8 +13,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_beginOcclusionQuery(IntPtr handle, uint queryIndex) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_beginOcclusionQuery(IntPtr handle, uint queryIndex) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
@@ -23,8 +23,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_draw(IntPtr handle, uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_draw(IntPtr handle, uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
@@ -33,8 +33,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_drawIndexed(IntPtr handle, uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_drawIndexed(IntPtr handle, uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void drawIndexedIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
@@ -43,8 +43,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_drawIndexedIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_drawIndexedIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void drawIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
@@ -53,8 +53,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_drawIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_drawIndirect(IntPtr handle, WGPUBuffer indirectBuffer, ulong indirectOffset) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void end() {
@@ -63,8 +63,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_end(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_end(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void endOcclusionQuery() {
@@ -73,8 +73,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_endOcclusionQuery(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_endOcclusionQuery(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void executeBundles(ulong bundleCount, WGPURenderBundle bundles) {
@@ -83,8 +83,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_executeBundles(IntPtr handle, ulong bundleCount, WGPURenderBundle bundles) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_executeBundles(IntPtr handle, ulong bundleCount, WGPURenderBundle bundles) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void insertDebugMarker(Utf8 markerLabel) {
@@ -93,8 +93,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void popDebugGroup() {
@@ -103,8 +103,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_popDebugGroup(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_popDebugGroup(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void pushDebugGroup(Utf8 groupLabel) {
@@ -113,8 +113,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
@@ -129,8 +129,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setBlendConstant(IntPtr handle, WGPUColor color) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setBlendConstant(IntPtr handle, WGPUColor color) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
@@ -139,8 +139,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setIndexBuffer(IntPtr handle, WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setIndexBuffer(IntPtr handle, WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 
@@ -150,8 +150,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setPipeline(IntPtr handle, WGPURenderPipeline pipeline) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setPipeline(IntPtr handle, WGPURenderPipeline pipeline) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setScissorRect(uint x, uint y, uint width, uint height) {
@@ -160,8 +160,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setScissorRect(IntPtr handle, uint x, uint y, uint width, uint height) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setScissorRect(IntPtr handle, uint x, uint y, uint width, uint height) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setStencilReference(uint reference) {
@@ -170,8 +170,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setStencilReference(IntPtr handle, uint reference) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setStencilReference(IntPtr handle, uint reference) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
@@ -180,8 +180,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setVertexBuffer(IntPtr handle, uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setVertexBuffer(IntPtr handle, uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void setViewport(float x, float y, float width, float height, float minDepth, float maxDepth) {
@@ -190,8 +190,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_setViewport(IntPtr handle, float x, float y, float width, float height, float minDepth, float maxDepth) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_setViewport(IntPtr handle, float x, float y, float width, float height, float minDepth, float maxDepth) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {
@@ -212,8 +212,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_multiDrawIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_multiDrawIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void multiDrawIndexedIndirect(WGPUBuffer buffer, ulong offset, uint count) {
@@ -222,8 +222,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_multiDrawIndexedIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_multiDrawIndexedIndirect(IntPtr handle, WGPUBuffer buffer, ulong offset, uint count) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void multiDrawIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
@@ -232,8 +232,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_multiDrawIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_multiDrawIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void multiDrawIndexedIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
@@ -242,8 +242,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_multiDrawIndexedIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_multiDrawIndexedIndirectCount(IntPtr handle, WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
@@ -252,8 +252,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_beginPipelineStatisticsQuery(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void endPipelineStatisticsQuery() {
@@ -262,8 +262,8 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_endPipelineStatisticsQuery(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_endPipelineStatisticsQuery(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

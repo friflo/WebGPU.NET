@@ -13,8 +13,8 @@ public unsafe partial struct WGPUQuerySet
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_destroy(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_destroy(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public uint count => wgpuQuerySetGetCount(this);

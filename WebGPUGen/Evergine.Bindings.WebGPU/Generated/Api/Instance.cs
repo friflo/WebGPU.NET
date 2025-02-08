@@ -15,8 +15,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_createSurface(IntPtr handle, WGPUSurfaceDescriptor descriptor) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_createSurface(IntPtr handle, WGPUSurfaceDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
@@ -27,8 +27,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_hasWGSLLanguageFeature(IntPtr handle, WGPUWGSLFeatureName feature) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_hasWGSLLanguageFeature(IntPtr handle, WGPUWGSLFeatureName feature) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void processEvents() {
@@ -37,8 +37,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_processEvents(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_processEvents(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void requestAdapter(WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
@@ -47,8 +47,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_requestAdapter(IntPtr handle, WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_requestAdapter(IntPtr handle, WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {
@@ -67,8 +67,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_report(IntPtr handle, WGPUGlobalReport report) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_report(IntPtr handle, WGPUGlobalReport report) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public ulong enumerateAdapters(WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
@@ -78,8 +78,8 @@ public unsafe partial struct WGPUInstance
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_enumerateAdapters(IntPtr handle, WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_enumerateAdapters(IntPtr handle, WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

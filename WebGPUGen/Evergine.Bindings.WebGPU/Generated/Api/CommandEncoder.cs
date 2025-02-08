@@ -15,8 +15,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_beginComputePass(IntPtr handle, WGPUComputePassDescriptor descriptor) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_beginComputePass(IntPtr handle, WGPUComputePassDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
@@ -28,8 +28,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_beginRenderPass(IntPtr handle, WGPURenderPassDescriptor descriptor) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_beginRenderPass(IntPtr handle, WGPURenderPassDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
@@ -39,8 +39,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_clearBuffer(IntPtr handle, WGPUBuffer buffer, ulong offset, ulong size) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_clearBuffer(IntPtr handle, WGPUBuffer buffer, ulong offset, ulong size) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
@@ -49,8 +49,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_copyBufferToBuffer(IntPtr handle, WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_copyBufferToBuffer(IntPtr handle, WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
@@ -59,8 +59,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_copyBufferToTexture(IntPtr handle, WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_copyBufferToTexture(IntPtr handle, WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
@@ -69,8 +69,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_copyTextureToBuffer(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_copyTextureToBuffer(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
@@ -79,8 +79,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_copyTextureToTexture(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_copyTextureToTexture(IntPtr handle, WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
@@ -91,8 +91,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_finish(IntPtr handle, WGPUCommandBufferDescriptor descriptor) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_finish(IntPtr handle, WGPUCommandBufferDescriptor descriptor) {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
     }
 
@@ -102,8 +102,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_insertDebugMarker(IntPtr handle, Utf8 markerLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void popDebugGroup() {
@@ -112,8 +112,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_popDebugGroup(IntPtr handle) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_popDebugGroup(IntPtr handle) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void pushDebugGroup(Utf8 groupLabel) {
@@ -122,8 +122,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_pushDebugGroup(IntPtr handle, Utf8 groupLabel) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
@@ -132,8 +132,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_resolveQuerySet(IntPtr handle, WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_resolveQuerySet(IntPtr handle, WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 
@@ -143,8 +143,8 @@ public unsafe partial struct WGPUCommandEncoder
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_writeTimestamp(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_writeTimestamp(IntPtr handle, WGPUQuerySet querySet, uint queryIndex) {
+        ObjectTracker.ValidateHandle(this);
     }
 
     public void reference() {

@@ -223,8 +223,8 @@ public static class ApiCodeGenerator
         }
         
         sb.AppendLine($"    [Conditional(\"VALIDATE\")]");
-        sb.AppendLine($"    private static void Validate_{commandName}(IntPtr handle{signature}) {{");
-        sb.AppendLine($"        ObjectTracker.ValidateHandle(handle);");
+        sb.AppendLine($"    private void Validate_{commandName}(IntPtr handle{signature}) {{");
+        sb.AppendLine($"        ObjectTracker.ValidateHandle(this);");
         for (int i = 1; i < parameters.Length; i++) {
             var parameter = parameters[i];
             if (parameter.CppParameter.Type is CppPointerType pointerType) {

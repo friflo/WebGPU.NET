@@ -13,8 +13,8 @@ public unsafe partial struct WGPUShaderModule
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_getCompilationInfo(IntPtr handle, delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_getCompilationInfo(IntPtr handle, delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 

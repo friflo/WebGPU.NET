@@ -13,8 +13,8 @@ public unsafe partial struct WGPUQueue
     }
 
     [Conditional("VALIDATE")]
-    private static void Validate_onSubmittedWorkDone(IntPtr handle, delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
-        ObjectTracker.ValidateHandle(handle);
+    private void Validate_onSubmittedWorkDone(IntPtr handle, delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
+        ObjectTracker.ValidateHandle(this);
     }
 
 
