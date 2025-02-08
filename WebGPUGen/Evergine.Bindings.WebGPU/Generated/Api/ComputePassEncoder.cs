@@ -73,15 +73,6 @@ public unsafe partial struct WGPUComputePassEncoder
         }
     }
 
-    public void setLabel(Utf8 label) {
-        Validate_setLabel(Handle, label);
-        wgpuComputePassEncoderSetLabel(Handle, label.AllocUtf8());
-    }
-
-    [Conditional("VALIDATE")]
-    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
-        ObjectTracker.ValidateHandle(handle);
-    }
 
     public void setPipeline(WGPUComputePipeline pipeline) {
         Validate_setPipeline(Handle, pipeline);

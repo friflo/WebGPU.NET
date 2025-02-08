@@ -21,15 +21,6 @@ public unsafe partial struct WGPUQuerySet
 
     public WGPUQueryType type => wgpuQuerySetGetType(Handle);
 
-    public void setLabel(Utf8 label) {
-        Validate_setLabel(Handle, label);
-        wgpuQuerySetSetLabel(Handle, label.AllocUtf8());
-    }
-
-    [Conditional("VALIDATE")]
-    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
-        ObjectTracker.ValidateHandle(handle);
-    }
 
     public void reference() {
         ObjectTracker.IncRef(Handle);

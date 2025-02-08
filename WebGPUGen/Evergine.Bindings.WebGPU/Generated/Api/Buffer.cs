@@ -37,15 +37,6 @@ public unsafe partial struct WGPUBuffer
         ObjectTracker.ValidateHandle(handle);
     }
 
-    public void setLabel(Utf8 label) {
-        Validate_setLabel(Handle, label);
-        wgpuBufferSetLabel(Handle, label.AllocUtf8());
-    }
-
-    [Conditional("VALIDATE")]
-    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
-        ObjectTracker.ValidateHandle(handle);
-    }
 
     public void unmap() {
         Validate_unmap(Handle);

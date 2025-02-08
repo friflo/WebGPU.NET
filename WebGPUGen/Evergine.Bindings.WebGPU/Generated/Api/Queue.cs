@@ -17,15 +17,6 @@ public unsafe partial struct WGPUQueue
         ObjectTracker.ValidateHandle(handle);
     }
 
-    public void setLabel(Utf8 label) {
-        Validate_setLabel(Handle, label);
-        wgpuQueueSetLabel(Handle, label.AllocUtf8());
-    }
-
-    [Conditional("VALIDATE")]
-    private static void Validate_setLabel(IntPtr handle, Utf8 label) {
-        ObjectTracker.ValidateHandle(handle);
-    }
 
     // submit() - not generated. See: Queue_NG.cs
 
