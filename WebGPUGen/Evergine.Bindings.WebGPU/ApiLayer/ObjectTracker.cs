@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
@@ -84,7 +85,8 @@ public static class ObjectTracker
 
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
-    // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage 
+    // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage
+    [Conditional("VALIDATE")]
     internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, char* descriptorLabel)
         where THandle : struct, IHandle
     {
@@ -109,6 +111,7 @@ public static class ObjectTracker
         throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case API Layer is buggy
     }
     
+    [Conditional("VALIDATE")]
     internal static void IncRef<THandle>(THandle handle)
         where THandle : struct, IHandle
     {
@@ -121,6 +124,7 @@ public static class ObjectTracker
         throw ObjectNotFoundException<THandle>();
     }
     
+    [Conditional("VALIDATE")]
     internal static void DecRef<THandle>(THandle handle)
         where THandle : struct, IHandle
     {
@@ -138,7 +142,8 @@ public static class ObjectTracker
     }
     
     /// Validated handle must not be null
-    public static void ValidateHandle<THandle>(THandle handle)
+    [Conditional("VALIDATE")]
+    internal static void ValidateHandle<THandle>(THandle handle)
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();
@@ -149,7 +154,8 @@ public static class ObjectTracker
     }
     
     /// Validated handle can be null
-    public static void ValidateHandleParam<THandle>(THandle handle)
+    [Conditional("VALIDATE")]
+    internal static void ValidateHandleParam<THandle>(THandle handle)
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();

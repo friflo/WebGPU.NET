@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Evergine.Bindings.WebGPU;
@@ -49,6 +50,7 @@ public static class AllocValidator
         _arenaVersions[header.allocatorIndex] = header.version;
     }
 
+    [Conditional("VALIDATE")]
     public static unsafe void ValidatePtr(void* ptr)
     {
         if (ptr == null) {

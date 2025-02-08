@@ -208,6 +208,7 @@ namespace WebGPUGen
 
             using (StreamWriter file = File.CreateText(Path.Combine(outputPath, "Structs.cs")))
             {
+                file.WriteLine("using System.Diagnostics;");
                 file.WriteLine("using System.Runtime.InteropServices;");
                 file.WriteLine("using static System.Diagnostics.DebuggerBrowsableState;");
                 file.WriteLine("using Browse = System.Diagnostics.DebuggerBrowsableAttribute;");

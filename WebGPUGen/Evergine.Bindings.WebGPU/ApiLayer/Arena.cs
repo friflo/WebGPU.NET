@@ -61,9 +61,13 @@ public sealed class Arena
     
     public unsafe nint Alloc(int size)
     {
+#if VALIDATE
         var ptr = AllocInternal(size + 8);
         *(AllocHeader*)ptr = header;
         return ptr + 8;
+#else 
+        return AllocInternal(size);
+#endif
     }
     
     private nint AllocInternal(int size)

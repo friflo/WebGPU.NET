@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static System.Diagnostics.DebuggerBrowsableState;
 using Browse = System.Diagnostics.DebuggerBrowsableAttribute;
@@ -35,6 +36,7 @@ public unsafe struct WGPUAdapterInfo
 		set => ApiUtils.SetUtf8(value, out this._description);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_vendor);
 		AllocValidator.ValidatePtr(_architecture);
@@ -54,6 +56,7 @@ public unsafe struct WGPUBindGroupEntry
 	                public      WGPUSampler             sampler;
 	                public      WGPUTextureView         textureView;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(buffer);
         ObjectTracker.ValidateHandleParam(sampler);
@@ -92,6 +95,7 @@ public unsafe struct WGPUBufferDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -117,6 +121,7 @@ public unsafe struct WGPUCommandBufferDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -133,6 +138,7 @@ public unsafe struct WGPUCommandEncoderDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -157,6 +163,7 @@ public unsafe struct WGPUCompilationMessage
 		set => ApiUtils.SetUtf8(value, out this._message);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_message);
 	}
@@ -169,6 +176,7 @@ public unsafe struct WGPUComputePassTimestampWrites
 	                public      uint                    beginningOfPassWriteIndex;
 	                public      uint                    endOfPassWriteIndex;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(querySet);
 	}
@@ -186,6 +194,7 @@ public unsafe struct WGPUConstantEntry
 		set => ApiUtils.SetUtf8(value, out this._key);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_key);
 	}
@@ -276,6 +285,7 @@ public unsafe struct WGPUPipelineLayoutDescriptor
 		set => ApiUtils.SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_bindGroupLayouts);
@@ -312,6 +322,7 @@ public unsafe struct WGPUQuerySetDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -328,6 +339,7 @@ public unsafe struct WGPUQueueDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -344,6 +356,7 @@ public unsafe struct WGPURenderBundleDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -370,6 +383,7 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 		set => ApiUtils.SetArr(value, out _colorFormats, out _colorFormatCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_colorFormats);
@@ -389,6 +403,7 @@ public unsafe struct WGPURenderPassDepthStencilAttachment
 	                public      uint                    stencilClearValue;
 	                public      WGPUBool                stencilReadOnly;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(view);
 	}
@@ -408,6 +423,7 @@ public unsafe struct WGPURenderPassTimestampWrites
 	                public      uint                    beginningOfPassWriteIndex;
 	                public      uint                    endOfPassWriteIndex;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(querySet);
 	}
@@ -422,6 +438,7 @@ public unsafe struct WGPURequestAdapterOptions
 	                public      WGPUBackendType         backendType;
 	                public      WGPUBool                forceFallbackAdapter;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(compatibleSurface);
 	}
@@ -455,6 +472,7 @@ public unsafe struct WGPUSamplerDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -472,6 +490,7 @@ public unsafe struct WGPUShaderModuleCompilationHint
 		set => ApiUtils.SetUtf8(value, out this._entryPoint);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_entryPoint);
         ObjectTracker.ValidateHandleParam(layout);
@@ -490,6 +509,7 @@ public unsafe struct WGPUShaderModuleSPIRVDescriptor
 		set => ApiUtils.SetOpt(out _code, value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_code);
 	}
@@ -506,6 +526,7 @@ public unsafe struct WGPUShaderModuleWGSLDescriptor
 		set => ApiUtils.SetUtf8(value, out this._code);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_code);
 	}
@@ -554,6 +575,7 @@ public unsafe struct WGPUSurfaceCapabilities
 		set => ApiUtils.SetArr(value, out _alphaModes, out _alphaModeCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_formats);
 		AllocValidator.ValidatePtr(_presentModes);
@@ -580,6 +602,7 @@ public unsafe struct WGPUSurfaceConfiguration
 		set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(device);
 		AllocValidator.ValidatePtr(_viewFormats);
@@ -597,6 +620,7 @@ public unsafe struct WGPUSurfaceDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -625,6 +649,7 @@ public unsafe struct WGPUSurfaceDescriptorFromCanvasHTMLSelector
 		set => ApiUtils.SetUtf8(value, out this._selector);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_selector);
 	}
@@ -709,6 +734,7 @@ public unsafe struct WGPUSurfaceTexture
 	                public      WGPUBool                suboptimal;
 	                public      WGPUSurfaceGetCurrentTextureStatus status;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(texture);
 	}
@@ -750,6 +776,7 @@ public unsafe struct WGPUTextureViewDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 	}
@@ -794,6 +821,7 @@ public unsafe struct WGPUBindGroupDescriptor
 		set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
         ObjectTracker.ValidateHandleParam(layout);
@@ -835,6 +863,7 @@ public unsafe struct WGPUCompilationInfo
 		set => ApiUtils.SetArr(value, out _messages, out _messageCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_messages);
 		foreach (var element in messages) {
@@ -859,6 +888,7 @@ public unsafe struct WGPUComputePassDescriptor
 		set => ApiUtils.SetOpt(out _timestampWrites, value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_timestampWrites);
@@ -891,6 +921,7 @@ public unsafe struct WGPUImageCopyBuffer
 	                public      WGPUTextureDataLayout   layout;
 	                public      WGPUBuffer              buffer;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(buffer);
 	}
@@ -905,6 +936,7 @@ public unsafe struct WGPUImageCopyTexture
 	                public      WGPUOrigin3D            origin;
 	                public      WGPUTextureAspect       aspect;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(texture);
 	}
@@ -928,6 +960,7 @@ public unsafe struct WGPUProgrammableStageDescriptor
 		set => ApiUtils.SetArr(value, out _constants, out _constantCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
@@ -949,6 +982,7 @@ public unsafe struct WGPURenderPassColorAttachment
 	                public      WGPUStoreOp             storeOp;
 	                public      WGPUColor               clearValue;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(view);
         ObjectTracker.ValidateHandleParam(resolveTarget);
@@ -979,6 +1013,7 @@ public unsafe struct WGPUShaderModuleDescriptor
 		set => ApiUtils.SetArr(value, out _hints, out _hintCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_hints);
@@ -1018,6 +1053,7 @@ public unsafe struct WGPUTextureDescriptor
 		set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_viewFormats);
@@ -1037,6 +1073,7 @@ public unsafe struct WGPUVertexBufferLayout
 		set => ApiUtils.SetArr(value, out _attributes, out _attributeCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_attributes);
 	}
@@ -1059,6 +1096,7 @@ public unsafe struct WGPUBindGroupLayoutDescriptor
 		set => ApiUtils.SetArr(value, out _entries, out _entryCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_entries);
@@ -1078,6 +1116,7 @@ public unsafe struct WGPUColorTargetState
 		set => ApiUtils.SetOpt(out _blend, value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_blend);
 	}
@@ -1096,6 +1135,7 @@ public unsafe struct WGPUComputePipelineDescriptor
 		set => ApiUtils.SetUtf8(value, out this._label);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
         ObjectTracker.ValidateHandleParam(layout);
@@ -1133,6 +1173,7 @@ public unsafe struct WGPUDeviceDescriptor
 		set => deviceLostUserdata = (void*)value;
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_requiredFeatures);
@@ -1169,6 +1210,7 @@ public unsafe struct WGPURenderPassDescriptor
 		set => ApiUtils.SetOpt(out _timestampWrites, value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
 		AllocValidator.ValidatePtr(_colorAttachments);
@@ -1211,6 +1253,7 @@ public unsafe struct WGPUVertexState
 		set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
@@ -1249,6 +1292,7 @@ public unsafe struct WGPUFragmentState
 		set => ApiUtils.SetArr(value, out _targets, out _targetCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(module);
 		AllocValidator.ValidatePtr(_entryPoint);
@@ -1288,6 +1332,7 @@ public unsafe struct WGPURenderPipelineDescriptor
 		set => ApiUtils.SetOpt(out _fragment, value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_label);
         ObjectTracker.ValidateHandleParam(layout);
@@ -1344,6 +1389,7 @@ public unsafe struct WGPUInstanceExtras
 		set => ApiUtils.SetUtf8(value, out this._dxcPath);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_dxilPath);
 		AllocValidator.ValidatePtr(_dxcPath);
@@ -1361,6 +1407,7 @@ public unsafe struct WGPUDeviceExtras
 		set => ApiUtils.SetUtf8(value, out this._tracePath);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_tracePath);
 	}
@@ -1407,6 +1454,7 @@ public unsafe struct WGPUPipelineLayoutExtras
 		set => ApiUtils.SetArr(value, out _pushConstantRanges, out _pushConstantRangeCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_pushConstantRanges);
 	}
@@ -1418,6 +1466,7 @@ public unsafe struct WGPUWrappedSubmissionIndex
 	                public      WGPUQueue               queue;
 	                public      ulong                   submissionIndex;
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
         ObjectTracker.ValidateHandleParam(queue);
 	}
@@ -1438,6 +1487,7 @@ public unsafe struct WGPUShaderDefine
 		set => ApiUtils.SetUtf8(value, out this._value);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_name);
 		AllocValidator.ValidatePtr(_value);
@@ -1462,6 +1512,7 @@ public unsafe struct WGPUShaderModuleGLSLDescriptor
 		set => ApiUtils.SetArr(value, out _defines, out _defineCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_code);
 		AllocValidator.ValidatePtr(_defines);
@@ -1544,6 +1595,7 @@ public unsafe struct WGPUBindGroupEntryExtras
 		set => ApiUtils.SetArr(value, out _textureViews, out _textureViewCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_buffers);
 		AllocValidator.ValidatePtr(_samplers);
@@ -1570,6 +1622,7 @@ public unsafe struct WGPUQuerySetDescriptorExtras
 		set => ApiUtils.SetArr(value, out _pipelineStatistics, out _pipelineStatisticCount);
 	}
 
+	[Conditional("VALIDATE")]
 	public void Validate() {
 		AllocValidator.ValidatePtr(_pipelineStatistics);
 	}

@@ -219,9 +219,6 @@ public static class ApiCodeGenerator
 
     private static void AddValidationMethod(StringBuilder sb, string commandName, string signature, SignatureParam[] parameters)
     {
-        if (commandName == "copyBufferToTexture") {
-            int n = 1;
-        }
         sb.AppendLine();
         sb.AppendLine($"    [Conditional(\"VALIDATE\")]");
         sb.AppendLine($"    private void Validate_{commandName}({signature}) {{");
@@ -350,9 +347,6 @@ public static class ApiCodeGenerator
     {
         var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
         foreach (var structure in structs) {
-            if (structure.Name == "WGPUImageCopyBuffer") {
-                int i = 1;
-            }
             foreach (var field in structure.Fields) {
                 if (field.Name == "nextInChain" || field.Name == "chain" || field.Name == "next") {
                     continue;
@@ -452,6 +446,7 @@ public static class ApiCodeGenerator
             return;
         }
         sb.AppendLine();
+        sb.AppendLine("\t[Conditional(\"VALIDATE\")]");
         sb.AppendLine("\tpublic void Validate() {");
         foreach (var field in structure.Fields)
         {
