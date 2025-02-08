@@ -2,7 +2,10 @@
   "profiles": {
     "HelloTriangle": {
       "commandName": "Project",
-      "nativeDebugging": false
+      "nativeDebugging": false,
+      "environmentVariables": {
+        "RUST_BACKTRACE": "full"
+      }
     }
   }
 }
