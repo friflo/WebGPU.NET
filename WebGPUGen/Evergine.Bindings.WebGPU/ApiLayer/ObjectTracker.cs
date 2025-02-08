@@ -118,7 +118,7 @@ public static class ObjectTracker
             value.count++;
             return;
         }
-        throw ObjectNotFoundException();
+        throw ObjectNotFoundException<THandle>();
     }
     
     internal static void DecRef<THandle>(THandle handle)
@@ -134,7 +134,7 @@ public static class ObjectTracker
             HandleMap.Remove(handlePtr);
             return;
         }
-        throw ObjectNotFoundException();
+        throw ObjectNotFoundException<THandle>();
     }
     
     public static void ValidateHandle<THandle>(THandle handle)
@@ -144,7 +144,7 @@ public static class ObjectTracker
         if (HandleMap.ContainsKey(handlePtr)) {
             return;
         }
-        throw ObjectNotFoundException();
+        throw ObjectNotFoundException<THandle>();
     }
     
     internal static string? GetLabel(IntPtr handle) {
@@ -157,5 +157,9 @@ public static class ObjectTracker
         return "disposed";
     }
     
-    private static InvalidOperationException ObjectNotFoundException() => new InvalidOperationException("WebGPU object not found");
+    private static InvalidOperationException ObjectNotFoundException<THandle>()
+        where THandle : struct, IHandle
+    {
+        return new InvalidOperationException($"{typeof(THandle).Name} already disposed");
+    }
 }
