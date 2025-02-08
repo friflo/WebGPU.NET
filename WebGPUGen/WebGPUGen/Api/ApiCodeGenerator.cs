@@ -92,6 +92,7 @@ public static class ApiCodeGenerator
             case "getCapabilities":     // Surface_NG.cs
             case "requestDevice":       // Adapter_NG.cs
             case "getLimits":           // Adapter_NG.cs, Device_NG.cs
+            case "getQueue":            // Device_NG.cs
                 // These methods occur only once and implemented manually in *_NG.cs files. 
                 sb.AppendLine($"    // {commandName}() - not generated. See: {handleType.Name.Substring(4)}_NG.cs");
                 return;

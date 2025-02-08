@@ -67,6 +67,7 @@ public class GPU
     internal void CleanUp()
     {
         // Queue is not released
+        queue.release();
         surface.release();
         device.destroy();
         device.release();

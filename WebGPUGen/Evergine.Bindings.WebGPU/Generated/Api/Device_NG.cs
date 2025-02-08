@@ -39,4 +39,13 @@ public unsafe partial struct WGPUDevice
         var success = wgpuDeviceGetLimits(Handle, &result);
         return result;
     }
+    
+    public WGPUQueue queue {
+        get {
+            ObjectTracker.ValidateHandle(Handle);
+            var result = wgpuDeviceGetQueue(Handle);
+            ObjectTracker.CreateRef(result.Handle, HandleType.WGPUQueue, null);
+            return result;
+        }
+    }
 }

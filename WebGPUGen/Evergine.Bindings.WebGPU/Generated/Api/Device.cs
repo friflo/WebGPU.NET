@@ -201,7 +201,7 @@ public unsafe partial struct WGPUDevice
 
     // getLimits() - not generated. See: Device_NG.cs
 
-    public WGPUQueue queue => wgpuDeviceGetQueue(Handle);
+    // getQueue() - not generated. See: Device_NG.cs
 
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         Validate_hasFeature(Handle, feature);
