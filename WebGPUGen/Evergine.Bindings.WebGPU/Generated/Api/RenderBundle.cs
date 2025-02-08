@@ -10,12 +10,12 @@ public unsafe partial struct WGPURenderBundle
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuRenderBundleReference(Handle);
+        wgpuRenderBundleReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuRenderBundleRelease(Handle);
+        wgpuRenderBundleRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

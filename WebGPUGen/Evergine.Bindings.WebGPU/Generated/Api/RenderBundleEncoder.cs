@@ -9,7 +9,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 {
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
         Validate_draw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
-        wgpuRenderBundleEncoderDraw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
+        wgpuRenderBundleEncoderDraw(this, vertexCount, instanceCount, firstVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
@@ -19,7 +19,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
         Validate_drawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
-        wgpuRenderBundleEncoderDrawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
+        wgpuRenderBundleEncoderDrawIndexed(this, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
@@ -31,7 +31,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public WGPURenderBundle finish(WGPURenderBundleDescriptor descriptor) {
         Validate_finish(Handle, descriptor);
-        var result = wgpuRenderBundleEncoderFinish(Handle, &descriptor);
+        var result = wgpuRenderBundleEncoderFinish(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundle, descriptor._label);
         return result;
     }
@@ -44,7 +44,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(Handle, markerLabel);
-        wgpuRenderBundleEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
+        wgpuRenderBundleEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -54,7 +54,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void popDebugGroup() {
         Validate_popDebugGroup(Handle);
-        wgpuRenderBundleEncoderPopDebugGroup(Handle);
+        wgpuRenderBundleEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
@@ -64,7 +64,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(Handle, groupLabel);
-        wgpuRenderBundleEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
+        wgpuRenderBundleEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -74,13 +74,13 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
         fixed (uint* ptr = dynamicOffsets) {
-            wgpuRenderBundleEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+            wgpuRenderBundleEncoderSetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
         }
     }
 
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
         Validate_setIndexBuffer(Handle, buffer, format, offset, size);
-        wgpuRenderBundleEncoderSetIndexBuffer(Handle, buffer, format, offset, size);
+        wgpuRenderBundleEncoderSetIndexBuffer(this, buffer, format, offset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -91,7 +91,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void setPipeline(WGPURenderPipeline pipeline) {
         Validate_setPipeline(Handle, pipeline);
-        wgpuRenderBundleEncoderSetPipeline(Handle, pipeline);
+        wgpuRenderBundleEncoderSetPipeline(this, pipeline);
     }
 
     [Conditional("VALIDATE")]
@@ -101,7 +101,7 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
         Validate_setVertexBuffer(Handle, slot, buffer, offset, size);
-        wgpuRenderBundleEncoderSetVertexBuffer(Handle, slot, buffer, offset, size);
+        wgpuRenderBundleEncoderSetVertexBuffer(this, slot, buffer, offset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -111,12 +111,12 @@ public unsafe partial struct WGPURenderBundleEncoder
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuRenderBundleEncoderReference(Handle);
+        wgpuRenderBundleEncoderReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuRenderBundleEncoderRelease(Handle);
+        wgpuRenderBundleEncoderRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

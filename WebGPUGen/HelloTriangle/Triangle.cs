@@ -126,7 +126,7 @@ namespace HelloTriangle
                 label = "triangle"u8,
                 colorAttachments = [new WGPURenderPassColorAttachment {
                     view            = view,
-                    resolveTarget   = WGPUTextureView.Null,
+                    resolveTarget   = default,
                     loadOp          = WGPULoadOp.Clear,
                     storeOp         = WGPUStoreOp.Store,
                     clearValue      = new WGPUColor() { a = 1.0f },

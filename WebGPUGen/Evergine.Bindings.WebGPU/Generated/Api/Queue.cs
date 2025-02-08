@@ -9,7 +9,7 @@ public unsafe partial struct WGPUQueue
 {
     public void onSubmittedWorkDone(delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
         Validate_onSubmittedWorkDone(Handle, callback, userdata);
-        wgpuQueueOnSubmittedWorkDone(Handle, callback, userdata);
+        wgpuQueueOnSubmittedWorkDone(this, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
@@ -26,12 +26,12 @@ public unsafe partial struct WGPUQueue
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuQueueReference(Handle);
+        wgpuQueueReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuQueueRelease(Handle);
+        wgpuQueueRelease(this);
     }
 
     // submitForIndex() - not generated. See: Queue_NG.cs

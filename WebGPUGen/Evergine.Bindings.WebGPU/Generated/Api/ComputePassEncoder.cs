@@ -9,7 +9,7 @@ public unsafe partial struct WGPUComputePassEncoder
 {
     public void dispatchWorkgroups(uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
         Validate_dispatchWorkgroups(Handle, workgroupCountX, workgroupCountY, workgroupCountZ);
-        wgpuComputePassEncoderDispatchWorkgroups(Handle, workgroupCountX, workgroupCountY, workgroupCountZ);
+        wgpuComputePassEncoderDispatchWorkgroups(this, workgroupCountX, workgroupCountY, workgroupCountZ);
     }
 
     [Conditional("VALIDATE")]
@@ -19,7 +19,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void dispatchWorkgroupsIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
         Validate_dispatchWorkgroupsIndirect(Handle, indirectBuffer, indirectOffset);
-        wgpuComputePassEncoderDispatchWorkgroupsIndirect(Handle, indirectBuffer, indirectOffset);
+        wgpuComputePassEncoderDispatchWorkgroupsIndirect(this, indirectBuffer, indirectOffset);
     }
 
     [Conditional("VALIDATE")]
@@ -29,7 +29,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void end() {
         Validate_end(Handle);
-        wgpuComputePassEncoderEnd(Handle);
+        wgpuComputePassEncoderEnd(this);
     }
 
     [Conditional("VALIDATE")]
@@ -39,7 +39,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(Handle, markerLabel);
-        wgpuComputePassEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
+        wgpuComputePassEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -49,7 +49,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void popDebugGroup() {
         Validate_popDebugGroup(Handle);
-        wgpuComputePassEncoderPopDebugGroup(Handle);
+        wgpuComputePassEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
@@ -59,7 +59,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(Handle, groupLabel);
-        wgpuComputePassEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
+        wgpuComputePassEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -69,14 +69,14 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
         fixed (uint* ptr = dynamicOffsets) {
-            wgpuComputePassEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+            wgpuComputePassEncoderSetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
         }
     }
 
 
     public void setPipeline(WGPUComputePipeline pipeline) {
         Validate_setPipeline(Handle, pipeline);
-        wgpuComputePassEncoderSetPipeline(Handle, pipeline);
+        wgpuComputePassEncoderSetPipeline(this, pipeline);
     }
 
     [Conditional("VALIDATE")]
@@ -86,17 +86,17 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuComputePassEncoderReference(Handle);
+        wgpuComputePassEncoderReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuComputePassEncoderRelease(Handle);
+        wgpuComputePassEncoderRelease(this);
     }
 
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
         Validate_beginPipelineStatisticsQuery(Handle, querySet, queryIndex);
-        wgpuComputePassEncoderBeginPipelineStatisticsQuery(Handle, querySet, queryIndex);
+        wgpuComputePassEncoderBeginPipelineStatisticsQuery(this, querySet, queryIndex);
     }
 
     [Conditional("VALIDATE")]
@@ -106,7 +106,7 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void endPipelineStatisticsQuery() {
         Validate_endPipelineStatisticsQuery(Handle);
-        wgpuComputePassEncoderEndPipelineStatisticsQuery(Handle);
+        wgpuComputePassEncoderEndPipelineStatisticsQuery(this);
     }
 
     [Conditional("VALIDATE")]

@@ -5,13 +5,13 @@ using static WebGPUNative;
 public unsafe partial struct WGPUDevice
 {
     public WGPUCommandEncoder createCommandEncoder() {
-        var result = wgpuDeviceCreateCommandEncoder(Handle, null);
+        var result = wgpuDeviceCreateCommandEncoder(this, null);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandEncoder, null);
         return result;
     }
 
     public WGPUSampler createSampler() {
-        var result = wgpuDeviceCreateSampler(Handle, null);
+        var result = wgpuDeviceCreateSampler(this, null);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSampler, null);
         return result;
     }
@@ -29,21 +29,21 @@ public unsafe partial struct WGPUDevice
             code = code,
         };
         descriptor._nextInChain = &wgslDescriptor.chain;
-        var result = wgpuDeviceCreateShaderModule(Handle, &descriptor);
+        var result = wgpuDeviceCreateShaderModule(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUShaderModule, descriptor._label);
         return result;
     }
     
     public WGPUSupportedLimits getLimits() {
         WGPUSupportedLimits result;
-        var success = wgpuDeviceGetLimits(Handle, &result);
+        var success = wgpuDeviceGetLimits(this, &result);
         return result;
     }
     
     public WGPUQueue queue {
         get {
             ObjectTracker.ValidateHandle(Handle);
-            var result = wgpuDeviceGetQueue(Handle);
+            var result = wgpuDeviceGetQueue(this);
             ObjectTracker.CreateRef(result.Handle, HandleType.WGPUQueue, null);
             return result;
         }

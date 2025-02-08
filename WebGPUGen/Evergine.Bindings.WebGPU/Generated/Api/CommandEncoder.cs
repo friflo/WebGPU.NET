@@ -9,7 +9,7 @@ public unsafe partial struct WGPUCommandEncoder
 {
     public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
         Validate_beginComputePass(Handle, descriptor);
-        var result = wgpuCommandEncoderBeginComputePass(Handle, &descriptor);
+        var result = wgpuCommandEncoderBeginComputePass(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, descriptor._label);
         return result;
     }
@@ -22,7 +22,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
         Validate_beginRenderPass(Handle, descriptor);
-        var result = wgpuCommandEncoderBeginRenderPass(Handle, &descriptor);
+        var result = wgpuCommandEncoderBeginRenderPass(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderPassEncoder, descriptor._label);
         return result;
     }
@@ -35,7 +35,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void clearBuffer(WGPUBuffer buffer, ulong offset, ulong size) {
         Validate_clearBuffer(Handle, buffer, offset, size);
-        wgpuCommandEncoderClearBuffer(Handle, buffer, offset, size);
+        wgpuCommandEncoderClearBuffer(this, buffer, offset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -45,7 +45,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
         Validate_copyBufferToBuffer(Handle, source, sourceOffset, destination, destinationOffset, size);
-        wgpuCommandEncoderCopyBufferToBuffer(Handle, source, sourceOffset, destination, destinationOffset, size);
+        wgpuCommandEncoderCopyBufferToBuffer(this, source, sourceOffset, destination, destinationOffset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -55,7 +55,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         Validate_copyBufferToTexture(Handle, source, destination, copySize);
-        wgpuCommandEncoderCopyBufferToTexture(Handle, &source, &destination, &copySize);
+        wgpuCommandEncoderCopyBufferToTexture(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
@@ -65,7 +65,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
         Validate_copyTextureToBuffer(Handle, source, destination, copySize);
-        wgpuCommandEncoderCopyTextureToBuffer(Handle, &source, &destination, &copySize);
+        wgpuCommandEncoderCopyTextureToBuffer(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
@@ -75,7 +75,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         Validate_copyTextureToTexture(Handle, source, destination, copySize);
-        wgpuCommandEncoderCopyTextureToTexture(Handle, &source, &destination, &copySize);
+        wgpuCommandEncoderCopyTextureToTexture(this, &source, &destination, &copySize);
     }
 
     [Conditional("VALIDATE")]
@@ -85,7 +85,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
         Validate_finish(Handle, descriptor);
-        var result = wgpuCommandEncoderFinish(Handle, &descriptor);
+        var result = wgpuCommandEncoderFinish(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, descriptor._label);
         return result;
     }
@@ -98,7 +98,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(Handle, markerLabel);
-        wgpuCommandEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
+        wgpuCommandEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -108,7 +108,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void popDebugGroup() {
         Validate_popDebugGroup(Handle);
-        wgpuCommandEncoderPopDebugGroup(Handle);
+        wgpuCommandEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
@@ -118,7 +118,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(Handle, groupLabel);
-        wgpuCommandEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
+        wgpuCommandEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -128,7 +128,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
         Validate_resolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
-        wgpuCommandEncoderResolveQuerySet(Handle, querySet, firstQuery, queryCount, destination, destinationOffset);
+        wgpuCommandEncoderResolveQuerySet(this, querySet, firstQuery, queryCount, destination, destinationOffset);
     }
 
     [Conditional("VALIDATE")]
@@ -139,7 +139,7 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {
         Validate_writeTimestamp(Handle, querySet, queryIndex);
-        wgpuCommandEncoderWriteTimestamp(Handle, querySet, queryIndex);
+        wgpuCommandEncoderWriteTimestamp(this, querySet, queryIndex);
     }
 
     [Conditional("VALIDATE")]
@@ -149,12 +149,12 @@ public unsafe partial struct WGPUCommandEncoder
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuCommandEncoderReference(Handle);
+        wgpuCommandEncoderReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuCommandEncoderRelease(Handle);
+        wgpuCommandEncoderRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

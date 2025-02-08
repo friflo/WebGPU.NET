@@ -7,7 +7,7 @@ public unsafe partial struct WGPUSurface
     {
         var value = new WGPUSurfaceCapabilities();
         
-        wgpuSurfaceGetCapabilities(Handle, adapter, &value);
+        wgpuSurfaceGetCapabilities(this, adapter, &value);
         var result = value;
         result.formats      = new Span<WGPUTextureFormat>       (value._formats,      (int)value._formatCount);
         result.presentModes = new Span<WGPUPresentMode>         (value._presentModes, (int)value._presentModeCount);

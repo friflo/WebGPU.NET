@@ -9,7 +9,7 @@ public unsafe partial struct WGPUQuerySet
 {
     public void destroy() {
         Validate_destroy(Handle);
-        wgpuQuerySetDestroy(Handle);
+        wgpuQuerySetDestroy(this);
     }
 
     [Conditional("VALIDATE")]
@@ -17,19 +17,19 @@ public unsafe partial struct WGPUQuerySet
         ObjectTracker.ValidateHandle(handle);
     }
 
-    public uint count => wgpuQuerySetGetCount(Handle);
+    public uint count => wgpuQuerySetGetCount(this);
 
-    public WGPUQueryType type => wgpuQuerySetGetType(Handle);
+    public WGPUQueryType type => wgpuQuerySetGetType(this);
 
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuQuerySetReference(Handle);
+        wgpuQuerySetReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuQuerySetRelease(Handle);
+        wgpuQuerySetRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

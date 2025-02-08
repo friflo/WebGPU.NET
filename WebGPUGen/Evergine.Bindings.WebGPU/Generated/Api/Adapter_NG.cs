@@ -30,7 +30,7 @@ public unsafe partial struct WGPUAdapter
             };
         }
         var userData = UserData.Create(descriptor.label, callback);
-        wgpuAdapterRequestDevice(Handle, &descriptor, &requestDeviceCallback, userData);
+        wgpuAdapterRequestDevice(this, &descriptor, &requestDeviceCallback, userData);
     }
     
     // untested
@@ -82,7 +82,7 @@ public unsafe partial struct WGPUAdapter
     
     public WGPUSupportedLimits getLimits() {
         WGPUSupportedLimits result;
-        var success = wgpuAdapterGetLimits(Handle, &result);
+        var success = wgpuAdapterGetLimits(this, &result);
         return result;
     }
 }

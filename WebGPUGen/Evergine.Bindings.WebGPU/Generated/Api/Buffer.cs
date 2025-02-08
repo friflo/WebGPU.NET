@@ -9,7 +9,7 @@ public unsafe partial struct WGPUBuffer
 {
     public void destroy() {
         Validate_destroy(Handle);
-        wgpuBufferDestroy(Handle);
+        wgpuBufferDestroy(this);
     }
 
     [Conditional("VALIDATE")]
@@ -19,17 +19,17 @@ public unsafe partial struct WGPUBuffer
 
     // getConstMappedRange() - not generated. See: Buffer_NG.cs
 
-    public WGPUBufferMapState mapState => wgpuBufferGetMapState(Handle);
+    public WGPUBufferMapState mapState => wgpuBufferGetMapState(this);
 
     // getMappedRange() - not generated. See: Buffer_NG.cs
 
-    public ulong size => wgpuBufferGetSize(Handle);
+    public ulong size => wgpuBufferGetSize(this);
 
-    public WGPUBufferUsage usage => wgpuBufferGetUsage(Handle);
+    public WGPUBufferUsage usage => wgpuBufferGetUsage(this);
 
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         Validate_mapAsync(Handle, mode, offset, size, callback, userdata);
-        wgpuBufferMapAsync(Handle, mode, offset, size, callback, userdata);
+        wgpuBufferMapAsync(this, mode, offset, size, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
@@ -40,7 +40,7 @@ public unsafe partial struct WGPUBuffer
 
     public void unmap() {
         Validate_unmap(Handle);
-        wgpuBufferUnmap(Handle);
+        wgpuBufferUnmap(this);
     }
 
     [Conditional("VALIDATE")]
@@ -50,12 +50,12 @@ public unsafe partial struct WGPUBuffer
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuBufferReference(Handle);
+        wgpuBufferReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuBufferRelease(Handle);
+        wgpuBufferRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

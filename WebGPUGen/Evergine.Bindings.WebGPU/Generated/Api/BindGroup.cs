@@ -10,12 +10,12 @@ public unsafe partial struct WGPUBindGroup
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuBindGroupReference(Handle);
+        wgpuBindGroupReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuBindGroupRelease(Handle);
+        wgpuBindGroupRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

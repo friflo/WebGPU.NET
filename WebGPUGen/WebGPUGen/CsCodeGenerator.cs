@@ -182,13 +182,13 @@ namespace WebGPUGen
 
                     file.WriteLine($"\tpublic readonly {handleType} Handle;");
 
-                    file.WriteLine($"\tpublic {typedef.Name}({handleType} existingHandle) {{ Handle = existingHandle; }}");
-                    file.WriteLine($"\tpublic static {typedef.Name} Null => new {typedef.Name}({nullValue});");
-                    file.WriteLine($"\tpublic static implicit operator {typedef.Name}({handleType} handle) => new {typedef.Name}(handle);");
-                    file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {typedef.Name} right) => left.Handle == right.Handle;");
-                    file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {typedef.Name} right) => left.Handle != right.Handle;");
-                    file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {handleType} right) => left.Handle == right;");
-                    file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {handleType} right) => left.Handle != right;");
+                //  file.WriteLine($"\tpublic {typedef.Name}({handleType} existingHandle) {{ Handle = existingHandle; }}");
+                //  file.WriteLine($"\tpublic static {typedef.Name} Null => new {typedef.Name}({nullValue});");
+                //  file.WriteLine($"\tpublic static implicit operator {typedef.Name}({handleType} handle) => new {typedef.Name}(handle);");
+                //  file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {typedef.Name} right) => left.Handle == right.Handle;");
+                //  file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {typedef.Name} right) => left.Handle != right.Handle;");
+                //  file.WriteLine($"\tpublic static bool operator ==({typedef.Name} left, {handleType} right) => left.Handle == right;");
+                //  file.WriteLine($"\tpublic static bool operator !=({typedef.Name} left, {handleType} right) => left.Handle != right;");
                     file.WriteLine($"\tpublic bool Equals({typedef.Name} h) => Handle == h.Handle;");
                     file.WriteLine($"\tpublic override bool Equals(object? o) => o is {typedef.Name} h && Equals(h);");
                     file.WriteLine($"\tpublic override int GetHashCode() => Handle.GetHashCode();");

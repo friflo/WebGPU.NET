@@ -29,7 +29,7 @@ public unsafe partial struct WGPUInstance
             Hwnd = hWnd
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -44,7 +44,7 @@ public unsafe partial struct WGPUInstance
             Layer = layer
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -60,7 +60,7 @@ public unsafe partial struct WGPUInstance
             Display = display
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -75,7 +75,7 @@ public unsafe partial struct WGPUInstance
             Window = window
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -91,7 +91,7 @@ public unsafe partial struct WGPUInstance
             Display = display,
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -107,7 +107,7 @@ public unsafe partial struct WGPUInstance
             Connection = connection
         };
         descriptor._nextInChain = &windowsSurface.chain;
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -117,7 +117,7 @@ public unsafe partial struct WGPUInstance
     public void requestAdapter(WGPURequestAdapterOptions options, RequestAdapterCallback? callback)
     {
         var userData = UserData.Create(default, callback);
-        wgpuInstanceRequestAdapter(Handle, &options, &requestAdapterCallback, userData);
+        wgpuInstanceRequestAdapter(this, &options, &requestAdapterCallback, userData);
     }
     
     [UnmanagedCallersOnly]

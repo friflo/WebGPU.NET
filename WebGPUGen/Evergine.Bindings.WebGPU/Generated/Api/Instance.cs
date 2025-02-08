@@ -9,7 +9,7 @@ public unsafe partial struct WGPUInstance
 {
     public WGPUSurface createSurface(WGPUSurfaceDescriptor descriptor) {
         Validate_createSurface(Handle, descriptor);
-        var result = wgpuInstanceCreateSurface(Handle, &descriptor);
+        var result = wgpuInstanceCreateSurface(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUSurface, descriptor._label);
         return result;
     }
@@ -22,7 +22,7 @@ public unsafe partial struct WGPUInstance
 
     public WGPUBool hasWGSLLanguageFeature(WGPUWGSLFeatureName feature) {
         Validate_hasWGSLLanguageFeature(Handle, feature);
-        var result = wgpuInstanceHasWGSLLanguageFeature(Handle, feature);
+        var result = wgpuInstanceHasWGSLLanguageFeature(this, feature);
         return result;
     }
 
@@ -33,7 +33,7 @@ public unsafe partial struct WGPUInstance
 
     public void processEvents() {
         Validate_processEvents(Handle);
-        wgpuInstanceProcessEvents(Handle);
+        wgpuInstanceProcessEvents(this);
     }
 
     [Conditional("VALIDATE")]
@@ -43,7 +43,7 @@ public unsafe partial struct WGPUInstance
 
     public void requestAdapter(WGPURequestAdapterOptions options, delegate* unmanaged<WGPURequestAdapterStatus, WGPUAdapter, char*, void*, void> callback, void* userdata) {
         Validate_requestAdapter(Handle, options, callback, userdata);
-        wgpuInstanceRequestAdapter(Handle, &options, callback, userdata);
+        wgpuInstanceRequestAdapter(this, &options, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
@@ -53,17 +53,17 @@ public unsafe partial struct WGPUInstance
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuInstanceReference(Handle);
+        wgpuInstanceReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuInstanceRelease(Handle);
+        wgpuInstanceRelease(this);
     }
 
     public void report(WGPUGlobalReport report) {
         Validate_report(Handle, report);
-        wgpuGenerateReport(Handle, &report);
+        wgpuGenerateReport(this, &report);
     }
 
     [Conditional("VALIDATE")]
@@ -73,7 +73,7 @@ public unsafe partial struct WGPUInstance
 
     public ulong enumerateAdapters(WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
         Validate_enumerateAdapters(Handle, options, adapters);
-        var result = wgpuInstanceEnumerateAdapters(Handle, &options, &adapters);
+        var result = wgpuInstanceEnumerateAdapters(this, &options, &adapters);
         return result;
     }
 

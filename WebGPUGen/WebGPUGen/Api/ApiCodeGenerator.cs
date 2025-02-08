@@ -103,7 +103,7 @@ public static class ApiCodeGenerator
                 $$"""
                     public void reference() {
                         ObjectTracker.IncRef(Handle);
-                        wgpu{{handleType.Name.Substring(4)}}Reference(Handle);
+                        wgpu{{handleType.Name.Substring(4)}}Reference(this);
                     }
                 """);
                 return;
@@ -111,7 +111,7 @@ public static class ApiCodeGenerator
                 $$"""
                     public void release() {
                         ObjectTracker.DecRef(Handle);
-                        wgpu{{handleType.Name.Substring(4)}}Release(Handle);
+                        wgpu{{handleType.Name.Substring(4)}}Release(this);
                     }
                 """);
                 return;
@@ -119,7 +119,7 @@ public static class ApiCodeGenerator
                 $$"""
                     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
                         fixed (uint* ptr = dynamicOffsets) {
-                            wgpu{{handleType.Name.Substring(4)}}SetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+                            wgpu{{handleType.Name.Substring(4)}}SetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
                         }
                     }
                 """);
@@ -132,7 +132,7 @@ public static class ApiCodeGenerator
             if (parameters.Length == 1)
             {
                 var propertyName = char.ToLower(commandName[3]) + commandName.Substring(4);
-                sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(Handle);");
+                sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(this);");
                 return;
             }
         }
@@ -143,7 +143,7 @@ public static class ApiCodeGenerator
                 $$"""
                     public {{type}} {{propertyName}} { get {
                         var result = new {{type}}();
-                        {{command.Name}}(Handle, &result);
+                        {{command.Name}}(this, &result);
                         return result;
                     } }
                 """);
@@ -159,7 +159,7 @@ public static class ApiCodeGenerator
             sb.Append("        ");
         }
         sb.Append(command.Name);
-        sb.Append("(Handle");
+        sb.Append("(this");
         for (int n = 1; n < parameters.Length; n++) {
             var param = parameters[n];
             sb.Append(", ");

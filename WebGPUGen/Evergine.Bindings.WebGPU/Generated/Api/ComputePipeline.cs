@@ -9,7 +9,7 @@ public unsafe partial struct WGPUComputePipeline
 {
     public WGPUBindGroupLayout getBindGroupLayout(uint groupIndex) {
         Validate_getBindGroupLayout(Handle, groupIndex);
-        var result = wgpuComputePipelineGetBindGroupLayout(Handle, groupIndex);
+        var result = wgpuComputePipelineGetBindGroupLayout(this, groupIndex);
         return result;
     }
 
@@ -21,12 +21,12 @@ public unsafe partial struct WGPUComputePipeline
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuComputePipelineReference(Handle);
+        wgpuComputePipelineReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuComputePipelineRelease(Handle);
+        wgpuComputePipelineRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

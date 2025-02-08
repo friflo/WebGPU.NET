@@ -10,12 +10,12 @@ public unsafe partial struct WGPUTextureView
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuTextureViewReference(Handle);
+        wgpuTextureViewReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuTextureViewRelease(Handle);
+        wgpuTextureViewRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

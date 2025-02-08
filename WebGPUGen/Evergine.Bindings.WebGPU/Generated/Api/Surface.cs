@@ -9,7 +9,7 @@ public unsafe partial struct WGPUSurface
 {
     public void configure(WGPUSurfaceConfiguration config) {
         Validate_configure(Handle, config);
-        wgpuSurfaceConfigure(Handle, &config);
+        wgpuSurfaceConfigure(this, &config);
     }
 
     [Conditional("VALIDATE")]
@@ -22,13 +22,13 @@ public unsafe partial struct WGPUSurface
 
     public WGPUSurfaceTexture currentTexture { get {
         var result = new WGPUSurfaceTexture();
-        wgpuSurfaceGetCurrentTexture(Handle, &result);
+        wgpuSurfaceGetCurrentTexture(this, &result);
         return result;
     } }
 
     public void present() {
         Validate_present(Handle);
-        wgpuSurfacePresent(Handle);
+        wgpuSurfacePresent(this);
     }
 
     [Conditional("VALIDATE")]
@@ -39,7 +39,7 @@ public unsafe partial struct WGPUSurface
 
     public void unconfigure() {
         Validate_unconfigure(Handle);
-        wgpuSurfaceUnconfigure(Handle);
+        wgpuSurfaceUnconfigure(this);
     }
 
     [Conditional("VALIDATE")]
@@ -49,12 +49,12 @@ public unsafe partial struct WGPUSurface
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuSurfaceReference(Handle);
+        wgpuSurfaceReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuSurfaceRelease(Handle);
+        wgpuSurfaceRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

@@ -9,7 +9,7 @@ public unsafe partial struct WGPURenderPassEncoder
 {
     public void beginOcclusionQuery(uint queryIndex) {
         Validate_beginOcclusionQuery(Handle, queryIndex);
-        wgpuRenderPassEncoderBeginOcclusionQuery(Handle, queryIndex);
+        wgpuRenderPassEncoderBeginOcclusionQuery(this, queryIndex);
     }
 
     [Conditional("VALIDATE")]
@@ -19,7 +19,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void draw(uint vertexCount, uint instanceCount, uint firstVertex, uint firstInstance) {
         Validate_draw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
-        wgpuRenderPassEncoderDraw(Handle, vertexCount, instanceCount, firstVertex, firstInstance);
+        wgpuRenderPassEncoderDraw(this, vertexCount, instanceCount, firstVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
@@ -29,7 +29,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void drawIndexed(uint indexCount, uint instanceCount, uint firstIndex, int baseVertex, uint firstInstance) {
         Validate_drawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
-        wgpuRenderPassEncoderDrawIndexed(Handle, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
+        wgpuRenderPassEncoderDrawIndexed(this, indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
     }
 
     [Conditional("VALIDATE")]
@@ -39,7 +39,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void drawIndexedIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
         Validate_drawIndexedIndirect(Handle, indirectBuffer, indirectOffset);
-        wgpuRenderPassEncoderDrawIndexedIndirect(Handle, indirectBuffer, indirectOffset);
+        wgpuRenderPassEncoderDrawIndexedIndirect(this, indirectBuffer, indirectOffset);
     }
 
     [Conditional("VALIDATE")]
@@ -49,7 +49,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void drawIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
         Validate_drawIndirect(Handle, indirectBuffer, indirectOffset);
-        wgpuRenderPassEncoderDrawIndirect(Handle, indirectBuffer, indirectOffset);
+        wgpuRenderPassEncoderDrawIndirect(this, indirectBuffer, indirectOffset);
     }
 
     [Conditional("VALIDATE")]
@@ -59,7 +59,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void end() {
         Validate_end(Handle);
-        wgpuRenderPassEncoderEnd(Handle);
+        wgpuRenderPassEncoderEnd(this);
     }
 
     [Conditional("VALIDATE")]
@@ -69,7 +69,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void endOcclusionQuery() {
         Validate_endOcclusionQuery(Handle);
-        wgpuRenderPassEncoderEndOcclusionQuery(Handle);
+        wgpuRenderPassEncoderEndOcclusionQuery(this);
     }
 
     [Conditional("VALIDATE")]
@@ -79,7 +79,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void executeBundles(ulong bundleCount, WGPURenderBundle bundles) {
         Validate_executeBundles(Handle, bundleCount, bundles);
-        wgpuRenderPassEncoderExecuteBundles(Handle, bundleCount, &bundles);
+        wgpuRenderPassEncoderExecuteBundles(this, bundleCount, &bundles);
     }
 
     [Conditional("VALIDATE")]
@@ -89,7 +89,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(Handle, markerLabel);
-        wgpuRenderPassEncoderInsertDebugMarker(Handle, markerLabel.AllocUtf8());
+        wgpuRenderPassEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -99,7 +99,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void popDebugGroup() {
         Validate_popDebugGroup(Handle);
-        wgpuRenderPassEncoderPopDebugGroup(Handle);
+        wgpuRenderPassEncoderPopDebugGroup(this);
     }
 
     [Conditional("VALIDATE")]
@@ -109,7 +109,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(Handle, groupLabel);
-        wgpuRenderPassEncoderPushDebugGroup(Handle, groupLabel.AllocUtf8());
+        wgpuRenderPassEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
     }
 
     [Conditional("VALIDATE")]
@@ -119,13 +119,13 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
         fixed (uint* ptr = dynamicOffsets) {
-            wgpuRenderPassEncoderSetBindGroup(Handle, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+            wgpuRenderPassEncoderSetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
         }
     }
 
     public void setBlendConstant(WGPUColor color) {
         Validate_setBlendConstant(Handle, color);
-        wgpuRenderPassEncoderSetBlendConstant(Handle, &color);
+        wgpuRenderPassEncoderSetBlendConstant(this, &color);
     }
 
     [Conditional("VALIDATE")]
@@ -135,7 +135,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setIndexBuffer(WGPUBuffer buffer, WGPUIndexFormat format, ulong offset, ulong size) {
         Validate_setIndexBuffer(Handle, buffer, format, offset, size);
-        wgpuRenderPassEncoderSetIndexBuffer(Handle, buffer, format, offset, size);
+        wgpuRenderPassEncoderSetIndexBuffer(this, buffer, format, offset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -146,7 +146,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setPipeline(WGPURenderPipeline pipeline) {
         Validate_setPipeline(Handle, pipeline);
-        wgpuRenderPassEncoderSetPipeline(Handle, pipeline);
+        wgpuRenderPassEncoderSetPipeline(this, pipeline);
     }
 
     [Conditional("VALIDATE")]
@@ -156,7 +156,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setScissorRect(uint x, uint y, uint width, uint height) {
         Validate_setScissorRect(Handle, x, y, width, height);
-        wgpuRenderPassEncoderSetScissorRect(Handle, x, y, width, height);
+        wgpuRenderPassEncoderSetScissorRect(this, x, y, width, height);
     }
 
     [Conditional("VALIDATE")]
@@ -166,7 +166,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setStencilReference(uint reference) {
         Validate_setStencilReference(Handle, reference);
-        wgpuRenderPassEncoderSetStencilReference(Handle, reference);
+        wgpuRenderPassEncoderSetStencilReference(this, reference);
     }
 
     [Conditional("VALIDATE")]
@@ -176,7 +176,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset, ulong size) {
         Validate_setVertexBuffer(Handle, slot, buffer, offset, size);
-        wgpuRenderPassEncoderSetVertexBuffer(Handle, slot, buffer, offset, size);
+        wgpuRenderPassEncoderSetVertexBuffer(this, slot, buffer, offset, size);
     }
 
     [Conditional("VALIDATE")]
@@ -186,7 +186,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void setViewport(float x, float y, float width, float height, float minDepth, float maxDepth) {
         Validate_setViewport(Handle, x, y, width, height, minDepth, maxDepth);
-        wgpuRenderPassEncoderSetViewport(Handle, x, y, width, height, minDepth, maxDepth);
+        wgpuRenderPassEncoderSetViewport(this, x, y, width, height, minDepth, maxDepth);
     }
 
     [Conditional("VALIDATE")]
@@ -196,19 +196,19 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuRenderPassEncoderReference(Handle);
+        wgpuRenderPassEncoderReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuRenderPassEncoderRelease(Handle);
+        wgpuRenderPassEncoderRelease(this);
     }
 
     // setPushConstants() - not generated. See: RenderPassEncoder_NG.cs
 
     public void multiDrawIndirect(WGPUBuffer buffer, ulong offset, uint count) {
         Validate_multiDrawIndirect(Handle, buffer, offset, count);
-        wgpuRenderPassEncoderMultiDrawIndirect(Handle, buffer, offset, count);
+        wgpuRenderPassEncoderMultiDrawIndirect(this, buffer, offset, count);
     }
 
     [Conditional("VALIDATE")]
@@ -218,7 +218,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void multiDrawIndexedIndirect(WGPUBuffer buffer, ulong offset, uint count) {
         Validate_multiDrawIndexedIndirect(Handle, buffer, offset, count);
-        wgpuRenderPassEncoderMultiDrawIndexedIndirect(Handle, buffer, offset, count);
+        wgpuRenderPassEncoderMultiDrawIndexedIndirect(this, buffer, offset, count);
     }
 
     [Conditional("VALIDATE")]
@@ -228,7 +228,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void multiDrawIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
         Validate_multiDrawIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
-        wgpuRenderPassEncoderMultiDrawIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
+        wgpuRenderPassEncoderMultiDrawIndirectCount(this, buffer, offset, count_buffer, count_buffer_offset, max_count);
     }
 
     [Conditional("VALIDATE")]
@@ -238,7 +238,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void multiDrawIndexedIndirectCount(WGPUBuffer buffer, ulong offset, WGPUBuffer count_buffer, ulong count_buffer_offset, uint max_count) {
         Validate_multiDrawIndexedIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
-        wgpuRenderPassEncoderMultiDrawIndexedIndirectCount(Handle, buffer, offset, count_buffer, count_buffer_offset, max_count);
+        wgpuRenderPassEncoderMultiDrawIndexedIndirectCount(this, buffer, offset, count_buffer, count_buffer_offset, max_count);
     }
 
     [Conditional("VALIDATE")]
@@ -248,7 +248,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
         Validate_beginPipelineStatisticsQuery(Handle, querySet, queryIndex);
-        wgpuRenderPassEncoderBeginPipelineStatisticsQuery(Handle, querySet, queryIndex);
+        wgpuRenderPassEncoderBeginPipelineStatisticsQuery(this, querySet, queryIndex);
     }
 
     [Conditional("VALIDATE")]
@@ -258,7 +258,7 @@ public unsafe partial struct WGPURenderPassEncoder
 
     public void endPipelineStatisticsQuery() {
         Validate_endPipelineStatisticsQuery(Handle);
-        wgpuRenderPassEncoderEndPipelineStatisticsQuery(Handle);
+        wgpuRenderPassEncoderEndPipelineStatisticsQuery(this);
     }
 
     [Conditional("VALIDATE")]

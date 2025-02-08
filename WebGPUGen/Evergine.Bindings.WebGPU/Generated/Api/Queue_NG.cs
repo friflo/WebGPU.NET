@@ -8,7 +8,7 @@ public unsafe partial struct WGPUQueue
     public void submit(Span<WGPUCommandBuffer> commands) {
         Validate_submit(Handle, commands);
         fixed (WGPUCommandBuffer* ptr = commands) {
-            wgpuQueueSubmit(Handle, (ulong)commands.Length, ptr);
+            wgpuQueueSubmit(this, (ulong)commands.Length, ptr);
         }
     }
     
@@ -22,19 +22,19 @@ public unsafe partial struct WGPUQueue
 
     public void writeBuffer<T>(WGPUBuffer buffer, ulong bufferOffset, Span<T> data) where T : unmanaged {
         fixed (T* ptr = data) {
-            wgpuQueueWriteBuffer(Handle, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
+            wgpuQueueWriteBuffer(this, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
         }
     }
     
     public void writeTexture<T>(WGPUImageCopyTexture destination, Span<T> data, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) where T : unmanaged {
         fixed (T* ptr = data) {
-            wgpuQueueWriteTexture(Handle, &destination, ptr, (ulong)(data.Length * sizeof(T)), &dataLayout, &writeSize);
+            wgpuQueueWriteTexture(this, &destination, ptr, (ulong)(data.Length * sizeof(T)), &dataLayout, &writeSize);
         }
     }
 
     public ulong submitForIndex(Span<WGPUCommandBuffer> commands) {
         fixed (WGPUCommandBuffer* ptr = commands) {
-            return wgpuQueueSubmitForIndex(Handle, (ulong)commands.Length, ptr);
+            return wgpuQueueSubmitForIndex(this, (ulong)commands.Length, ptr);
         }
     }
 

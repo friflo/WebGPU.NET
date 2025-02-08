@@ -5,13 +5,13 @@ using static WebGPUNative;
 public unsafe partial struct WGPUCommandEncoder
 {
     public WGPUComputePassEncoder beginComputePass() {
-        var result = wgpuCommandEncoderBeginComputePass(Handle, null);
+        var result = wgpuCommandEncoderBeginComputePass(this, null);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, null);
         return result;
     }
     
     public WGPUCommandBuffer finish() {
-        var result = wgpuCommandEncoderFinish(Handle, null);
+        var result = wgpuCommandEncoderFinish(this, null);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, null);
         return result;
     }

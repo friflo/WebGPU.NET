@@ -9,7 +9,7 @@ public unsafe partial struct WGPUTexture
 {
     public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
         Validate_createView(Handle, descriptor);
-        var result = wgpuTextureCreateView(Handle, &descriptor);
+        var result = wgpuTextureCreateView(this, &descriptor);
         ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTextureView, descriptor._label);
         return result;
     }
@@ -22,7 +22,7 @@ public unsafe partial struct WGPUTexture
 
     public void destroy() {
         Validate_destroy(Handle);
-        wgpuTextureDestroy(Handle);
+        wgpuTextureDestroy(this);
     }
 
     [Conditional("VALIDATE")]
@@ -30,31 +30,31 @@ public unsafe partial struct WGPUTexture
         ObjectTracker.ValidateHandle(handle);
     }
 
-    public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(Handle);
+    public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(this);
 
-    public WGPUTextureDimension dimension => wgpuTextureGetDimension(Handle);
+    public WGPUTextureDimension dimension => wgpuTextureGetDimension(this);
 
-    public WGPUTextureFormat format => wgpuTextureGetFormat(Handle);
+    public WGPUTextureFormat format => wgpuTextureGetFormat(this);
 
-    public uint height => wgpuTextureGetHeight(Handle);
+    public uint height => wgpuTextureGetHeight(this);
 
-    public uint mipLevelCount => wgpuTextureGetMipLevelCount(Handle);
+    public uint mipLevelCount => wgpuTextureGetMipLevelCount(this);
 
-    public uint sampleCount => wgpuTextureGetSampleCount(Handle);
+    public uint sampleCount => wgpuTextureGetSampleCount(this);
 
-    public WGPUTextureUsage usage => wgpuTextureGetUsage(Handle);
+    public WGPUTextureUsage usage => wgpuTextureGetUsage(this);
 
-    public uint width => wgpuTextureGetWidth(Handle);
+    public uint width => wgpuTextureGetWidth(this);
 
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuTextureReference(Handle);
+        wgpuTextureReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuTextureRelease(Handle);
+        wgpuTextureRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

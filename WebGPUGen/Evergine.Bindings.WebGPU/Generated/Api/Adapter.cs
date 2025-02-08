@@ -9,7 +9,7 @@ public unsafe partial struct WGPUAdapter
 {
     public ulong enumerateFeatures(WGPUFeatureName features) {
         Validate_enumerateFeatures(Handle, features);
-        var result = wgpuAdapterEnumerateFeatures(Handle, &features);
+        var result = wgpuAdapterEnumerateFeatures(this, &features);
         return result;
     }
 
@@ -20,7 +20,7 @@ public unsafe partial struct WGPUAdapter
 
     public WGPUAdapterInfo info { get {
         var result = new WGPUAdapterInfo();
-        wgpuAdapterGetInfo(Handle, &result);
+        wgpuAdapterGetInfo(this, &result);
         return result;
     } }
 
@@ -28,7 +28,7 @@ public unsafe partial struct WGPUAdapter
 
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         Validate_hasFeature(Handle, feature);
-        var result = wgpuAdapterHasFeature(Handle, feature);
+        var result = wgpuAdapterHasFeature(this, feature);
         return result;
     }
 
@@ -41,12 +41,12 @@ public unsafe partial struct WGPUAdapter
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuAdapterReference(Handle);
+        wgpuAdapterReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuAdapterRelease(Handle);
+        wgpuAdapterRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);

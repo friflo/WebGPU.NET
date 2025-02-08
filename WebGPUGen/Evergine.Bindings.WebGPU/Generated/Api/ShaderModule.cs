@@ -9,7 +9,7 @@ public unsafe partial struct WGPUShaderModule
 {
     public void getCompilationInfo(delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
         Validate_getCompilationInfo(Handle, callback, userdata);
-        wgpuShaderModuleGetCompilationInfo(Handle, callback, userdata);
+        wgpuShaderModuleGetCompilationInfo(this, callback, userdata);
     }
 
     [Conditional("VALIDATE")]
@@ -20,12 +20,12 @@ public unsafe partial struct WGPUShaderModule
 
     public void reference() {
         ObjectTracker.IncRef(Handle);
-        wgpuShaderModuleReference(Handle);
+        wgpuShaderModuleReference(this);
     }
 
     public void release() {
         ObjectTracker.DecRef(Handle);
-        wgpuShaderModuleRelease(Handle);
+        wgpuShaderModuleRelease(this);
     }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
