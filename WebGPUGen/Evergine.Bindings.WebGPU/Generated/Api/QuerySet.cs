@@ -23,12 +23,12 @@ public unsafe partial struct WGPUQuerySet
 
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuQuerySetReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuQuerySetRelease(this);
     }
 

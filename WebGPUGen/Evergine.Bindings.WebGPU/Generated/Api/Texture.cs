@@ -10,7 +10,7 @@ public unsafe partial struct WGPUTexture
     public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
         Validate_createView(Handle, descriptor);
         var result = wgpuTextureCreateView(this, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUTextureView, descriptor._label);
+        ObjectTracker.CreateRef(result, HandleType.WGPUTextureView, descriptor._label);
         return result;
     }
 
@@ -48,12 +48,12 @@ public unsafe partial struct WGPUTexture
 
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuTextureReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuTextureRelease(this);
     }
 

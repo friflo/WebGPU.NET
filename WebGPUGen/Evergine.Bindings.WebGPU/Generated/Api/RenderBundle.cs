@@ -9,12 +9,12 @@ public unsafe partial struct WGPURenderBundle
 {
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuRenderBundleReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuRenderBundleRelease(this);
     }
 

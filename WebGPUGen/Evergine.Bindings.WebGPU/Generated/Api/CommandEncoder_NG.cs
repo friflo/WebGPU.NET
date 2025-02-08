@@ -6,13 +6,13 @@ public unsafe partial struct WGPUCommandEncoder
 {
     public WGPUComputePassEncoder beginComputePass() {
         var result = wgpuCommandEncoderBeginComputePass(this, null);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUComputePassEncoder, null);
+        ObjectTracker.CreateRef(result, HandleType.WGPUComputePassEncoder, null);
         return result;
     }
     
     public WGPUCommandBuffer finish() {
         var result = wgpuCommandEncoderFinish(this, null);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUCommandBuffer, null);
+        ObjectTracker.CreateRef(result, HandleType.WGPUCommandBuffer, null);
         return result;
     }
 }

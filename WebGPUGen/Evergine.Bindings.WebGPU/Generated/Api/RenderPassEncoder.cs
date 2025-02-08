@@ -195,12 +195,12 @@ public unsafe partial struct WGPURenderPassEncoder
     }
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuRenderPassEncoderReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuRenderPassEncoderRelease(this);
     }
 

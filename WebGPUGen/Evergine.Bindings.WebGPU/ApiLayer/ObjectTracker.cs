@@ -85,9 +85,11 @@ public static class ObjectTracker
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
     // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage 
-    internal static unsafe void CreateRef(IntPtr handle, HandleType type, char* descriptorLabel)
+    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, char* descriptorLabel)
+        where THandle : struct, IHandle
     {
-        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
+        var handlePtr = handle.GetHandle();
+        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handlePtr, out bool exists);
         if (!exists) {
             value.count = 1;
             value.type  = type;
@@ -107,9 +109,11 @@ public static class ObjectTracker
         throw new InvalidOperationException("WebGPU Object already tracked."); // can occur only in case API Layer is buggy
     }
     
-    internal static void IncRef(IntPtr handle)
+    internal static void IncRef<THandle>(THandle handle)
+        where THandle : struct, IHandle
     {
-        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
+        var handlePtr = handle.GetHandle();
+        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handlePtr, out bool exists);
         if (exists) {
             value.count++;
             return;
@@ -117,15 +121,17 @@ public static class ObjectTracker
         throw ObjectNotFoundException();
     }
     
-    internal static void DecRef(IntPtr handle)
+    internal static void DecRef<THandle>(THandle handle)
+        where THandle : struct, IHandle
     {
-        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handle, out bool exists);
+        var handlePtr = handle.GetHandle();
+        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handlePtr, out bool exists);
         if (exists) {
             value.count--;
             if (value.count > 0) {
                 return;
             }
-            HandleMap.Remove(handle);
+            HandleMap.Remove(handlePtr);
             return;
         }
         throw ObjectNotFoundException();

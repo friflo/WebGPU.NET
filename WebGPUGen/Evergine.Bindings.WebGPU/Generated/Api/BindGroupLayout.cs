@@ -9,12 +9,12 @@ public unsafe partial struct WGPUBindGroupLayout
 {
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuBindGroupLayoutReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuBindGroupLayoutRelease(this);
     }
 

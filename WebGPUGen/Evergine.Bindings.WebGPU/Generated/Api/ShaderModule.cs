@@ -19,12 +19,12 @@ public unsafe partial struct WGPUShaderModule
 
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuShaderModuleReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuShaderModuleRelease(this);
     }
 

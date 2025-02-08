@@ -10,7 +10,7 @@ public static unsafe partial class WebGPUNative
             _nextInChain = &instanceExtras.chain
         };
         var result = wgpuCreateInstance(&instanceDescriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPUInstance, null);
+        ObjectTracker.CreateRef(result, HandleType.WGPUInstance, null);
         return result;
     }
 }

@@ -20,12 +20,12 @@ public unsafe partial struct WGPURenderPipeline
 
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuRenderPipelineReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuRenderPipelineRelease(this);
     }
 

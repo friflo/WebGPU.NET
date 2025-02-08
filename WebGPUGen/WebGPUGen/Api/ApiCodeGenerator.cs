@@ -102,7 +102,7 @@ public static class ApiCodeGenerator
             case "reference":   sb.AppendLine(
                 $$"""
                     public void reference() {
-                        ObjectTracker.IncRef(Handle);
+                        ObjectTracker.IncRef(this);
                         wgpu{{handleType.Name.Substring(4)}}Reference(this);
                     }
                 """);
@@ -110,7 +110,7 @@ public static class ApiCodeGenerator
             case "release":     sb.AppendLine(
                 $$"""
                     public void release() {
-                        ObjectTracker.DecRef(Handle);
+                        ObjectTracker.DecRef(this);
                         wgpu{{handleType.Name.Substring(4)}}Release(this);
                     }
                 """);
@@ -181,7 +181,7 @@ public static class ApiCodeGenerator
             if (command.ReturnType is CppTypedef handleReturnType) {
                 if (objects.ContainsKey(handleReturnType)) {
                     if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result.Handle, HandleType.{handleReturnType.Name}, descriptor._label);");
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, descriptor._label);");
                     }
                 }
             }

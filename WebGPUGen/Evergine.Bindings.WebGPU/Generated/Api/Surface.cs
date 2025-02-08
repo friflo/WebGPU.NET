@@ -48,12 +48,12 @@ public unsafe partial struct WGPUSurface
     }
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuSurfaceReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuSurfaceRelease(this);
     }
 

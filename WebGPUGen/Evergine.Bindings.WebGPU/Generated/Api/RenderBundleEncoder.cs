@@ -32,7 +32,7 @@ public unsafe partial struct WGPURenderBundleEncoder
     public WGPURenderBundle finish(WGPURenderBundleDescriptor descriptor) {
         Validate_finish(Handle, descriptor);
         var result = wgpuRenderBundleEncoderFinish(this, &descriptor);
-        ObjectTracker.CreateRef(result.Handle, HandleType.WGPURenderBundle, descriptor._label);
+        ObjectTracker.CreateRef(result, HandleType.WGPURenderBundle, descriptor._label);
         return result;
     }
 
@@ -110,12 +110,12 @@ public unsafe partial struct WGPURenderBundleEncoder
     }
 
     public void reference() {
-        ObjectTracker.IncRef(Handle);
+        ObjectTracker.IncRef(this);
         wgpuRenderBundleEncoderReference(this);
     }
 
     public void release() {
-        ObjectTracker.DecRef(Handle);
+        ObjectTracker.DecRef(this);
         wgpuRenderBundleEncoderRelease(this);
     }
 
