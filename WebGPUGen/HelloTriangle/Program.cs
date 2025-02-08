@@ -6,8 +6,8 @@ namespace HelloTriangle
 {
     static class Program
     {
-        private const uint Width  = 800;
-        private const uint Height = 600;
+        private const int Width  = 800;
+        private const int Height = 600;
         
         private static void Main()
         {
@@ -25,6 +25,7 @@ namespace HelloTriangle
             triangle.ReleaseResources();
             gpu.CleanUp();
             Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Entries.Count}");
+            
             window.Dispose();
             window.Close();
         }
@@ -40,12 +41,14 @@ namespace HelloTriangle
         
         private static void MainLoop(Triangle triangle, Form window, Arena frameArena, WGPUSurface surface)
         {
-            bool isClosing = false;
+            bool running = true;
             window.FormClosing += (_, _) => {
-                isClosing = true;
+                running = false;
             };
 
-            while (!isClosing) {
+            while (running) {
+                Application.DoEvents();
+
                 var surfaceTexture = surface.currentTexture;
                 // Getting the texture may fail, in particular if the window has been resized and thus the target surface changed.
                 if (surfaceTexture.status != WGPUSurfaceGetCurrentTextureStatus.Success) {
@@ -58,8 +61,6 @@ namespace HelloTriangle
                 
                 nextView.release();
                 surface.present();
-                
-                Application.DoEvents();
             }
         }
     }

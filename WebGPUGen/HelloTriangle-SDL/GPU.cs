@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using Evergine.Bindings.WebGPU;
+using SDL2;
 
 namespace HelloTriangle;
 
@@ -19,12 +20,17 @@ public class GPU
     }
     
     /// platform specific WGPU initialization
-    internal void CreateSurface(IntPtr hWnd) {
+    internal void CreateSurface(nint window) {
         frameArena.Use();
         instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
             backends = WGPUInstanceBackend.Vulkan
         });
-        surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), Process.GetCurrentProcess().Handle, hWnd);
+        var windowWMInfo = new SDL.SDL_SysWMinfo();
+        SDL.SDL_VERSION(out windowWMInfo.version);
+        SDL.SDL_GetWindowWMInfo(window, ref windowWMInfo);
+        var hinstance   = windowWMInfo.info.win.hinstance;
+        var hwnd        = windowWMInfo.info.win.window;
+        surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), hinstance, hwnd);
     }
 
     /// general WGPU initialization

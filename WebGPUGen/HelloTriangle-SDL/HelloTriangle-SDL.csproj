@@ -2,8 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0-windows7.0</TargetFramework>
-		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net8.0</TargetFramework>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<AssemblyName>HelloTriangle-SDL</AssemblyName>
 	</PropertyGroup>
@@ -12,6 +11,10 @@
 	  <Content Include="Content\triangle.wgsl">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Sayers.SDL2.Core" Version="1.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>
