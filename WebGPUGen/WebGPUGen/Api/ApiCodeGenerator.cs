@@ -230,6 +230,11 @@ public static class ApiCodeGenerator
                     sb.AppendLine($"        {parameter.Name}.Validate();");                
                 }
             }
+            if (parameter.CppParameter.Type is CppTypedef handleType) {
+                if (objects.ContainsKey(handleType)) {
+                    sb.AppendLine($"        ObjectTracker.ValidateHandle({parameter.Name});");
+                }
+            }
         }
         sb.AppendLine($"    }}");
     }

@@ -25,6 +25,7 @@ public unsafe partial struct WGPUComputePassEncoder
     [Conditional("VALIDATE")]
     private void Validate_dispatchWorkgroupsIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
         ObjectTracker.ValidateHandle(this);
+        ObjectTracker.ValidateHandle(indirectBuffer);
     }
 
     public void end() {
@@ -82,6 +83,7 @@ public unsafe partial struct WGPUComputePassEncoder
     [Conditional("VALIDATE")]
     private void Validate_setPipeline(WGPUComputePipeline pipeline) {
         ObjectTracker.ValidateHandle(this);
+        ObjectTracker.ValidateHandle(pipeline);
     }
 
     public void reference() {
@@ -102,6 +104,7 @@ public unsafe partial struct WGPUComputePassEncoder
     [Conditional("VALIDATE")]
     private void Validate_beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
         ObjectTracker.ValidateHandle(this);
+        ObjectTracker.ValidateHandle(querySet);
     }
 
     public void endPipelineStatisticsQuery() {
