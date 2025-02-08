@@ -4,12 +4,14 @@ using Evergine.Bindings.WebGPU;
 
 namespace HelloTriangle
 {
-     static partial class Program
+    static class Program
     {
-
+        private const uint Width  = 800;
+        private const uint Height = 600;
+        
         private static void Main()
         {
-            var window = InitWindowWinForms();
+            var window = InitWindow();
             var gpu = new GPU();
             gpu.CreateSurface(window.Handle);
             gpu.RequestDevice(window.ClientSize.Width, window.ClientSize.Height);
@@ -18,7 +20,7 @@ namespace HelloTriangle
             
             triangle.InitResources();
 
-            MainLoopWinForms(triangle, window, gpu.frameArena, gpu.surface);
+            MainLoop(triangle, window, gpu.frameArena, gpu.surface);
 
             triangle.ReleaseResources();
             gpu.CleanUp();
@@ -27,7 +29,7 @@ namespace HelloTriangle
             window.Close();
         }
         
-        private static Form InitWindowWinForms()
+        private static Form InitWindow()
         {
             var window = new Form();
             window.Size = new System.Drawing.Size((int)Width, (int)Height);
@@ -36,7 +38,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static void MainLoopWinForms(Triangle triangle, Form window, Arena frameArena, WGPUSurface surface)
+        private static void MainLoop(Triangle triangle, Form window, Arena frameArena, WGPUSurface surface)
         {
             bool isClosing = false;
             window.FormClosing += (_, _) => {

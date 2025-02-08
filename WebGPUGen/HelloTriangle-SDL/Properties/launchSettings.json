@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "HelloTriangle-SDL": {
+      "commandName": "Project",
+      "nativeDebugging": false,
+      "environmentVariables": {
+        "RUST_BACKTRACE": "full"
+      }
+    }
+  }
+}
