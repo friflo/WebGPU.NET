@@ -48,7 +48,13 @@ public class GPU
             var properties  = SDL_GetWindowProperties(window);
             nint surfacePtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER, 0);
             nint displayPtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER, 0);
-            surface = instance.createSurfaceFromWaylandSurface(new WGPUSurfaceDescriptor(), surfacePtr, displayPtr);
+            if (surfacePtr != 0 && displayPtr != 0) {
+                surface = instance.createSurfaceFromWaylandSurface(new WGPUSurfaceDescriptor(), surfacePtr, displayPtr);
+                return;
+            }
+            displayPtr      = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_X11_DISPLAY_POINTER, 0);
+            var windowNum   = SDL_GetNumberProperty (properties, SDL_PROP_WINDOW_X11_WINDOW_NUMBER,   0);
+            surface = instance.createSurfaceFromXlibWindow(new WGPUSurfaceDescriptor(), (ulong)windowNum, displayPtr);
         }
         else if (OperatingSystem.IsAndroid()) {
             Console.WriteLine("Untested platform: Android. Feedback appreciated!"); // Please create GitHub issues if it works or fails
