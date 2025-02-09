@@ -42,11 +42,10 @@ public class GPU
             */
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-            Console.WriteLine("Platform OSX untested.");
+            var renderer   = SDL_CreateRenderer(window, (Utf8String)null);
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Metal
             });
-            var renderer   = SDL_CreateRenderer(window, "Renderer");
             var metalLayer = SDL_GetRenderMetalLayer(renderer);
             surface = instance.createSurfaceFromMetalLayer(new WGPUSurfaceDescriptor(), metalLayer);
         }
