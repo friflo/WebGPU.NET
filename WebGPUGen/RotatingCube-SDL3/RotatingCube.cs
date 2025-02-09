@@ -9,7 +9,7 @@ namespace HelloTriangle
     public class RotatingCube
     {
         private readonly    WGPUDevice          device;
-        private readonly    WGPUTextureFormat   swapChainFormat;
+        private readonly    WGPUTextureFormat   presentationFormat;
         private readonly    WGPUQueue           queue;
 
         private             WGPURenderPipeline  pipeline;
@@ -18,7 +18,7 @@ namespace HelloTriangle
 
         internal RotatingCube(GPU gpu) {
             device          = gpu.device;
-            swapChainFormat = gpu.swapChainFormat;
+            presentationFormat = gpu.swapChainFormat;
             queue           = gpu.queue;
             frameArena      = gpu.frameArena;
         }
@@ -30,90 +30,111 @@ namespace HelloTriangle
 
         internal void InitResources()
         {
-            frameArena.Use();
-            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = "triangle"u8 });
+            Utf8 basicVertWGSL            = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "basic.vert.wgsl"));
+            Utf8 vertexPositionColorWGSL  = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "vertexPositionColor.frag.wgsl"));
+            
+            // Create a vertex buffer from the cube data.
+            var verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
+              size = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
+              usage = WGPUBufferUsage.Vertex,
+              mappedAtCreation = true
+            });
+            var target = verticesBuffer.getMappedRange<float>(0, (ulong)Cube.cubeVertexArray.Length);
+            new Span<float>(Cube.cubeVertexArray).CopyTo(target);
+            verticesBuffer.unmap();
 
-            Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
-
-            var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
-
-            var pipelineDescriptor = new WGPURenderPipelineDescriptor {
-                label  = "triangle"u8, 
-                layout = pipelineLayout,
+            var pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
+                layout = default, 
                 vertex = new WGPUVertexState {
-                    buffers = [new WGPUVertexBufferLayout {
-                        attributes = [
-                            new WGPUVertexAttribute {
-                                format = WGPUVertexFormat.Float32x4,
-                                offset = 0,
-                                shaderLocation = 0,
-                            },
-                            new WGPUVertexAttribute {
-                                format = WGPUVertexFormat.Float32x4,
-                                offset = 16,
-                                shaderLocation = 1,
-                            },
-                        ],
-                        arrayStride = (ulong)Marshal.SizeOf<Vector4>() * 2,
-                        stepMode = WGPUVertexStepMode.Vertex,
-                    }],
-                    module = shaderModule,
-                    entryPoint = "vertexMain"u8,
-                },
-                primitive = new WGPUPrimitiveState {
-                    topology = WGPUPrimitiveTopology.TriangleList,
-                    stripIndexFormat = WGPUIndexFormat.Undefined,
-                    frontFace = WGPUFrontFace.CCW,
-                    cullMode = WGPUCullMode.None,
-                },
-                fragment = new WGPUFragmentState {
-                    module = shaderModule,
-                    entryPoint = "fragmentMain"u8,
-                    targets = [new WGPUColorTargetState {
-                        format = swapChainFormat,
-                        blend = new WGPUBlendState {
-                            color = new WGPUBlendComponent {
-                                srcFactor = WGPUBlendFactor.One,
-                                dstFactor = WGPUBlendFactor.Zero,
-                                operation = WGPUBlendOperation.Add,
-                            },
-                            alpha = new WGPUBlendComponent {
-                                srcFactor = WGPUBlendFactor.One,
-                                dstFactor = WGPUBlendFactor.Zero,
-                                operation = WGPUBlendOperation.Add,
-                            }
+                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), basicVertWGSL),
+                    buffers = [
+                      new WGPUVertexBufferLayout
+                        {
+                            arrayStride = Cube.cubeVertexSize,
+                            attributes= [
+                                 new WGPUVertexAttribute {
+                                   // position
+                                   shaderLocation= 0,
+                                   offset= Cube.cubePositionOffset,
+                                   format= WGPUVertexFormat.Float32x4
+                                },
+                                new WGPUVertexAttribute {
+                                  // uv
+                                  shaderLocation= 1,
+                                  offset= Cube.cubeUVOffset,
+                                  format= WGPUVertexFormat.Float32x2,
+                                },
+                            ],
                         },
-                        writeMask = WGPUColorWriteMask.All,
-                    }]
+                    ],
                 },
-                multisample = new WGPUMultisampleState {
-                    count = 1,
-                    mask = ~0u,
-                    alphaToCoverageEnabled = false,
-                }
-            };
-            pipeline = device.createRenderPipeline(pipelineDescriptor);
-            shaderModule.release();
-            pipelineLayout.release();
+                fragment= new WGPUFragmentState {
+                  module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
+                  targets= [new WGPUColorTargetState
+                  {
+                    format= presentationFormat,
+                  },
+                ],
+              },
+              primitive = {
+                topology= WGPUPrimitiveTopology.TriangleList,
+                // Backface culling since the cube is solid piece of geometry.
+                // Faces pointing away from the camera will be occluded by faces
+                // pointing toward the camera.
+                cullMode= WGPUCullMode.Back,
+              },
 
-            Span<Vector4> vertexData = [
-                new (0.0f, 0.5f, 0.5f, 1.0f),
-                new (1.0f, 0.0f, 0.0f, 1.0f),
-                new (0.5f, -0.5f, 0.5f, 1.0f),
-                new (0.0f, 1.0f, 0.0f, 1.0f),
-                new (-0.5f, -0.5f, 0.5f, 1.0f),
-                new (0.0f, 0.0f, 1.0f, 1.0f)
-            ];
+              // Enable depth testing so that the fragment closest to the camera
+              // is rendered in front.
+              depthStencil= new WGPUDepthStencilState{
+                depthWriteEnabled= true,
+                depthCompare= WGPUCompareFunction.Less,
+                format= WGPUTextureFormat.Depth24Plus,
+              }
+            });
+            /*
+            const depthTexture = device.createTexture({
+              size: [canvas.width, canvas.height],
+              format: 'depth24plus',
+              usage: GPUTextureUsage.RENDER_ATTACHMENT,
+            });
 
-            ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
-            WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor {
-                label = "triangle"u8,
-                usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
-                size = size,
-                mappedAtCreation = false,
-            };
-            vertexBuffer = device.createBuffer(bufferDescriptor);
-            queue.writeBuffer(vertexBuffer, 0, vertexData);
+            const uniformBufferSize = 4 * 16; // 4x4 matrix
+            const uniformBuffer = device.createBuffer({
+              size: uniformBufferSize,
+              usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+            });
+
+            const uniformBindGroup = device.createBindGroup({
+              layout: pipeline.getBindGroupLayout(0),
+              entries: [
+                {
+                  binding: 0,
+                  resource: {
+                    buffer: uniformBuffer,
+                  },
+                },
+              ],
+            });
+
+            const renderPassDescriptor: GPURenderPassDescriptor = {
+              colorAttachments: [
+                {
+                  view: undefined, // Assigned later
+
+                  clearValue: [0.5, 0.5, 0.5, 1.0],
+                  loadOp: 'clear',
+                  storeOp: 'store',
+                },
+              ],
+              depthStencilAttachment: {
+                view: depthTexture.createView(),
+
+                depthClearValue: 1.0,
+                depthLoadOp: 'clear',
+                depthStoreOp: 'store',
+              },
+            };*/
         }
 
         internal void DrawFrame(WGPUTextureView view)
