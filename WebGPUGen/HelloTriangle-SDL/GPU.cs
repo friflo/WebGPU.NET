@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 using Evergine.Bindings.WebGPU;
 using SDL;
 using static SDL.SDL3;
@@ -24,16 +23,16 @@ public class GPU
     internal unsafe void CreateSurface(SDL_Window* window)
     {
         frameArena.Use();
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+        if (OperatingSystem.IsWindows()) {
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
-                backends = WGPUInstanceBackend.Vulkan
+                backends = WGPUInstanceBackend.DX12
             });
             var properties = SDL_GetWindowProperties(window);
             nint hinstance = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, 0);
             nint hwnd      = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WIN32_HWND_POINTER,     0);
             surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), hinstance, hwnd);
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+        else if (OperatingSystem.IsMacOS() || OperatingSystem.IsIOS()) {
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Metal
             });
@@ -41,9 +40,8 @@ public class GPU
             var metalLayer = SDL_GetRenderMetalLayer(renderer);
             surface = instance.createSurfaceFromMetalLayer(new WGPUSurfaceDescriptor(), metalLayer);
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-            Console.WriteLine("Untested platform: Linux");
-            // TODO Anybody trying this. Please create GitHub issues if this works or fails
+        else if (OperatingSystem.IsLinux()) {
+            Console.WriteLine("Untested platform: Linux. Feedback appreciated!");  // Please create GitHub issues if it works or fails
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
                 backends = WGPUInstanceBackend.Vulkan
             });
@@ -51,6 +49,15 @@ public class GPU
             nint surfacePtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER, 0);
             nint displayPtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER, 0);
             surface = instance.createSurfaceFromWaylandSurface(new WGPUSurfaceDescriptor(), surfacePtr, displayPtr);
+        }
+        else if (OperatingSystem.IsAndroid()) {
+            Console.WriteLine("Untested platform: Android. Feedback appreciated!"); // Please create GitHub issues if it works or fails
+            instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
+                backends = WGPUInstanceBackend.Vulkan
+            });
+            var properties  = SDL_GetWindowProperties(window);
+            nint windowPtr  = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, 0);
+            surface = instance.createSurfaceFromAndroidNativeWindow(new WGPUSurfaceDescriptor(), windowPtr);
         }
         else {
             var platform = Environment.OSVersion.Platform;
