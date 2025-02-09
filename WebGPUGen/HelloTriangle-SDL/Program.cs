@@ -49,14 +49,6 @@ namespace HelloTriangle
             bool running = true;
             while (running)
             {
-                // Check to see if there are any events and continue to do so until the queue is empty.
-                /* while (SDL.SDL_PollEvent(out SDL.SDL_Event e) == 1) {
-                    switch (e.type) {
-                        case SDL.SDL_EventType.SDL_QUIT:
-                            running = false;
-                            break;
-                    }
-                } */
                 SDL_Event sdlEvent;
                 while (SDL_PollEvent(&sdlEvent)) {
                     switch ((SDL_EventType)sdlEvent.type) {
