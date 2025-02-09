@@ -49,6 +49,17 @@ public class GPU
             var metalLayer = SDL_GetRenderMetalLayer(renderer);
             surface = instance.createSurfaceFromMetalLayer(new WGPUSurfaceDescriptor(), metalLayer);
         }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+            Console.WriteLine("Untested platform: Linux");
+            // TODO Anybody trying this. Please create GitHub issues if this works or fails
+            instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
+                backends = WGPUInstanceBackend.Vulkan
+            });
+            var properties  = SDL_GetWindowProperties(window);
+            nint surfacePtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER, 0);
+            nint displayPtr = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER, 0);
+            surface = instance.createSurfaceFromWaylandSurface(new WGPUSurfaceDescriptor(), surfacePtr, displayPtr);
+        }
         else {
             var platform = Environment.OSVersion.Platform;
             Console.WriteLine($"Platform not implemented. platform: {platform}");
