@@ -18,8 +18,7 @@ namespace HelloTriangle
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
             var triangle = new Triangle(gpu);
-        //  SDL.SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL - {gpu.adapter.info.backendType})");
-            SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL - {gpu.adapter.info.backendType})");
+            SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL 3 - {gpu.adapter.info.backendType})");
             
             triangle.InitResources();
 
@@ -35,12 +34,9 @@ namespace HelloTriangle
         
         private static unsafe SDL_Window* InitWindow()
         {
-            // https://github.com/JeremySayers/SDL2-CS-Tutorial
             if (!SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO)) {
                 Console.WriteLine($"There was an issue initializing SDL. {SDL_GetError()}");
             }
-            // Create a new window given a title, size, and passes it a flag indicating it should be shown.
-            // nint window = SDL.SDL_CreateWindow("SDL .NET 6 Tutorial", SDL.SDL_WINDOWPOS_UNDEFINED, SDL.SDL_WINDOWPOS_UNDEFINED, Width, Height, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
             var window = SDL_CreateWindow("SDL3", Width, Height, 0);
             if (window == null) {
                 Console.WriteLine($"There was an issue creating the window. {SDL_GetError()}");

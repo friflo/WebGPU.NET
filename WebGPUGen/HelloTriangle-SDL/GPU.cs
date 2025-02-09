@@ -32,14 +32,6 @@ public class GPU
             nint hinstance = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, 0);
             nint hwnd      = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WIN32_HWND_POINTER,     0);
             surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), hinstance, hwnd);
-            
-            /*  var windowWMInfo = new SDL.SDL_SysWMinfo();
-                SDL.SDL_VERSION(out windowWMInfo.version);
-                SDL.SDL_GetWindowWMInfo(window, ref windowWMInfo);
-                var hinstance   = windowWMInfo.info.win.hinstance;
-                var hwnd        = windowWMInfo.info.win.window;
-                surface = instance.createSurfaceFromWindowsHWND(new WGPUSurfaceDescriptor(), hinstance, hwnd);
-            */
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
