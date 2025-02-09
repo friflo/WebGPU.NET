@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<AssemblyName>HelloTriangle-SDL</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Content\triangle.wgsl">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- <PackageReference Include="Sayers.SDL2.Core" Version="1.0.11" /> -->
+		<PackageReference Include="ppy.SDL3-CS" Version="2025.127.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Evergine.Bindings.WebGPU\Evergine.Bindings.WebGPU.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Evergine.Bindings.WebGPU\runtimes\win-x64\native\wgpu_native.dll"         Link="wgpu_native.dll"      Visible="False" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\Evergine.Bindings.WebGPU\runtimes\osx-arm64\native\libwgpu_native.dylib"  Link="libwgpu_native.dylib" Visible="False" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\Evergine.Bindings.WebGPU\runtimes\linux-x64\native\libwgpu_native.so" 	Link="libwgpu_native.so" 	Visible="False" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+</Project>
