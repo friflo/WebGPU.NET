@@ -65,17 +65,17 @@ public struct ObjectEntry
     public override string ToString() {
         var labelStr = GetLabel();
         if (labelStr == null) {
-            return $"{type} count: {count}";
+            return $"{type} ref-count: {count}";
         }
-        return $"{type} count: {count} label: \"{labelStr}\"";
+        return $"{type} ref-count: {count} label: \"{labelStr}\"";
     }
     
     public string GetShortLabel() {
         var labelStr = GetLabel();
         if (labelStr == null) {
-            return $"count: {count}";
+            return $"ref-count: {count}";
         }
-        return $"count: {count} label: \"{labelStr}\"";
+        return $"ref-count: {count} label: \"{labelStr}\"";
     }
 }
 
