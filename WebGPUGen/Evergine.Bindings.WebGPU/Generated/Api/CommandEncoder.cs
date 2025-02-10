@@ -10,7 +10,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
         Validate_beginComputePass(descriptor);
         var result = wgpuCommandEncoderBeginComputePass(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUComputePassEncoder, descriptor._label);
+        ObjectTracker.CreateRef(result, HandleType.WGPUComputePassEncoder, descriptor._label); // ref-other
         return result;
     }
 
@@ -23,7 +23,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
         Validate_beginRenderPass(descriptor);
         var result = wgpuCommandEncoderBeginRenderPass(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPURenderPassEncoder, descriptor._label);
+        ObjectTracker.CreateRef(result, HandleType.WGPURenderPassEncoder, descriptor._label); // ref-other
         return result;
     }
 
@@ -95,7 +95,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
         Validate_finish(descriptor);
         var result = wgpuCommandEncoderFinish(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUCommandBuffer, descriptor._label);
+        ObjectTracker.CreateRef(result, HandleType.WGPUCommandBuffer, descriptor._label); // ref-other
         return result;
     }
 

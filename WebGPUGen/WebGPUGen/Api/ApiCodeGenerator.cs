@@ -182,8 +182,11 @@ public static class ApiCodeGenerator
         if (hasReturnValue) {
             if (command.ReturnType is CppTypedef handleReturnType) {
                 if (objects.ContainsKey(handleReturnType)) {
+                    var comment = commandName.StartsWith("create") ? " // ref-create" : " // ref-other";
                     if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, descriptor._label);");
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, descriptor._label);{comment}");
+                    } else {
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, null);{comment}");
                     }
                 }
             }

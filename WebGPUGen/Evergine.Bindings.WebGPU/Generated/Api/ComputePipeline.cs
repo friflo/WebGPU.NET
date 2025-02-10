@@ -10,6 +10,7 @@ public unsafe partial struct WGPUComputePipeline
     public WGPUBindGroupLayout getBindGroupLayout(uint groupIndex) {
         Validate_getBindGroupLayout(groupIndex);
         var result = wgpuComputePipelineGetBindGroupLayout(this, groupIndex);
+        ObjectTracker.CreateRef(result, HandleType.WGPUBindGroupLayout, null); // ref-other
         return result;
     }
 
