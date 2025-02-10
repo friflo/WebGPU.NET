@@ -25,7 +25,7 @@ public class GPU
         frameArena.Use();
         if (OperatingSystem.IsWindows()) {
             instance = WebGPUNative.wgpuCreateInstance(new WGPUInstanceExtras {
-                backends = WGPUInstanceBackend.DX12
+                backends = WGPUInstanceBackend.Vulkan
             });
             var properties = SDL_GetWindowProperties(window);
             nint hinstance = SDL_GetPointerProperty(properties, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, 0);

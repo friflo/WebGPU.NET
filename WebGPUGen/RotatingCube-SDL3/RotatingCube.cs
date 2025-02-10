@@ -1,5 +1,6 @@
 ﻿using Evergine.Bindings.WebGPU;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -13,9 +14,13 @@ namespace HelloTriangle
         private readonly    WGPUQueue           queue;
 
         private             WGPURenderPipeline  pipeline;
-        private             WGPUBuffer          vertexBuffer;
         private readonly    Arena               frameArena;
-
+        
+        WGPURenderPassDescriptor 	renderPassDescriptor;
+        WGPUBuffer 					uniformBuffer;
+        WGPUBindGroup 				uniformBindGroup;
+        WGPUBuffer 					verticesBuffer;
+        
         internal RotatingCube(GPU gpu) {
             device          = gpu.device;
             presentationFormat = gpu.swapChainFormat;
@@ -24,7 +29,6 @@ namespace HelloTriangle
         }
         
         internal void ReleaseResources() {
-            vertexBuffer.release();
             pipeline.release();
         }
 
@@ -34,7 +38,7 @@ namespace HelloTriangle
             Utf8 vertexPositionColorWGSL  = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "vertexPositionColor.frag.wgsl"));
             
             // Create a vertex buffer from the cube data.
-            var verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
+            verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
               size = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
               usage = WGPUBufferUsage.Vertex,
               mappedAtCreation = true
@@ -42,8 +46,8 @@ namespace HelloTriangle
             var target = verticesBuffer.getMappedRange<float>(0, (ulong)Cube.cubeVertexArray.Length);
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
-
-            var pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
+            
+            pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
                 layout = default, 
                 vertex = new WGPUVertexState {
                     module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), basicVertWGSL),
@@ -73,6 +77,7 @@ namespace HelloTriangle
                   targets= [new WGPUColorTargetState
                   {
                     format= presentationFormat,
+                    writeMask = WGPUColorWriteMask.All // not in JS
                   },
                 ],
               },
@@ -90,80 +95,134 @@ namespace HelloTriangle
                 depthWriteEnabled= true,
                 depthCompare= WGPUCompareFunction.Less,
                 format= WGPUTextureFormat.Depth24Plus,
+                stencilBack = new WGPUStencilFaceState { // not in JS
+                  compare = WGPUCompareFunction.Always,
+                  depthFailOp = WGPUStencilOperation.Keep,
+                  failOp = WGPUStencilOperation.Keep,
+                  passOp = WGPUStencilOperation.Keep
+                }, 
+                stencilFront = new WGPUStencilFaceState  { // not in JS
+                  compare = WGPUCompareFunction.Always,
+                  depthFailOp = WGPUStencilOperation.Keep,
+                  failOp = WGPUStencilOperation.Keep,
+                  passOp = WGPUStencilOperation.Keep
+                },
+                stencilReadMask = 0xFFFFFFFF,           // not in JS
+                stencilWriteMask = 0xFFFFFFFF           // not in JS
+              },
+              multisample = new WGPUMultisampleState {  // not in JS
+                   count = 1,
+                   mask = 0xFFFFFFFF
               }
             });
-            /*
-            const depthTexture = device.createTexture({
-              size: [canvas.width, canvas.height],
-              format: 'depth24plus',
-              usage: GPUTextureUsage.RENDER_ATTACHMENT,
-            });
-
-            const uniformBufferSize = 4 * 16; // 4x4 matrix
-            const uniformBuffer = device.createBuffer({
-              size: uniformBufferSize,
-              usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-            });
-
-            const uniformBindGroup = device.createBindGroup({
-              layout: pipeline.getBindGroupLayout(0),
-              entries: [
-                {
-                  binding: 0,
-                  resource: {
-                    buffer: uniformBuffer,
-                  },
-                },
-              ],
-            });
-
-            const renderPassDescriptor: GPURenderPassDescriptor = {
-              colorAttachments: [
-                {
-                  view: undefined, // Assigned later
-
-                  clearValue: [0.5, 0.5, 0.5, 1.0],
-                  loadOp: 'clear',
-                  storeOp: 'store',
-                },
-              ],
-              depthStencilAttachment: {
-                view: depthTexture.createView(),
-
-                depthClearValue: 1.0,
-                depthLoadOp: 'clear',
-                depthStoreOp: 'store',
+            
+            var depthTexture = device.createTexture(new WGPUTextureDescriptor{
+              size = new WGPUExtent3D {
+                width  = 800,
+                height = 600,
+                depthOrArrayLayers = 1 // not in JS
               },
-            };*/
+              format = WGPUTextureFormat.Depth24Plus,
+              usage = WGPUTextureUsage.RenderAttachment,
+              dimension = WGPUTextureDimension._2D, // not in JS
+              mipLevelCount = 1,                    // not in JS
+              sampleCount = 1,                      // not in JS
+            });
+            
+            var uniformBufferSize = 4 * 16; // 4x4 matrix
+            uniformBuffer = device.createBuffer( new WGPUBufferDescriptor{
+              size = (ulong)uniformBufferSize,
+              usage = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
+            });
+            
+            var bindGroupLayout = pipeline.getBindGroupLayout(0);
+            
+            
+            uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
+              layout = bindGroupLayout,
+              entries = [new WGPUBindGroupEntry
+                {
+                  binding = 0,
+                  buffer = uniformBuffer,
+                  size = (ulong)uniformBufferSize,
+                },
+              ],
+            });
+            var sessionArena = new Arena("sessionArena");
+            sessionArena.Use();
+            
+            renderPassDescriptor = new WGPURenderPassDescriptor  {
+              colorAttachments = [new WGPURenderPassColorAttachment
+                {
+                  view = default, // Assigned later
+                  clearValue = new WGPUColor { r= 0.5, g= 0.5, b = 0.5, a = 1.0 },
+                  loadOp = WGPULoadOp.Clear,
+                  storeOp = WGPUStoreOp.Store
+                },
+              ],
+              depthStencilAttachment = new WGPURenderPassDepthStencilAttachment {
+                view = depthTexture.createView(),
+                depthClearValue = 1.0f,
+                depthLoadOp = WGPULoadOp.Clear,
+                depthStoreOp= WGPUStoreOp.Store,
+              },
+            };
+            frameArena.Use();
+        }
+        
+        const float aspect = 800 / 600;
+        Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
+    //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
+        
+        Matrix4x4 getTransformationMatrix()
+        {
+          /*
+          const viewMatrix = mat4.identity();
+          mat4.translate(viewMatrix, vec3.fromValues(0, 0, -4), viewMatrix);
+          const now = Date.now() / 1000;
+          mat4.rotate(
+            viewMatrix,
+            vec3.fromValues(Math.sin(now), Math.cos(now), 0),
+            1,
+            viewMatrix
+          );
+          mat4.multiply(projectionMatrix, viewMatrix, modelViewProjectionMatrix);*/
+          
+          float now = (float)Stopwatch.GetTimestamp() / Stopwatch.Frequency;
+          var viewMatrix = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with
+          {
+            Translation = new(0, 0, -4),
+          };
+          return viewMatrix * projectionMatrix;
         }
 
         internal void DrawFrame(WGPUTextureView view)
         {
             frameArena.Use();
 
-            var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = "triangle"u8 });
+            var transformationMatrix = getTransformationMatrix();
+            queue.writeBuffer(
+              uniformBuffer,
+              0,
+              transformationMatrix
+            );
+            renderPassDescriptor.colorAttachments[0].view = view;
 
-            WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
-                label = "triangle"u8,
-                colorAttachments = [new WGPURenderPassColorAttachment {
-                    view            = view,
-                    resolveTarget   = default,
-                    loadOp          = WGPULoadOp.Clear,
-                    storeOp         = WGPUStoreOp.Store,
-                    clearValue      = new WGPUColor() { a = 1.0f },
-                }],
-            });
-            renderPass.setPipeline(pipeline);
-            renderPass.setVertexBuffer(0, vertexBuffer, 0, WebGPUNative.WGPU_WHOLE_MAP_SIZE);
-            renderPass.draw(3, 1, 0, 0);
-            renderPass.end();
-            renderPass.release();
-
-            var command = encoder.finish();
-            encoder.release();
+            var commandEncoder = device.createCommandEncoder();
+            var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+            passEncoder.setPipeline(pipeline);
+            passEncoder.setBindGroup(0, uniformBindGroup, default);
+            passEncoder.setVertexBuffer(0, verticesBuffer, 0, (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()));
+            passEncoder.draw(Cube.cubeVertexCount, 1, 0, 0);
+            passEncoder.end();
+            passEncoder.release();
+            
+            var command = commandEncoder.finish();
+            commandEncoder.release();
             queue.submit([command]);
             
             command.release();
+            
         }
     }
 }

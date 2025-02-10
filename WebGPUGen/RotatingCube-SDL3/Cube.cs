@@ -6,7 +6,7 @@ public static class Cube
     public static ulong cubePositionOffset = 0;
     public static ulong cubeColorOffset = 4 * 4; // Byte offset of cube vertex color attribute.
     public static ulong cubeUVOffset = 4 * 8;
-    public static ulong cubeVertexCount = 36;
+    public static uint  cubeVertexCount = 36;
         
     public static float[] cubeVertexArray = new float[] {
         // float4 position, float4 color, float2 uv,
