@@ -87,6 +87,7 @@ namespace HelloTriangle
                 // Faces pointing away from the camera will be occluded by faces
                 // pointing toward the camera.
                 cullMode= WGPUCullMode.Back,
+                frontFace = WGPUFrontFace.CCW			// not in JS
               },
 
               // Enable depth testing so that the fragment closest to the camera
@@ -173,6 +174,7 @@ namespace HelloTriangle
         const float aspect = 800 / 600;
         Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
     //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
+        long startTime = Stopwatch.GetTimestamp();
         
         Matrix4x4 getTransformationMatrix()
         {
@@ -188,7 +190,7 @@ namespace HelloTriangle
           );
           mat4.multiply(projectionMatrix, viewMatrix, modelViewProjectionMatrix);*/
           
-          float now = (float)Stopwatch.GetTimestamp() / Stopwatch.Frequency;
+          float now = (float)(((double)Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency);
           var viewMatrix = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with
           {
             Translation = new(0, 0, -4),
