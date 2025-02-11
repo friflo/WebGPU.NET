@@ -180,8 +180,8 @@ namespace HelloTriangle
           modelViewProjectionMatrix2 = Matrix4x4.CreateFromAxisAngle(new(MathF.Cos(now), MathF.Sin(now), 0), 1) with {
             Translation = new(2, 0, 0)
           };
-          modelViewProjectionMatrix1 = viewMatrix * projectionMatrix;
-          modelViewProjectionMatrix2 = viewMatrix * projectionMatrix;
+          modelViewProjectionMatrix1 *= viewMatrix * projectionMatrix;
+          modelViewProjectionMatrix2 *= viewMatrix * projectionMatrix;
         }
 
         internal void DrawFrame(WGPUTextureView view)
