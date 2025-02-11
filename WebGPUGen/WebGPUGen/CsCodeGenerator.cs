@@ -251,6 +251,7 @@ namespace WebGPUGen
                     file.WriteLine("}\n");
                 }
             }
+            StructDefault.UnusedDefaultFields();
         }
 
         public void GenerateEnums(CppCompilation compilation, string outputPath)

@@ -24,22 +24,52 @@ public class StructDefault
     
     public static string GetStructFieldDefault(CppClass structure, CppField field)
     {
-        if (Fields.TryGetValue(structure.Name, out var fields)) {
-            var pad = new string(' ', Math.Max(20 - field.Name.Length, 0));
-            if (fields.TryGetValue(field.Name, out var value)) {
-                if (field.Type is CppEnum cppEnum) {
-                    return $"{pad} = {cppEnum.Name}.{value}";       
-                }
-                if (field.Type is CppClass cppClass) {
-                    return $"{pad} = new {cppClass.Name}()";
-                }
-                return $"{pad} = {value}";
-            }
+        if (!Fields.TryGetValue(structure.Name, out var fields)) {
+            return "";
         }
-        return "";
+        if (!fields.TryGetValue(field.Name, out var value)) {
+            return "";
+        }
+        if (!FoundFields.TryGetValue(structure.Name, out var found)) {
+            found = new HashSet<string>();
+            FoundFields.Add(structure.Name, found);
+        }
+        found.Add(field.Name);
+        
+        var pad = new string(' ', Math.Max(20 - field.Name.Length, 0));
+        
+        if (field.Type is CppEnum cppEnum) {
+            return $"{pad} = {cppEnum.Name}.{value}";
+        }
+        if (field.Type is CppClass cppClass) {
+            return $"{pad} = new {cppClass.Name}()";
+        }
+        return $"{pad} = {value}";
     }
     
-    public static readonly Dictionary<string, Dictionary<string,string>>  Fields = new() {
+    public static void UnusedDefaultFields()
+    {
+        foreach (var (structure, fields) in Fields) {
+            if (!FoundFields.TryGetValue(structure, out var foundFields)) {
+                Console.WriteLine($"Unused StructDefault: {structure}");
+                continue;
+            }
+            foreach (var (fieldName, value) in fields) {
+                if (!foundFields.Contains(fieldName)) {
+                    Console.WriteLine($"Unused StructDefault field: {structure}.{fieldName}");
+                }
+            }
+        }
+    }
+    
+    private static readonly Dictionary<string, HashSet<string>>  FoundFields = new();
+    
+    private static readonly Dictionary<string, Dictionary<string,string>>  Fields = new() {
+        { "WGPUTextureDescriptor", new() {
+            { "mipLevelCount",          "1" },
+            { "sampleCount",            "1" },
+            { "dimension",              "_2D" },
+        } },
         { "WGPUDepthStencilState", new() {
                 { "stencilFront",       "object" },
                 { "stencilBack",        "object" },
@@ -50,13 +80,13 @@ public class StructDefault
             { "compare",        "Always" },
             { "depthFailOp",    "Keep" },
             { "failOp",         "Keep" },
-            { "passOp",         "Keep" }
+            { "passOp",         "Keep" },
         } }
     };
 /*
         { "XXXX", new() {
-            { "xxxx",       "XXXX" },
-            { "xxxx",       "XXXX" }
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" }
         } },
  */
 }

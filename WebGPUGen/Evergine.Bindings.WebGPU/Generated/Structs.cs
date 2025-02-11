@@ -1035,14 +1035,15 @@ public unsafe struct WGPUSupportedLimits
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUTextureDescriptor
 {
+    public WGPUTextureDescriptor(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
 	                public      WGPUTextureUsage        usage;
-	                public      WGPUTextureDimension    dimension;
+	                public      WGPUTextureDimension    dimension            = WGPUTextureDimension._2D;
 	                public      WGPUExtent3D            size;
 	                public      WGPUTextureFormat       format;
-	                public      uint                    mipLevelCount;
-	                public      uint                    sampleCount;
+	                public      uint                    mipLevelCount        = 1;
+	                public      uint                    sampleCount          = 1;
 	[Browse(Never)] internal    ulong                   _viewFormatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*      _viewFormats;
 	// --- properties
