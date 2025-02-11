@@ -17,6 +17,9 @@ public class StructDefault
         if (!Fields.TryGetValue(structure.Name, out var fields)) {
             return "";
         }
+        if (structure.Name == "WGPUColorTargetState") {
+            int i = 1;
+        }
         if (!fields.TryGetValue(field.Name, out var value)) {
             return "";
         }
@@ -44,7 +47,7 @@ public class StructDefault
                 Console.WriteLine($"Unused StructDefault: {structure}");
                 continue;
             }
-            foreach (var (fieldName, value) in fields) {
+            foreach (var (fieldName, _) in fields) {
                 if (!foundFields.Contains(fieldName)) {
                     Console.WriteLine($"Unused StructDefault field: {structure}.{fieldName}");
                 }
@@ -55,6 +58,8 @@ public class StructDefault
     private static readonly Dictionary<string, HashSet<string>>  FoundFields = new();
 #endregion
     
+    // IDL from: https://www.w3.org/TR/webgpu/#idl-index
+    // add fields of dictionary types with an assignment (=)
     private static readonly Dictionary<string, Dictionary<string,string>>  Fields = new() {
         { "WGPUTextureDescriptor", new() {
             { "mipLevelCount",          "1" },
@@ -73,10 +78,41 @@ public class StructDefault
             { "lodMaxClamp",            "32" },
             { "maxAnisotropy",          "1" },
         } },
-        
-        
-        
-        
+        { "WGPUBufferBindingLayout", new() {
+            { "type",                   "Uniform" },
+        } },
+        { "WGPUSamplerBindingLayout", new() {
+            { "type",                   "Filtering" },
+        } },
+        { "WGPUTextureBindingLayout", new() {
+            { "sampleType",             "Float" },
+            { "viewDimension",          "_2D" },
+        } },
+        { "WGPUStorageTextureBindingLayout", new() {
+            { "access",                 "WriteOnly" },
+            { "viewDimension",          "_2D" },
+        } },
+        { "WGPURenderPipelineDescriptor", new() {
+            { "primitive",              "object" },
+            { "multisample",            "object" },
+        } },
+        { "WGPUPrimitiveState", new() {
+            { "topology",               "TriangleList" },
+            { "frontFace",              "CCW" },
+            { "cullMode",               "None" },
+        } },
+        { "WGPUMultisampleState", new() {
+            { "count",                  "1" },
+            { "mask",                   "0xFFFFFFFF" },
+        } },
+        { "WGPUColorTargetState", new() {
+            { "writeMask",           "0" }, // TODO !!! All
+        } },
+        { "WGPUBlendComponent", new() {
+            { "operation",           "Add" },
+            { "srcFactor",           "One" },
+            { "dstFactor",           "Zero" },
+        } },
         { "WGPUDepthStencilState", new() {
             { "stencilFront",           "object" },
             { "stencilBack",            "object" },
@@ -88,7 +124,33 @@ public class StructDefault
             { "depthFailOp",        "Keep" },
             { "failOp",             "Keep" },
             { "passOp",             "Keep" },
-        } }
+        } },
+        /*
+        { "XXXX", new() {
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" },
+        } },
+        { "XXXX", new() {
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" },
+        } },
+        { "XXXX", new() {
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" },
+        } },
+        { "XXXX", new() {
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" },
+        } },
+        { "XXXX", new() {
+            { "xxxx",           "XXXX" },
+            { "xxxx",           "XXXX" },
+        } },
+        */
+        
+        
+
+
     };
 /*
         { "XXXX", new() {

@@ -67,16 +67,18 @@ public unsafe struct WGPUBindGroupEntry
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUBlendComponent
 {
-	                public      WGPUBlendOperation      operation;
-	                public      WGPUBlendFactor         srcFactor;
-	                public      WGPUBlendFactor         dstFactor;
+    public WGPUBlendComponent(){}
+	                public      WGPUBlendOperation      operation            = WGPUBlendOperation.Add;
+	                public      WGPUBlendFactor         srcFactor            = WGPUBlendFactor.One;
+	                public      WGPUBlendFactor         dstFactor            = WGPUBlendFactor.Zero;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUBufferBindingLayout
 {
+    public WGPUBufferBindingLayout(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUBufferBindingType   type;
+	                public      WGPUBufferBindingType   type                 = WGPUBufferBindingType.Uniform;
 	                public      WGPUBool                hasDynamicOffset;
 	                public      ulong                   minBindingSize;
 }
@@ -254,9 +256,10 @@ public unsafe struct WGPULimits
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUMultisampleState
 {
+    public WGPUMultisampleState(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      uint                    count;
-	                public      uint                    mask;
+	                public      uint                    count                = 1;
+	                public      uint                    mask                 = 0xFFFFFFFF;
 	                public      WGPUBool                alphaToCoverageEnabled;
 }
 
@@ -302,11 +305,12 @@ public unsafe struct WGPUPrimitiveDepthClipControl
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUPrimitiveState
 {
+    public WGPUPrimitiveState(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUPrimitiveTopology   topology;
+	                public      WGPUPrimitiveTopology   topology             = WGPUPrimitiveTopology.TriangleList;
 	                public      WGPUIndexFormat         stripIndexFormat;
-	                public      WGPUFrontFace           frontFace;
-	                public      WGPUCullMode            cullMode;
+	                public      WGPUFrontFace           frontFace            = WGPUFrontFace.CCW;
+	                public      WGPUCullMode            cullMode             = WGPUCullMode.None;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -447,8 +451,9 @@ public unsafe struct WGPURequestAdapterOptions
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUSamplerBindingLayout
 {
+    public WGPUSamplerBindingLayout(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUSamplerBindingType  type;
+	                public      WGPUSamplerBindingType  type                 = WGPUSamplerBindingType.Filtering;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -546,10 +551,11 @@ public unsafe struct WGPUStencilFaceState
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUStorageTextureBindingLayout
 {
+    public WGPUStorageTextureBindingLayout(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUStorageTextureAccess access;
+	                public      WGPUStorageTextureAccess access               = WGPUStorageTextureAccess.WriteOnly;
 	                public      WGPUTextureFormat       format;
-	                public      WGPUTextureViewDimension viewDimension;
+	                public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -745,9 +751,10 @@ public unsafe struct WGPUSurfaceTexture
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUTextureBindingLayout
 {
+    public WGPUTextureBindingLayout(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTextureSampleType   sampleType;
-	                public      WGPUTextureViewDimension viewDimension;
+	                public      WGPUTextureSampleType   sampleType           = WGPUTextureSampleType.Float;
+	                public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
 	                public      WGPUBool                multisampled;
 }
 
@@ -1111,10 +1118,11 @@ public unsafe struct WGPUBindGroupLayoutDescriptor
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUColorTargetState
 {
+    public WGPUColorTargetState(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      WGPUTextureFormat       format;
 	[Browse(Never)] internal    WGPUBlendState*         _blend;
-	                public      WGPUColorWriteMask      writeMask;
+	                public      WGPUColorWriteMask      writeMask            = 0;
 	// --- properties
 	public WGPUBlendState? blend {
 		get => ApiUtils.GetOpt(_blend);
@@ -1315,13 +1323,14 @@ public unsafe struct WGPUFragmentState
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPURenderPipelineDescriptor
 {
+    public WGPURenderPipelineDescriptor(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
 	                public      WGPUPipelineLayout      layout;
 	                public      WGPUVertexState         vertex;
-	                public      WGPUPrimitiveState      primitive;
+	                public      WGPUPrimitiveState      primitive            = new WGPUPrimitiveState();
 	[Browse(Never)] internal    WGPUDepthStencilState*  _depthStencil;
-	                public      WGPUMultisampleState    multisample;
+	                public      WGPUMultisampleState    multisample          = new WGPUMultisampleState();
 	[Browse(Never)] internal    WGPUFragmentState*      _fragment;
 	// --- properties
 	public Utf8 label {
