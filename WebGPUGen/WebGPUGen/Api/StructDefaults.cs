@@ -31,6 +31,12 @@ public class StructDefault
         
         var pad = new string(' ', Math.Max(20 - field.Name.Length, 0));
         
+        if (field.Type is CppTypedef typedef) {
+            if (typedef.Name.EndsWith("Flags")) {
+                var typeName = typedef.Name.Substring(0, typedef.Name.Length - "Flags".Length); 
+                return $"{pad} = {typeName}.{value}";
+            }
+        }
         if (field.Type is CppEnum cppEnum) {
             return $"{pad} = {cppEnum.Name}.{value}";
         }
@@ -106,7 +112,7 @@ public class StructDefault
             { "mask",                   "0xFFFFFFFF" },
         } },
         { "WGPUColorTargetState", new() {
-            { "writeMask",           "0" }, // TODO !!! All
+            { "writeMask",           "All" },
         } },
         { "WGPUBlendComponent", new() {
             { "operation",           "Add" },

@@ -1122,7 +1122,7 @@ public unsafe struct WGPUColorTargetState
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      WGPUTextureFormat       format;
 	[Browse(Never)] internal    WGPUBlendState*         _blend;
-	                public      WGPUColorWriteMask      writeMask            = 0;
+	                public      WGPUColorWriteMask      writeMask            = WGPUColorWriteMask.All;
 	// --- properties
 	public WGPUBlendState? blend {
 		get => ApiUtils.GetOpt(_blend);
