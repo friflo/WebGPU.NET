@@ -96,7 +96,7 @@ namespace HelloTriangle
             });
             
             var depthTexture = device.createTexture(new WGPUTextureDescriptor{
-                size    = new WGPUExtent3D { width  = 800, height = 600 },
+                size    = new WGPUExtent3D { width  = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
                 usage   = WGPUTextureUsage.RenderAttachment
             });
@@ -141,7 +141,7 @@ namespace HelloTriangle
             frameArena.Use();
         }
         
-        const float aspect = 800 / 600;
+        const float aspect = Program.Width / Program.Height;
         Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
         //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
         long startTime = Stopwatch.GetTimestamp();
