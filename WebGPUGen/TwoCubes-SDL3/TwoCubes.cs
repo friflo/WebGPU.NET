@@ -209,7 +209,7 @@ namespace HelloTriangle
             passEncoder.draw(Cube.cubeVertexCount, 1, 0 ,0); // TODO add overload
             
             passEncoder.end();
-            passEncoder.release(); // required: otherwise submit() panics with "CommandBuffer cannot be destroyed because is still in use"
+            passEncoder.release(); // required: otherwise submit() panics: "CommandBuffer cannot be destroyed because is still in use"
             
             var command = commandEncoder.finish();
             commandEncoder.release();
