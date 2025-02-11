@@ -401,5 +401,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# macOS
+.DS_Store
+
 # ignore temporary
 # WebGPUGen/Evergine.Bindings.WebGPU/Generated/Api/
