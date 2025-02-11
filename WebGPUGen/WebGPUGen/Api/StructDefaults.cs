@@ -112,12 +112,12 @@ public class StructDefault
             { "mask",                   "0xFFFFFFFF" },
         } },
         { "WGPUColorTargetState", new() {
-            { "writeMask",           "All" },
+            { "writeMask",              "All" },
         } },
         { "WGPUBlendComponent", new() {
-            { "operation",           "Add" },
-            { "srcFactor",           "One" },
-            { "dstFactor",           "Zero" },
+            { "operation",              "Add" },
+            { "srcFactor",              "One" },
+            { "dstFactor",              "Zero" },
         } },
         { "WGPUDepthStencilState", new() {
             { "stencilFront",           "object" },
@@ -126,33 +126,33 @@ public class StructDefault
             { "stencilWriteMask",       "0xFFFFFFFF" }
         } },
         { "WGPUStencilFaceState", new() {
-            { "compare",            "Always" },
-            { "depthFailOp",        "Keep" },
-            { "failOp",             "Keep" },
-            { "passOp",             "Keep" },
+            { "compare",                "Always" },
+            { "depthFailOp",            "Keep" },
+            { "failOp",                 "Keep" },
+            { "passOp",                 "Keep" },
         } },
         { "WGPUVertexBufferLayout", new() {
-            { "stepMode",           "Vertex" },
+            { "stepMode",               "Vertex" },
         } },
     /*  { "WGPUTexelCopyTextureInfo", new() {
-            { "origin",             "object" },
-            { "colorSpace",         "SRGB" },
+            { "origin",                 "object" },
+            { "colorSpace",             "SRGB" },
         } }, */
     /*  { "WGPUCopyExternalImageSourceInfo", new() {
-            { "origin",             "object" },
+            { "origin",                 "object" },
         } }, */
     /*  { "WGPURenderPassDescriptor", new() {
-            { "maxDrawCount",       "50000000" },
+            { "maxDrawCount",           "50000000" },
         } }, */
     /*  { "WGPURenderPassLayout", new() {
-            { "sampleCount",        "1" }
+            { "sampleCount",            "1" }
         } }, */
         { "WGPUExtent3D", new() {
-            { "height",             "1" },
-            { "depthOrArrayLayers", "1" },
+            { "height",                 "1" },
+            { "depthOrArrayLayers",     "1" },
         } }
     };
-/*
+/* entry template
         { "XXXX", new() {
             { "xxxx",           "XXXX" },
             { "xxxx",           "XXXX" },
