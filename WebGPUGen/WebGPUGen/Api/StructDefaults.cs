@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CppAst;
 
@@ -24,15 +25,15 @@ public class StructDefault
     public static string GetStructFieldDefault(CppClass structure, CppField field)
     {
         if (Fields.TryGetValue(structure.Name, out var fields)) {
+            var pad = new string(' ', Math.Max(20 - field.Name.Length, 0));
             if (fields.TryGetValue(field.Name, out var value)) {
                 if (field.Type is CppEnum cppEnum) {
-                    return $" = {cppEnum.Name}.{value}";       
+                    return $"{pad} = {cppEnum.Name}.{value}";       
                 }
                 if (field.Type is CppClass cppClass) {
-                    // return $" = {value}";
-                    return $" = new {cppClass.Name}()";
+                    return $"{pad} = new {cppClass.Name}()";
                 }
-                return $" = {value}";
+                return $"{pad} = {value}";
             }
         }
         return "";

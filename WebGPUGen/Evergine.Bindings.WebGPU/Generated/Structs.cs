@@ -536,10 +536,10 @@ public unsafe struct WGPUShaderModuleWGSLDescriptor
 public unsafe struct WGPUStencilFaceState
 {
     public WGPUStencilFaceState(){}
-	                public      WGPUCompareFunction     compare = WGPUCompareFunction.Always;
-	                public      WGPUStencilOperation    failOp = WGPUStencilOperation.Keep;
-	                public      WGPUStencilOperation    depthFailOp = WGPUStencilOperation.Keep;
-	                public      WGPUStencilOperation    passOp = WGPUStencilOperation.Keep;
+	                public      WGPUCompareFunction     compare              = WGPUCompareFunction.Always;
+	                public      WGPUStencilOperation    failOp               = WGPUStencilOperation.Keep;
+	                public      WGPUStencilOperation    depthFailOp          = WGPUStencilOperation.Keep;
+	                public      WGPUStencilOperation    passOp               = WGPUStencilOperation.Keep;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -907,10 +907,10 @@ public unsafe struct WGPUDepthStencilState
 	                public      WGPUTextureFormat       format;
 	                public      WGPUBool                depthWriteEnabled;
 	                public      WGPUCompareFunction     depthCompare;
-	                public      WGPUStencilFaceState    stencilFront = new WGPUStencilFaceState();
-	                public      WGPUStencilFaceState    stencilBack = new WGPUStencilFaceState();
-	                public      uint                    stencilReadMask = 0xFFFFFFFF;
-	                public      uint                    stencilWriteMask = 0xFFFFFFFF;
+	                public      WGPUStencilFaceState    stencilFront         = new WGPUStencilFaceState();
+	                public      WGPUStencilFaceState    stencilBack          = new WGPUStencilFaceState();
+	                public      uint                    stencilReadMask      = 0xFFFFFFFF;
+	                public      uint                    stencilWriteMask     = 0xFFFFFFFF;
 	                public      int                     depthBias;
 	                public      float                   depthBiasSlopeScale;
 	                public      float                   depthBiasClamp;
