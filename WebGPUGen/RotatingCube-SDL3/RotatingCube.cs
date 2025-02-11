@@ -96,10 +96,7 @@ namespace HelloTriangle
             });
             
             var depthTexture = device.createTexture(new WGPUTextureDescriptor{
-                size = new WGPUExtent3D {
-                    width  = 800,
-                    height = 600,
-                },
+                size = new WGPUExtent3D { width  = 800, height = 600 },
                 format = WGPUTextureFormat.Depth24Plus,
                 usage = WGPUTextureUsage.RenderAttachment
             });
