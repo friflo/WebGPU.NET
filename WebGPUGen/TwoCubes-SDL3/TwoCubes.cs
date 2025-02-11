@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+// ReSharper disable InconsistentNaming
 
 namespace HelloTriangle
 {
@@ -164,10 +165,24 @@ namespace HelloTriangle
         Matrix4x4 modelViewProjectionMatrix1;
         Matrix4x4 modelViewProjectionMatrix2;
         
-        internal void updateTransformationMatrix() {
-          
-        }
+        long        startTime         = Stopwatch.GetTimestamp();
+        const float aspect            = Program.Width / Program.Height;
+        Matrix4x4   projectionMatrix  = Matrix4x4.CreatePerspectiveFieldOfView((float)(2.0 * Math.PI / 5.0), aspect, 1f, 100.0f);
+        Matrix4x4   viewMatrix        = Matrix4x4.CreateTranslation(new(0, 0, -7));
+        
+        private void updateTransformationMatrix()
+        {
+          float now = (float)(((double)Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency);
+          modelViewProjectionMatrix1 = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with {
+            Translation = new(-2, 0, 0)
+          };
 
+          modelViewProjectionMatrix2 = Matrix4x4.CreateFromAxisAngle(new(MathF.Cos(now), MathF.Sin(now), 0), 1) with {
+            Translation = new(2, 0, 0)
+          };
+          modelViewProjectionMatrix1 = viewMatrix * projectionMatrix;
+          modelViewProjectionMatrix2 = viewMatrix * projectionMatrix;
+        }
 
         internal void DrawFrame(WGPUTextureView view)
         {
