@@ -136,7 +136,7 @@ namespace HelloTriangle
                 colorAttachments= [new WGPURenderPassColorAttachment {
                         view        = default, // Assigned later
 
-                        clearValue  =  new WGPUColor {r = 0.5, g = 0.5, b = 0.5, a = 1.0},
+                        clearValue  = new WGPUColor {r = 0.5, g = 0.5, b = 0.5, a = 1.0},
                         loadOp      = WGPULoadOp.Clear,
                         storeOp     = WGPUStoreOp.Store,
                     },
