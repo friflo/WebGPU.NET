@@ -454,18 +454,19 @@ public unsafe struct WGPUSamplerBindingLayout
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUSamplerDescriptor
 {
+    public WGPUSamplerDescriptor(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUAddressMode         addressModeU;
-	                public      WGPUAddressMode         addressModeV;
-	                public      WGPUAddressMode         addressModeW;
-	                public      WGPUFilterMode          magFilter;
-	                public      WGPUFilterMode          minFilter;
+	                public      WGPUAddressMode         addressModeU         = WGPUAddressMode.ClampToEdge;
+	                public      WGPUAddressMode         addressModeV         = WGPUAddressMode.ClampToEdge;
+	                public      WGPUAddressMode         addressModeW         = WGPUAddressMode.ClampToEdge;
+	                public      WGPUFilterMode          magFilter            = WGPUFilterMode.Nearest;
+	                public      WGPUFilterMode          minFilter            = WGPUFilterMode.Nearest;
 	                public      WGPUMipmapFilterMode    mipmapFilter;
 	                public      float                   lodMinClamp;
-	                public      float                   lodMaxClamp;
+	                public      float                   lodMaxClamp          = 32;
 	                public      WGPUCompareFunction     compare;
-	                public      ushort                  maxAnisotropy;
+	                public      ushort                  maxAnisotropy        = 1;
 	// --- properties
 	public Utf8 label {
 		get => ApiUtils.GetUtf8(_label);
@@ -762,6 +763,7 @@ public unsafe struct WGPUTextureDataLayout
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUTextureViewDescriptor
 {
+    public WGPUTextureViewDescriptor(){}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
 	                public      WGPUTextureFormat       format;
@@ -770,7 +772,7 @@ public unsafe struct WGPUTextureViewDescriptor
 	                public      uint                    mipLevelCount;
 	                public      uint                    baseArrayLayer;
 	                public      uint                    arrayLayerCount;
-	                public      WGPUTextureAspect       aspect;
+	                public      WGPUTextureAspect       aspect               = WGPUTextureAspect.All;
 	// --- properties
 	public Utf8 label {
 		get => ApiUtils.GetUtf8(_label);

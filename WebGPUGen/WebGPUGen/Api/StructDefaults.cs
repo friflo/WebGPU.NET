@@ -61,23 +61,39 @@ public class StructDefault
             { "sampleCount",            "1" },
             { "dimension",              "_2D" },
         } },
+        { "WGPUTextureViewDescriptor", new() {
+            { "aspect",                 "All" }
+        } },
+        { "WGPUSamplerDescriptor", new() {
+            { "addressModeU",           "ClampToEdge" },
+            { "addressModeV",           "ClampToEdge" },
+            { "addressModeW",           "ClampToEdge" },
+            { "magFilter",              "Nearest" },
+            { "minFilter",              "Nearest" },
+            { "lodMaxClamp",            "32" },
+            { "maxAnisotropy",          "1" },
+        } },
+        
+        
+        
+        
         { "WGPUDepthStencilState", new() {
-                { "stencilFront",       "object" },
-                { "stencilBack",        "object" },
-                { "stencilReadMask",    "0xFFFFFFFF" },
-                { "stencilWriteMask",   "0xFFFFFFFF" }
+            { "stencilFront",           "object" },
+            { "stencilBack",            "object" },
+            { "stencilReadMask",        "0xFFFFFFFF" },
+            { "stencilWriteMask",       "0xFFFFFFFF" }
         } },
         { "WGPUStencilFaceState", new() {
-            { "compare",        "Always" },
-            { "depthFailOp",    "Keep" },
-            { "failOp",         "Keep" },
-            { "passOp",         "Keep" },
+            { "compare",            "Always" },
+            { "depthFailOp",        "Keep" },
+            { "failOp",             "Keep" },
+            { "passOp",             "Keep" },
         } }
     };
 /*
         { "XXXX", new() {
             { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" }
+            { "xxxx",           "XXXX" },
         } },
  */
 }
