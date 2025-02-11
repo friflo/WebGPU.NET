@@ -74,10 +74,8 @@ namespace HelloTriangle
                 },
                 fragment= new WGPUFragmentState {
                   module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
-                  targets= [new WGPUColorTargetState
-                  {
-                    format= presentationFormat,
-                    writeMask = WGPUColorWriteMask.All // not in JS
+                  targets= [new WGPUColorTargetState {
+                    format= presentationFormat
                   },
                 ],
               },
@@ -87,7 +85,6 @@ namespace HelloTriangle
                 // Faces pointing away from the camera will be occluded by faces
                 // pointing toward the camera.
                 cullMode= WGPUCullMode.Back,
-                frontFace = WGPUFrontFace.CCW			// not in JS
               },
 
               // Enable depth testing so that the fragment closest to the camera
@@ -96,10 +93,6 @@ namespace HelloTriangle
                 depthWriteEnabled= true,
                 depthCompare= WGPUCompareFunction.Less,
                 format= WGPUTextureFormat.Depth24Plus
-              },
-              multisample = new WGPUMultisampleState {  // not in JS
-                   count = 1,
-                   mask = 0xFFFFFFFF
               }
             });
             
@@ -107,13 +100,9 @@ namespace HelloTriangle
               size = new WGPUExtent3D {
                 width  = 800,
                 height = 600,
-                depthOrArrayLayers = 1 // not in JS
               },
               format = WGPUTextureFormat.Depth24Plus,
-              usage = WGPUTextureUsage.RenderAttachment,
-              dimension = WGPUTextureDimension._2D, // not in JS
-              mipLevelCount = 1,                    // not in JS
-              sampleCount = 1,                      // not in JS
+              usage = WGPUTextureUsage.RenderAttachment
             });
             
             var uniformBufferSize = 4 * 16; // 4x4 matrix
