@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "TexturedCube-SDL3": {
+      "commandName": "Project",
+      "nativeDebugging": false,
+      "environmentVariables": {
+        "RUST_BACKTRACE": "full"
+      }
+    }
+  }
+}

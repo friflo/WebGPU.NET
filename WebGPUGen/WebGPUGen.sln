@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotatingCube-SDL3", "Rotati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoCubes-SDL3", "TwoCubes-SDL3\TwoCubes-SDL3.csproj", "{FFBAF15B-C5E8-41A1-9C10-0CDD2A00E4F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexturedCube-SDL3", "TexturedCube-SDL3\TexturedCube-SDL3.csproj", "{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{FFBAF15B-C5E8-41A1-9C10-0CDD2A00E4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFBAF15B-C5E8-41A1-9C10-0CDD2A00E4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFBAF15B-C5E8-41A1-9C10-0CDD2A00E4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
