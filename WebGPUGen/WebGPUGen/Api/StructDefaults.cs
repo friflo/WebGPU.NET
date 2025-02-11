@@ -6,17 +6,7 @@ namespace WebGPUGen;
 
 public class StructDefault
 {
-    public class Field
-    {
-        public readonly string  name;
-        public readonly string  value;
-    
-        public Field(string name, string value) {
-            this.name = name;
-            this.value = value;
-        }
-    }
-    
+#region add default field values    
     public static bool HasDefaultFields(CppClass structure)
     {
         return Fields.ContainsKey(structure.Name);
@@ -63,6 +53,7 @@ public class StructDefault
     }
     
     private static readonly Dictionary<string, HashSet<string>>  FoundFields = new();
+#endregion
     
     private static readonly Dictionary<string, Dictionary<string,string>>  Fields = new() {
         { "WGPUTextureDescriptor", new() {
