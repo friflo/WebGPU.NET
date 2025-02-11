@@ -131,32 +131,26 @@ public class StructDefault
             { "failOp",             "Keep" },
             { "passOp",             "Keep" },
         } },
-        /*
-        { "XXXX", new() {
-            { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" },
+        { "WGPUVertexBufferLayout", new() {
+            { "stepMode",           "Vertex" },
         } },
-        { "XXXX", new() {
-            { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" },
-        } },
-        { "XXXX", new() {
-            { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" },
-        } },
-        { "XXXX", new() {
-            { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" },
-        } },
-        { "XXXX", new() {
-            { "xxxx",           "XXXX" },
-            { "xxxx",           "XXXX" },
-        } },
-        */
-        
-        
-
-
+    /*  { "WGPUTexelCopyTextureInfo", new() {
+            { "origin",             "object" },
+            { "colorSpace",         "SRGB" },
+        } }, */
+    /*  { "WGPUCopyExternalImageSourceInfo", new() {
+            { "origin",             "object" },
+        } }, */
+    /*  { "WGPURenderPassDescriptor", new() {
+            { "maxDrawCount",       "50000000" },
+        } }, */
+    /*  { "WGPURenderPassLayout", new() {
+            { "sampleCount",        "1" }
+        } }, */
+        { "WGPUExtent3D", new() {
+            { "height",             "1" },
+            { "depthOrArrayLayers", "1" },
+        } }
     };
 /*
         { "XXXX", new() {
