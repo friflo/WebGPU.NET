@@ -77,4 +77,31 @@ public static class Test_Misc
         NativeMemory.Free(ptr);
         // bytePtr[0] = 1; // => undefined behavior. Throws no Exception in this case.
     }
+    
+    [Test]
+    public static unsafe void Test_Misc_StructDefaults()
+    {
+        Struct1Default struct1a = default;
+        Struct1Default struct1b = new Struct1Default();
+        
+        Struct2Default struct2a = default;
+        Struct2Default struct2b = new Struct2Default();
+    }
+
+}
+
+public struct Struct1Default
+{
+    public int Value1 = 1;
+    public int Value2 = 2;
+    public int Value3 = 3;
+    
+    public Struct1Default() {}
+}
+
+public struct Struct2Default
+{
+    public Struct1Default Struct1 = new Struct1Default();
+    
+    public Struct2Default() {}
 }

@@ -225,6 +225,9 @@ namespace WebGPUGen
                     file.WriteLine("[StructLayout(LayoutKind.Sequential)]");
                     file.WriteLine($"public unsafe struct {structure.Name}");
                     file.WriteLine("{");
+                    if (StructDefault.HasDefaultFields(structure)) {
+                        file.WriteLine($"    public {structure.Name}(){{}}");
+                    }
                     foreach (var member in structure.Fields)
                     {
                         string type = Helpers.ConvertToCSharpType(member.Type);
@@ -240,7 +243,8 @@ namespace WebGPUGen
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
                         var visibility = isInternalField ? "[Browse(Never)] internal   " : "                public     ";
                         var prefix = isInternalField ? "_" : "";
-                        file.WriteLine($"\t{visibility} {type,-23} {prefix}{member.Name};");
+                        var fieldDefault = StructDefault.GetStructFieldDefault(structure, member);
+                        file.WriteLine($"\t{visibility} {type,-23} {prefix}{member.Name}{fieldDefault};");
                     }
                     ApiCodeGenerator.AddStructProperties(file, structure);
 

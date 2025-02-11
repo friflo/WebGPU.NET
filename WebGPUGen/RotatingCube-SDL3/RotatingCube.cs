@@ -95,21 +95,7 @@ namespace HelloTriangle
               depthStencil= new WGPUDepthStencilState{
                 depthWriteEnabled= true,
                 depthCompare= WGPUCompareFunction.Less,
-                format= WGPUTextureFormat.Depth24Plus,
-                stencilBack = new WGPUStencilFaceState { // not in JS
-                  compare = WGPUCompareFunction.Always,
-                  depthFailOp = WGPUStencilOperation.Keep,
-                  failOp = WGPUStencilOperation.Keep,
-                  passOp = WGPUStencilOperation.Keep
-                }, 
-                stencilFront = new WGPUStencilFaceState  { // not in JS
-                  compare = WGPUCompareFunction.Always,
-                  depthFailOp = WGPUStencilOperation.Keep,
-                  failOp = WGPUStencilOperation.Keep,
-                  passOp = WGPUStencilOperation.Keep
-                },
-                stencilReadMask = 0xFFFFFFFF,           // not in JS
-                stencilWriteMask = 0xFFFFFFFF           // not in JS
+                format= WGPUTextureFormat.Depth24Plus
               },
               multisample = new WGPUMultisampleState {  // not in JS
                    count = 1,
