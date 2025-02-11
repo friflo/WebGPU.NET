@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "HelloTriangle-SDL": {
+    "HelloTriangle-SDL3": {
       "commandName": "Project",
       "nativeDebugging": false,
       "environmentVariables": {

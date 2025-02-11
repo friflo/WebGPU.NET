@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<AssemblyName>HelloTriangle-SDL</AssemblyName>
+		<PackageId>HelloTriangle-SDL3</PackageId>
 	</PropertyGroup>
 
 	<ItemGroup>
