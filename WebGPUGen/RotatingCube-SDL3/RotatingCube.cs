@@ -183,9 +183,9 @@ namespace HelloTriangle
             var commandEncoder = device.createCommandEncoder();
             var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
             passEncoder.setPipeline(pipeline);
-            passEncoder.setBindGroup(0, uniformBindGroup, default);
-            passEncoder.setVertexBuffer(0, verticesBuffer, 0, (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()));
-            passEncoder.draw(Cube.cubeVertexCount, 1, 0, 0);
+            passEncoder.setBindGroup(0, uniformBindGroup);
+            passEncoder.setVertexBuffer(0, verticesBuffer);
+            passEncoder.draw(Cube.cubeVertexCount, 1, 0, 0); // TODO add overload
             passEncoder.end();
             passEncoder.release();
             

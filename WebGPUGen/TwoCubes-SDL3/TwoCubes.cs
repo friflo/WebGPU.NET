@@ -20,6 +20,8 @@ namespace HelloTriangle
         private             WGPUBuffer 					        uniformBuffer;
         private             WGPUBindGroup 				      uniformBindGroup;
         private             WGPUBuffer 					        verticesBuffer;
+        private             WGPUBindGroup               uniformBindGroup1;
+        private             WGPUBindGroup               uniformBindGroup2;
         
         internal TwoCubes(GPU gpu) {
             device              = gpu.device;
@@ -102,16 +104,14 @@ namespace HelloTriangle
               usage= WGPUTextureUsage.RenderAttachment,
             });
 
-            ulong matrixSize = 4 * 16; // 4x4 matrix
-            ulong offset = 256; // uniformBindGroup offset must be 256-byte aligned
-            ulong uniformBufferSize = offset + matrixSize;
+
 
             var uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
               size= (ulong)uniformBufferSize,
               usage= WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
 
-            var uniformBindGroup1 = device.createBindGroup(new WGPUBindGroupDescriptor {
+            uniformBindGroup1 = device.createBindGroup(new WGPUBindGroupDescriptor {
               layout= pipeline.getBindGroupLayout(0),
               entries= [new WGPUBindGroupEntry {
                   binding= 0,
@@ -122,7 +122,7 @@ namespace HelloTriangle
               ],
             });
 
-            var uniformBindGroup2 = device.createBindGroup(new WGPUBindGroupDescriptor {
+            uniformBindGroup2 = device.createBindGroup(new WGPUBindGroupDescriptor {
               layout= pipeline.getBindGroupLayout(0),
               entries= [new WGPUBindGroupEntry {
                   binding= 0,
@@ -157,36 +157,50 @@ namespace HelloTriangle
             long startTime = Stopwatch.GetTimestamp();
         }
         
+        const ulong matrixSize = 4 * 16; // 4x4 matrix
+        const ulong offset = 256; // uniformBindGroup offset must be 256-byte aligned
+        const ulong uniformBufferSize = offset + matrixSize;
+        
+        Matrix4x4 modelViewProjectionMatrix1;
+        Matrix4x4 modelViewProjectionMatrix2;
+        
+        internal void updateTransformationMatrix() {
+          
+        }
 
 
         internal void DrawFrame(WGPUTextureView view)
         {
-            /*
             frameArena.Use();
-
-            var transformationMatrix = getTransformationMatrix();
+            updateTransformationMatrix();
             queue.writeBuffer(
-                uniformBuffer,
-                0,
-                transformationMatrix
+              uniformBuffer,
+              0,
+              modelViewProjectionMatrix1
             );
+            queue.writeBuffer(
+              uniformBuffer,
+              offset,
+              modelViewProjectionMatrix2
+            );
+
             renderPassDescriptor.colorAttachments[0].view = view;
 
             var commandEncoder = device.createCommandEncoder();
             var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
             passEncoder.setPipeline(pipeline);
-            passEncoder.setBindGroup(0, uniformBindGroup, default);
-            passEncoder.setVertexBuffer(0, verticesBuffer, 0, (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()));
-            passEncoder.draw(Cube.cubeVertexCount, 1, 0, 0);
+            passEncoder.setVertexBuffer(0, verticesBuffer);
+
+            // Bind the bind group (with the transformation matrix) for
+            // each cube, and draw.
+            passEncoder.setBindGroup(0, uniformBindGroup1);
+            passEncoder.draw(Cube.cubeVertexCount, 1, 0 ,0); // TODO add overload
+
+            passEncoder.setBindGroup(0, uniformBindGroup2);
+            passEncoder.draw(Cube.cubeVertexCount, 1, 0 ,0); // TODO add overload
+
             passEncoder.end();
-            passEncoder.release();
-            
-            var command = commandEncoder.finish();
-            commandEncoder.release();
-            queue.submit([command]);
-            
-            command.release();
-            */
+            queue.submit([commandEncoder.finish()]);
         }
     }
 }
