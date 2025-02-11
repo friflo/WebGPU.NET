@@ -72,39 +72,39 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
-                    targets= [new WGPUColorTargetState {
+                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
+                    targets = [new WGPUColorTargetState {
                             format= presentationFormat
                         },
                     ],
                 },
                 primitive = {
-                    topology= WGPUPrimitiveTopology.TriangleList,
+                    topology    = WGPUPrimitiveTopology.TriangleList,
                     // Backface culling since the cube is solid piece of geometry.
                     // Faces pointing away from the camera will be occluded by faces
                     // pointing toward the camera.
-                    cullMode= WGPUCullMode.Back,
+                    cullMode    = WGPUCullMode.Back,
                 },
 
                 // Enable depth testing so that the fragment closest to the camera
                 // is rendered in front.
                 depthStencil= new WGPUDepthStencilState{
-                    depthWriteEnabled= true,
-                    depthCompare= WGPUCompareFunction.Less,
-                    format= WGPUTextureFormat.Depth24Plus
+                    depthWriteEnabled   = true,
+                    depthCompare        = WGPUCompareFunction.Less,
+                    format              = WGPUTextureFormat.Depth24Plus
                 }
             });
             
             var depthTexture = device.createTexture(new WGPUTextureDescriptor{
-                size = new WGPUExtent3D { width  = 800, height = 600 },
-                format = WGPUTextureFormat.Depth24Plus,
-                usage = WGPUTextureUsage.RenderAttachment
+                size    = new WGPUExtent3D { width  = 800, height = 600 },
+                format  = WGPUTextureFormat.Depth24Plus,
+                usage   = WGPUTextureUsage.RenderAttachment
             });
             
             var uniformBufferSize = 4 * 16; // 4x4 matrix
             uniformBuffer = device.createBuffer( new WGPUBufferDescriptor{
-                size = (ulong)uniformBufferSize,
-                usage = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
+                size    = (ulong)uniformBufferSize,
+                usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
             
             var bindGroupLayout = pipeline.getBindGroupLayout(0);
@@ -115,8 +115,8 @@ namespace HelloTriangle
                 entries = [new WGPUBindGroupEntry
                     {
                         binding = 0,
-                        buffer = uniformBuffer,
-                        size = (ulong)uniformBufferSize,
+                        buffer  = uniformBuffer,
+                        size    = (ulong)uniformBufferSize,
                     },
                 ],
             });
@@ -125,17 +125,17 @@ namespace HelloTriangle
             
             renderPassDescriptor = new WGPURenderPassDescriptor  {
                 colorAttachments = [new WGPURenderPassColorAttachment {
-                        view = default, // Assigned later
-                        clearValue = new WGPUColor { r= 0.5, g= 0.5, b = 0.5, a = 1.0 },
-                        loadOp = WGPULoadOp.Clear,
-                        storeOp = WGPUStoreOp.Store
+                        view        = default, // Assigned later
+                        clearValue  = new WGPUColor { r= 0.5, g= 0.5, b = 0.5, a = 1.0 },
+                        loadOp      = WGPULoadOp.Clear,
+                        storeOp     = WGPUStoreOp.Store
                     },
                 ],
                 depthStencilAttachment = new WGPURenderPassDepthStencilAttachment {
-                    view = depthTexture.createView(),
+                    view            = depthTexture.createView(),
                     depthClearValue = 1.0f,
-                    depthLoadOp = WGPULoadOp.Clear,
-                    depthStoreOp= WGPUStoreOp.Store,
+                    depthLoadOp     = WGPULoadOp.Clear,
+                    depthStoreOp    = WGPUStoreOp.Store,
                 },
             };
             frameArena.Use();
