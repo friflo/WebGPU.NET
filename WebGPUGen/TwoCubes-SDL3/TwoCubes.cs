@@ -19,7 +19,6 @@ namespace HelloTriangle
         
         private             WGPURenderPassDescriptor    renderPassDescriptor;
         private             WGPUBuffer 					        uniformBuffer;
-        private             WGPUBindGroup 				      uniformBindGroup;
         private             WGPUBuffer 					        verticesBuffer;
         private             WGPUBindGroup               uniformBindGroup1;
         private             WGPUBindGroup               uniformBindGroup2;
@@ -106,7 +105,7 @@ namespace HelloTriangle
             });
 
             uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
-              size= (ulong)uniformBufferSize,
+              size= uniformBufferSize,
               usage= WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
 
@@ -151,11 +150,6 @@ namespace HelloTriangle
               },
             };
             frameArena.Use();
-            
-            const float aspect = Program.Width / Program.Height;
-            Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
-            //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
-            long startTime = Stopwatch.GetTimestamp();
         }
         
         const ulong matrixSize = 4 * 16; // 4x4 matrix
@@ -164,11 +158,11 @@ namespace HelloTriangle
         
         Matrix4x4 modelViewProjectionMatrix1;
         Matrix4x4 modelViewProjectionMatrix2;
-        
-        long        startTime         = Stopwatch.GetTimestamp();
-        const float aspect            = Program.Width / Program.Height;
-        Matrix4x4   projectionMatrix  = Matrix4x4.CreatePerspectiveFieldOfView((float)(2.0 * Math.PI / 5.0), aspect, 1f, 100.0f);
-        Matrix4x4   viewMatrix        = Matrix4x4.CreateTranslation(new(0, 0, -7));
+
+        readonly          long      startTime         = Stopwatch.GetTimestamp();
+        private const     float     aspect            = Program.Width / Program.Height;
+        private readonly  Matrix4x4 projectionMatrix  = Matrix4x4.CreatePerspectiveFieldOfView((float)(2.0 * Math.PI / 5.0), aspect, 1f, 100.0f);
+        private readonly  Matrix4x4 viewMatrix        = Matrix4x4.CreateTranslation(new(0, 0, -7));
         
         private void updateTransformationMatrix()
         {
