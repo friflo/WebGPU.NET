@@ -18,8 +18,8 @@ namespace HelloTriangle
         private readonly    Arena                       frameArena;
         
         private             WGPURenderPassDescriptor    renderPassDescriptor;
-        private             WGPUBuffer 					        uniformBuffer;
-        private             WGPUBuffer 					        verticesBuffer;
+        private             WGPUBuffer                  uniformBuffer;
+        private             WGPUBuffer                  verticesBuffer;
         private             WGPUBindGroup               uniformBindGroup1;
         private             WGPUBindGroup               uniformBindGroup2;
         
@@ -42,119 +42,119 @@ namespace HelloTriangle
             
             // Create a vertex buffer from the cube data.
             verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
-              size= (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
-              usage= WGPUBufferUsage.Vertex,
-              mappedAtCreation = true,
+                size                = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
+                usage               = WGPUBufferUsage.Vertex,
+                mappedAtCreation    = true,
             });
             var target = verticesBuffer.getMappedRange<float>(0, (ulong)Cube.cubeVertexArray.Length);
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
 
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
-              layout = default,
-              vertex = {
-                module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), basicVertWGSL),
-                buffers= [new WGPUVertexBufferLayout
-                  {
-                    arrayStride= Cube.cubeVertexSize,
-                    attributes= [new WGPUVertexAttribute {
-                        // position
-                        shaderLocation= 0,
-                        offset= Cube.cubePositionOffset,
-                        format= WGPUVertexFormat.Float32x4
-                      },
-                      new WGPUVertexAttribute {
-                        // uv
-                        shaderLocation= 1,
-                        offset= Cube.cubeUVOffset,
-                        format= WGPUVertexFormat.Float32x2
-                      },
+                layout = default,
+                vertex = {
+                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), basicVertWGSL),
+                    buffers= [new WGPUVertexBufferLayout
+                        {
+                            arrayStride= Cube.cubeVertexSize,
+                            attributes= [new WGPUVertexAttribute {
+                                    // position
+                                    shaderLocation  = 0,
+                                    offset          = Cube.cubePositionOffset,
+                                    format          = WGPUVertexFormat.Float32x4
+                                },
+                                new WGPUVertexAttribute {
+                                    // uv
+                                    shaderLocation  = 1,
+                                    offset          = Cube.cubeUVOffset,
+                                    format          = WGPUVertexFormat.Float32x2
+                                },
+                            ],
+                        },
                     ],
-                  },
-                ],
-              },
-              fragment= new WGPUFragmentState {
-                module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
-                targets= [new WGPUColorTargetState {
-                    format= presentationFormat,
-                  },
-                ],
-              },
-              primitive= {
-                topology= WGPUPrimitiveTopology.TriangleList,
+                },
+                fragment= new WGPUFragmentState {
+                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
+                    targets = [new WGPUColorTargetState {
+                            format= presentationFormat,
+                        },
+                    ],
+                },
+                primitive= {
+                    topology= WGPUPrimitiveTopology.TriangleList,
 
-                // Backface culling since the cube is solid piece of geometry.
-                // Faces pointing away from the camera will be occluded by faces
-                // pointing toward the camera.
-                cullMode= WGPUCullMode.Back,
-              },
+                    // Backface culling since the cube is solid piece of geometry.
+                    // Faces pointing away from the camera will be occluded by faces
+                    // pointing toward the camera.
+                    cullMode= WGPUCullMode.Back,
+                },
 
-              // Enable depth testing so that the fragment closest to the camera
-              // is rendered in front.
-              depthStencil= new WGPUDepthStencilState {
-                depthWriteEnabled= true,
-                depthCompare= WGPUCompareFunction.Less,
-                format= WGPUTextureFormat.Depth24Plus,
-              },
+                // Enable depth testing so that the fragment closest to the camera
+                // is rendered in front.
+                depthStencil = new WGPUDepthStencilState {
+                    depthWriteEnabled   = true,
+                    depthCompare        = WGPUCompareFunction.Less,
+                    format              = WGPUTextureFormat.Depth24Plus,
+                },
             });
 
             var depthTexture = device.createTexture(new WGPUTextureDescriptor {
-              size= new WGPUExtent3D {width = Program.Width, height = Program.Height },
-              format= WGPUTextureFormat.Depth24Plus,
-              usage= WGPUTextureUsage.RenderAttachment,
+                size    = new WGPUExtent3D {width = Program.Width, height = Program.Height },
+                format  = WGPUTextureFormat.Depth24Plus,
+                usage   = WGPUTextureUsage.RenderAttachment,
             });
 
             uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
-              size= uniformBufferSize,
-              usage= WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
+                size    = uniformBufferSize,
+                usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
 
             uniformBindGroup1 = device.createBindGroup(new WGPUBindGroupDescriptor {
-              layout= pipeline.getBindGroupLayout(0),
-              entries= [new WGPUBindGroupEntry {
-                  binding= 0,
-                  buffer= uniformBuffer,
-                  offset= 0,
-                  size= matrixSize,
-                },
-              ],
+                layout  = pipeline.getBindGroupLayout(0),
+                entries = [new WGPUBindGroupEntry {
+                        binding = 0,
+                        buffer  = uniformBuffer,
+                        offset  = 0,
+                        size    = matrixSize,
+                    },
+                ],
             });
 
             uniformBindGroup2 = device.createBindGroup(new WGPUBindGroupDescriptor {
-              layout= pipeline.getBindGroupLayout(0),
-              entries= [new WGPUBindGroupEntry {
-                  binding= 0,
-                    buffer= uniformBuffer,
-                    offset= offset,
-                    size= matrixSize,
-                },
-              ],
+                layout  = pipeline.getBindGroupLayout(0),
+                entries = [new WGPUBindGroupEntry {
+                        binding = 0,
+                        buffer  = uniformBuffer,
+                        offset  = offset,
+                        size    = matrixSize,
+                    },
+                ],
             });
             var sessionArena = new Arena("sessionArena");
             sessionArena.Use();
             renderPassDescriptor= new WGPURenderPassDescriptor {
-              colorAttachments= [new WGPURenderPassColorAttachment {
-                  view= default, // Assigned later
+                colorAttachments= [new WGPURenderPassColorAttachment {
+                        view        = default, // Assigned later
 
-                  clearValue=  new WGPUColor {r = 0.5, g = 0.5, b = 0.5, a = 1.0},
-                  loadOp= WGPULoadOp.Clear,
-                  storeOp= WGPUStoreOp.Store,
+                        clearValue  =  new WGPUColor {r = 0.5, g = 0.5, b = 0.5, a = 1.0},
+                        loadOp      = WGPULoadOp.Clear,
+                        storeOp     = WGPUStoreOp.Store,
+                    },
+                ],
+                depthStencilAttachment= new WGPURenderPassDepthStencilAttachment {
+                    view= depthTexture.createView(),
+
+                    depthClearValue = 1.0f,
+                    depthLoadOp     = WGPULoadOp.Clear,
+                    depthStoreOp    = WGPUStoreOp.Store,
                 },
-              ],
-              depthStencilAttachment= new WGPURenderPassDepthStencilAttachment {
-                view= depthTexture.createView(),
-
-                depthClearValue= 1.0f,
-                depthLoadOp= WGPULoadOp.Clear,
-                depthStoreOp= WGPUStoreOp.Store,
-              },
             };
             frameArena.Use();
         }
         
-        const ulong matrixSize = 4 * 16; // 4x4 matrix
-        const ulong offset = 256; // uniformBindGroup offset must be 256-byte aligned
-        const ulong uniformBufferSize = offset + matrixSize;
+        const ulong     matrixSize          = 4 * 16; // 4x4 matrix
+        const ulong     offset              = 256; // uniformBindGroup offset must be 256-byte aligned
+        const ulong     uniformBufferSize   = offset + matrixSize;
         
         Matrix4x4 modelViewProjectionMatrix1;
         Matrix4x4 modelViewProjectionMatrix2;
@@ -166,16 +166,16 @@ namespace HelloTriangle
         
         private void updateTransformationMatrix()
         {
-          float now = (float)(((double)Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency);
-          modelViewProjectionMatrix1 = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with {
-            Translation = new(-2, 0, 0)
-          };
+            float now = (float)(((double)Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency);
+            modelViewProjectionMatrix1 = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with {
+                Translation = new(-2, 0, 0)
+            };
 
-          modelViewProjectionMatrix2 = Matrix4x4.CreateFromAxisAngle(new(MathF.Cos(now), MathF.Sin(now), 0), 1) with {
-            Translation = new(2, 0, 0)
-          };
-          modelViewProjectionMatrix1 *= viewMatrix * projectionMatrix;
-          modelViewProjectionMatrix2 *= viewMatrix * projectionMatrix;
+            modelViewProjectionMatrix2 = Matrix4x4.CreateFromAxisAngle(new(MathF.Cos(now), MathF.Sin(now), 0), 1) with {
+                Translation = new(2, 0, 0)
+            };
+            modelViewProjectionMatrix1 *= viewMatrix * projectionMatrix;
+            modelViewProjectionMatrix2 *= viewMatrix * projectionMatrix;
         }
 
         internal void DrawFrame(WGPUTextureView view)
@@ -183,14 +183,14 @@ namespace HelloTriangle
             frameArena.Use();
             updateTransformationMatrix();
             queue.writeBuffer(
-              uniformBuffer,
-              0,
-              modelViewProjectionMatrix1
+                uniformBuffer,
+                0,
+                modelViewProjectionMatrix1
             );
             queue.writeBuffer(
-              uniformBuffer,
-              offset,
-              modelViewProjectionMatrix2
+                uniformBuffer,
+                offset,
+                modelViewProjectionMatrix2
             );
 
             renderPassDescriptor.colorAttachments[0].view = view;
