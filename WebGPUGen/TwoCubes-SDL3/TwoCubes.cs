@@ -42,7 +42,7 @@ namespace HelloTriangle
             
             
             // Create a vertex buffer from the cube data.
-            var verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
+            verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
               size= (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
               usage= WGPUBufferUsage.Vertex,
               mappedAtCreation = true,
@@ -51,7 +51,7 @@ namespace HelloTriangle
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
 
-            var pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
+            pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
               layout = default,
               vertex = {
                 module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), basicVertWGSL),
@@ -105,9 +105,7 @@ namespace HelloTriangle
               usage= WGPUTextureUsage.RenderAttachment,
             });
 
-
-
-            var uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
+            uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
               size= (ulong)uniformBufferSize,
               usage= WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
@@ -133,8 +131,9 @@ namespace HelloTriangle
                 },
               ],
             });
-
-            var renderPassDescriptor= new WGPURenderPassDescriptor {
+            var sessionArena = new Arena("sessionArena");
+            sessionArena.Use();
+            renderPassDescriptor= new WGPURenderPassDescriptor {
               colorAttachments= [new WGPURenderPassColorAttachment {
                   view= default, // Assigned later
 
@@ -151,6 +150,7 @@ namespace HelloTriangle
                 depthStoreOp= WGPUStoreOp.Store,
               },
             };
+            frameArena.Use();
             
             const float aspect = Program.Width / Program.Height;
             Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
@@ -210,12 +210,18 @@ namespace HelloTriangle
             // each cube, and draw.
             passEncoder.setBindGroup(0, uniformBindGroup1);
             passEncoder.draw(Cube.cubeVertexCount, 1, 0 ,0); // TODO add overload
-
+            
             passEncoder.setBindGroup(0, uniformBindGroup2);
             passEncoder.draw(Cube.cubeVertexCount, 1, 0 ,0); // TODO add overload
-
+            
             passEncoder.end();
-            queue.submit([commandEncoder.finish()]);
+            passEncoder.release(); // required: otherwise submit() panics with "CommandBuffer cannot be destroyed because is still in use"
+            
+            var command = commandEncoder.finish();
+            commandEncoder.release();
+            
+            queue.submit([command]);
+            command.release();
         }
     }
 }
