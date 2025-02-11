@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace HelloTriangle
 {
-    public class RotatingCube
+    public class TwoCubes
     {
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
@@ -21,7 +21,7 @@ namespace HelloTriangle
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
         
-        internal RotatingCube(GPU gpu) {
+        internal TwoCubes(GPU gpu) {
             device              = gpu.device;
             presentationFormat  = gpu.swapChainFormat;
             queue               = gpu.queue;
