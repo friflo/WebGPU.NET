@@ -17,14 +17,14 @@ namespace HelloTriangle
             var gpu = new GPU();
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
-            var cube = new RotatingCube(gpu);
+            var cubes = new TwoCubes(gpu);
             SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL 3 - {gpu.adapter.info.backendType})");
             
-            cube.InitResources();
+            cubes.InitResources();
 
-            MainLoop(cube, gpu.frameArena, gpu.surface);
+            MainLoop(cubes, gpu.frameArena, gpu.surface);
 
-            cube.ReleaseResources();
+            cubes.ReleaseResources();
             gpu.CleanUp();
             Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Entries.Count}");
             
@@ -44,7 +44,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static unsafe void MainLoop(RotatingCube cube, Arena frameArena, WGPUSurface surface)
+        private static unsafe void MainLoop(TwoCubes cube, Arena frameArena, WGPUSurface surface)
         {
             bool running = true;
             while (running)
