@@ -5,6 +5,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using SkiaSharp;
+// ReSharper disable InconsistentNaming
 
 namespace HelloTriangle
 {
@@ -170,25 +171,13 @@ namespace HelloTriangle
             frameArena.Use();
         }
         
-        const float aspect = Program.Width / Program.Height;
-        Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
+        private const    float      aspect              = Program.Width / Program.Height;
+        private readonly Matrix4x4  projectionMatrix    = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
         //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
-        long startTime = Stopwatch.GetTimestamp();
+        private readonly long       startTime           = Stopwatch.GetTimestamp();
         
-        Matrix4x4 getTransformationMatrix()
+        private Matrix4x4 getTransformationMatrix()
         {
-            /*
-            const viewMatrix = mat4.identity();
-            mat4.translate(viewMatrix, vec3.fromValues(0, 0, -4), viewMatrix);
-            const now = Date.now() / 1000;
-            mat4.rotate(
-              viewMatrix,
-              vec3.fromValues(Math.sin(now), Math.cos(now), 0),
-              1,
-              viewMatrix
-            );
-            mat4.multiply(projectionMatrix, viewMatrix, modelViewProjectionMatrix);*/
-          
             float now = (float)(((double)Stopwatch.GetTimestamp() - startTime) / Stopwatch.Frequency);
             var viewMatrix = Matrix4x4.CreateFromAxisAngle(new(MathF.Sin(now), MathF.Cos(now), 0), 1) with
             {
