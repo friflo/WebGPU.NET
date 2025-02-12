@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebGPUGen", "WebGPUGen\WebG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Evergine.Bindings.WebGPU", "Evergine.Bindings.WebGPU\Evergine.Bindings.WebGPU.csproj", "{EBBA34FA-0B31-4971-BB6F-FE3B055DE5D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloTriangle", "HelloTriangle\HelloTriangle.csproj", "{11F45330-6F71-45A7-B08F-9A14C67F24A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloTriangle-WinForms", "HelloTriangle-WinForms\HelloTriangle-WinForms.csproj", "{11F45330-6F71-45A7-B08F-9A14C67F24A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9C0F5121-9F9B-455E-90E5-BE844D18AC42}"
 EndProject

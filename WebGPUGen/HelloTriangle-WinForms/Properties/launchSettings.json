@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "HelloTriangle": {
+    "HelloTriangle-WinForms": {
       "commandName": "Project",
       "nativeDebugging": false,
       "environmentVariables": {
