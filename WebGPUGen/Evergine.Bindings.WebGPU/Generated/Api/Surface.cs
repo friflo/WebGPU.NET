@@ -20,11 +20,7 @@ public unsafe partial struct WGPUSurface
 
     // getCapabilities() - not generated. See: Surface_NG.cs
 
-    public WGPUSurfaceTexture currentTexture { get {
-        var result = new WGPUSurfaceTexture();
-        wgpuSurfaceGetCurrentTexture(this, &result);
-        return result; // getter
-    } }
+    // getCurrentTexture() - not generated. See: Surface_NG.cs
 
     public void present() {
         Validate_present();

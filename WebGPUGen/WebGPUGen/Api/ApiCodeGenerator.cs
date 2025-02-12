@@ -95,6 +95,7 @@ public static class ApiCodeGenerator
             case "getConstMappedRange": // Buffer_NG.cs
             case "setPushConstants":    // RenderPassEncoder_NG.cs
             case "getCapabilities":     // Surface_NG.cs
+            case "getCurrentTexture":   // Surface_NG.cs
             case "requestDevice":       // Adapter_NG.cs
             case "getInfo":             // Adapter_NG.cs
             case "getLimits":           // Adapter_NG.cs, Device_NG.cs
@@ -139,7 +140,7 @@ public static class ApiCodeGenerator
                 return;
             }
         }
-        if (!hasReturnValue && commandName.StartsWith("get") && parameters.Length == 2) {
+        /* if (!hasReturnValue && commandName.StartsWith("get") && parameters.Length == 2) {
             var propertyName = char.ToLower(commandName[3]) + commandName.Substring(4);
             var type = parameters[1].TypeNamePure;
             sb.AppendLine(
@@ -151,7 +152,7 @@ public static class ApiCodeGenerator
                     } }
                 """);
             return;
-        }
+        } */
                     
         sb.AppendLine($"    public {returnType} {commandName}({signature}) {{");
         AddValidationCall(sb, commandName, parameters);

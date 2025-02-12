@@ -49,7 +49,7 @@ namespace HelloTriangle
             while (running) {
                 Application.DoEvents();
 
-                var surfaceTexture = surface.currentTexture;
+                var surfaceTexture = surface.getCurrentTexture();
                 // Getting the texture may fail, in particular if the window has been resized and thus the target surface changed.
                 if (surfaceTexture.status != WGPUSurfaceGetCurrentTextureStatus.Success) {
                     throw new Exception($"Failed to retrieve surface texture. status: {surfaceTexture.status}");
