@@ -17,9 +17,15 @@ public unsafe partial struct WGPUQuerySet
         ObjectTracker.ValidateHandle(this);
     }
 
-    public uint count => wgpuQuerySetGetCount(this);
+    public uint count { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuQuerySetGetCount(this);
+    } }
 
-    public WGPUQueryType type => wgpuQuerySetGetType(this);
+    public WGPUQueryType type { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuQuerySetGetType(this);
+    } }
 
 
     public void reference() {

@@ -30,21 +30,45 @@ public unsafe partial struct WGPUTexture
         ObjectTracker.ValidateHandle(this);
     }
 
-    public uint depthOrArrayLayers => wgpuTextureGetDepthOrArrayLayers(this);
+    public uint depthOrArrayLayers { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetDepthOrArrayLayers(this);
+    } }
 
-    public WGPUTextureDimension dimension => wgpuTextureGetDimension(this);
+    public WGPUTextureDimension dimension { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetDimension(this);
+    } }
 
-    public WGPUTextureFormat format => wgpuTextureGetFormat(this);
+    public WGPUTextureFormat format { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetFormat(this);
+    } }
 
-    public uint height => wgpuTextureGetHeight(this);
+    public uint height { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetHeight(this);
+    } }
 
-    public uint mipLevelCount => wgpuTextureGetMipLevelCount(this);
+    public uint mipLevelCount { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetMipLevelCount(this);
+    } }
 
-    public uint sampleCount => wgpuTextureGetSampleCount(this);
+    public uint sampleCount { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetSampleCount(this);
+    } }
 
-    public WGPUTextureUsage usage => wgpuTextureGetUsage(this);
+    public WGPUTextureUsage usage { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetUsage(this);
+    } }
 
-    public uint width => wgpuTextureGetWidth(this);
+    public uint width { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuTextureGetWidth(this);
+    } }
 
 
     public void reference() {

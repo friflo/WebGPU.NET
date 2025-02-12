@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using ClangSharp;
+﻿using System.Linq;
 
 namespace WebGPUGen;
 
@@ -79,7 +77,6 @@ public static class ApiCodeGenerator
         }
         string returnType = Helpers.ConvertToCSharpType(command.ReturnType, false);
         var parameters = ApiHelpers.GetSignatureParameters(command);
-        var handleName = parameters[0].Name;
         var signature = GetParametersSignature(parameters);
 
         var commandName = command.Name.Substring(handleType.Name.Length);
@@ -136,7 +133,13 @@ public static class ApiCodeGenerator
             if (parameters.Length == 1)
             {
                 var propertyName = char.ToLower(commandName[3]) + commandName.Substring(4);
-                sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(this);");
+                // sb.AppendLine($"    public {returnType} {propertyName} => {command.Name}(this); // Property");
+                sb.AppendLine($$"""
+                                  public {{returnType}} {{propertyName}} { get {
+                                        ObjectTracker.ValidateHandle(this);
+                                        return {{command.Name}}(this);
+                                  } }
+                              """);
                 return;
             }
         }
@@ -315,7 +318,7 @@ public static class ApiCodeGenerator
                 } else {
                     countFieldName = field.Name.Substring(0, arrayFieldName.Length - 1) + "Count";
                 }
-                CppField countField = parent.Fields.FirstOrDefault(field => field.Name == countFieldName);
+                CppField countField = parent.Fields.FirstOrDefault(f => f.Name == countFieldName);
                 if (countField != null) {
                     return true;
                 }
@@ -328,7 +331,7 @@ public static class ApiCodeGenerator
             if (field.Name == "entryCount") {
                 arrayFieldName = "entries";
             }
-            CppField arrayField = parent.Fields.FirstOrDefault(field => field.Name == arrayFieldName);
+            CppField arrayField = parent.Fields.FirstOrDefault(f => f.Name == arrayFieldName);
             if (arrayField != null) {
                 return true;
             }
@@ -350,7 +353,7 @@ public static class ApiCodeGenerator
     
     public static void CollectStructsWithPointers(CppCompilation compilation)
     {
-        var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition == true);
+        var structs = compilation.Classes.Where(c => c.ClassKind == CppClassKind.Struct && c.IsDefinition);
         foreach (var structure in structs) {
             foreach (var field in structure.Fields) {
                 if (field.Name == "nextInChain" || field.Name == "chain" || field.Name == "next") {

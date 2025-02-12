@@ -19,13 +19,22 @@ public unsafe partial struct WGPUBuffer
 
     // getConstMappedRange() - not generated. See: Buffer_NG.cs
 
-    public WGPUBufferMapState mapState => wgpuBufferGetMapState(this);
+    public WGPUBufferMapState mapState { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuBufferGetMapState(this);
+    } }
 
     // getMappedRange() - not generated. See: Buffer_NG.cs
 
-    public ulong size => wgpuBufferGetSize(this);
+    public ulong size { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuBufferGetSize(this);
+    } }
 
-    public WGPUBufferUsage usage => wgpuBufferGetUsage(this);
+    public WGPUBufferUsage usage { get {
+          ObjectTracker.ValidateHandle(this);
+          return wgpuBufferGetUsage(this);
+    } }
 
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         Validate_mapAsync(mode, offset, size, callback, userdata);
