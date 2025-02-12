@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 
 // ReSharper disable InconsistentNaming
 namespace Evergine.Bindings.WebGPU;
@@ -61,7 +62,7 @@ public struct ObjectEntry
             return Marshal.PtrToStringAnsi((IntPtr)ptr);
         }
     }
-    
+
     public override string ToString() {
         var labelStr = GetLabel();
         if (labelStr == null) {
@@ -79,11 +80,47 @@ public struct ObjectEntry
     }
 }
 
+public struct GroupedEntry
+{
+    internal string name;
+    internal int    count;
+
+    public override string ToString() => $"{name,-40} count: {count}";
+}
+
 public static class ObjectTracker
 {
-    public static  Dictionary<nint,ObjectEntry>.ValueCollection Entries => HandleMap.Values;
-
+    public static  Dictionary<nint,ObjectEntry>.ValueCollection     Entries => HandleMap.Values;
+    public static  Dictionary<string,GroupedEntry>.ValueCollection  GroupedEntries => GetGroupedEntries();
+    
+    private static readonly Dictionary<string,GroupedEntry>         GroupedEntryMap = new();
+    
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
+    
+    private static Dictionary<string,GroupedEntry>.ValueCollection GetGroupedEntries()
+    {
+        var map = GroupedEntryMap;
+        map.Clear();
+        var sb = new StringBuilder();
+        foreach (var entry in Entries) {
+            sb.Clear();
+            sb.Append(entry.Type);
+            var label = entry.Label;
+            if (label != null) {
+                sb.Append("  \"");
+                sb.Append(label);
+                sb.Append('\"');
+            }
+            var key = sb.ToString();
+            if (!map.TryGetValue(key, out var groupedEntry)) {
+                map.Add(key, new GroupedEntry { name = key, count = 1 });
+                continue;
+            }
+            groupedEntry.count++;
+            map[key] = groupedEntry;
+        }
+        return map.Values;
+    }
     
     // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage
     [Conditional("VALIDATE")]
