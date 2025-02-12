@@ -99,7 +99,7 @@ public unsafe partial struct WGPUAdapter
         return Encoding.UTF8.GetString(bytePtr, len);
     }
     
-    /// Implemented manually are the returned <see cref="WGPUAdapterInfo"/> must be freed 
+    /// Implemented manually as the returned <see cref="WGPUAdapterInfo"/> must be freed 
     public AdapterInfo info {
         get {
             WGPUAdapterInfo wgpuInfo;
