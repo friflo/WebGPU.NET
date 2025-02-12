@@ -96,6 +96,7 @@ public static class ApiCodeGenerator
             case "setPushConstants":    // RenderPassEncoder_NG.cs
             case "getCapabilities":     // Surface_NG.cs
             case "requestDevice":       // Adapter_NG.cs
+            case "getInfo":             // Adapter_NG.cs
             case "getLimits":           // Adapter_NG.cs, Device_NG.cs
             case "getQueue":            // Device_NG.cs
                 // These methods occur only once and implemented manually in *_NG.cs files. 
@@ -146,7 +147,7 @@ public static class ApiCodeGenerator
                     public {{type}} {{propertyName}} { get {
                         var result = new {{type}}();
                         {{command.Name}}(this, &result);
-                        return result;
+                        return result; // getter
                     } }
                 """);
             return;

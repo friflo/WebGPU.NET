@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text;
 using static Evergine.Bindings.WebGPU.WebGPUNative;
 
 namespace Evergine.Bindings.WebGPU;
@@ -85,4 +86,49 @@ public unsafe partial struct WGPUAdapter
         var success = wgpuAdapterGetLimits(this, &result);
         return result;
     }
+    
+    private static string? PtrToString(char* ptr) {
+        if (ptr == null) {
+            return null;
+        }
+        int len = 0;
+        var bytePtr = (byte*)ptr;
+        while (bytePtr[len] != 0) {
+            len++;
+        }
+        return Encoding.UTF8.GetString(bytePtr, len);
+    }
+    
+    /// Implemented manually are the returned <see cref="WGPUAdapterInfo"/> must be freed 
+    public AdapterInfo info {
+        get {
+            WGPUAdapterInfo wgpuInfo;
+            wgpuAdapterGetInfo(this, &wgpuInfo);
+            var result = new AdapterInfo {
+                vendor          = PtrToString(wgpuInfo._vendor),
+                architecture    = PtrToString(wgpuInfo._architecture),
+                device          = PtrToString(wgpuInfo._device),
+                description     = PtrToString(wgpuInfo._description),
+                backendType     = wgpuInfo.backendType,
+                adapterType     = wgpuInfo.adapterType,
+                vendorID        = wgpuInfo.vendorID,
+                deviceID        = wgpuInfo.deviceID,
+            };
+            wgpuAdapterInfoFreeMembers(wgpuInfo);
+            return result;
+        }
+    }
+}
+
+/// <see cref="WGPUAdapterInfo"/>
+public struct AdapterInfo
+{
+    public  string?         vendor;
+    public  string?         architecture;
+    public  string?         device;
+    public  string?         description;
+    public  WGPUBackendType backendType;
+    public  WGPUAdapterType adapterType;
+    public  uint            vendorID;
+    public  uint            deviceID;
 }

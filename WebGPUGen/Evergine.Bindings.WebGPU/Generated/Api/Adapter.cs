@@ -18,11 +18,7 @@ public unsafe partial struct WGPUAdapter
         ObjectTracker.ValidateHandle(this);
     }
 
-    public WGPUAdapterInfo info { get {
-        var result = new WGPUAdapterInfo();
-        wgpuAdapterGetInfo(this, &result);
-        return result;
-    } }
+    // getInfo() - not generated. See: Adapter_NG.cs
 
     // getLimits() - not generated. See: Adapter_NG.cs
 

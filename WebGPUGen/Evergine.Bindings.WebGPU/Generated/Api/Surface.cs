@@ -23,7 +23,7 @@ public unsafe partial struct WGPUSurface
     public WGPUSurfaceTexture currentTexture { get {
         var result = new WGPUSurfaceTexture();
         wgpuSurfaceGetCurrentTexture(this, &result);
-        return result;
+        return result; // getter
     } }
 
     public void present() {
