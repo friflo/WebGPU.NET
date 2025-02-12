@@ -10,15 +10,19 @@
 	<ItemGroup>
 		<!-- <PackageReference Include="Sayers.SDL2.Core" Version="1.0.11" /> -->
 		<PackageReference Include="ppy.SDL3-CS" Version="2025.127.0" />
+        <PackageReference Include="SkiaSharp" Version="3.116.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Content Include="Content\basic.vert.wgsl">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="Content\vertexPositionColor.frag.wgsl">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
+        <Content Include="Content\sampleTextureMixColor.frag.wgsl">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Content\Di-3d.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
 	</ItemGroup>
 
 	<ItemGroup>

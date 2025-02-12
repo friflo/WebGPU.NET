@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using SkiaSharp;
 
 namespace HelloTriangle
 {
@@ -34,8 +35,8 @@ namespace HelloTriangle
 
         internal void InitResources()
         {
-            Utf8 basicVertWGSL            = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "basic.vert.wgsl"));
-            Utf8 vertexPositionColorWGSL  = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "vertexPositionColor.frag.wgsl"));
+            Utf8 basicVertWGSL              = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "basic.vert.wgsl"));
+            Utf8 sampleTextureMixColorWGSL  = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "sampleTextureMixColor.frag.wgsl"));
             
             // Create a vertex buffer from the cube data.
             verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
@@ -72,7 +73,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), vertexPositionColorWGSL),
+                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor(), sampleTextureMixColorWGSL),
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat
                         },
@@ -107,17 +108,45 @@ namespace HelloTriangle
                 usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
             
-            var bindGroupLayout = pipeline.getBindGroupLayout(0);
+            // Fetch the image and upload it into a GPUTexture.
+            WGPUTexture cubeTexture;
+            {
+                using var imageBitmap = SKBitmap.Decode(Path.Combine(AppContext.BaseDirectory, "Content", "Di-3d.png"));
+                var imageSize = new WGPUExtent3D { width = (uint)imageBitmap.Width, height = (uint)imageBitmap.Height, depthOrArrayLayers = 1 };
+                cubeTexture = device.createTexture(new WGPUTextureDescriptor {
+                    size    = imageSize,
+                    format  = WGPUTextureFormat.RGBA8Unorm,
+                    usage   = WGPUTextureUsage.TextureBinding | WGPUTextureUsage.CopyDst | WGPUTextureUsage.RenderAttachment
+                });
+                queue.writeTexture<byte>(
+                    destination:    new() { texture = cubeTexture },
+                    data:           imageBitmap.Bytes,
+                    dataLayout:     new() { bytesPerRow = (uint)(4 * imageBitmap.Width), rowsPerImage = (uint)imageBitmap.Height },
+                    writeSize:      imageSize);
+            }
             
+            // Create a sampler with linear filtering for smooth interpolation.
+            var sampler = device.createSampler(new WGPUSamplerDescriptor {
+                magFilter = WGPUFilterMode.Linear,
+                minFilter = WGPUFilterMode.Linear 
+            });
             
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
-                layout = bindGroupLayout,
-                entries = [new WGPUBindGroupEntry
-                    {
+                layout = pipeline.getBindGroupLayout(0),
+                entries = [
+                    new WGPUBindGroupEntry {
                         binding = 0,
                         buffer  = uniformBuffer,
                         size    = (ulong)uniformBufferSize,
                     },
+                    new WGPUBindGroupEntry {
+                        binding = 1,
+                        sampler = sampler,
+                    },
+                    new WGPUBindGroupEntry {
+                        binding = 2,
+                        textureView = cubeTexture.createView()
+                    }
                 ],
             });
             var sessionArena = new Arena("sessionArena");
