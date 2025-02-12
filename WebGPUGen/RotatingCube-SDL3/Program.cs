@@ -69,6 +69,7 @@ namespace HelloTriangle
                 
                 nextView.release();
                 surface.present();
+                surfaceTexture.texture.release();
             }
         }
     }
