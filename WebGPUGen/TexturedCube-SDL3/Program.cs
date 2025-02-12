@@ -28,6 +28,8 @@ namespace HelloTriangle
             gpu.CleanUp();
             Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Entries.Count}");
             
+            Console.WriteLine(ObjectTracker.GroupedEntriesLog());
+            
             SDL_DestroyWindow(window);
             SDL_Quit();
         }

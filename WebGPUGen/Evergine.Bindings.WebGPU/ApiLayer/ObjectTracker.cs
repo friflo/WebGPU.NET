@@ -80,10 +80,14 @@ public struct ObjectEntry
     }
 }
 
-public struct GroupedEntry
+public struct GroupedEntry : IComparable<GroupedEntry>
 {
     internal string name;
     internal int    count;
+
+    public int CompareTo(GroupedEntry other) {
+        return string.Compare(name, other.name, StringComparison.Ordinal);
+    }
 
     public override string ToString() => $"{name,-40} count: {count}";
 }
@@ -97,6 +101,16 @@ public static class ObjectTracker
     
     private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
     
+    public static string GroupedEntriesLog() {
+        var sb = new StringBuilder();
+        var groupedEntries = GetGroupedEntries().ToList();
+        groupedEntries.Sort();
+        foreach (var entry in groupedEntries) {
+            sb.AppendLine($"{entry.name,-50} count: {entry.count}");   
+        }
+        return sb.ToString();
+    }
+    
     private static Dictionary<string,GroupedEntry>.ValueCollection GetGroupedEntries()
     {
         var map = GroupedEntryMap;
@@ -104,7 +118,7 @@ public static class ObjectTracker
         var sb = new StringBuilder();
         foreach (var entry in Entries) {
             sb.Clear();
-            sb.Append(entry.Type);
+            sb.Append($"{entry.Type,-25}");
             var label = entry.Label;
             if (label != null) {
                 sb.Append("  \"");
