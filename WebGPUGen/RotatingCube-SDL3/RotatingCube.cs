@@ -5,6 +5,7 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
+// ReSharper disable InconsistentNaming
 namespace HelloTriangle
 {
     public class RotatingCube
@@ -141,10 +142,10 @@ namespace HelloTriangle
             frameArena.Use();
         }
         
-        const float aspect = Program.Width / Program.Height;
-        Matrix4x4 projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
+        private const    float      aspect = Program.Width / Program.Height;
+        private readonly Matrix4x4  projectionMatrix = Matrix4x4.CreatePerspective((2f * MathF.PI) / 5f, aspect, 1, 100.0f);
         //  Matrix4x4 modelViewProjectionMatrix = new Matrix4x4();
-        long startTime = Stopwatch.GetTimestamp();
+        private readonly long       startTime = Stopwatch.GetTimestamp();
         
         Matrix4x4 getTransformationMatrix()
         {
