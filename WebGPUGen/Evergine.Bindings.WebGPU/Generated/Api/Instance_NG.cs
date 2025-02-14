@@ -20,7 +20,9 @@ public unsafe partial struct WGPUInstance
 #region create Surface
     public WGPUSurface createSurfaceFromWindowsHWND(WGPUSurfaceDescriptor descriptor, IntPtr hInstance, IntPtr hWnd)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromWindowsHWND {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromWindowsHWND,
@@ -36,7 +38,9 @@ public unsafe partial struct WGPUInstance
     
     public WGPUSurface createSurfaceFromMetalLayer(WGPUSurfaceDescriptor descriptor, IntPtr layer)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromMetalLayer {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromMetalLayer
@@ -51,7 +55,9 @@ public unsafe partial struct WGPUInstance
     
     public WGPUSurface createSurfaceFromWaylandSurface(WGPUSurfaceDescriptor descriptor, IntPtr surface, IntPtr display)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromWaylandSurface {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromWaylandSurface
@@ -67,7 +73,9 @@ public unsafe partial struct WGPUInstance
     
     public WGPUSurface createSurfaceFromAndroidNativeWindow(WGPUSurfaceDescriptor descriptor, IntPtr window)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromAndroidNativeWindow {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromAndroidNativeWindow
@@ -82,7 +90,9 @@ public unsafe partial struct WGPUInstance
     
     public WGPUSurface createSurfaceFromXlibWindow(WGPUSurfaceDescriptor descriptor, ulong window, IntPtr display)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromXlibWindow {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromXlibWindow
@@ -98,7 +108,9 @@ public unsafe partial struct WGPUInstance
     
     public WGPUSurface createSurfaceFromXcbWindow(WGPUSurfaceDescriptor descriptor, uint window, IntPtr connection)
     {
+        ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
+        
         var windowsSurface = new WGPUSurfaceDescriptorFromXcbWindow {
             chain = new WGPUChainedStruct {
                 sType = WGPUSType.SurfaceDescriptorFromXcbWindow
@@ -116,6 +128,9 @@ public unsafe partial struct WGPUInstance
 #region request Adapter
     public void requestAdapter(WGPURequestAdapterOptions options, RequestAdapterCallback? callback)
     {
+        ObjectTracker.ValidateHandle(this);
+        options.Validate();
+        
         var userData = UserData.Create(default, callback);
         wgpuInstanceRequestAdapter(this, &options, &requestAdapterCallback, userData);
     }

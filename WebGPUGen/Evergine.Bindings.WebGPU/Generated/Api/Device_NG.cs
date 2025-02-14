@@ -5,12 +5,16 @@ using static WebGPUNative;
 public unsafe partial struct WGPUDevice
 {
     public WGPUCommandEncoder createCommandEncoder() {
+        ObjectTracker.ValidateHandle(this);
+        
         var result = wgpuDeviceCreateCommandEncoder(this, null);
         ObjectTracker.CreateRef(result, HandleType.WGPUCommandEncoder, null);
         return result;
     }
 
     public WGPUSampler createSampler() {
+        ObjectTracker.ValidateHandle(this);
+        
         var result = wgpuDeviceCreateSampler(this, null);
         ObjectTracker.CreateRef(result, HandleType.WGPUSampler, null);
         return result;
@@ -18,6 +22,8 @@ public unsafe partial struct WGPUDevice
     
     public WGPUShaderModule createShaderModuleWGSL(WGPUShaderModuleDescriptor descriptor, Utf8 code)
     {
+        ObjectTracker.ValidateHandle(this);
+        
         descriptor.Validate();
         WGPUShaderModuleWGSLDescriptor wgslDescriptor = new()
         {
@@ -35,6 +41,8 @@ public unsafe partial struct WGPUDevice
     }
     
     public WGPUSupportedLimits getLimits() {
+        ObjectTracker.ValidateHandle(this);
+        
         WGPUSupportedLimits result;
         var success = wgpuDeviceGetLimits(this, &result);
         return result;
@@ -43,6 +51,7 @@ public unsafe partial struct WGPUDevice
     public WGPUQueue queue {
         get {
             ObjectTracker.ValidateHandle(this);
+            
             var result = wgpuDeviceGetQueue(this);
             ObjectTracker.CreateRef(result, HandleType.WGPUQueue, null);
             return result;

@@ -7,8 +7,10 @@ public unsafe partial struct WGPUSurface
 {
     public WGPUSurfaceCapabilities getCapabilities(WGPUAdapter adapter)
     {
-        var value = new WGPUSurfaceCapabilities();
+        ObjectTracker.ValidateHandle(this);
+        ObjectTracker.ValidateHandleParam(adapter);
         
+        var value = new WGPUSurfaceCapabilities();
         wgpuSurfaceGetCapabilities(this, adapter, &value);
         var result = value;
         result.formats      = new Span<WGPUTextureFormat>       (value._formats,      (int)value._formatCount);
@@ -22,15 +24,11 @@ public unsafe partial struct WGPUSurface
     /// The returned <see cref="WGPUSurfaceTexture.texture"/> must be released by caller.
     /// </summary>
     public WGPUSurfaceTexture getCurrentTexture() {
-        Validate_getCurrentTexture();
+        ObjectTracker.ValidateHandle(this);
+        
         var result = new WGPUSurfaceTexture();
         wgpuSurfaceGetCurrentTexture(this, &result);
         ObjectTracker.CreateRef(result.texture, HandleType.WGPUTexture, null);
         return result;
-    }
-
-    [Conditional("VALIDATE")]
-    private void Validate_getCurrentTexture() {
-        ObjectTracker.ValidateHandle(this);
     }
 }
