@@ -241,7 +241,11 @@ namespace WebGPUGen
                             file.WriteLine($"[MarshalAs(UnmanagedType.I1)]");
                         }
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
-                        var visibility = isInternalField ? "[Browse(Never)] internal   " : "                public     ";
+                        var docs = "               ";
+                        if (member.Type is CppTypedef handleType) {
+                            docs = ApiCodeGenerator.objects.ContainsKey(handleType) ? "/** handle */  ": docs;
+                        }
+                        var visibility = isInternalField ? "[Browse(Never)] internal   " : $"{docs} public     ";
                         var prefix = isInternalField ? "_" : "";
                         var fieldDefault = StructDefault.GetStructFieldDefault(structure, member);
                         file.WriteLine($"\t{visibility} {type,-23} {prefix}{member.Name}{fieldDefault};");

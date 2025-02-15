@@ -10,7 +10,7 @@ using System.Text;
 
 public static class ApiCodeGenerator
 {
-    private static Dictionary<CppTypedef, List<CppFunction>> objects = new();
+    internal static Dictionary<CppTypedef, List<CppFunction>> objects = new();
     
     public static void GetObjects(CppCompilation compilation) {
         var handles = GetHandles(compilation).ToArray();

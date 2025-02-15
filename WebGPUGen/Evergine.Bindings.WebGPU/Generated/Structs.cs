@@ -50,11 +50,11 @@ public unsafe struct WGPUBindGroupEntry
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      uint                    binding;
-	                public      WGPUBuffer              buffer;
+	/** handle */   public      WGPUBuffer              buffer;
 	                public      ulong                   offset;
 	                public      ulong                   size;
-	                public      WGPUSampler             sampler;
-	                public      WGPUTextureView         textureView;
+	/** handle */   public      WGPUSampler             sampler;
+	/** handle */   public      WGPUTextureView         textureView;
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -174,7 +174,7 @@ public unsafe struct WGPUCompilationMessage
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUComputePassTimestampWrites
 {
-	                public      WGPUQuerySet            querySet;
+	/** handle */   public      WGPUQuerySet            querySet;
 	                public      uint                    beginningOfPassWriteIndex;
 	                public      uint                    endOfPassWriteIndex;
 
@@ -398,7 +398,7 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPURenderPassDepthStencilAttachment
 {
-	                public      WGPUTextureView         view;
+	/** handle */   public      WGPUTextureView         view;
 	                public      WGPULoadOp              depthLoadOp;
 	                public      WGPUStoreOp             depthStoreOp;
 	                public      float                   depthClearValue;
@@ -424,7 +424,7 @@ public unsafe struct WGPURenderPassDescriptorMaxDrawCount
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPURenderPassTimestampWrites
 {
-	                public      WGPUQuerySet            querySet;
+	/** handle */   public      WGPUQuerySet            querySet;
 	                public      uint                    beginningOfPassWriteIndex;
 	                public      uint                    endOfPassWriteIndex;
 
@@ -438,7 +438,7 @@ public unsafe struct WGPURenderPassTimestampWrites
 public unsafe struct WGPURequestAdapterOptions
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUSurface             compatibleSurface;
+	/** handle */   public      WGPUSurface             compatibleSurface;
 	                public      WGPUPowerPreference     powerPreference;
 	                public      WGPUBackendType         backendType;
 	                public      WGPUBool                forceFallbackAdapter;
@@ -490,7 +490,7 @@ public unsafe struct WGPUShaderModuleCompilationHint
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _entryPoint;
-	                public      WGPUPipelineLayout      layout;
+	/** handle */   public      WGPUPipelineLayout      layout;
 	// --- properties
 	public Utf8 entryPoint {
 		get => ApiUtils.GetUtf8(_entryPoint);
@@ -596,7 +596,7 @@ public unsafe struct WGPUSurfaceCapabilities
 public unsafe struct WGPUSurfaceConfiguration
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUDevice              device;
+	/** handle */   public      WGPUDevice              device;
 	                public      WGPUTextureFormat       format;
 	                public      WGPUTextureUsage        usage;
 	[Browse(Never)] internal    ulong                   _viewFormatCount;
@@ -739,7 +739,7 @@ public unsafe struct WGPUSurfaceDescriptorFromXlibWindow
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUSurfaceTexture
 {
-	                public      WGPUTexture             texture;
+	/** handle */   public      WGPUTexture             texture;
 	                public      WGPUBool                suboptimal;
 	                public      WGPUSurfaceGetCurrentTextureStatus status;
 
@@ -819,7 +819,7 @@ public unsafe struct WGPUBindGroupDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUBindGroupLayout     layout;
+	/** handle */   public      WGPUBindGroupLayout     layout;
 	[Browse(Never)] internal    ulong                   _entryCount;
 	[Browse(Never)] internal    WGPUBindGroupEntry*     _entries;
 	// --- properties
@@ -931,7 +931,7 @@ public unsafe struct WGPUImageCopyBuffer
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      WGPUTextureDataLayout   layout;
-	                public      WGPUBuffer              buffer;
+	/** handle */   public      WGPUBuffer              buffer;
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -943,7 +943,7 @@ public unsafe struct WGPUImageCopyBuffer
 public unsafe struct WGPUImageCopyTexture
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTexture             texture;
+	/** handle */   public      WGPUTexture             texture;
 	                public      uint                    mipLevel;
 	                public      WGPUOrigin3D            origin;
 	                public      WGPUTextureAspect       aspect;
@@ -958,7 +958,7 @@ public unsafe struct WGPUImageCopyTexture
 public unsafe struct WGPUProgrammableStageDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUShaderModule        module;
+	/** handle */   public      WGPUShaderModule        module;
 	[Browse(Never)] internal    char*                   _entryPoint;
 	[Browse(Never)] internal    ulong                   _constantCount;
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
@@ -987,9 +987,9 @@ public unsafe struct WGPUProgrammableStageDescriptor
 public unsafe struct WGPURenderPassColorAttachment
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTextureView         view;
+	/** handle */   public      WGPUTextureView         view;
 	                public      uint                    depthSlice;
-	                public      WGPUTextureView         resolveTarget;
+	/** handle */   public      WGPUTextureView         resolveTarget;
 	                public      WGPULoadOp              loadOp;
 	                public      WGPUStoreOp             storeOp;
 	                public      WGPUColor               clearValue;
@@ -1142,7 +1142,7 @@ public unsafe struct WGPUComputePipelineDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUPipelineLayout      layout;
+	/** handle */   public      WGPUPipelineLayout      layout;
 	                public      WGPUProgrammableStageDescriptor compute;
 	// --- properties
 	public Utf8 label {
@@ -1205,7 +1205,7 @@ public unsafe struct WGPURenderPassDescriptor
 	[Browse(Never)] internal    ulong                   _colorAttachmentCount;
 	[Browse(Never)] internal    WGPURenderPassColorAttachment* _colorAttachments;
 	[Browse(Never)] internal    WGPURenderPassDepthStencilAttachment* _depthStencilAttachment;
-	                public      WGPUQuerySet            occlusionQuerySet;
+	/** handle */   public      WGPUQuerySet            occlusionQuerySet;
 	[Browse(Never)] internal    WGPURenderPassTimestampWrites* _timestampWrites;
 	// --- properties
 	public Utf8 label {
@@ -1248,7 +1248,7 @@ public unsafe struct WGPURenderPassDescriptor
 public unsafe struct WGPUVertexState
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUShaderModule        module;
+	/** handle */   public      WGPUShaderModule        module;
 	[Browse(Never)] internal    char*                   _entryPoint;
 	[Browse(Never)] internal    ulong                   _constantCount;
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
@@ -1287,7 +1287,7 @@ public unsafe struct WGPUVertexState
 public unsafe struct WGPUFragmentState
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUShaderModule        module;
+	/** handle */   public      WGPUShaderModule        module;
 	[Browse(Never)] internal    char*                   _entryPoint;
 	[Browse(Never)] internal    ulong                   _constantCount;
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
@@ -1328,7 +1328,7 @@ public unsafe struct WGPURenderPipelineDescriptor
     public WGPURenderPipelineDescriptor() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUPipelineLayout      layout;
+	/** handle */   public      WGPUPipelineLayout      layout;
 	                public      WGPUVertexState         vertex;
 	                public      WGPUPrimitiveState      primitive            = new WGPUPrimitiveState();
 	[Browse(Never)] internal    WGPUDepthStencilState*  _depthStencil;
@@ -1479,7 +1479,7 @@ public unsafe struct WGPUPipelineLayoutExtras
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUWrappedSubmissionIndex
 {
-	                public      WGPUQueue               queue;
+	/** handle */   public      WGPUQueue               queue;
 	                public      ulong                   submissionIndex;
 
 	[Conditional("VALIDATE")]
