@@ -139,15 +139,22 @@ public static class ObjectTracker
     internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, IntPtr from)
         where THandle : struct, IHandle
     {
-        CreateRefLabel(handle, type, null);
+        var handlePtr = handle.GetHandle();
+        CreateRefIntern(handlePtr, type, null);
     }
     
-    // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage
     [Conditional("VALIDATE")]
     internal static unsafe void CreateRefLabel<THandle>(THandle handle, HandleType type, char* descriptorLabel)
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();
+        CreateRefIntern(handlePtr, type, descriptorLabel);
+    }
+    
+    // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage
+    [Conditional("VALIDATE")]
+    private static unsafe void CreateRefIntern(nint handlePtr, HandleType type, char* descriptorLabel)
+    {
         ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(HandleMap, handlePtr, out bool exists);
         if (!exists) {
             value.count = 1;
