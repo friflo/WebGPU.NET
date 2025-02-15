@@ -136,11 +136,19 @@ public static class ObjectTracker
     }
     
     [Conditional("VALIDATE")]
-    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, IntPtr from)
+    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, IntPtr parent)
         where THandle : struct, IHandle
     {
-        var handlePtr = handle.GetHandle();
-        CreateRefIntern(handlePtr, type, null);
+        var handlePtr   = handle.GetHandle();
+        byte* label     = stackalloc byte[64];
+        GetParentLabel(parent, label);
+        CreateRefIntern(handlePtr, type, (char*)label);
+    }
+    
+    private static unsafe void GetParentLabel(IntPtr parent, byte* label)
+    {
+        var entry = HandleMap[parent];
+        new ReadOnlySpan<byte>(entry.label.buffer, 64).CopyTo(new Span<byte>(label, 64));
     }
     
     [Conditional("VALIDATE")]

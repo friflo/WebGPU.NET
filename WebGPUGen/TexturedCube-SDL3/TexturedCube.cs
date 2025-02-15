@@ -137,6 +137,7 @@ namespace HelloTriangle
                 magFilter   = WGPUFilterMode.Linear,
                 minFilter   = WGPUFilterMode.Linear 
             });
+            _ = pipeline.getBindGroupLayout(0);
             
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
                 label   = "textured-cube"u8,
