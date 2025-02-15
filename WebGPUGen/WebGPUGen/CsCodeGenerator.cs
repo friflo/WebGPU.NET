@@ -243,7 +243,13 @@ namespace WebGPUGen
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
                         var docs = "               ";
                         if (member.Type is CppTypedef handleType) {
-                            docs = ApiCodeGenerator.objects.ContainsKey(handleType) ? "/** handle */  ": docs;
+                            if (handleType.Name.EndsWith("Flags")) {
+                                docs = "/** flags  */  ";
+                            } else {
+                                docs = ApiCodeGenerator.objects.ContainsKey(handleType) ? "/** handle */  ": docs;
+                            }
+                        } else if (member.Type is CppEnum) {
+                            docs = "/** enum   */  ";
                         }
                         var visibility = isInternalField ? "[Browse(Never)] internal   " : $"{docs} public     ";
                         var prefix = isInternalField ? "_" : "";

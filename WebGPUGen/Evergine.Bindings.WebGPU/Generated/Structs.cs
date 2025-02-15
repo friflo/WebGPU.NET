@@ -14,8 +14,8 @@ public unsafe struct WGPUAdapterInfo
 	[Browse(Never)] internal    char*                   _architecture;
 	[Browse(Never)] internal    char*                   _device;
 	[Browse(Never)] internal    char*                   _description;
-	                public      WGPUBackendType         backendType;
-	                public      WGPUAdapterType         adapterType;
+	/** enum   */   public      WGPUBackendType         backendType;
+	/** enum   */   public      WGPUAdapterType         adapterType;
 	                public      uint                    vendorID;
 	                public      uint                    deviceID;
 	// --- properties
@@ -68,9 +68,9 @@ public unsafe struct WGPUBindGroupEntry
 public unsafe struct WGPUBlendComponent
 {
     public WGPUBlendComponent() {}
-	                public      WGPUBlendOperation      operation            = WGPUBlendOperation.Add;
-	                public      WGPUBlendFactor         srcFactor            = WGPUBlendFactor.One;
-	                public      WGPUBlendFactor         dstFactor            = WGPUBlendFactor.Zero;
+	/** enum   */   public      WGPUBlendOperation      operation            = WGPUBlendOperation.Add;
+	/** enum   */   public      WGPUBlendFactor         srcFactor            = WGPUBlendFactor.One;
+	/** enum   */   public      WGPUBlendFactor         dstFactor            = WGPUBlendFactor.Zero;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -78,7 +78,7 @@ public unsafe struct WGPUBufferBindingLayout
 {
     public WGPUBufferBindingLayout() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUBufferBindingType   type                 = WGPUBufferBindingType.Uniform;
+	/** enum   */   public      WGPUBufferBindingType   type                 = WGPUBufferBindingType.Uniform;
 	                public      WGPUBool                hasDynamicOffset;
 	                public      ulong                   minBindingSize;
 }
@@ -88,7 +88,7 @@ public unsafe struct WGPUBufferDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUBufferUsage         usage;
+	/** flags  */   public      WGPUBufferUsage         usage;
 	                public      ulong                   size;
 	                public      WGPUBool                mappedAtCreation;
 	// --- properties
@@ -151,7 +151,7 @@ public unsafe struct WGPUCompilationMessage
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _message;
-	                public      WGPUCompilationMessageType type;
+	/** enum   */   public      WGPUCompilationMessageType type;
 	                public      ulong                   lineNum;
 	                public      ulong                   linePos;
 	                public      ulong                   offset;
@@ -308,10 +308,10 @@ public unsafe struct WGPUPrimitiveState
 {
     public WGPUPrimitiveState() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUPrimitiveTopology   topology             = WGPUPrimitiveTopology.TriangleList;
-	                public      WGPUIndexFormat         stripIndexFormat;
-	                public      WGPUFrontFace           frontFace            = WGPUFrontFace.CCW;
-	                public      WGPUCullMode            cullMode             = WGPUCullMode.None;
+	/** enum   */   public      WGPUPrimitiveTopology   topology             = WGPUPrimitiveTopology.TriangleList;
+	/** enum   */   public      WGPUIndexFormat         stripIndexFormat;
+	/** enum   */   public      WGPUFrontFace           frontFace            = WGPUFrontFace.CCW;
+	/** enum   */   public      WGPUCullMode            cullMode             = WGPUCullMode.None;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -319,7 +319,7 @@ public unsafe struct WGPUQuerySetDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUQueryType           type;
+	/** enum   */   public      WGPUQueryType           type;
 	                public      uint                    count;
 	// --- properties
 	public Utf8 label {
@@ -374,7 +374,7 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	[Browse(Never)] internal    ulong                   _colorFormatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*      _colorFormats;
-	                public      WGPUTextureFormat       depthStencilFormat;
+	/** enum   */   public      WGPUTextureFormat       depthStencilFormat;
 	                public      uint                    sampleCount;
 	                public      WGPUBool                depthReadOnly;
 	                public      WGPUBool                stencilReadOnly;
@@ -399,12 +399,12 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 public unsafe struct WGPURenderPassDepthStencilAttachment
 {
 	/** handle */   public      WGPUTextureView         view;
-	                public      WGPULoadOp              depthLoadOp;
-	                public      WGPUStoreOp             depthStoreOp;
+	/** enum   */   public      WGPULoadOp              depthLoadOp;
+	/** enum   */   public      WGPUStoreOp             depthStoreOp;
 	                public      float                   depthClearValue;
 	                public      WGPUBool                depthReadOnly;
-	                public      WGPULoadOp              stencilLoadOp;
-	                public      WGPUStoreOp             stencilStoreOp;
+	/** enum   */   public      WGPULoadOp              stencilLoadOp;
+	/** enum   */   public      WGPUStoreOp             stencilStoreOp;
 	                public      uint                    stencilClearValue;
 	                public      WGPUBool                stencilReadOnly;
 
@@ -439,8 +439,8 @@ public unsafe struct WGPURequestAdapterOptions
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	/** handle */   public      WGPUSurface             compatibleSurface;
-	                public      WGPUPowerPreference     powerPreference;
-	                public      WGPUBackendType         backendType;
+	/** enum   */   public      WGPUPowerPreference     powerPreference;
+	/** enum   */   public      WGPUBackendType         backendType;
 	                public      WGPUBool                forceFallbackAdapter;
 
 	[Conditional("VALIDATE")]
@@ -454,7 +454,7 @@ public unsafe struct WGPUSamplerBindingLayout
 {
     public WGPUSamplerBindingLayout() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUSamplerBindingType  type                 = WGPUSamplerBindingType.Filtering;
+	/** enum   */   public      WGPUSamplerBindingType  type                 = WGPUSamplerBindingType.Filtering;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -463,15 +463,15 @@ public unsafe struct WGPUSamplerDescriptor
     public WGPUSamplerDescriptor() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUAddressMode         addressModeU         = WGPUAddressMode.ClampToEdge;
-	                public      WGPUAddressMode         addressModeV         = WGPUAddressMode.ClampToEdge;
-	                public      WGPUAddressMode         addressModeW         = WGPUAddressMode.ClampToEdge;
-	                public      WGPUFilterMode          magFilter            = WGPUFilterMode.Nearest;
-	                public      WGPUFilterMode          minFilter            = WGPUFilterMode.Nearest;
-	                public      WGPUMipmapFilterMode    mipmapFilter;
+	/** enum   */   public      WGPUAddressMode         addressModeU         = WGPUAddressMode.ClampToEdge;
+	/** enum   */   public      WGPUAddressMode         addressModeV         = WGPUAddressMode.ClampToEdge;
+	/** enum   */   public      WGPUAddressMode         addressModeW         = WGPUAddressMode.ClampToEdge;
+	/** enum   */   public      WGPUFilterMode          magFilter            = WGPUFilterMode.Nearest;
+	/** enum   */   public      WGPUFilterMode          minFilter            = WGPUFilterMode.Nearest;
+	/** enum   */   public      WGPUMipmapFilterMode    mipmapFilter;
 	                public      float                   lodMinClamp;
 	                public      float                   lodMaxClamp          = 32;
-	                public      WGPUCompareFunction     compare;
+	/** enum   */   public      WGPUCompareFunction     compare;
 	                public      ushort                  maxAnisotropy        = 1;
 	// --- properties
 	public Utf8 label {
@@ -543,10 +543,10 @@ public unsafe struct WGPUShaderModuleWGSLDescriptor
 public unsafe struct WGPUStencilFaceState
 {
     public WGPUStencilFaceState() {}
-	                public      WGPUCompareFunction     compare              = WGPUCompareFunction.Always;
-	                public      WGPUStencilOperation    failOp               = WGPUStencilOperation.Keep;
-	                public      WGPUStencilOperation    depthFailOp          = WGPUStencilOperation.Keep;
-	                public      WGPUStencilOperation    passOp               = WGPUStencilOperation.Keep;
+	/** enum   */   public      WGPUCompareFunction     compare              = WGPUCompareFunction.Always;
+	/** enum   */   public      WGPUStencilOperation    failOp               = WGPUStencilOperation.Keep;
+	/** enum   */   public      WGPUStencilOperation    depthFailOp          = WGPUStencilOperation.Keep;
+	/** enum   */   public      WGPUStencilOperation    passOp               = WGPUStencilOperation.Keep;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -554,16 +554,16 @@ public unsafe struct WGPUStorageTextureBindingLayout
 {
     public WGPUStorageTextureBindingLayout() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUStorageTextureAccess access               = WGPUStorageTextureAccess.WriteOnly;
-	                public      WGPUTextureFormat       format;
-	                public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
+	/** enum   */   public      WGPUStorageTextureAccess access               = WGPUStorageTextureAccess.WriteOnly;
+	/** enum   */   public      WGPUTextureFormat       format;
+	/** enum   */   public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUSurfaceCapabilities
 {
 	[Browse(Never)] internal    WGPUChainedStructOut*   _nextInChain;
-	                public      WGPUTextureUsage        usages;
+	/** flags  */   public      WGPUTextureUsage        usages;
 	[Browse(Never)] internal    ulong                   _formatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*      _formats;
 	[Browse(Never)] internal    ulong                   _presentModeCount;
@@ -597,14 +597,14 @@ public unsafe struct WGPUSurfaceConfiguration
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	/** handle */   public      WGPUDevice              device;
-	                public      WGPUTextureFormat       format;
-	                public      WGPUTextureUsage        usage;
+	/** enum   */   public      WGPUTextureFormat       format;
+	/** flags  */   public      WGPUTextureUsage        usage;
 	[Browse(Never)] internal    ulong                   _viewFormatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*      _viewFormats;
-	                public      WGPUCompositeAlphaMode  alphaMode;
+	/** enum   */   public      WGPUCompositeAlphaMode  alphaMode;
 	                public      uint                    width;
 	                public      uint                    height;
-	                public      WGPUPresentMode         presentMode;
+	/** enum   */   public      WGPUPresentMode         presentMode;
 	// --- properties
 	public Span<WGPUTextureFormat> viewFormats {
 		get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
@@ -741,7 +741,7 @@ public unsafe struct WGPUSurfaceTexture
 {
 	/** handle */   public      WGPUTexture             texture;
 	                public      WGPUBool                suboptimal;
-	                public      WGPUSurfaceGetCurrentTextureStatus status;
+	/** enum   */   public      WGPUSurfaceGetCurrentTextureStatus status;
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -754,8 +754,8 @@ public unsafe struct WGPUTextureBindingLayout
 {
     public WGPUTextureBindingLayout() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTextureSampleType   sampleType           = WGPUTextureSampleType.Float;
-	                public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
+	/** enum   */   public      WGPUTextureSampleType   sampleType           = WGPUTextureSampleType.Float;
+	/** enum   */   public      WGPUTextureViewDimension viewDimension        = WGPUTextureViewDimension._2D;
 	                public      WGPUBool                multisampled;
 }
 
@@ -774,13 +774,13 @@ public unsafe struct WGPUTextureViewDescriptor
     public WGPUTextureViewDescriptor() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUTextureFormat       format;
-	                public      WGPUTextureViewDimension dimension;
+	/** enum   */   public      WGPUTextureFormat       format;
+	/** enum   */   public      WGPUTextureViewDimension dimension;
 	                public      uint                    baseMipLevel;
 	                public      uint                    mipLevelCount;
 	                public      uint                    baseArrayLayer;
 	                public      uint                    arrayLayerCount;
-	                public      WGPUTextureAspect       aspect               = WGPUTextureAspect.All;
+	/** enum   */   public      WGPUTextureAspect       aspect               = WGPUTextureAspect.All;
 	// --- properties
 	public Utf8 label {
 		get => ApiUtils.GetUtf8(_label);
@@ -809,7 +809,7 @@ public unsafe struct WGPUUncapturedErrorCallbackInfo
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUVertexAttribute
 {
-	                public      WGPUVertexFormat        format;
+	/** enum   */   public      WGPUVertexFormat        format;
 	                public      ulong                   offset;
 	                public      uint                    shaderLocation;
 }
@@ -848,7 +848,7 @@ public unsafe struct WGPUBindGroupLayoutEntry
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      uint                    binding;
-	                public      WGPUShaderStage         visibility;
+	/** flags  */   public      WGPUShaderStage         visibility;
 	                public      WGPUBufferBindingLayout buffer;
 	                public      WGPUSamplerBindingLayout sampler;
 	                public      WGPUTextureBindingLayout texture;
@@ -914,9 +914,9 @@ public unsafe struct WGPUDepthStencilState
 {
     public WGPUDepthStencilState() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTextureFormat       format;
+	/** enum   */   public      WGPUTextureFormat       format;
 	                public      WGPUBool                depthWriteEnabled;
-	                public      WGPUCompareFunction     depthCompare;
+	/** enum   */   public      WGPUCompareFunction     depthCompare;
 	                public      WGPUStencilFaceState    stencilFront         = new WGPUStencilFaceState();
 	                public      WGPUStencilFaceState    stencilBack          = new WGPUStencilFaceState();
 	                public      uint                    stencilReadMask      = 0xFFFFFFFF;
@@ -946,7 +946,7 @@ public unsafe struct WGPUImageCopyTexture
 	/** handle */   public      WGPUTexture             texture;
 	                public      uint                    mipLevel;
 	                public      WGPUOrigin3D            origin;
-	                public      WGPUTextureAspect       aspect;
+	/** enum   */   public      WGPUTextureAspect       aspect;
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -990,8 +990,8 @@ public unsafe struct WGPURenderPassColorAttachment
 	/** handle */   public      WGPUTextureView         view;
 	                public      uint                    depthSlice;
 	/** handle */   public      WGPUTextureView         resolveTarget;
-	                public      WGPULoadOp              loadOp;
-	                public      WGPUStoreOp             storeOp;
+	/** enum   */   public      WGPULoadOp              loadOp;
+	/** enum   */   public      WGPUStoreOp             storeOp;
 	                public      WGPUColor               clearValue;
 
 	[Conditional("VALIDATE")]
@@ -1048,10 +1048,10 @@ public unsafe struct WGPUTextureDescriptor
     public WGPUTextureDescriptor() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	                public      WGPUTextureUsage        usage;
-	                public      WGPUTextureDimension    dimension            = WGPUTextureDimension._2D;
+	/** flags  */   public      WGPUTextureUsage        usage;
+	/** enum   */   public      WGPUTextureDimension    dimension            = WGPUTextureDimension._2D;
 	                public      WGPUExtent3D            size;
-	                public      WGPUTextureFormat       format;
+	/** enum   */   public      WGPUTextureFormat       format;
 	                public      uint                    mipLevelCount        = 1;
 	                public      uint                    sampleCount          = 1;
 	[Browse(Never)] internal    ulong                   _viewFormatCount;
@@ -1078,7 +1078,7 @@ public unsafe struct WGPUVertexBufferLayout
 {
     public WGPUVertexBufferLayout() {}
 	                public      ulong                   arrayStride;
-	                public      WGPUVertexStepMode      stepMode             = WGPUVertexStepMode.Vertex;
+	/** enum   */   public      WGPUVertexStepMode      stepMode             = WGPUVertexStepMode.Vertex;
 	[Browse(Never)] internal    ulong                   _attributeCount;
 	[Browse(Never)] internal    WGPUVertexAttribute*    _attributes;
 	// --- properties
@@ -1122,9 +1122,9 @@ public unsafe struct WGPUColorTargetState
 {
     public WGPUColorTargetState() {}
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUTextureFormat       format;
+	/** enum   */   public      WGPUTextureFormat       format;
 	[Browse(Never)] internal    WGPUBlendState*         _blend;
-	                public      WGPUColorWriteMask      writeMask            = WGPUColorWriteMask.All;
+	/** flags  */   public      WGPUColorWriteMask      writeMask            = WGPUColorWriteMask.All;
 	// --- properties
 	public WGPUBlendState? blend {
 		get => ApiUtils.GetOpt(_blend);
@@ -1365,7 +1365,7 @@ public unsafe struct WGPURenderPipelineDescriptor
 public unsafe struct WGPUChainedStruct
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _next;
-	                public      WGPUSType               sType;
+	/** enum   */   public      WGPUSType               sType;
 	// --- properties
 	public WGPUChainedStruct? next {
 		get => ApiUtils.GetOpt(_next);
@@ -1377,7 +1377,7 @@ public unsafe struct WGPUChainedStruct
 public unsafe struct WGPUChainedStructOut
 {
 	[Browse(Never)] internal    WGPUChainedStructOut*   _next;
-	                public      WGPUSType               sType;
+	/** enum   */   public      WGPUSType               sType;
 	// --- properties
 	public WGPUChainedStructOut? next {
 		get => ApiUtils.GetOpt(_next);
@@ -1389,10 +1389,10 @@ public unsafe struct WGPUChainedStructOut
 public unsafe struct WGPUInstanceExtras
 {
 	                public      WGPUChainedStruct       chain;
-	                public      WGPUInstanceBackend     backends;
-	                public      WGPUInstance            flags;
-	                public      WGPUDx12Compiler        dx12ShaderCompiler;
-	                public      WGPUGles3MinorVersion   gles3MinorVersion;
+	/** flags  */   public      WGPUInstanceBackend     backends;
+	/** flags  */   public      WGPUInstance            flags;
+	/** enum   */   public      WGPUDx12Compiler        dx12ShaderCompiler;
+	/** enum   */   public      WGPUGles3MinorVersion   gles3MinorVersion;
 	[Browse(Never)] internal    char*                   _dxilPath;
 	[Browse(Never)] internal    char*                   _dxcPath;
 	// --- properties
@@ -1453,7 +1453,7 @@ public unsafe struct WGPUSupportedLimitsExtras
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUPushConstantRange
 {
-	                public      WGPUShaderStage         stages;
+	/** flags  */   public      WGPUShaderStage         stages;
 	                public      uint                    start;
 	                public      uint                    end;
 }
@@ -1514,7 +1514,7 @@ public unsafe struct WGPUShaderDefine
 public unsafe struct WGPUShaderModuleGLSLDescriptor
 {
 	                public      WGPUChainedStruct       chain;
-	                public      WGPUShaderStage         stage;
+	/** enum   */   public      WGPUShaderStage         stage;
 	[Browse(Never)] internal    char*                   _code;
 	[Browse(Never)] internal    uint                    _defineCount;
 	[Browse(Never)] internal    WGPUShaderDefine*       _defines;
@@ -1573,7 +1573,7 @@ public unsafe struct WGPUHubReport
 public unsafe struct WGPUGlobalReport
 {
 	                public      WGPURegistryReport      surfaces;
-	                public      WGPUBackendType         backendType;
+	/** enum   */   public      WGPUBackendType         backendType;
 	                public      WGPUHubReport           vulkan;
 	                public      WGPUHubReport           metal;
 	                public      WGPUHubReport           dx12;
@@ -1584,7 +1584,7 @@ public unsafe struct WGPUGlobalReport
 public unsafe struct WGPUInstanceEnumerateAdapterOptions
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
-	                public      WGPUInstanceBackend     backends;
+	/** flags  */   public      WGPUInstanceBackend     backends;
 }
 
 [StructLayout(LayoutKind.Sequential)]
