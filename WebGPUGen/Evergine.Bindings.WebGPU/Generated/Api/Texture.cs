@@ -10,7 +10,7 @@ public unsafe partial struct WGPUTexture
     public WGPUTextureView createView(WGPUTextureViewDescriptor descriptor) {
         Validate_createView(descriptor);
         var result = wgpuTextureCreateView(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUTextureView, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUTextureView, descriptor._label); // ref-create
         return result;
     }
 

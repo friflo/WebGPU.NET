@@ -135,9 +135,16 @@ public static class ObjectTracker
         return map.Values;
     }
     
+    [Conditional("VALIDATE")]
+    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type)
+        where THandle : struct, IHandle
+    {
+        CreateRefLabel(handle, type, null);
+    }
+    
     // descriptorLabel encoding: UTF-8 + null terminator, allocated in non movable storage
     [Conditional("VALIDATE")]
-    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, char* descriptorLabel)
+    internal static unsafe void CreateRefLabel<THandle>(THandle handle, HandleType type, char* descriptorLabel)
         where THandle : struct, IHandle
     {
         var handlePtr = handle.GetHandle();

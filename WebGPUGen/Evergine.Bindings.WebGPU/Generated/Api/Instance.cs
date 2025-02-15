@@ -10,7 +10,7 @@ public unsafe partial struct WGPUInstance
     public WGPUSurface createSurface(WGPUSurfaceDescriptor descriptor) {
         Validate_createSurface(descriptor);
         var result = wgpuInstanceCreateSurface(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUSurface, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUSurface, descriptor._label); // ref-create
         return result;
     }
 

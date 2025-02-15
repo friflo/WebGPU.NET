@@ -189,9 +189,9 @@ public static class ApiCodeGenerator
                 if (objects.ContainsKey(handleReturnType)) {
                     var comment = commandName.StartsWith("create") ? " // ref-create" : " // ref-other";
                     if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, descriptor._label);{comment}");
+                        sb.AppendLine($"        ObjectTracker.CreateRefLabel(result, HandleType.{handleReturnType.Name}, descriptor._label);{comment}");
                     } else {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, null);{comment}");
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name});{comment}");
                     }
                 }
             }

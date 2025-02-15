@@ -32,7 +32,7 @@ public unsafe partial struct WGPURenderBundleEncoder
     public WGPURenderBundle finish(WGPURenderBundleDescriptor descriptor) {
         Validate_finish(descriptor);
         var result = wgpuRenderBundleEncoderFinish(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPURenderBundle, descriptor._label); // ref-other
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderBundle, descriptor._label); // ref-other
         return result;
     }
 

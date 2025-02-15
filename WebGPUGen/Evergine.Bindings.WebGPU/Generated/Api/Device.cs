@@ -21,7 +21,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBindGroup createBindGroup(WGPUBindGroupDescriptor descriptor) {
         Validate_createBindGroup(descriptor);
         var result = wgpuDeviceCreateBindGroup(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUBindGroup, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUBindGroup, descriptor._label); // ref-create
         return result;
     }
 
@@ -34,7 +34,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBindGroupLayout createBindGroupLayout(WGPUBindGroupLayoutDescriptor descriptor) {
         Validate_createBindGroupLayout(descriptor);
         var result = wgpuDeviceCreateBindGroupLayout(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUBindGroupLayout, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUBindGroupLayout, descriptor._label); // ref-create
         return result;
     }
 
@@ -47,7 +47,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBuffer createBuffer(WGPUBufferDescriptor descriptor) {
         Validate_createBuffer(descriptor);
         var result = wgpuDeviceCreateBuffer(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUBuffer, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUBuffer, descriptor._label); // ref-create
         return result;
     }
 
@@ -60,7 +60,7 @@ public unsafe partial struct WGPUDevice
     public WGPUCommandEncoder createCommandEncoder(WGPUCommandEncoderDescriptor descriptor) {
         Validate_createCommandEncoder(descriptor);
         var result = wgpuDeviceCreateCommandEncoder(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUCommandEncoder, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUCommandEncoder, descriptor._label); // ref-create
         return result;
     }
 
@@ -73,7 +73,7 @@ public unsafe partial struct WGPUDevice
     public WGPUComputePipeline createComputePipeline(WGPUComputePipelineDescriptor descriptor) {
         Validate_createComputePipeline(descriptor);
         var result = wgpuDeviceCreateComputePipeline(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUComputePipeline, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUComputePipeline, descriptor._label); // ref-create
         return result;
     }
 
@@ -97,7 +97,7 @@ public unsafe partial struct WGPUDevice
     public WGPUPipelineLayout createPipelineLayout(WGPUPipelineLayoutDescriptor descriptor) {
         Validate_createPipelineLayout(descriptor);
         var result = wgpuDeviceCreatePipelineLayout(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUPipelineLayout, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUPipelineLayout, descriptor._label); // ref-create
         return result;
     }
 
@@ -110,7 +110,7 @@ public unsafe partial struct WGPUDevice
     public WGPUQuerySet createQuerySet(WGPUQuerySetDescriptor descriptor) {
         Validate_createQuerySet(descriptor);
         var result = wgpuDeviceCreateQuerySet(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUQuerySet, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUQuerySet, descriptor._label); // ref-create
         return result;
     }
 
@@ -123,7 +123,7 @@ public unsafe partial struct WGPUDevice
     public WGPURenderBundleEncoder createRenderBundleEncoder(WGPURenderBundleEncoderDescriptor descriptor) {
         Validate_createRenderBundleEncoder(descriptor);
         var result = wgpuDeviceCreateRenderBundleEncoder(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPURenderBundleEncoder, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderBundleEncoder, descriptor._label); // ref-create
         return result;
     }
 
@@ -136,7 +136,7 @@ public unsafe partial struct WGPUDevice
     public WGPURenderPipeline createRenderPipeline(WGPURenderPipelineDescriptor descriptor) {
         Validate_createRenderPipeline(descriptor);
         var result = wgpuDeviceCreateRenderPipeline(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPURenderPipeline, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderPipeline, descriptor._label); // ref-create
         return result;
     }
 
@@ -160,7 +160,7 @@ public unsafe partial struct WGPUDevice
     public WGPUSampler createSampler(WGPUSamplerDescriptor descriptor) {
         Validate_createSampler(descriptor);
         var result = wgpuDeviceCreateSampler(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUSampler, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUSampler, descriptor._label); // ref-create
         return result;
     }
 
@@ -173,7 +173,7 @@ public unsafe partial struct WGPUDevice
     public WGPUShaderModule createShaderModule(WGPUShaderModuleDescriptor descriptor) {
         Validate_createShaderModule(descriptor);
         var result = wgpuDeviceCreateShaderModule(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUShaderModule, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUShaderModule, descriptor._label); // ref-create
         return result;
     }
 
@@ -186,7 +186,7 @@ public unsafe partial struct WGPUDevice
     public WGPUTexture createTexture(WGPUTextureDescriptor descriptor) {
         Validate_createTexture(descriptor);
         var result = wgpuDeviceCreateTexture(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUTexture, descriptor._label); // ref-create
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUTexture, descriptor._label); // ref-create
         return result;
     }
 

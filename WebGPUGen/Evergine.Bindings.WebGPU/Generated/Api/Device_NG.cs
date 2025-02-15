@@ -8,7 +8,7 @@ public unsafe partial struct WGPUDevice
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuDeviceCreateCommandEncoder(this, null);
-        ObjectTracker.CreateRef(result, HandleType.WGPUCommandEncoder, null);
+        ObjectTracker.CreateRef(result, HandleType.WGPUCommandEncoder);
         return result;
     }
 
@@ -16,7 +16,7 @@ public unsafe partial struct WGPUDevice
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuDeviceCreateSampler(this, null);
-        ObjectTracker.CreateRef(result, HandleType.WGPUSampler, null);
+        ObjectTracker.CreateRef(result, HandleType.WGPUSampler);
         return result;
     }
     
@@ -36,7 +36,7 @@ public unsafe partial struct WGPUDevice
         };
         descriptor._nextInChain = &wgslDescriptor.chain;
         var result = wgpuDeviceCreateShaderModule(this, &descriptor);
-        ObjectTracker.CreateRef(result, HandleType.WGPUShaderModule, descriptor._label);
+        ObjectTracker.CreateRefLabel(result, HandleType.WGPUShaderModule, descriptor._label);
         return result;
     }
     
@@ -53,7 +53,7 @@ public unsafe partial struct WGPUDevice
             ObjectTracker.ValidateHandle(this);
             
             var result = wgpuDeviceGetQueue(this);
-            ObjectTracker.CreateRef(result, HandleType.WGPUQueue, null);
+            ObjectTracker.CreateRef(result, HandleType.WGPUQueue);
             return result;
         }
     }
