@@ -24,7 +24,7 @@ namespace HelloTriangle
 
             triangle.ReleaseResources();
             gpu.CleanUp();
-            Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Handles.Count}");
+            Console.WriteLine($"ObjectTracker - handles: {ObjectTracker.Handles.Count}");
             
             window.Dispose();
             window.Close();

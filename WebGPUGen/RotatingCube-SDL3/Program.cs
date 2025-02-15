@@ -26,7 +26,7 @@ namespace HelloTriangle
 
             cube.ReleaseResources();
             gpu.CleanUp();
-            Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Handles.Count}");
+            Console.WriteLine($"ObjectTracker - handles: {ObjectTracker.Handles.Count}");
             
             SDL_DestroyWindow(window);
             SDL_Quit();
