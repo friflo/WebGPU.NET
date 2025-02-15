@@ -191,7 +191,7 @@ public static class ApiCodeGenerator
                     if (parameters.Length >= 2 && parameters[1].Name == "descriptor") {
                         sb.AppendLine($"        ObjectTracker.CreateRefLabel(result, HandleType.{handleReturnType.Name}, descriptor._label);{comment}");
                     } else {
-                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name});{comment}");
+                        sb.AppendLine($"        ObjectTracker.CreateRef(result, HandleType.{handleReturnType.Name}, Handle);{comment}");
                     }
                 }
             }

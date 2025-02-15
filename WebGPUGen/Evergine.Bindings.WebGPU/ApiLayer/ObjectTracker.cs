@@ -136,7 +136,7 @@ public static class ObjectTracker
     }
     
     [Conditional("VALIDATE")]
-    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type)
+    internal static unsafe void CreateRef<THandle>(THandle handle, HandleType type, IntPtr from)
         where THandle : struct, IHandle
     {
         CreateRefLabel(handle, type, null);

@@ -28,7 +28,7 @@ public unsafe partial struct WGPUSurface
         
         var result = new WGPUSurfaceTexture();
         wgpuSurfaceGetCurrentTexture(this, &result);
-        ObjectTracker.CreateRef(result.texture, HandleType.WGPUTexture);
+        ObjectTracker.CreateRef(result.texture, HandleType.WGPUTexture, Handle);
         return result;
     }
 }
