@@ -56,7 +56,7 @@ public readonly unsafe ref struct Utf8
         return new Utf8 (value);
     }
     
-    public static implicit operator Utf8(in Label value) {
+    public static implicit operator Utf8(Label value) {
         return new Utf8 (value.AsSpan());
     }
     

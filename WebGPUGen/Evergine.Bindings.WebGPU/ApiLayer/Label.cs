@@ -24,9 +24,9 @@ public readonly struct Label
         return $"\"{ToString()}\"";
     }
 
-    public override string? ToString() {
-        if (bytes == null) {
-            return null;
+    public override string ToString() {
+        if (bytes.Length == 0) {
+            return "";
         }
         return Encoding.UTF8.GetString(bytes);
     }
