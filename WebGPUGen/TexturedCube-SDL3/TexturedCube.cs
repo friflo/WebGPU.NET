@@ -11,7 +11,7 @@ namespace HelloTriangle
 {
     public class TexturedCube
     {
-        private readonly    Utf8Const                   label = new("textured-cube");
+        private readonly    Label                       label = new("textured-cube");
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;

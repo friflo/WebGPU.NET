@@ -10,7 +10,7 @@ namespace HelloTriangle
 {
     public class RotatingCube
     {
-        private readonly    Utf8Const                   label = new("rotating-cube");
+        private readonly    Label                       label = new("rotating-cube");
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;

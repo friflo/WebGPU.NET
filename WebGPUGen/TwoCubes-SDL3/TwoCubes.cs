@@ -10,7 +10,7 @@ namespace HelloTriangle
 {
     public class TwoCubes
     {
-        private readonly    Utf8Const                   label = new("two-cubes");
+        private readonly    Label                       label = new("two-cubes");
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;

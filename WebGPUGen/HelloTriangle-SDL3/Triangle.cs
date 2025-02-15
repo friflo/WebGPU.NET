@@ -8,7 +8,7 @@ namespace HelloTriangle
 {
     public class Triangle
     {
-        private readonly    Utf8Const           label = new("triangle");
+        private readonly    Label               label = new("triangle");
         private readonly    WGPUDevice          device;
         private readonly    WGPUTextureFormat   swapChainFormat;
         private readonly    WGPUQueue           queue;

@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
-public unsafe struct Utf8Const
+[DebuggerDisplay("{DebuggerDisplay(),nq}")]
+public unsafe struct Label
 {
     // Store label in a fixed size buffer instead of a string.
     // Using a string (or char[]) would require a heap allocation.
@@ -12,7 +14,7 @@ public unsafe struct Utf8Const
     private readonly    int     len;
     
     
-    public Utf8Const(string? value) {
+    public Label(string? value) {
         if (value == null) {
             len = 0;
             return;
@@ -26,6 +28,10 @@ public unsafe struct Utf8Const
         fixed (byte* ptr = buffer) {
             return new ReadOnlySpan<byte>(ptr, len);
         }
+    }
+    
+    private string? DebuggerDisplay() {
+        return $"\"{ToString()}\"";
     }
 
     public override string? ToString() {
