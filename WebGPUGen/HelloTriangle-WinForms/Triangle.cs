@@ -8,7 +8,7 @@ namespace HelloTriangle
 {
     public class Triangle
     {
-        private readonly    Label               label = new("triangle");
+        private static readonly Label           Label = new("triangle");
         private readonly    WGPUDevice          device;
         private readonly    WGPUTextureFormat   swapChainFormat;
         private readonly    WGPUQueue           queue;
@@ -32,14 +32,14 @@ namespace HelloTriangle
         internal void InitResources()
         {
             frameArena.Use();
-            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = label });
+            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = Label });
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
             var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
-                label = label, 
+                label = Label, 
                 layout = pipelineLayout,
                 vertex = new WGPUVertexState {
                     buffers = [new WGPUVertexBufferLayout {
@@ -108,7 +108,7 @@ namespace HelloTriangle
 
             ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
             WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor {
-                label = label,
+                label = Label,
                 usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
                 size = size,
                 mappedAtCreation = false,
@@ -124,7 +124,7 @@ namespace HelloTriangle
             var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = "triangle"u8 });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
-                label = label,
+                label = Label,
                 colorAttachments = [new WGPURenderPassColorAttachment {
                     view            = view,
                     resolveTarget   = default,
