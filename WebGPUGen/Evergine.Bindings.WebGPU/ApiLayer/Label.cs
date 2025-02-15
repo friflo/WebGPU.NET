@@ -1,33 +1,23 @@
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Evergine.Bindings.WebGPU;
 
 [DebuggerDisplay("{DebuggerDisplay(),nq}")]
-public unsafe struct Label
+public readonly struct Label
 {
-    // Store label in a fixed size buffer instead of a string.
-    // Using a string (or char[]) would require a heap allocation.
-    // Invariant: buffer[63] = 0
-    private fixed       byte    buffer[64];
-    private readonly    int     len;
-    
+    private readonly    byte[] bytes;
     
     public Label(string? value) {
         if (value == null) {
-            len = 0;
+            bytes = Array.Empty<byte>();
             return;
         }
-        fixed (byte* ptr = buffer) {
-            len = Encoding.UTF8.GetBytes(value.AsSpan(), new Span<byte>(ptr, 63));
-        }
+        bytes = Encoding.UTF8.GetBytes(value);
     }
     
     public ReadOnlySpan<byte> AsSpan() {
-        fixed (byte* ptr = buffer) {
-            return new ReadOnlySpan<byte>(ptr, len);
-        }
+        return new ReadOnlySpan<byte>(bytes);
     }
     
     private string? DebuggerDisplay() {
@@ -35,11 +25,9 @@ public unsafe struct Label
     }
 
     public override string? ToString() {
-        if (len == 0) {
+        if (bytes == null) {
             return null;
         }
-        fixed (byte* ptr = buffer) {
-            return Marshal.PtrToStringAnsi((IntPtr)ptr);
-        }
+        return Encoding.UTF8.GetString(bytes);
     }
 }
