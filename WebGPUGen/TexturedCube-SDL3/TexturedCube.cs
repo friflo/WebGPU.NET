@@ -11,6 +11,7 @@ namespace HelloTriangle
 {
     public class TexturedCube
     {
+        private readonly    Utf8Const                   label = new("textured-cube");
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;
@@ -41,8 +42,8 @@ namespace HelloTriangle
             
             // Create a vertex buffer from the cube data.
             verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
-                label = "textured-cube"u8,
-                size = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
+                label = label,
+                size  = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
                 usage = WGPUBufferUsage.Vertex,
                 mappedAtCreation = true
             });
@@ -51,10 +52,10 @@ namespace HelloTriangle
             verticesBuffer.unmap();
             
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
-                label = "textured-cube"u8,
+                label = label,
                 layout = default, 
                 vertex = new WGPUVertexState {
-                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = "textured-cube"u8 }, basicVertWGSL),
+                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = label }, basicVertWGSL),
                     buffers = [
                         new WGPUVertexBufferLayout {
                             arrayStride = Cube.cubeVertexSize,
@@ -76,7 +77,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = "textured-cube"u8 }, sampleTextureMixColorWGSL),
+                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = label }, sampleTextureMixColorWGSL),
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat
                         },
@@ -100,7 +101,7 @@ namespace HelloTriangle
             });
             
             var depthTexture = device.createTexture(new WGPUTextureDescriptor{
-                label   = "textured-cube"u8,
+                label   = label,
                 size    = new WGPUExtent3D { width  = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
                 usage   = WGPUTextureUsage.RenderAttachment
@@ -108,7 +109,7 @@ namespace HelloTriangle
             
             var uniformBufferSize = 4 * 16; // 4x4 matrix
             uniformBuffer = device.createBuffer( new WGPUBufferDescriptor{
-                label   = "textured-cube"u8,
+                label   = label,
                 size    = (ulong)uniformBufferSize,
                 usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
@@ -119,7 +120,7 @@ namespace HelloTriangle
                 using var imageBitmap = SKBitmap.Decode(Path.Combine(AppContext.BaseDirectory, "Content", "Di-3d.png"));
                 var imageSize = new WGPUExtent3D { width = (uint)imageBitmap.Width, height = (uint)imageBitmap.Height, depthOrArrayLayers = 1 };
                 cubeTexture = device.createTexture(new WGPUTextureDescriptor {
-                    label   = "textured-cube"u8,
+                    label   = label,
                     size    = imageSize,
                     format  = WGPUTextureFormat.RGBA8Unorm,
                     usage   = WGPUTextureUsage.TextureBinding | WGPUTextureUsage.CopyDst | WGPUTextureUsage.RenderAttachment
@@ -133,14 +134,14 @@ namespace HelloTriangle
             
             // Create a sampler with linear filtering for smooth interpolation.
             var sampler = device.createSampler(new WGPUSamplerDescriptor {
-                label       = "textured-cube"u8,
+                label       = label,
                 magFilter   = WGPUFilterMode.Linear,
                 minFilter   = WGPUFilterMode.Linear 
             });
             
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
-                label   = "textured-cube"u8,
-                layout = pipeline.getBindGroupLayout(0),
+                label   = label,
+                layout  = pipeline.getBindGroupLayout(0),
                 entries = [
                     new WGPUBindGroupEntry {
                         binding = 0,
@@ -161,7 +162,7 @@ namespace HelloTriangle
             sessionArena.Use();
             
             renderPassDescriptor = new WGPURenderPassDescriptor  {
-                label = "textured-cube"u8,
+                label = label,
                 colorAttachments = [new WGPURenderPassColorAttachment {
                         view        = default, // Assigned later
                         clearValue  = new WGPUColor { r= 0.5, g= 0.5, b = 0.5, a = 1.0 },
@@ -206,7 +207,7 @@ namespace HelloTriangle
             );
             renderPassDescriptor.colorAttachments[0].view = view;
 
-            var commandEncoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = "textured-cube"u8 });
+            var commandEncoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = label });
             var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
             passEncoder.setPipeline(pipeline);
             passEncoder.setBindGroup(0, uniformBindGroup);

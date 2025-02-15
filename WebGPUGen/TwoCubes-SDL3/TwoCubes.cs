@@ -10,6 +10,7 @@ namespace HelloTriangle
 {
     public class TwoCubes
     {
+        private readonly    Utf8Const                   label = new("two-cubes");
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;
@@ -42,7 +43,7 @@ namespace HelloTriangle
             
             // Create a vertex buffer from the cube data.
             verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
-                label               = "two-cubes"u8, 
+                label               = label, 
                 size                = (ulong)(Cube.cubeVertexArray.Length * Marshal.SizeOf<float>()),
                 usage               = WGPUBufferUsage.Vertex,
                 mappedAtCreation    = true,
@@ -52,10 +53,10 @@ namespace HelloTriangle
             verticesBuffer.unmap();
 
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
-                label   = "two-cubes"u8, 
+                label   = label, 
                 layout  = default,
                 vertex  = {
-                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = "two-cubes"u8 }, basicVertWGSL),
+                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = label }, basicVertWGSL),
                     buffers= [new WGPUVertexBufferLayout
                         {
                             arrayStride= Cube.cubeVertexSize,
@@ -76,7 +77,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = "two-cubes"u8 }, vertexPositionColorWGSL),
+                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = label }, vertexPositionColorWGSL),
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat,
                         },
@@ -101,20 +102,20 @@ namespace HelloTriangle
             });
 
             var depthTexture = device.createTexture(new WGPUTextureDescriptor {
-                label   = "two-cubes"u8,
+                label   = label,
                 size    = new WGPUExtent3D {width = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
                 usage   = WGPUTextureUsage.RenderAttachment,
             });
 
             uniformBuffer = device.createBuffer(new WGPUBufferDescriptor {
-                label   = "two-cubes"u8,
+                label   = label,
                 size    = uniformBufferSize,
                 usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
 
             uniformBindGroup1 = device.createBindGroup(new WGPUBindGroupDescriptor {
-                label   = "two-cubes"u8,
+                label   = label,
                 layout  = pipeline.getBindGroupLayout(0),
                 entries = [new WGPUBindGroupEntry {
                         binding = 0,
@@ -126,7 +127,7 @@ namespace HelloTriangle
             });
 
             uniformBindGroup2 = device.createBindGroup(new WGPUBindGroupDescriptor {
-                label   = "two-cubes"u8,
+                label   = label,
                 layout  = pipeline.getBindGroupLayout(0),
                 entries = [new WGPUBindGroupEntry {
                         binding = 0,
@@ -139,7 +140,7 @@ namespace HelloTriangle
             var sessionArena = new Arena("sessionArena");
             sessionArena.Use();
             renderPassDescriptor= new WGPURenderPassDescriptor {
-                label           = "two-cubes"u8,
+                label = label,
                 colorAttachments= [new WGPURenderPassColorAttachment {
                         view        = default, // Assigned later
 

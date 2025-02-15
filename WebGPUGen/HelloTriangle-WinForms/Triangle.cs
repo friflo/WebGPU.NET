@@ -8,6 +8,7 @@ namespace HelloTriangle
 {
     public class Triangle
     {
+        private readonly    Utf8Const           label = new("triangle");
         private readonly    WGPUDevice          device;
         private readonly    WGPUTextureFormat   swapChainFormat;
         private readonly    WGPUQueue           queue;
@@ -31,14 +32,14 @@ namespace HelloTriangle
         internal void InitResources()
         {
             frameArena.Use();
-            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = "triangle"u8 });
+            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = label });
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
             var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
-                label  = "triangle"u8, 
+                label = label, 
                 layout = pipelineLayout,
                 vertex = new WGPUVertexState {
                     buffers = [new WGPUVertexBufferLayout {
@@ -107,7 +108,7 @@ namespace HelloTriangle
 
             ulong size = (ulong)(6 * Marshal.SizeOf<Vector4>());
             WGPUBufferDescriptor bufferDescriptor = new WGPUBufferDescriptor {
-                label = "triangle"u8,
+                label = label,
                 usage = WGPUBufferUsage.Vertex | WGPUBufferUsage.CopyDst,
                 size = size,
                 mappedAtCreation = false,
@@ -123,7 +124,7 @@ namespace HelloTriangle
             var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = "triangle"u8 });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
-                label = "triangle"u8,
+                label = label,
                 colorAttachments = [new WGPURenderPassColorAttachment {
                     view            = view,
                     resolveTarget   = default,
