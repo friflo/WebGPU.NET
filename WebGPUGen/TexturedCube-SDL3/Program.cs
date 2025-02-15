@@ -26,9 +26,9 @@ namespace HelloTriangle
 
             cube.ReleaseResources();
             gpu.CleanUp();
-            Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Entries.Count}");
+            Console.WriteLine($"ObjectTracker: entries: {ObjectTracker.Handles.Count}");
             
-            Console.WriteLine(ObjectTracker.GroupedEntriesLog());
+            Console.WriteLine(ObjectTracker.GroupedHandlesLog());
             
             SDL_DestroyWindow(window);
             SDL_Quit();

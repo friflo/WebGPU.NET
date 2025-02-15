@@ -94,29 +94,28 @@ public struct GroupedEntry : IComparable<GroupedEntry>
 
 public static class ObjectTracker
 {
-    public static  Dictionary<nint,ObjectEntry>.ValueCollection     Entries => HandleMap.Values;
-    public static  Dictionary<string,GroupedEntry>.ValueCollection  GroupedEntries => GetGroupedEntries();
+    public static  Dictionary<nint,ObjectEntry>.ValueCollection     Handles         => HandleMap.Values;
+    public static  Dictionary<string,GroupedEntry>.ValueCollection  GroupedHandles  => GetGroupedHandles();
     
-    private static readonly Dictionary<string,GroupedEntry>         GroupedEntryMap = new();
+    private static readonly Dictionary<IntPtr, ObjectEntry>     HandleMap = new ();
+    private static readonly Dictionary<string,GroupedEntry>     GroupeHandlesMap = new();
     
-    private static readonly Dictionary<IntPtr, ObjectEntry> HandleMap = new ();
-    
-    public static string GroupedEntriesLog() {
+    public static string GroupedHandlesLog() {
         var sb = new StringBuilder();
-        var groupedEntries = GetGroupedEntries().ToList();
+        var groupedEntries = GetGroupedHandles().ToList();
         groupedEntries.Sort();
         foreach (var entry in groupedEntries) {
-            sb.AppendLine($"{entry.name,-50} count: {entry.count}");   
+            sb.AppendLine($"{entry.name,-50} handles: {entry.count}");   
         }
         return sb.ToString();
     }
     
-    private static Dictionary<string,GroupedEntry>.ValueCollection GetGroupedEntries()
+    private static Dictionary<string,GroupedEntry>.ValueCollection GetGroupedHandles()
     {
-        var map = GroupedEntryMap;
+        var map = GroupeHandlesMap;
         map.Clear();
         var sb = new StringBuilder();
-        foreach (var entry in Entries) {
+        foreach (var entry in Handles) {
             sb.Clear();
             sb.Append($"{entry.Type,-25}");
             var label = entry.Label;
