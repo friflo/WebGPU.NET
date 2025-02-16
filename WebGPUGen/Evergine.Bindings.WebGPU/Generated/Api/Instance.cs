@@ -62,15 +62,7 @@ public unsafe partial struct WGPUInstance
         wgpuInstanceRelease(this);
     }
 
-    public void report(WGPUGlobalReport report) {
-        Validate_report(report);
-        wgpuGenerateReport(this, &report);
-    }
-
-    [Conditional("VALIDATE")]
-    private void Validate_report(WGPUGlobalReport report) {
-        ObjectTracker.ValidateHandle(this);
-    }
+    // report() - not generated. See: Instance_NG.cs
 
     public ulong enumerateAdapters(WGPUInstanceEnumerateAdapterOptions options, WGPUAdapter adapters) {
         Validate_enumerateAdapters(options, adapters);

@@ -7,7 +7,7 @@ namespace HelloTriangle;
 
 public class GPU
 {
-    private             WGPUInstance        instance;
+    internal            WGPUInstance        instance;
     internal            WGPUSurface         surface;
     internal            WGPUAdapter         adapter;
     internal            WGPUDevice          device;

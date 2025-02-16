@@ -159,4 +159,11 @@ public unsafe partial struct WGPUInstance
         }
     }
     #endregion
+    
+    public WGPUGlobalReport report() {
+        ObjectTracker.ValidateHandle(this);
+        var result = new WGPUGlobalReport();
+        wgpuGenerateReport(this, &result);
+        return result;
+    }
 }

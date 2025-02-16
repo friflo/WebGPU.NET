@@ -25,6 +25,9 @@ namespace HelloTriangle
             MainLoop(cube, gpu.frameArena, gpu.surface);
 
             cube.ReleaseResources();
+            
+            Console.WriteLine(ObjectTracker.GroupedHandlesLog());
+            var report = gpu.instance.report();
             gpu.CleanUp();
             
             Console.WriteLine($"ObjectTracker - handles: {ObjectTracker.Handles.Count}");
