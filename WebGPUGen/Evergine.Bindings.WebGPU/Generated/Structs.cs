@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using static Evergine.Bindings.WebGPU.ApiUtils;
 using static System.Diagnostics.DebuggerBrowsableState;
 using Browse = System.Diagnostics.DebuggerBrowsableAttribute;
 
@@ -18,22 +19,22 @@ public unsafe struct WGPUAdapterInfo
 	/** enum   */   public      WGPUAdapterType         adapterType;
 	                public      uint                    vendorID;
 	                public      uint                    deviceID;
-	// --- properties
+
 	public Utf8 vendor {
-		get => ApiUtils.GetUtf8(_vendor);
-		set => ApiUtils.SetUtf8(value, out this._vendor);
+		get => GetUtf8(_vendor);
+		set => SetUtf8(value, out this._vendor);
 	}
 	public Utf8 architecture {
-		get => ApiUtils.GetUtf8(_architecture);
-		set => ApiUtils.SetUtf8(value, out this._architecture);
+		get => GetUtf8(_architecture);
+		set => SetUtf8(value, out this._architecture);
 	}
 	public Utf8 device {
-		get => ApiUtils.GetUtf8(_device);
-		set => ApiUtils.SetUtf8(value, out this._device);
+		get => GetUtf8(_device);
+		set => SetUtf8(value, out this._device);
 	}
 	public Utf8 description {
-		get => ApiUtils.GetUtf8(_description);
-		set => ApiUtils.SetUtf8(value, out this._description);
+		get => GetUtf8(_description);
+		set => SetUtf8(value, out this._description);
 	}
 
 	[Conditional("VALIDATE")]
@@ -91,10 +92,10 @@ public unsafe struct WGPUBufferDescriptor
 	/** flags  */   public      WGPUBufferUsage         usage;
 	                public      ulong                   size;
 	                public      WGPUBool                mappedAtCreation;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -117,10 +118,10 @@ public unsafe struct WGPUCommandBufferDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -134,10 +135,10 @@ public unsafe struct WGPUCommandEncoderDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -159,10 +160,10 @@ public unsafe struct WGPUCompilationMessage
 	                public      ulong                   utf16LinePos;
 	                public      ulong                   utf16Offset;
 	                public      ulong                   utf16Length;
-	// --- properties
+
 	public Utf8 message {
-		get => ApiUtils.GetUtf8(_message);
-		set => ApiUtils.SetUtf8(value, out this._message);
+		get => GetUtf8(_message);
+		set => SetUtf8(value, out this._message);
 	}
 
 	[Conditional("VALIDATE")]
@@ -190,10 +191,10 @@ public unsafe struct WGPUConstantEntry
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _key;
 	                public      double                  value;
-	// --- properties
+
 	public Utf8 key {
-		get => ApiUtils.GetUtf8(_key);
-		set => ApiUtils.SetUtf8(value, out this._key);
+		get => GetUtf8(_key);
+		set => SetUtf8(value, out this._key);
 	}
 
 	[Conditional("VALIDATE")]
@@ -279,14 +280,14 @@ public unsafe struct WGPUPipelineLayoutDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	[Browse(Never)] internal    ulong                   _bindGroupLayoutCount;
 	[Browse(Never)] internal    WGPUBindGroupLayout*    _bindGroupLayouts;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUBindGroupLayout> bindGroupLayouts {
-		get => ApiUtils.GetArr(_bindGroupLayouts, _bindGroupLayoutCount);
-		set => ApiUtils.SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);
+		get => GetArr(_bindGroupLayouts, _bindGroupLayoutCount);
+		set => SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -321,10 +322,10 @@ public unsafe struct WGPUQuerySetDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	/** enum   */   public      WGPUQueryType           type;
 	                public      uint                    count;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -338,10 +339,10 @@ public unsafe struct WGPUQueueDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -355,10 +356,10 @@ public unsafe struct WGPURenderBundleDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -378,14 +379,14 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 	                public      uint                    sampleCount;
 	                public      WGPUBool                depthReadOnly;
 	                public      WGPUBool                stencilReadOnly;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUTextureFormat> colorFormats {
-		get => ApiUtils.GetArr(_colorFormats, _colorFormatCount);
-		set => ApiUtils.SetArr(value, out _colorFormats, out _colorFormatCount);
+		get => GetArr(_colorFormats, _colorFormatCount);
+		set => SetArr(value, out _colorFormats, out _colorFormatCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -473,10 +474,10 @@ public unsafe struct WGPUSamplerDescriptor
 	                public      float                   lodMaxClamp          = 32;
 	/** enum   */   public      WGPUCompareFunction     compare;
 	                public      ushort                  maxAnisotropy        = 1;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -491,10 +492,10 @@ public unsafe struct WGPUShaderModuleCompilationHint
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _entryPoint;
 	/** handle */   public      WGPUPipelineLayout      layout;
-	// --- properties
+
 	public Utf8 entryPoint {
-		get => ApiUtils.GetUtf8(_entryPoint);
-		set => ApiUtils.SetUtf8(value, out this._entryPoint);
+		get => GetUtf8(_entryPoint);
+		set => SetUtf8(value, out this._entryPoint);
 	}
 
 	[Conditional("VALIDATE")]
@@ -510,10 +511,10 @@ public unsafe struct WGPUShaderModuleSPIRVDescriptor
 	                public      WGPUChainedStruct       chain;
 	                public      uint                    codeSize;
 	[Browse(Never)] internal    uint*                   _code;
-	// --- properties
+
 	public uint? code {
-		get => ApiUtils.GetOpt(_code);
-		set => ApiUtils.SetOpt(out _code, value);
+		get => GetOpt(_code);
+		set => SetOpt(out _code, value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -527,10 +528,10 @@ public unsafe struct WGPUShaderModuleWGSLDescriptor
 {
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                   _code;
-	// --- properties
+
 	public Utf8 code {
-		get => ApiUtils.GetUtf8(_code);
-		set => ApiUtils.SetUtf8(value, out this._code);
+		get => GetUtf8(_code);
+		set => SetUtf8(value, out this._code);
 	}
 
 	[Conditional("VALIDATE")]
@@ -570,18 +571,18 @@ public unsafe struct WGPUSurfaceCapabilities
 	[Browse(Never)] internal    WGPUPresentMode*        _presentModes;
 	[Browse(Never)] internal    ulong                   _alphaModeCount;
 	[Browse(Never)] internal    WGPUCompositeAlphaMode* _alphaModes;
-	// --- properties
+
 	public Span<WGPUTextureFormat> formats {
-		get => ApiUtils.GetArr(_formats, _formatCount);
-		set => ApiUtils.SetArr(value, out _formats, out _formatCount);
+		get => GetArr(_formats, _formatCount);
+		set => SetArr(value, out _formats, out _formatCount);
 	}
 	public Span<WGPUPresentMode> presentModes {
-		get => ApiUtils.GetArr(_presentModes, _presentModeCount);
-		set => ApiUtils.SetArr(value, out _presentModes, out _presentModeCount);
+		get => GetArr(_presentModes, _presentModeCount);
+		set => SetArr(value, out _presentModes, out _presentModeCount);
 	}
 	public Span<WGPUCompositeAlphaMode> alphaModes {
-		get => ApiUtils.GetArr(_alphaModes, _alphaModeCount);
-		set => ApiUtils.SetArr(value, out _alphaModes, out _alphaModeCount);
+		get => GetArr(_alphaModes, _alphaModeCount);
+		set => SetArr(value, out _alphaModes, out _alphaModeCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -605,10 +606,10 @@ public unsafe struct WGPUSurfaceConfiguration
 	                public      uint                    width;
 	                public      uint                    height;
 	/** enum   */   public      WGPUPresentMode         presentMode;
-	// --- properties
+
 	public Span<WGPUTextureFormat> viewFormats {
-		get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
-		set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
+		get => GetArr(_viewFormats, _viewFormatCount);
+		set => SetArr(value, out _viewFormats, out _viewFormatCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -623,10 +624,10 @@ public unsafe struct WGPUSurfaceDescriptor
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -640,7 +641,7 @@ public unsafe struct WGPUSurfaceDescriptorFromAndroidNativeWindow
 {
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   window;
-	// --- properties
+
 	public IntPtr Window {
 		get => new IntPtr(window);
 		set => window = (void*)value;
@@ -652,10 +653,10 @@ public unsafe struct WGPUSurfaceDescriptorFromCanvasHTMLSelector
 {
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                   _selector;
-	// --- properties
+
 	public Utf8 selector {
-		get => ApiUtils.GetUtf8(_selector);
-		set => ApiUtils.SetUtf8(value, out this._selector);
+		get => GetUtf8(_selector);
+		set => SetUtf8(value, out this._selector);
 	}
 
 	[Conditional("VALIDATE")]
@@ -669,7 +670,7 @@ public unsafe struct WGPUSurfaceDescriptorFromMetalLayer
 {
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   layer;
-	// --- properties
+
 	public IntPtr Layer {
 		get => new IntPtr(layer);
 		set => layer = (void*)value;
@@ -682,7 +683,7 @@ public unsafe struct WGPUSurfaceDescriptorFromWaylandSurface
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   display;
 	                public      void*                   surface;
-	// --- properties
+
 	public IntPtr Display {
 		get => new IntPtr(display);
 		set => display = (void*)value;
@@ -699,7 +700,7 @@ public unsafe struct WGPUSurfaceDescriptorFromWindowsHWND
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   hinstance;
 	                public      void*                   hwnd;
-	// --- properties
+
 	public IntPtr Hinstance {
 		get => new IntPtr(hinstance);
 		set => hinstance = (void*)value;
@@ -716,7 +717,7 @@ public unsafe struct WGPUSurfaceDescriptorFromXcbWindow
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   connection;
 	                public      uint                    window;
-	// --- properties
+
 	public IntPtr Connection {
 		get => new IntPtr(connection);
 		set => connection = (void*)value;
@@ -729,7 +730,7 @@ public unsafe struct WGPUSurfaceDescriptorFromXlibWindow
 	                public      WGPUChainedStruct       chain;
 	                public      void*                   display;
 	                public      ulong                   window;
-	// --- properties
+
 	public IntPtr Display {
 		get => new IntPtr(display);
 		set => display = (void*)value;
@@ -781,10 +782,10 @@ public unsafe struct WGPUTextureViewDescriptor
 	                public      uint                    baseArrayLayer;
 	                public      uint                    arrayLayerCount;
 	/** enum   */   public      WGPUTextureAspect       aspect               = WGPUTextureAspect.All;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -799,7 +800,7 @@ public unsafe struct WGPUUncapturedErrorCallbackInfo
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	                public      delegate* unmanaged<WGPUErrorType, char*, void*, void> callback;
 	                public      void*                   userdata;
-	// --- properties
+
 	public IntPtr Userdata {
 		get => new IntPtr(userdata);
 		set => userdata = (void*)value;
@@ -822,14 +823,14 @@ public unsafe struct WGPUBindGroupDescriptor
 	/** handle */   public      WGPUBindGroupLayout     layout;
 	[Browse(Never)] internal    ulong                   _entryCount;
 	[Browse(Never)] internal    WGPUBindGroupEntry*     _entries;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUBindGroupEntry> entries {
-		get => ApiUtils.GetArr(_entries, _entryCount);
-		set => ApiUtils.SetArr(value, out _entries, out _entryCount);
+		get => GetArr(_entries, _entryCount);
+		set => SetArr(value, out _entries, out _entryCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -868,10 +869,10 @@ public unsafe struct WGPUCompilationInfo
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    ulong                   _messageCount;
 	[Browse(Never)] internal    WGPUCompilationMessage* _messages;
-	// --- properties
+
 	public Span<WGPUCompilationMessage> messages {
-		get => ApiUtils.GetArr(_messages, _messageCount);
-		set => ApiUtils.SetArr(value, out _messages, out _messageCount);
+		get => GetArr(_messages, _messageCount);
+		set => SetArr(value, out _messages, out _messageCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -889,14 +890,14 @@ public unsafe struct WGPUComputePassDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*      _nextInChain;
 	[Browse(Never)] internal    char*                   _label;
 	[Browse(Never)] internal    WGPUComputePassTimestampWrites* _timestampWrites;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public WGPUComputePassTimestampWrites? timestampWrites {
-		get => ApiUtils.GetOpt(_timestampWrites);
-		set => ApiUtils.SetOpt(out _timestampWrites, value);
+		get => GetOpt(_timestampWrites);
+		set => SetOpt(out _timestampWrites, value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -962,14 +963,14 @@ public unsafe struct WGPUProgrammableStageDescriptor
 	[Browse(Never)] internal    char*                   _entryPoint;
 	[Browse(Never)] internal    ulong                   _constantCount;
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
-	// --- properties
+
 	public Utf8 entryPoint {
-		get => ApiUtils.GetUtf8(_entryPoint);
-		set => ApiUtils.SetUtf8(value, out this._entryPoint);
+		get => GetUtf8(_entryPoint);
+		set => SetUtf8(value, out this._entryPoint);
 	}
 	public Span<WGPUConstantEntry> constants {
-		get => ApiUtils.GetArr(_constants, _constantCount);
-		set => ApiUtils.SetArr(value, out _constants, out _constantCount);
+		get => GetArr(_constants, _constantCount);
+		set => SetArr(value, out _constants, out _constantCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1015,14 +1016,14 @@ public unsafe struct WGPUShaderModuleDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	[Browse(Never)] internal    ulong                   _hintCount;
 	[Browse(Never)] internal    WGPUShaderModuleCompilationHint* _hints;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUShaderModuleCompilationHint> hints {
-		get => ApiUtils.GetArr(_hints, _hintCount);
-		set => ApiUtils.SetArr(value, out _hints, out _hintCount);
+		get => GetArr(_hints, _hintCount);
+		set => SetArr(value, out _hints, out _hintCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1056,14 +1057,14 @@ public unsafe struct WGPUTextureDescriptor
 	                public      uint                    sampleCount          = 1;
 	[Browse(Never)] internal    ulong                   _viewFormatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*      _viewFormats;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUTextureFormat> viewFormats {
-		get => ApiUtils.GetArr(_viewFormats, _viewFormatCount);
-		set => ApiUtils.SetArr(value, out _viewFormats, out _viewFormatCount);
+		get => GetArr(_viewFormats, _viewFormatCount);
+		set => SetArr(value, out _viewFormats, out _viewFormatCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1081,10 +1082,10 @@ public unsafe struct WGPUVertexBufferLayout
 	/** enum   */   public      WGPUVertexStepMode      stepMode             = WGPUVertexStepMode.Vertex;
 	[Browse(Never)] internal    ulong                   _attributeCount;
 	[Browse(Never)] internal    WGPUVertexAttribute*    _attributes;
-	// --- properties
+
 	public Span<WGPUVertexAttribute> attributes {
-		get => ApiUtils.GetArr(_attributes, _attributeCount);
-		set => ApiUtils.SetArr(value, out _attributes, out _attributeCount);
+		get => GetArr(_attributes, _attributeCount);
+		set => SetArr(value, out _attributes, out _attributeCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1100,14 +1101,14 @@ public unsafe struct WGPUBindGroupLayoutDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	[Browse(Never)] internal    ulong                   _entryCount;
 	[Browse(Never)] internal    WGPUBindGroupLayoutEntry* _entries;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUBindGroupLayoutEntry> entries {
-		get => ApiUtils.GetArr(_entries, _entryCount);
-		set => ApiUtils.SetArr(value, out _entries, out _entryCount);
+		get => GetArr(_entries, _entryCount);
+		set => SetArr(value, out _entries, out _entryCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1125,10 +1126,10 @@ public unsafe struct WGPUColorTargetState
 	/** enum   */   public      WGPUTextureFormat       format;
 	[Browse(Never)] internal    WGPUBlendState*         _blend;
 	/** flags  */   public      WGPUColorWriteMask      writeMask            = WGPUColorWriteMask.All;
-	// --- properties
+
 	public WGPUBlendState? blend {
-		get => ApiUtils.GetOpt(_blend);
-		set => ApiUtils.SetOpt(out _blend, value);
+		get => GetOpt(_blend);
+		set => SetOpt(out _blend, value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1144,10 +1145,10 @@ public unsafe struct WGPUComputePipelineDescriptor
 	[Browse(Never)] internal    char*                   _label;
 	/** handle */   public      WGPUPipelineLayout      layout;
 	                public      WGPUProgrammableStageDescriptor compute;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1170,18 +1171,18 @@ public unsafe struct WGPUDeviceDescriptor
 	                public      delegate* unmanaged<WGPUDeviceLostReason, char*, void*, void> deviceLostCallback;
 	                public      void*                   deviceLostUserdata;
 	                public      WGPUUncapturedErrorCallbackInfo uncapturedErrorCallbackInfo;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPUFeatureName> requiredFeatures {
-		get => ApiUtils.GetArr(_requiredFeatures, _requiredFeatureCount);
-		set => ApiUtils.SetArr(value, out _requiredFeatures, out _requiredFeatureCount);
+		get => GetArr(_requiredFeatures, _requiredFeatureCount);
+		set => SetArr(value, out _requiredFeatures, out _requiredFeatureCount);
 	}
 	public WGPURequiredLimits? requiredLimits {
-		get => ApiUtils.GetOpt(_requiredLimits);
-		set => ApiUtils.SetOpt(out _requiredLimits, value);
+		get => GetOpt(_requiredLimits);
+		set => SetOpt(out _requiredLimits, value);
 	}
 	public IntPtr DeviceLostUserdata {
 		get => new IntPtr(deviceLostUserdata);
@@ -1207,22 +1208,22 @@ public unsafe struct WGPURenderPassDescriptor
 	[Browse(Never)] internal    WGPURenderPassDepthStencilAttachment* _depthStencilAttachment;
 	/** handle */   public      WGPUQuerySet            occlusionQuerySet;
 	[Browse(Never)] internal    WGPURenderPassTimestampWrites* _timestampWrites;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public Span<WGPURenderPassColorAttachment> colorAttachments {
-		get => ApiUtils.GetArr(_colorAttachments, _colorAttachmentCount);
-		set => ApiUtils.SetArr(value, out _colorAttachments, out _colorAttachmentCount);
+		get => GetArr(_colorAttachments, _colorAttachmentCount);
+		set => SetArr(value, out _colorAttachments, out _colorAttachmentCount);
 	}
 	public WGPURenderPassDepthStencilAttachment? depthStencilAttachment {
-		get => ApiUtils.GetOpt(_depthStencilAttachment);
-		set => ApiUtils.SetOpt(out _depthStencilAttachment, value);
+		get => GetOpt(_depthStencilAttachment);
+		set => SetOpt(out _depthStencilAttachment, value);
 	}
 	public WGPURenderPassTimestampWrites? timestampWrites {
-		get => ApiUtils.GetOpt(_timestampWrites);
-		set => ApiUtils.SetOpt(out _timestampWrites, value);
+		get => GetOpt(_timestampWrites);
+		set => SetOpt(out _timestampWrites, value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1254,18 +1255,18 @@ public unsafe struct WGPUVertexState
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
 	[Browse(Never)] internal    ulong                   _bufferCount;
 	[Browse(Never)] internal    WGPUVertexBufferLayout* _buffers;
-	// --- properties
+
 	public Utf8 entryPoint {
-		get => ApiUtils.GetUtf8(_entryPoint);
-		set => ApiUtils.SetUtf8(value, out this._entryPoint);
+		get => GetUtf8(_entryPoint);
+		set => SetUtf8(value, out this._entryPoint);
 	}
 	public Span<WGPUConstantEntry> constants {
-		get => ApiUtils.GetArr(_constants, _constantCount);
-		set => ApiUtils.SetArr(value, out _constants, out _constantCount);
+		get => GetArr(_constants, _constantCount);
+		set => SetArr(value, out _constants, out _constantCount);
 	}
 	public Span<WGPUVertexBufferLayout> buffers {
-		get => ApiUtils.GetArr(_buffers, _bufferCount);
-		set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
+		get => GetArr(_buffers, _bufferCount);
+		set => SetArr(value, out _buffers, out _bufferCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1293,18 +1294,18 @@ public unsafe struct WGPUFragmentState
 	[Browse(Never)] internal    WGPUConstantEntry*      _constants;
 	[Browse(Never)] internal    ulong                   _targetCount;
 	[Browse(Never)] internal    WGPUColorTargetState*   _targets;
-	// --- properties
+
 	public Utf8 entryPoint {
-		get => ApiUtils.GetUtf8(_entryPoint);
-		set => ApiUtils.SetUtf8(value, out this._entryPoint);
+		get => GetUtf8(_entryPoint);
+		set => SetUtf8(value, out this._entryPoint);
 	}
 	public Span<WGPUConstantEntry> constants {
-		get => ApiUtils.GetArr(_constants, _constantCount);
-		set => ApiUtils.SetArr(value, out _constants, out _constantCount);
+		get => GetArr(_constants, _constantCount);
+		set => SetArr(value, out _constants, out _constantCount);
 	}
 	public Span<WGPUColorTargetState> targets {
-		get => ApiUtils.GetArr(_targets, _targetCount);
-		set => ApiUtils.SetArr(value, out _targets, out _targetCount);
+		get => GetArr(_targets, _targetCount);
+		set => SetArr(value, out _targets, out _targetCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1334,18 +1335,18 @@ public unsafe struct WGPURenderPipelineDescriptor
 	[Browse(Never)] internal    WGPUDepthStencilState*  _depthStencil;
 	                public      WGPUMultisampleState    multisample          = new WGPUMultisampleState();
 	[Browse(Never)] internal    WGPUFragmentState*      _fragment;
-	// --- properties
+
 	public Utf8 label {
-		get => ApiUtils.GetUtf8(_label);
-		set => ApiUtils.SetUtf8(value, out this._label);
+		get => GetUtf8(_label);
+		set => SetUtf8(value, out this._label);
 	}
 	public WGPUDepthStencilState? depthStencil {
-		get => ApiUtils.GetOpt(_depthStencil);
-		set => ApiUtils.SetOpt(out _depthStencil, value);
+		get => GetOpt(_depthStencil);
+		set => SetOpt(out _depthStencil, value);
 	}
 	public WGPUFragmentState? fragment {
-		get => ApiUtils.GetOpt(_fragment);
-		set => ApiUtils.SetOpt(out _fragment, value);
+		get => GetOpt(_fragment);
+		set => SetOpt(out _fragment, value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1366,10 +1367,10 @@ public unsafe struct WGPUChainedStruct
 {
 	[Browse(Never)] internal    WGPUChainedStruct*      _next;
 	/** enum   */   public      WGPUSType               sType;
-	// --- properties
+
 	public WGPUChainedStruct? next {
-		get => ApiUtils.GetOpt(_next);
-		set => ApiUtils.SetOpt(out _next, value);
+		get => GetOpt(_next);
+		set => SetOpt(out _next, value);
 	}
 }
 
@@ -1378,10 +1379,10 @@ public unsafe struct WGPUChainedStructOut
 {
 	[Browse(Never)] internal    WGPUChainedStructOut*   _next;
 	/** enum   */   public      WGPUSType               sType;
-	// --- properties
+
 	public WGPUChainedStructOut? next {
-		get => ApiUtils.GetOpt(_next);
-		set => ApiUtils.SetOpt(out _next, value);
+		get => GetOpt(_next);
+		set => SetOpt(out _next, value);
 	}
 }
 
@@ -1395,14 +1396,14 @@ public unsafe struct WGPUInstanceExtras
 	/** enum   */   public      WGPUGles3MinorVersion   gles3MinorVersion;
 	[Browse(Never)] internal    char*                   _dxilPath;
 	[Browse(Never)] internal    char*                   _dxcPath;
-	// --- properties
+
 	public Utf8 dxilPath {
-		get => ApiUtils.GetUtf8(_dxilPath);
-		set => ApiUtils.SetUtf8(value, out this._dxilPath);
+		get => GetUtf8(_dxilPath);
+		set => SetUtf8(value, out this._dxilPath);
 	}
 	public Utf8 dxcPath {
-		get => ApiUtils.GetUtf8(_dxcPath);
-		set => ApiUtils.SetUtf8(value, out this._dxcPath);
+		get => GetUtf8(_dxcPath);
+		set => SetUtf8(value, out this._dxcPath);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1417,10 +1418,10 @@ public unsafe struct WGPUDeviceExtras
 {
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                   _tracePath;
-	// --- properties
+
 	public Utf8 tracePath {
-		get => ApiUtils.GetUtf8(_tracePath);
-		set => ApiUtils.SetUtf8(value, out this._tracePath);
+		get => GetUtf8(_tracePath);
+		set => SetUtf8(value, out this._tracePath);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1464,10 +1465,10 @@ public unsafe struct WGPUPipelineLayoutExtras
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    ulong                   _pushConstantRangeCount;
 	[Browse(Never)] internal    WGPUPushConstantRange*  _pushConstantRanges;
-	// --- properties
+
 	public Span<WGPUPushConstantRange> pushConstantRanges {
-		get => ApiUtils.GetArr(_pushConstantRanges, _pushConstantRangeCount);
-		set => ApiUtils.SetArr(value, out _pushConstantRanges, out _pushConstantRangeCount);
+		get => GetArr(_pushConstantRanges, _pushConstantRangeCount);
+		set => SetArr(value, out _pushConstantRanges, out _pushConstantRangeCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1493,14 +1494,14 @@ public unsafe struct WGPUShaderDefine
 {
 	[Browse(Never)] internal    char*                   _name;
 	[Browse(Never)] internal    char*                   _value;
-	// --- properties
+
 	public Utf8 name {
-		get => ApiUtils.GetUtf8(_name);
-		set => ApiUtils.SetUtf8(value, out this._name);
+		get => GetUtf8(_name);
+		set => SetUtf8(value, out this._name);
 	}
 	public Utf8 value {
-		get => ApiUtils.GetUtf8(_value);
-		set => ApiUtils.SetUtf8(value, out this._value);
+		get => GetUtf8(_value);
+		set => SetUtf8(value, out this._value);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1518,14 +1519,14 @@ public unsafe struct WGPUShaderModuleGLSLDescriptor
 	[Browse(Never)] internal    char*                   _code;
 	[Browse(Never)] internal    uint                    _defineCount;
 	[Browse(Never)] internal    WGPUShaderDefine*       _defines;
-	// --- properties
+
 	public Utf8 code {
-		get => ApiUtils.GetUtf8(_code);
-		set => ApiUtils.SetUtf8(value, out this._code);
+		get => GetUtf8(_code);
+		set => SetUtf8(value, out this._code);
 	}
 	public Span<WGPUShaderDefine> defines {
-		get => ApiUtils.GetArr(_defines, _defineCount);
-		set => ApiUtils.SetArr(value, out _defines, out _defineCount);
+		get => GetArr(_defines, _defineCount);
+		set => SetArr(value, out _defines, out _defineCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1597,18 +1598,18 @@ public unsafe struct WGPUBindGroupEntryExtras
 	[Browse(Never)] internal    ulong                   _samplerCount;
 	[Browse(Never)] internal    WGPUTextureView*        _textureViews;
 	[Browse(Never)] internal    ulong                   _textureViewCount;
-	// --- properties
+
 	public Span<WGPUBuffer> buffers {
-		get => ApiUtils.GetArr(_buffers, _bufferCount);
-		set => ApiUtils.SetArr(value, out _buffers, out _bufferCount);
+		get => GetArr(_buffers, _bufferCount);
+		set => SetArr(value, out _buffers, out _bufferCount);
 	}
 	public Span<WGPUSampler> samplers {
-		get => ApiUtils.GetArr(_samplers, _samplerCount);
-		set => ApiUtils.SetArr(value, out _samplers, out _samplerCount);
+		get => GetArr(_samplers, _samplerCount);
+		set => SetArr(value, out _samplers, out _samplerCount);
 	}
 	public Span<WGPUTextureView> textureViews {
-		get => ApiUtils.GetArr(_textureViews, _textureViewCount);
-		set => ApiUtils.SetArr(value, out _textureViews, out _textureViewCount);
+		get => GetArr(_textureViews, _textureViewCount);
+		set => SetArr(value, out _textureViews, out _textureViewCount);
 	}
 
 	[Conditional("VALIDATE")]
@@ -1632,10 +1633,10 @@ public unsafe struct WGPUQuerySetDescriptorExtras
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    WGPUPipelineStatisticName* _pipelineStatistics;
 	[Browse(Never)] internal    ulong                   _pipelineStatisticCount;
-	// --- properties
+
 	public Span<WGPUPipelineStatisticName> pipelineStatistics {
-		get => ApiUtils.GetArr(_pipelineStatistics, _pipelineStatisticCount);
-		set => ApiUtils.SetArr(value, out _pipelineStatistics, out _pipelineStatisticCount);
+		get => GetArr(_pipelineStatistics, _pipelineStatisticCount);
+		set => SetArr(value, out _pipelineStatistics, out _pipelineStatisticCount);
 	}
 
 	[Conditional("VALIDATE")]

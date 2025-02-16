@@ -399,8 +399,8 @@ public static class ApiCodeGenerator
             if (type == "char*") {
                 var propertyName = member.Name;
                 sb.AppendLine($"\tpublic Utf8 {propertyName} {{");
-                sb.AppendLine($"\t\tget => ApiUtils.GetUtf8(_{member.Name});");
-                sb.AppendLine($"\t\tset => ApiUtils.SetUtf8(value, out this._{member.Name});");
+                sb.AppendLine($"\t\tget => GetUtf8(_{member.Name});");
+                sb.AppendLine($"\t\tset => SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t}}");
                 continue;
             }
@@ -422,8 +422,8 @@ public static class ApiCodeGenerator
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = arrayFieldName;
                         sb.AppendLine($"\tpublic Span<{arrayFieldType}> {propertyName} {{");
-                        sb.AppendLine($"\t\tget => ApiUtils.GetArr(_{arrayFieldName}, _{countFieldName});");
-                        sb.AppendLine($"\t\tset => ApiUtils.SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
+                        sb.AppendLine($"\t\tget => GetArr(_{arrayFieldName}, _{countFieldName});");
+                        sb.AppendLine($"\t\tset => SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
                         sb.AppendLine($"\t}}");
                         continue;
                     }
@@ -433,15 +433,15 @@ public static class ApiCodeGenerator
                     var fieldType = type.Substring(0, type.Length - 1);
                     var propertyName = member.Name;
                     sb.AppendLine($"\tpublic {fieldType}? {propertyName} {{");
-                    sb.AppendLine($"\t\tget => ApiUtils.GetOpt(_{member.Name});");
-                    sb.AppendLine($"\t\tset => ApiUtils.SetOpt(out _{member.Name}, value);");
+                    sb.AppendLine($"\t\tget => GetOpt(_{member.Name});");
+                    sb.AppendLine($"\t\tset => SetOpt(out _{member.Name}, value);");
                     sb.AppendLine($"\t}}");
                     continue;
                 }
             }
         }
         if (sb.Length > 0) {
-            file.WriteLine("\t// --- properties");
+            file.WriteLine();
         }
         AddValidateMethods(sb, structure, arrayFields);
         file.Write(sb.ToString());

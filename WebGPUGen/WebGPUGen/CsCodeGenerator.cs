@@ -210,6 +210,7 @@ namespace WebGPUGen
             {
                 file.WriteLine("using System.Diagnostics;");
                 file.WriteLine("using System.Runtime.InteropServices;");
+                file.WriteLine("using static Evergine.Bindings.WebGPU.ApiUtils;");
                 file.WriteLine("using static System.Diagnostics.DebuggerBrowsableState;");
                 file.WriteLine("using Browse = System.Diagnostics.DebuggerBrowsableAttribute;");
                 file.WriteLine();
