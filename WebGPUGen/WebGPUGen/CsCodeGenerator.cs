@@ -253,9 +253,9 @@ namespace WebGPUGen
                             docs = "/** enum   */  ";
                         }
                         var visibility = isInternalField ? "[Browse(Never)] internal   " : $"{docs} public     ";
-                        var prefix = isInternalField ? "_" : "";
+                        var prefix = isInternalField ? "_" : " ";
                         var fieldDefault = StructDefault.GetStructFieldDefault(structure, member);
-                        file.WriteLine($"\t{visibility} {type,-23} {prefix}{member.Name}{fieldDefault};");
+                        file.WriteLine($"\t{visibility} {type,-22} {prefix}{member.Name}{fieldDefault};");
                     }
                     ApiCodeGenerator.AddStructProperties(file, structure);
 
