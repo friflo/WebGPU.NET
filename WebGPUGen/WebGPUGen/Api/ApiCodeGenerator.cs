@@ -390,17 +390,17 @@ public static class ApiCodeGenerator
             string type = Helpers.ConvertToCSharpType(member.Type);
             if (type == "void*") {
                 var nameUpper = char.ToUpper(member.Name[0]) + member.Name.Substring(1);
-                sb.AppendLine($"\tpublic IntPtr {nameUpper} {{");
-                sb.AppendLine($"\t\tget => new IntPtr({member.Name});");
-                sb.AppendLine($"\t\tset => {member.Name} = (void*)value;");
+                sb.Append($"\tpublic  {"IntPtr",-43} {nameUpper,-20} {{");
+                sb.Append($" get => new IntPtr({member.Name});");
+                sb.Append($" set => {member.Name} = (void*)value;");
                 sb.AppendLine($"\t}}");
                 continue;
             }
             if (type == "char*") {
                 var propertyName = member.Name;
-                sb.AppendLine($"\tpublic Utf8 {propertyName} {{");
-                sb.AppendLine($"\t\tget => GetUtf8(_{member.Name});");
-                sb.AppendLine($"\t\tset => SetUtf8(value, out this._{member.Name});");
+                sb.Append($"\tpublic  {"Utf8",-43} {propertyName,-20} {{");
+                sb.Append($" get => GetUtf8(_{member.Name});");
+                sb.Append($" set => SetUtf8(value, out this._{member.Name});");
                 sb.AppendLine($"\t}}");
                 continue;
             }
@@ -421,20 +421,21 @@ public static class ApiCodeGenerator
                         arrayFields.Add(arrayFieldName);
                         var arrayFieldType = type.Substring(0, type.Length - 1);
                         var propertyName = arrayFieldName;
-                        sb.AppendLine($"\tpublic Span<{arrayFieldType}> {propertyName} {{");
-                        sb.AppendLine($"\t\tget => GetArr(_{arrayFieldName}, _{countFieldName});");
-                        sb.AppendLine($"\t\tset => SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
+                        var spanType = $"Span<{arrayFieldType}>";
+                        sb.Append($"\tpublic  {spanType,-43} {propertyName,-20} {{");
+                        sb.Append($" get => GetArr(_{arrayFieldName}, _{countFieldName});");
+                        sb.Append($" set => SetArr(value, out _{arrayFieldName}, out _{countFieldName});");
                         sb.AppendLine($"\t}}");
                         continue;
                     }
                 }
                 {
                     // case: Pointer field used for an optional values. 
-                    var fieldType = type.Substring(0, type.Length - 1);
+                    var fieldType = type.Substring(0, type.Length - 1) + "?";
                     var propertyName = member.Name;
-                    sb.AppendLine($"\tpublic {fieldType}? {propertyName} {{");
-                    sb.AppendLine($"\t\tget => GetOpt(_{member.Name});");
-                    sb.AppendLine($"\t\tset => SetOpt(out _{member.Name}, value);");
+                    sb.Append($"\tpublic  {fieldType,-43} {propertyName,-20} {{");
+                    sb.Append($" get => GetOpt(_{member.Name});");
+                    sb.Append($" set => SetOpt(out _{member.Name}, value);");
                     sb.AppendLine($"\t}}");
                     continue;
                 }
