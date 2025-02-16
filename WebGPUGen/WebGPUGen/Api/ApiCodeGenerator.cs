@@ -400,7 +400,7 @@ public static class ApiCodeGenerator
                 var propertyName = member.Name;
                 sb.Append($"\tpublic  {"Utf8",-43} {propertyName,-20} {{");
                 sb.Append($" get => GetUtf8(_{member.Name});");
-                sb.Append($" set => SetUtf8(value, out this._{member.Name});");
+                sb.Append($" set => SetUtf8(value, out _{member.Name});");
                 sb.AppendLine($"\t}}");
                 continue;
             }

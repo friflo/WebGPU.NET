@@ -4,6 +4,7 @@ using static Evergine.Bindings.WebGPU.ApiUtils;
 using static System.Diagnostics.DebuggerBrowsableState;
 using Browse = System.Diagnostics.DebuggerBrowsableAttribute;
 
+// ReSharper disable PropertyCanBeMadeInitOnly.Global;
 // ReSharper disable RedundantUnsafeContext;
 // ReSharper disable InconsistentNaming;
 namespace Evergine.Bindings.WebGPU;
@@ -20,10 +21,10 @@ public unsafe struct WGPUAdapterInfo
 	                public      uint                    vendorID;
 	                public      uint                    deviceID;
 
-	public  Utf8                                        vendor               { get => GetUtf8(_vendor); set => SetUtf8(value, out this._vendor);	}
-	public  Utf8                                        architecture         { get => GetUtf8(_architecture); set => SetUtf8(value, out this._architecture);	}
-	public  Utf8                                        device               { get => GetUtf8(_device); set => SetUtf8(value, out this._device);	}
-	public  Utf8                                        description          { get => GetUtf8(_description); set => SetUtf8(value, out this._description);	}
+	public  Utf8                                        vendor               { get => GetUtf8(_vendor); set => SetUtf8(value, out _vendor);	}
+	public  Utf8                                        architecture         { get => GetUtf8(_architecture); set => SetUtf8(value, out _architecture);	}
+	public  Utf8                                        device               { get => GetUtf8(_device); set => SetUtf8(value, out _device);	}
+	public  Utf8                                        description          { get => GetUtf8(_description); set => SetUtf8(value, out _description);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -81,7 +82,7 @@ public unsafe struct WGPUBufferDescriptor
 	                public      ulong                   size;
 	                public      WGPUBool                mappedAtCreation;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -104,7 +105,7 @@ public unsafe struct WGPUCommandBufferDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -118,7 +119,7 @@ public unsafe struct WGPUCommandEncoderDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -140,7 +141,7 @@ public unsafe struct WGPUCompilationMessage
 	                public      ulong                   utf16Offset;
 	                public      ulong                   utf16Length;
 
-	public  Utf8                                        message              { get => GetUtf8(_message); set => SetUtf8(value, out this._message);	}
+	public  Utf8                                        message              { get => GetUtf8(_message); set => SetUtf8(value, out _message);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -168,7 +169,7 @@ public unsafe struct WGPUConstantEntry
 	[Browse(Never)] internal    char*                  _key;
 	                public      double                  value;
 
-	public  Utf8                                        key                  { get => GetUtf8(_key); set => SetUtf8(value, out this._key);	}
+	public  Utf8                                        key                  { get => GetUtf8(_key); set => SetUtf8(value, out _key);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -254,7 +255,7 @@ public unsafe struct WGPUPipelineLayoutDescriptor
 	[Browse(Never)] internal    ulong                  _bindGroupLayoutCount;
 	[Browse(Never)] internal    WGPUBindGroupLayout*   _bindGroupLayouts;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUBindGroupLayout>                   bindGroupLayouts     { get => GetArr(_bindGroupLayouts, _bindGroupLayoutCount); set => SetArr(value, out _bindGroupLayouts, out _bindGroupLayoutCount);	}
 
 	[Conditional("VALIDATE")]
@@ -290,7 +291,7 @@ public unsafe struct WGPUQuerySetDescriptor
 	/** enum   */   public      WGPUQueryType           type;
 	                public      uint                    count;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -304,7 +305,7 @@ public unsafe struct WGPUQueueDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -318,7 +319,7 @@ public unsafe struct WGPURenderBundleDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -338,7 +339,7 @@ public unsafe struct WGPURenderBundleEncoderDescriptor
 	                public      WGPUBool                depthReadOnly;
 	                public      WGPUBool                stencilReadOnly;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUTextureFormat>                     colorFormats         { get => GetArr(_colorFormats, _colorFormatCount); set => SetArr(value, out _colorFormats, out _colorFormatCount);	}
 
 	[Conditional("VALIDATE")]
@@ -427,7 +428,7 @@ public unsafe struct WGPUSamplerDescriptor
 	/** enum   */   public      WGPUCompareFunction     compare;
 	                public      ushort                  maxAnisotropy        = 1;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -442,7 +443,7 @@ public unsafe struct WGPUShaderModuleCompilationHint
 	[Browse(Never)] internal    char*                  _entryPoint;
 	/** handle */   public      WGPUPipelineLayout      layout;
 
-	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out this._entryPoint);	}
+	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out _entryPoint);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -472,7 +473,7 @@ public unsafe struct WGPUShaderModuleWGSLDescriptor
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                  _code;
 
-	public  Utf8                                        code                 { get => GetUtf8(_code); set => SetUtf8(value, out this._code);	}
+	public  Utf8                                        code                 { get => GetUtf8(_code); set => SetUtf8(value, out _code);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -553,7 +554,7 @@ public unsafe struct WGPUSurfaceDescriptor
 	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -576,7 +577,7 @@ public unsafe struct WGPUSurfaceDescriptorFromCanvasHTMLSelector
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                  _selector;
 
-	public  Utf8                                        selector             { get => GetUtf8(_selector); set => SetUtf8(value, out this._selector);	}
+	public  Utf8                                        selector             { get => GetUtf8(_selector); set => SetUtf8(value, out _selector);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -681,7 +682,7 @@ public unsafe struct WGPUTextureViewDescriptor
 	                public      uint                    arrayLayerCount;
 	/** enum   */   public      WGPUTextureAspect       aspect               = WGPUTextureAspect.All;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -716,7 +717,7 @@ public unsafe struct WGPUBindGroupDescriptor
 	[Browse(Never)] internal    ulong                  _entryCount;
 	[Browse(Never)] internal    WGPUBindGroupEntry*    _entries;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUBindGroupEntry>                    entries              { get => GetArr(_entries, _entryCount); set => SetArr(value, out _entries, out _entryCount);	}
 
 	[Conditional("VALIDATE")]
@@ -774,7 +775,7 @@ public unsafe struct WGPUComputePassDescriptor
 	[Browse(Never)] internal    char*                  _label;
 	[Browse(Never)] internal    WGPUComputePassTimestampWrites* _timestampWrites;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  WGPUComputePassTimestampWrites?             timestampWrites      { get => GetOpt(_timestampWrites); set => SetOpt(out _timestampWrites, value);	}
 
 	[Conditional("VALIDATE")]
@@ -841,7 +842,7 @@ public unsafe struct WGPUProgrammableStageDescriptor
 	[Browse(Never)] internal    ulong                  _constantCount;
 	[Browse(Never)] internal    WGPUConstantEntry*     _constants;
 
-	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out this._entryPoint);	}
+	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out _entryPoint);	}
 	public  Span<WGPUConstantEntry>                     constants            { get => GetArr(_constants, _constantCount); set => SetArr(value, out _constants, out _constantCount);	}
 
 	[Conditional("VALIDATE")]
@@ -888,7 +889,7 @@ public unsafe struct WGPUShaderModuleDescriptor
 	[Browse(Never)] internal    ulong                  _hintCount;
 	[Browse(Never)] internal    WGPUShaderModuleCompilationHint* _hints;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUShaderModuleCompilationHint>       hints                { get => GetArr(_hints, _hintCount); set => SetArr(value, out _hints, out _hintCount);	}
 
 	[Conditional("VALIDATE")]
@@ -923,7 +924,7 @@ public unsafe struct WGPUTextureDescriptor
 	[Browse(Never)] internal    ulong                  _viewFormatCount;
 	[Browse(Never)] internal    WGPUTextureFormat*     _viewFormats;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUTextureFormat>                     viewFormats          { get => GetArr(_viewFormats, _viewFormatCount); set => SetArr(value, out _viewFormats, out _viewFormatCount);	}
 
 	[Conditional("VALIDATE")]
@@ -958,7 +959,7 @@ public unsafe struct WGPUBindGroupLayoutDescriptor
 	[Browse(Never)] internal    ulong                  _entryCount;
 	[Browse(Never)] internal    WGPUBindGroupLayoutEntry* _entries;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUBindGroupLayoutEntry>              entries              { get => GetArr(_entries, _entryCount); set => SetArr(value, out _entries, out _entryCount);	}
 
 	[Conditional("VALIDATE")]
@@ -993,7 +994,7 @@ public unsafe struct WGPUComputePipelineDescriptor
 	/** handle */   public      WGPUPipelineLayout      layout;
 	                public      WGPUProgrammableStageDescriptor  compute;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -1016,7 +1017,7 @@ public unsafe struct WGPUDeviceDescriptor
 	                public      void*                   deviceLostUserdata;
 	                public      WGPUUncapturedErrorCallbackInfo  uncapturedErrorCallbackInfo;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPUFeatureName>                       requiredFeatures     { get => GetArr(_requiredFeatures, _requiredFeatureCount); set => SetArr(value, out _requiredFeatures, out _requiredFeatureCount);	}
 	public  WGPURequiredLimits?                         requiredLimits       { get => GetOpt(_requiredLimits); set => SetOpt(out _requiredLimits, value);	}
 	public  IntPtr                                      DeviceLostUserdata   { get => new IntPtr(deviceLostUserdata); set => deviceLostUserdata = (void*)value;	}
@@ -1041,7 +1042,7 @@ public unsafe struct WGPURenderPassDescriptor
 	/** handle */   public      WGPUQuerySet            occlusionQuerySet;
 	[Browse(Never)] internal    WGPURenderPassTimestampWrites* _timestampWrites;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  Span<WGPURenderPassColorAttachment>         colorAttachments     { get => GetArr(_colorAttachments, _colorAttachmentCount); set => SetArr(value, out _colorAttachments, out _colorAttachmentCount);	}
 	public  WGPURenderPassDepthStencilAttachment?       depthStencilAttachment { get => GetOpt(_depthStencilAttachment); set => SetOpt(out _depthStencilAttachment, value);	}
 	public  WGPURenderPassTimestampWrites?              timestampWrites      { get => GetOpt(_timestampWrites); set => SetOpt(out _timestampWrites, value);	}
@@ -1076,7 +1077,7 @@ public unsafe struct WGPUVertexState
 	[Browse(Never)] internal    ulong                  _bufferCount;
 	[Browse(Never)] internal    WGPUVertexBufferLayout* _buffers;
 
-	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out this._entryPoint);	}
+	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out _entryPoint);	}
 	public  Span<WGPUConstantEntry>                     constants            { get => GetArr(_constants, _constantCount); set => SetArr(value, out _constants, out _constantCount);	}
 	public  Span<WGPUVertexBufferLayout>                buffers              { get => GetArr(_buffers, _bufferCount); set => SetArr(value, out _buffers, out _bufferCount);	}
 
@@ -1106,7 +1107,7 @@ public unsafe struct WGPUFragmentState
 	[Browse(Never)] internal    ulong                  _targetCount;
 	[Browse(Never)] internal    WGPUColorTargetState*  _targets;
 
-	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out this._entryPoint);	}
+	public  Utf8                                        entryPoint           { get => GetUtf8(_entryPoint); set => SetUtf8(value, out _entryPoint);	}
 	public  Span<WGPUConstantEntry>                     constants            { get => GetArr(_constants, _constantCount); set => SetArr(value, out _constants, out _constantCount);	}
 	public  Span<WGPUColorTargetState>                  targets              { get => GetArr(_targets, _targetCount); set => SetArr(value, out _targets, out _targetCount);	}
 
@@ -1138,7 +1139,7 @@ public unsafe struct WGPURenderPipelineDescriptor
 	                public      WGPUMultisampleState    multisample          = new WGPUMultisampleState();
 	[Browse(Never)] internal    WGPUFragmentState*     _fragment;
 
-	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out this._label);	}
+	public  Utf8                                        label                { get => GetUtf8(_label); set => SetUtf8(value, out _label);	}
 	public  WGPUDepthStencilState?                      depthStencil         { get => GetOpt(_depthStencil); set => SetOpt(out _depthStencil, value);	}
 	public  WGPUFragmentState?                          fragment             { get => GetOpt(_fragment); set => SetOpt(out _fragment, value);	}
 
@@ -1184,8 +1185,8 @@ public unsafe struct WGPUInstanceExtras
 	[Browse(Never)] internal    char*                  _dxilPath;
 	[Browse(Never)] internal    char*                  _dxcPath;
 
-	public  Utf8                                        dxilPath             { get => GetUtf8(_dxilPath); set => SetUtf8(value, out this._dxilPath);	}
-	public  Utf8                                        dxcPath              { get => GetUtf8(_dxcPath); set => SetUtf8(value, out this._dxcPath);	}
+	public  Utf8                                        dxilPath             { get => GetUtf8(_dxilPath); set => SetUtf8(value, out _dxilPath);	}
+	public  Utf8                                        dxcPath              { get => GetUtf8(_dxcPath); set => SetUtf8(value, out _dxcPath);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -1200,7 +1201,7 @@ public unsafe struct WGPUDeviceExtras
 	                public      WGPUChainedStruct       chain;
 	[Browse(Never)] internal    char*                  _tracePath;
 
-	public  Utf8                                        tracePath            { get => GetUtf8(_tracePath); set => SetUtf8(value, out this._tracePath);	}
+	public  Utf8                                        tracePath            { get => GetUtf8(_tracePath); set => SetUtf8(value, out _tracePath);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -1270,8 +1271,8 @@ public unsafe struct WGPUShaderDefine
 	[Browse(Never)] internal    char*                  _name;
 	[Browse(Never)] internal    char*                  _value;
 
-	public  Utf8                                        name                 { get => GetUtf8(_name); set => SetUtf8(value, out this._name);	}
-	public  Utf8                                        value                { get => GetUtf8(_value); set => SetUtf8(value, out this._value);	}
+	public  Utf8                                        name                 { get => GetUtf8(_name); set => SetUtf8(value, out _name);	}
+	public  Utf8                                        value                { get => GetUtf8(_value); set => SetUtf8(value, out _value);	}
 
 	[Conditional("VALIDATE")]
 	public void Validate() {
@@ -1289,7 +1290,7 @@ public unsafe struct WGPUShaderModuleGLSLDescriptor
 	[Browse(Never)] internal    uint                   _defineCount;
 	[Browse(Never)] internal    WGPUShaderDefine*      _defines;
 
-	public  Utf8                                        code                 { get => GetUtf8(_code); set => SetUtf8(value, out this._code);	}
+	public  Utf8                                        code                 { get => GetUtf8(_code); set => SetUtf8(value, out _code);	}
 	public  Span<WGPUShaderDefine>                      defines              { get => GetArr(_defines, _defineCount); set => SetArr(value, out _defines, out _defineCount);	}
 
 	[Conditional("VALIDATE")]

@@ -214,6 +214,7 @@ namespace WebGPUGen
                 file.WriteLine("using static System.Diagnostics.DebuggerBrowsableState;");
                 file.WriteLine("using Browse = System.Diagnostics.DebuggerBrowsableAttribute;");
                 file.WriteLine();
+                file.WriteLine("// ReSharper disable PropertyCanBeMadeInitOnly.Global;");
                 file.WriteLine("// ReSharper disable RedundantUnsafeContext;");
                 file.WriteLine("// ReSharper disable InconsistentNaming;");
                 file.WriteLine("namespace Evergine.Bindings.WebGPU;");
