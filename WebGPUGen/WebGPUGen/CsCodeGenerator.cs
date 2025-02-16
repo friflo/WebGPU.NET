@@ -228,7 +228,8 @@ namespace WebGPUGen
                     file.WriteLine($"public unsafe struct {structure.Name}");
                     file.WriteLine("{");
                     if (StructDefault.HasDefaultFields(structure)) {
-                        file.WriteLine($"    public {structure.Name}() {{}}");
+                        file.WriteLine($"                    public      {structure.Name}() {{}}");
+                        file.WriteLine();
                     }
                     foreach (var member in structure.Fields)
                     {
