@@ -58,13 +58,14 @@ namespace HelloTriangle
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
             
-            WGPUShaderModule vertexShaderModule;
-            WGPUShaderModule fragmentShaderModule;
+            using var vertexShaderModule    = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, basicVertWGSL);
+            using var fragmentShaderModule  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, sampleTextureMixColorWGSL);
+            
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
                 label = Label,
                 layout = default, 
                 vertex = new WGPUVertexState {
-                    module= vertexShaderModule = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, basicVertWGSL),
+                    module= vertexShaderModule,
                     buffers = [
                         new WGPUVertexBufferLayout {
                             arrayStride = Cube.cubeVertexSize,
@@ -86,7 +87,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = fragmentShaderModule = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, sampleTextureMixColorWGSL),
+                    module  = fragmentShaderModule,
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat
                         },
@@ -108,8 +109,6 @@ namespace HelloTriangle
                     format              = WGPUTextureFormat.Depth24Plus
                 }
             });
-            fragmentShaderModule.release();
-            vertexShaderModule.release();
             
             using var depthTexture = device.createTexture(new WGPUTextureDescriptor{
                 label   = Label,
