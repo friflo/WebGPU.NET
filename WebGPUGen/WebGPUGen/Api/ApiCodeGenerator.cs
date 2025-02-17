@@ -82,7 +82,7 @@ public static class ApiCodeGenerator
         var commandName = command.Name.Substring(handleType.Name.Length);
         commandName =  char.ToLower(commandName[0]) + commandName.Substring(1);
         switch (commandName) {
-            case "setLabel":            // SetLabel methods not implemented in WGPU
+            case "setLabel":            // not implemented in WGPU - https://github.com/gfx-rs/wgpu-native/blob/trunk/src/unimplemented.rs
                 return;
             case "writeBuffer":         // Queue_NG.cs
             case "writeTexture":        // Queue_NG.cs
