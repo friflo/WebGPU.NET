@@ -12,19 +12,23 @@ namespace HelloTriangle
     public class TexturedCube
     {
         private static readonly Label                   Label = new("textured-cube");
+        
+        // --- GPU resources
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;
-
-        private             WGPURenderPipeline          pipeline;
         private readonly    Arena                       frameArena;
-        
-        private             WGPURenderPassDescriptor    renderPassDescriptor;
+
+        // --- TexturedCube handles
+        private             WGPURenderPipeline          pipeline;
         private             WGPUBuffer 					uniformBuffer;
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
         private             WGPUTextureView             cubeTextureView;
         private             WGPUTextureView             depthTextureView;
+        // --- TexturedCube structs
+        private             WGPURenderPassDescriptor    renderPassDescriptor;
+
         
         internal TexturedCube(GPU gpu) {
             device              = gpu.device;
@@ -34,6 +38,7 @@ namespace HelloTriangle
         }
         
         internal void ReleaseResources() {
+            // --- release handles
             pipeline.release();
             uniformBuffer.release();
             verticesBuffer.release();
