@@ -9,8 +9,14 @@ public class WGPUException : InvalidOperationException
     public WGPUException(WGPUErrorType errorType, Utf8 message) : base(message.ToString()) {
         this.errorType = errorType;
     }
-    
-    internal static void DefaultErrorCallback(WGPUErrorType errorType, Utf8 message) {
+
+    /// <summary>
+    /// Store the error as an <see cref="WGPUException"/> and throws its after calling a "wgpu*" method using <see cref="ThrowOnError"/>.<br/>
+    /// <br/>
+    /// The exception cannot be thrown directly because it has to pass managed -> unmanaged -> managed stack frames.<br/>
+    /// This may work on Windows as it supports SEH (Structured Exception Handling) but will fail on other platforms. 
+    /// </summary>
+    public static void DefaultErrorCallback(WGPUErrorType errorType, Utf8 message) {
         _lastException = new WGPUException(errorType, message);
     }
     
