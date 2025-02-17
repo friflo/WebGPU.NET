@@ -26,7 +26,6 @@ namespace HelloTriangle
 
             cube.ReleaseResources();
             
-            Console.WriteLine(ObjectTracker.GroupedHandlesLog());
             var report = gpu.instance.report();
             gpu.CleanUp();
             

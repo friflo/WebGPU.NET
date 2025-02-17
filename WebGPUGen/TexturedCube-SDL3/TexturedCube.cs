@@ -137,9 +137,10 @@ namespace HelloTriangle
                 minFilter   = WGPUFilterMode.Linear 
             });
             
+            var binGroupLayout0 = pipeline.getBindGroupLayout(0);
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
                 label   = Label,
-                layout  = pipeline.getBindGroupLayout(0),
+                layout  = binGroupLayout0,
                 entries = [
                     new WGPUBindGroupEntry {
                         binding = 0,
@@ -156,6 +157,8 @@ namespace HelloTriangle
                     }
                 ],
             });
+            binGroupLayout0.release();
+            sampler.release();
             cubeTexture.release();
             
             var sessionArena = new Arena("sessionArena");
