@@ -30,6 +30,19 @@ namespace WebGPUGen
 
             { "WGPUSubmissionIndex", "ulong" },
         };
+        
+        // all: typedef WGPUFlags WGPU....;
+        internal static readonly Dictionary<string, string> enumFlags = new() {
+            // --- webgpu.h
+            { "WGPUBufferUsageFlags",       "WGPUBufferUsage" },  
+            { "WGPUColorWriteMaskFlags",    "WGPUColorWriteMask"},  
+            { "WGPUMapModeFlags",           "WGPUMapMode"},  
+            { "WGPUShaderStageFlags",       "WGPUShaderStage"},  
+            { "WGPUTextureUsageFlags",      "WGPUTextureUsage"},  
+            // --- wgpu.h
+            { "WGPUInstanceBackendFlags",   "WGPUInstanceBackend"},  
+            { "WGPUInstanceFlags",          "WGPUInstanceFlag" },  
+        };
 
         public static string ConvertToCSharpType(CppType type, bool isPointer = false)
         {
@@ -255,12 +268,10 @@ namespace WebGPUGen
             {
                 return GetCsCleanName(mappedName);
             }
-
-            if (name.Contains("Flags"))
+            if (enumFlags.TryGetValue(name, out string flagName))
             {
-                return name.Remove(name.Count() - 5);
+                return flagName;    
             }
-
             return name;
         }
 

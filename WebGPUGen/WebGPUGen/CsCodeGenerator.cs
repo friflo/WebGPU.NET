@@ -47,7 +47,7 @@ namespace WebGPUGen
             
             ApiCodeGenerator.GenerateApiCommands(compilation, outputPath);
         }
-
+        
         private void GenerateConstants(CppCompilation compilation, string outputPath)
         {
             Debug.WriteLine("Generating Constants...");
@@ -246,7 +246,8 @@ namespace WebGPUGen
                         bool isInternalField = ApiCodeGenerator.IsInternalField(member, structure);
                         var docs = "               ";
                         if (member.Type is CppTypedef handleType) {
-                            if (handleType.Name.EndsWith("Flags")) {
+                            // if (handleType.Name.EndsWith("Flags")) {
+                            if (Helpers.enumFlags.ContainsKey(handleType.Name)) {
                                 docs = "/** flags  */  ";
                             } else {
                                 docs = ApiCodeGenerator.objects.ContainsKey(handleType) ? "/** handle */  ": docs;
@@ -279,7 +280,8 @@ namespace WebGPUGen
 
                 foreach (var cppEnum in compilation.Enums)
                 {
-                    if (compilation.Typedefs.Any(t => t.Name == cppEnum.Name + "Flags"))
+                    // if (compilation.Typedefs.Any(t => t.Name == cppEnum.Name + "Flags"))
+                    if (Helpers.enumFlags.ContainsValue(cppEnum.Name))
                     {
                         file.WriteLine("\t[Flags]");
                     }

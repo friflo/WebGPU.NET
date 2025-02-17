@@ -1195,7 +1195,7 @@ public unsafe struct WGPUInstanceExtras
 {
 	                public      WGPUChainedStruct       chain;
 	/** flags  */   public      WGPUInstanceBackend     backends;
-	/** flags  */   public      WGPUInstance            flags;
+	/** flags  */   public      WGPUInstanceFlag        flags;
 	/** enum   */   public      WGPUDx12Compiler        dx12ShaderCompiler;
 	/** enum   */   public      WGPUGles3MinorVersion   gles3MinorVersion;
 	[Browse(Never)] internal    char*                  _dxilPath;

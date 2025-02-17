@@ -32,9 +32,8 @@ public class StructDefault
         var pad = new string(' ', Math.Max(20 - field.Name.Length, 0));
         
         if (field.Type is CppTypedef typedef) {
-            if (typedef.Name.EndsWith("Flags")) {
-                var typeName = typedef.Name.Substring(0, typedef.Name.Length - "Flags".Length); 
-                return $"{pad} = {typeName}.{value}";
+            if (Helpers.enumFlags.TryGetValue(typedef.Name, out var enumName)) {
+                return $"{pad} = {enumName}.{value}";
             }
         }
         if (field.Type is CppEnum cppEnum) {

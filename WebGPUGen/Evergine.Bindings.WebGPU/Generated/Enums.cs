@@ -682,6 +682,7 @@ namespace Evergine.Bindings.WebGPU
 		Force32 = 2147483647,
 	}
 
+	[Flags]
 	public enum WGPUInstanceFlag
 	{
 		Default = 0,
