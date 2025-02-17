@@ -33,6 +33,9 @@ namespace HelloTriangle
         
         internal void ReleaseResources() {
             pipeline.release();
+            uniformBuffer.release();
+            verticesBuffer.release();
+            uniformBindGroup.release();
         }
 
         internal void InitResources()
@@ -180,6 +183,7 @@ namespace HelloTriangle
                     depthStoreOp    = WGPUStoreOp.Store,
                 },
             };
+            depthTexture.release();
             frameArena.Use();
         }
         
