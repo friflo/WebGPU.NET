@@ -24,4 +24,8 @@ public unsafe partial struct WGPUBuffer
         }
         return new Span<T>(result, (int)size);
     }
+    
+    public WGPUBufferMapState mapState { get {
+        throw new NotImplementedException("https://github.com/gfx-rs/wgpu-native/blob/trunk/src/unimplemented.rs");
+    } }
 }

@@ -90,6 +90,7 @@ public static class ApiCodeGenerator
             case "submitForIndex":      // Queue_NG.cs
             case "getMappedRange":      // Buffer_NG.cs
             case "getConstMappedRange": // Buffer_NG.cs
+            case "getMapState":         // Buffer_NG.cs
             case "setPushConstants":    // RenderPassEncoder_NG.cs
             case "getCapabilities":     // Surface_NG.cs
             case "getCurrentTexture":   // Surface_NG.cs

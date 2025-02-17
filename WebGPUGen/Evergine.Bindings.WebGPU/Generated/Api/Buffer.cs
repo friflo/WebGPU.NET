@@ -19,10 +19,7 @@ public unsafe partial struct WGPUBuffer
 
     // getConstMappedRange() - not generated. See: Buffer_NG.cs
 
-    public WGPUBufferMapState mapState { get {
-          ObjectTracker.ValidateHandle(this);
-          return wgpuBufferGetMapState(this);
-    } }
+    // getMapState() - not generated. See: Buffer_NG.cs
 
     // getMappedRange() - not generated. See: Buffer_NG.cs
 
