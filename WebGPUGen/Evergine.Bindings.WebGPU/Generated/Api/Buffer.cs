@@ -63,6 +63,11 @@ public unsafe partial struct WGPUBuffer
         ObjectTracker.DecRef(this);
         wgpuBufferRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuBufferRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

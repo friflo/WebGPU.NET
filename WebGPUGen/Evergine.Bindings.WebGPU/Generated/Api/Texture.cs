@@ -80,6 +80,11 @@ public unsafe partial struct WGPUTexture
         ObjectTracker.DecRef(this);
         wgpuTextureRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuTextureRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

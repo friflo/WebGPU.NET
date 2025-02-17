@@ -121,6 +121,11 @@ public unsafe partial struct WGPURenderBundleEncoder
         ObjectTracker.DecRef(this);
         wgpuRenderBundleEncoderRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuRenderBundleEncoderRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

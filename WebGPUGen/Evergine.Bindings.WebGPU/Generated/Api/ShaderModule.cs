@@ -27,6 +27,11 @@ public unsafe partial struct WGPUShaderModule
         ObjectTracker.DecRef(this);
         wgpuShaderModuleRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuShaderModuleRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

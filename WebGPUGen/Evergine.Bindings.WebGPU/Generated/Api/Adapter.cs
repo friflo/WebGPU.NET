@@ -44,6 +44,11 @@ public unsafe partial struct WGPUAdapter
         ObjectTracker.DecRef(this);
         wgpuAdapterRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuAdapterRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

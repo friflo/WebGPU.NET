@@ -17,6 +17,11 @@ public unsafe partial struct WGPUPipelineLayout
         ObjectTracker.DecRef(this);
         wgpuPipelineLayoutRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuPipelineLayoutRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

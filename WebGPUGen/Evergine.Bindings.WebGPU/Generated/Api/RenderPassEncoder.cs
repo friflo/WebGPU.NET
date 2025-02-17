@@ -208,6 +208,11 @@ public unsafe partial struct WGPURenderPassEncoder
         ObjectTracker.DecRef(this);
         wgpuRenderPassEncoderRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuRenderPassEncoderRelease(this);
+    }
 
     // setPushConstants() - not generated. See: RenderPassEncoder_NG.cs
 

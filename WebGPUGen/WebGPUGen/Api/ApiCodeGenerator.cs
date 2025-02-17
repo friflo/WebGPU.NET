@@ -116,6 +116,11 @@ public static class ApiCodeGenerator
                         ObjectTracker.DecRef(this);
                         wgpu{{handleType.Name.Substring(4)}}Release(this);
                     }
+                    
+                    public void Dispose() {
+                        ObjectTracker.DecRef(this);
+                        wgpu{{handleType.Name.Substring(4)}}Release(this);
+                    }
                 """);
                 return;
             case "setBindGroup": sb.AppendLine(

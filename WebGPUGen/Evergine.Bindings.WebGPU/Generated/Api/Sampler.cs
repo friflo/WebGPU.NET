@@ -17,6 +17,11 @@ public unsafe partial struct WGPUSampler
         ObjectTracker.DecRef(this);
         wgpuSamplerRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuSamplerRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

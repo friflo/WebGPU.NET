@@ -37,6 +37,11 @@ public unsafe partial struct WGPUQuerySet
         ObjectTracker.DecRef(this);
         wgpuQuerySetRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuQuerySetRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

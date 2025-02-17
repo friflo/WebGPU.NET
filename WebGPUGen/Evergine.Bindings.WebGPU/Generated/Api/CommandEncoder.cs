@@ -168,6 +168,11 @@ public unsafe partial struct WGPUCommandEncoder
         ObjectTracker.DecRef(this);
         wgpuCommandEncoderRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuCommandEncoderRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

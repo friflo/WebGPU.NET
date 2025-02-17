@@ -244,6 +244,11 @@ public unsafe partial struct WGPUDevice
         ObjectTracker.DecRef(this);
         wgpuDeviceRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuDeviceRelease(this);
+    }
 
     public WGPUBool poll(WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
         Validate_poll(wait, wrappedSubmissionIndex);

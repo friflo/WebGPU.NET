@@ -61,6 +61,11 @@ public unsafe partial struct WGPUInstance
         ObjectTracker.DecRef(this);
         wgpuInstanceRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuInstanceRelease(this);
+    }
 
     // report() - not generated. See: Instance_NG.cs
 

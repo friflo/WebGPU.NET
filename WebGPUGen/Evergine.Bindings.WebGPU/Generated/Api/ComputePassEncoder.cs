@@ -95,6 +95,11 @@ public unsafe partial struct WGPUComputePassEncoder
         ObjectTracker.DecRef(this);
         wgpuComputePassEncoderRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuComputePassEncoderRelease(this);
+    }
 
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
         Validate_beginPipelineStatisticsQuery(querySet, queryIndex);

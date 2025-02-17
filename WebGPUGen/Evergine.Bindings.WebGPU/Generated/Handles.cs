@@ -5,7 +5,7 @@
 // ReSharper disable MemberCanBePrivate.Global
 namespace Evergine.Bindings.WebGPU
 {
-	public readonly partial struct WGPUAdapter : IEquatable<WGPUAdapter>, IHandle
+	public readonly partial struct WGPUAdapter : IEquatable<WGPUAdapter>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -14,7 +14,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUBindGroup : IEquatable<WGPUBindGroup>, IHandle
+	public readonly partial struct WGPUBindGroup : IEquatable<WGPUBindGroup>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -23,7 +23,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUBindGroupLayout : IEquatable<WGPUBindGroupLayout>, IHandle
+	public readonly partial struct WGPUBindGroupLayout : IEquatable<WGPUBindGroupLayout>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -32,7 +32,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUBuffer : IEquatable<WGPUBuffer>, IHandle
+	public readonly partial struct WGPUBuffer : IEquatable<WGPUBuffer>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -41,7 +41,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUCommandBuffer : IEquatable<WGPUCommandBuffer>, IHandle
+	public readonly partial struct WGPUCommandBuffer : IEquatable<WGPUCommandBuffer>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -50,7 +50,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUCommandEncoder : IEquatable<WGPUCommandEncoder>, IHandle
+	public readonly partial struct WGPUCommandEncoder : IEquatable<WGPUCommandEncoder>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -59,7 +59,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUComputePassEncoder : IEquatable<WGPUComputePassEncoder>, IHandle
+	public readonly partial struct WGPUComputePassEncoder : IEquatable<WGPUComputePassEncoder>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -68,7 +68,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUComputePipeline : IEquatable<WGPUComputePipeline>, IHandle
+	public readonly partial struct WGPUComputePipeline : IEquatable<WGPUComputePipeline>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -77,7 +77,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUDevice : IEquatable<WGPUDevice>, IHandle
+	public readonly partial struct WGPUDevice : IEquatable<WGPUDevice>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -86,7 +86,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUInstance : IEquatable<WGPUInstance>, IHandle
+	public readonly partial struct WGPUInstance : IEquatable<WGPUInstance>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -95,7 +95,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUPipelineLayout : IEquatable<WGPUPipelineLayout>, IHandle
+	public readonly partial struct WGPUPipelineLayout : IEquatable<WGPUPipelineLayout>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -104,7 +104,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUQuerySet : IEquatable<WGPUQuerySet>, IHandle
+	public readonly partial struct WGPUQuerySet : IEquatable<WGPUQuerySet>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -113,7 +113,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUQueue : IEquatable<WGPUQueue>, IHandle
+	public readonly partial struct WGPUQueue : IEquatable<WGPUQueue>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -122,7 +122,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPURenderBundle : IEquatable<WGPURenderBundle>, IHandle
+	public readonly partial struct WGPURenderBundle : IEquatable<WGPURenderBundle>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -131,7 +131,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPURenderBundleEncoder : IEquatable<WGPURenderBundleEncoder>, IHandle
+	public readonly partial struct WGPURenderBundleEncoder : IEquatable<WGPURenderBundleEncoder>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -140,7 +140,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPURenderPassEncoder : IEquatable<WGPURenderPassEncoder>, IHandle
+	public readonly partial struct WGPURenderPassEncoder : IEquatable<WGPURenderPassEncoder>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -149,7 +149,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPURenderPipeline : IEquatable<WGPURenderPipeline>, IHandle
+	public readonly partial struct WGPURenderPipeline : IEquatable<WGPURenderPipeline>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -158,7 +158,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUSampler : IEquatable<WGPUSampler>, IHandle
+	public readonly partial struct WGPUSampler : IEquatable<WGPUSampler>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -167,7 +167,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUShaderModule : IEquatable<WGPUShaderModule>, IHandle
+	public readonly partial struct WGPUShaderModule : IEquatable<WGPUShaderModule>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -176,7 +176,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUSurface : IEquatable<WGPUSurface>, IHandle
+	public readonly partial struct WGPUSurface : IEquatable<WGPUSurface>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -185,7 +185,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUTexture : IEquatable<WGPUTexture>, IHandle
+	public readonly partial struct WGPUTexture : IEquatable<WGPUTexture>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;
@@ -194,7 +194,7 @@ namespace Evergine.Bindings.WebGPU
 		public   override   int     GetHashCode()         => Handle.GetHashCode();
 	}
 
-	public readonly partial struct WGPUTextureView : IEquatable<WGPUTextureView>, IHandle
+	public readonly partial struct WGPUTextureView : IEquatable<WGPUTextureView>, IHandle, IDisposable
 	{
 		internal readonly   IntPtr  Handle;
 		public              IntPtr  GetHandle()           => Handle;

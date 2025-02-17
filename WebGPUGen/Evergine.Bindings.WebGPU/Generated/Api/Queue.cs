@@ -33,6 +33,11 @@ public unsafe partial struct WGPUQueue
         ObjectTracker.DecRef(this);
         wgpuQueueRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuQueueRelease(this);
+    }
 
     // submitForIndex() - not generated. See: Queue_NG.cs
 

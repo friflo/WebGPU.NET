@@ -52,6 +52,11 @@ public unsafe partial struct WGPUSurface
         ObjectTracker.DecRef(this);
         wgpuSurfaceRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuSurfaceRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

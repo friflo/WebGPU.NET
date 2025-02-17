@@ -29,6 +29,11 @@ public unsafe partial struct WGPURenderPipeline
         ObjectTracker.DecRef(this);
         wgpuRenderPipelineRelease(this);
     }
+    
+    public void Dispose() {
+        ObjectTracker.DecRef(this);
+        wgpuRenderPipelineRelease(this);
+    }
 
     public override string? ToString() => ObjectTracker.GetLabel(Handle);
 }

@@ -178,7 +178,7 @@ namespace WebGPUGen
                     {
                         continue;
                     }
-                    file.WriteLine($"\tpublic readonly partial struct {typedef.Name} : IEquatable<{typedef.Name}>, IHandle");
+                    file.WriteLine($"\tpublic readonly partial struct {typedef.Name} : IEquatable<{typedef.Name}>, IHandle, IDisposable");
                     file.WriteLine("\t{");
                     string handleType = "IntPtr";
 
