@@ -41,7 +41,7 @@ namespace WebGPUGen
             { "WGPUTextureUsageFlags",      "WGPUTextureUsage"},  
             // --- wgpu.h
             { "WGPUInstanceBackendFlags",   "WGPUInstanceBackend"},  
-            { "WGPUInstanceFlags",          "WGPUInstanceFlag" },  
+            { "WGPUInstanceFlags",          "WGPUInstanceFlag" },  // convention (removing Flags) would result in clash with WGPUInstance
         };
 
         public static string ConvertToCSharpType(CppType type, bool isPointer = false)
