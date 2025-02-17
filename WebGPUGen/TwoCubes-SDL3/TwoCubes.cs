@@ -11,18 +11,22 @@ namespace HelloTriangle
     public class TwoCubes
     {
         private static readonly Label                   Label = new("two-cubes");
+        // GPU resources
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;
-
-        private             WGPURenderPipeline          pipeline;
         private readonly    Arena                       frameArena;
         
-        private             WGPURenderPassDescriptor    renderPassDescriptor;
+        // --- handles        
+        private             WGPURenderPipeline          pipeline;
         private             WGPUBuffer                  uniformBuffer;
         private             WGPUBuffer                  verticesBuffer;
         private             WGPUBindGroup               uniformBindGroup1;
         private             WGPUBindGroup               uniformBindGroup2;
+        private             WGPUTextureView             depthTextureView;
+        // --- structs
+        private             WGPURenderPassDescriptor    renderPassDescriptor;
+
         
         internal TwoCubes(GPU gpu) {
             device              = gpu.device;
@@ -32,14 +36,18 @@ namespace HelloTriangle
         }
         
         internal void ReleaseResources() {
+            depthTextureView.release();
             pipeline.release();
+            uniformBuffer.release();
+            verticesBuffer.release();
+            uniformBindGroup1.release();
+            uniformBindGroup2.release();
         }
 
         internal void InitResources()
         {
             Utf8 basicVertWGSL            = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "basic.vert.wgsl"));
             Utf8 vertexPositionColorWGSL  = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", "vertexPositionColor.frag.wgsl"));
-            
             
             // Create a vertex buffer from the cube data.
             verticesBuffer = device.createBuffer(new WGPUBufferDescriptor {
@@ -52,12 +60,14 @@ namespace HelloTriangle
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
 
+            using var vertexShader = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, basicVertWGSL);
+            using var colorShader  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, vertexPositionColorWGSL);
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
                 label   = Label, 
                 layout  = default,
                 vertex  = {
-                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, basicVertWGSL),
-                    buffers= [new WGPUVertexBufferLayout
+                    module  = vertexShader,
+                    buffers = [new WGPUVertexBufferLayout
                         {
                             arrayStride= Cube.cubeVertexSize,
                             attributes= [new WGPUVertexAttribute {
@@ -77,7 +87,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, vertexPositionColorWGSL),
+                    module  = colorShader,
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat,
                         },
@@ -101,7 +111,7 @@ namespace HelloTriangle
                 },
             });
 
-            var depthTexture = device.createTexture(new WGPUTextureDescriptor {
+            using var depthTexture = device.createTexture(new WGPUTextureDescriptor {
                 label   = Label,
                 size    = new WGPUExtent3D {width = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
@@ -114,9 +124,10 @@ namespace HelloTriangle
                 usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
 
+            using var bindGroupLayout0 = pipeline.getBindGroupLayout(0);
             uniformBindGroup1 = device.createBindGroup(new WGPUBindGroupDescriptor {
                 label   = Label,
-                layout  = pipeline.getBindGroupLayout(0),
+                layout  = bindGroupLayout0,
                 entries = [new WGPUBindGroupEntry {
                         binding = 0,
                         buffer  = uniformBuffer,
@@ -128,7 +139,7 @@ namespace HelloTriangle
 
             uniformBindGroup2 = device.createBindGroup(new WGPUBindGroupDescriptor {
                 label   = Label,
-                layout  = pipeline.getBindGroupLayout(0),
+                layout  = bindGroupLayout0,
                 entries = [new WGPUBindGroupEntry {
                         binding = 0,
                         buffer  = uniformBuffer,
@@ -150,7 +161,7 @@ namespace HelloTriangle
                     },
                 ],
                 depthStencilAttachment= new WGPURenderPassDepthStencilAttachment {
-                    view= depthTexture.createView(),
+                    view = depthTextureView = depthTexture.createView(),
 
                     depthClearValue = 1.0f,
                     depthLoadOp     = WGPULoadOp.Clear,
