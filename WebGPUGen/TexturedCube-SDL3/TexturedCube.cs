@@ -19,14 +19,14 @@ namespace HelloTriangle
         private readonly    WGPUQueue                   queue;
         private readonly    Arena                       frameArena;
 
-        // --- TexturedCube handles
+        // --- handles
         private             WGPURenderPipeline          pipeline;
         private             WGPUBuffer 					uniformBuffer;
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
         private             WGPUTextureView             cubeTextureView;
         private             WGPUTextureView             depthTextureView;
-        // --- TexturedCube structs
+        // --- structs
         private             WGPURenderPassDescriptor    renderPassDescriptor;
 
         

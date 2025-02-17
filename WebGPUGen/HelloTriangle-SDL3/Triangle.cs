@@ -9,10 +9,12 @@ namespace HelloTriangle
     public class Triangle
     {
         private static readonly Label           Label = new("triangle");
+        // --- GPU resources
         private readonly    WGPUDevice          device;
         private readonly    WGPUTextureFormat   swapChainFormat;
         private readonly    WGPUQueue           queue;
 
+        // --- handles
         private             WGPURenderPipeline  pipeline;
         private             WGPUBuffer          vertexBuffer;
         private readonly    Arena               frameArena;
@@ -32,11 +34,11 @@ namespace HelloTriangle
         internal void InitResources()
         {
             frameArena.Use();
-            var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = Label });
+            using var pipelineLayout = device.createPipelineLayout(new WGPUPipelineLayoutDescriptor { label = Label });
 
             Utf8 shaderSource = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Content", $"triangle.wgsl"));
 
-            var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
+            using var shaderModule = device.createShaderModuleWGSL(new WGPUShaderModuleDescriptor(), shaderSource);
 
             var pipelineDescriptor = new WGPURenderPipelineDescriptor {
                 label  = Label, 
@@ -94,8 +96,6 @@ namespace HelloTriangle
                 }
             };
             pipeline = device.createRenderPipeline(pipelineDescriptor);
-            shaderModule.release();
-            pipelineLayout.release();
 
             Span<Vector4> vertexData = [
                 new (0.0f, 0.5f, 0.5f, 1.0f),
@@ -121,7 +121,7 @@ namespace HelloTriangle
         {
             frameArena.Use();
 
-            var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = Label });
+            using var encoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = Label });
 
             WGPURenderPassEncoder renderPass = encoder.beginRenderPass(new WGPURenderPassDescriptor {
                 label = Label,
@@ -137,13 +137,11 @@ namespace HelloTriangle
             renderPass.setVertexBuffer(0, vertexBuffer, 0, WebGPUNative.WGPU_WHOLE_MAP_SIZE);
             renderPass.draw(3, 1, 0, 0);
             renderPass.end();
-            renderPass.release();
+            renderPass.release(); // required: otherwise submit() panics: "CommandBuffer cannot be destroyed because is still in use"
 
-            var command = encoder.finish();
-            encoder.release();
-            queue.submit([command]);
+            using var command = encoder.finish();
             
-            command.release();
+            queue.submit([command]);
         }
     }
 }

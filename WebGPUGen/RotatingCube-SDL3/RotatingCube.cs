@@ -11,17 +11,20 @@ namespace HelloTriangle
     public class RotatingCube
     {
         private static readonly Label                   Label = new("rotating-cube");
+        // --- GPU resources
         private readonly    WGPUDevice                  device;
         private readonly    WGPUTextureFormat           presentationFormat;
         private readonly    WGPUQueue                   queue;
-
-        private             WGPURenderPipeline          pipeline;
         private readonly    Arena                       frameArena;
         
-        private             WGPURenderPassDescriptor    renderPassDescriptor;
+        // --- handles
+        private             WGPURenderPipeline          pipeline;
         private             WGPUBuffer 					uniformBuffer;
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
+        private             WGPUTextureView             depthTextureView;
+        // --- structs              
+        private             WGPURenderPassDescriptor    renderPassDescriptor;
         
         internal RotatingCube(GPU gpu) {
             device              = gpu.device;
@@ -32,6 +35,10 @@ namespace HelloTriangle
         
         internal void ReleaseResources() {
             pipeline.release();
+            uniformBuffer.release();
+            uniformBindGroup.release();
+            verticesBuffer.release();
+            depthTextureView.release();
         }
 
         internal void InitResources()
@@ -50,11 +57,14 @@ namespace HelloTriangle
             new Span<float>(Cube.cubeVertexArray).CopyTo(target);
             verticesBuffer.unmap();
             
+            using var shaderModule          = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, basicVertWGSL);
+            using var positionColorShader   = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, vertexPositionColorWGSL);
+            
             pipeline = device.createRenderPipeline(new WGPURenderPipelineDescriptor {
                 label   = Label,
                 layout  = default, 
                 vertex  = new WGPUVertexState {
-                    module= device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor { label = Label }, basicVertWGSL),
+                    module= shaderModule,
                     buffers = [
                         new WGPUVertexBufferLayout {
                             arrayStride = Cube.cubeVertexSize,
@@ -76,7 +86,7 @@ namespace HelloTriangle
                     ],
                 },
                 fragment= new WGPUFragmentState {
-                    module  = device.createShaderModuleWGSL( new WGPUShaderModuleDescriptor{ label = Label }, vertexPositionColorWGSL),
+                    module  = positionColorShader,
                     targets = [new WGPUColorTargetState {
                             format= presentationFormat
                         },
@@ -99,7 +109,7 @@ namespace HelloTriangle
                 }
             });
             
-            var depthTexture = device.createTexture(new WGPUTextureDescriptor{
+            using var depthTexture = device.createTexture(new WGPUTextureDescriptor{
                 label   = Label,
                 size    = new WGPUExtent3D { width  = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
@@ -113,9 +123,7 @@ namespace HelloTriangle
                 usage   = WGPUBufferUsage.Uniform | WGPUBufferUsage.CopyDst
             });
             
-            var bindGroupLayout = pipeline.getBindGroupLayout(0);
-            
-            
+            using var bindGroupLayout = pipeline.getBindGroupLayout(0);
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
                 label   = Label,
                 layout  = bindGroupLayout,
@@ -130,6 +138,7 @@ namespace HelloTriangle
             var sessionArena = new Arena("sessionArena");
             sessionArena.Use();
             
+            depthTextureView = depthTexture.createView();
             renderPassDescriptor = new WGPURenderPassDescriptor  {
                 label = Label,
                 colorAttachments = [new WGPURenderPassColorAttachment {
@@ -140,7 +149,7 @@ namespace HelloTriangle
                     },
                 ],
                 depthStencilAttachment = new WGPURenderPassDepthStencilAttachment {
-                    view            = depthTexture.createView(),
+                    view            = depthTextureView,
                     depthClearValue = 1.0f,
                     depthLoadOp     = WGPULoadOp.Clear,
                     depthStoreOp    = WGPUStoreOp.Store,
@@ -188,7 +197,7 @@ namespace HelloTriangle
             );
             renderPassDescriptor.colorAttachments[0].view = view;
 
-            var commandEncoder = device.createCommandEncoder();
+            using var commandEncoder = device.createCommandEncoder();
             var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
             passEncoder.setPipeline(pipeline);
             passEncoder.setBindGroup(0, uniformBindGroup);
@@ -197,11 +206,9 @@ namespace HelloTriangle
             passEncoder.end();
             passEncoder.release(); // required: otherwise submit() panics: "CommandBuffer cannot be destroyed because is still in use"
             
-            var command = commandEncoder.finish();
-            commandEncoder.release();
+            using var command = commandEncoder.finish();
+
             queue.submit([command]);
-            
-            command.release();
         }
     }
 }
