@@ -16,7 +16,7 @@ public class GPU
     internal readonly   Arena               frameArena = new Arena("frameArena");
     
     private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
-        Console.WriteLine($"Uncaptured device error: type: {errorType} ({message.ToString()})");
+        throw new WGPUException(errorType, message);
     }
     
     /// platform specific WGPU initialization

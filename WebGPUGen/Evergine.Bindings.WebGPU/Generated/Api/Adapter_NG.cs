@@ -25,13 +25,12 @@ public unsafe partial struct WGPUAdapter
         ObjectTracker.ValidateHandle(this);
         descriptor.Validate();
         
-        if (errorCallback is not null) {
-            var errorUserData = UserData.Create(default, errorCallback);
-            descriptor.uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
-                callback = &HandleUncapturedErrorCallback,
-                userdata = errorUserData
-            };
-        }
+        errorCallback ??= WGPUException.DefaultErrorCallback;
+        var errorUserData = UserData.Create(default, errorCallback);
+        descriptor.uncapturedErrorCallbackInfo = new WGPUUncapturedErrorCallbackInfo {
+            callback = &HandleUncapturedErrorCallback,
+            userdata = errorUserData
+        };
         var userData = UserData.Create(descriptor.label, callback);
         wgpuAdapterRequestDevice(this, &descriptor, &requestDeviceCallback, userData);
     }
