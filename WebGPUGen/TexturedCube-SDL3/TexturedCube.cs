@@ -24,6 +24,7 @@ namespace HelloTriangle
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
         private             WGPUTextureView             cubeTextureView;
+        private             WGPUTextureView             depthTextureView;
         
         internal TexturedCube(GPU gpu) {
             device              = gpu.device;
@@ -37,8 +38,8 @@ namespace HelloTriangle
             uniformBuffer.release();
             verticesBuffer.release();
             cubeTextureView.release();
+            depthTextureView.release();
             uniformBindGroup.release();
-            renderPassDescriptor.depthStencilAttachment!.Value.view.release();
         }
 
         internal void InitResources()
@@ -184,7 +185,7 @@ namespace HelloTriangle
                     },
                 ],
                 depthStencilAttachment = new WGPURenderPassDepthStencilAttachment {
-                    view            = depthTexture.createView(),
+                    view            = depthTextureView = depthTexture.createView(),
                     depthClearValue = 1.0f,
                     depthLoadOp     = WGPULoadOp.Clear,
                     depthStoreOp    = WGPUStoreOp.Store,
