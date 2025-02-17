@@ -10,6 +10,7 @@ public unsafe partial struct WGPUSurface
     public void configure(WGPUSurfaceConfiguration config) {
         Validate_configure(config);
         wgpuSurfaceConfigure(this, &config);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -25,6 +26,7 @@ public unsafe partial struct WGPUSurface
     public void present() {
         Validate_present();
         wgpuSurfacePresent(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -36,6 +38,7 @@ public unsafe partial struct WGPUSurface
     public void unconfigure() {
         Validate_unconfigure();
         wgpuSurfaceUnconfigure(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

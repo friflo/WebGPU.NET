@@ -8,6 +8,7 @@ public unsafe partial struct WGPUBuffer
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuBufferGetConstMappedRange(this, offset, size * (ulong)sizeof(T));
+        WGPUException.ThrowOnError();
         if (result is null) {
             return default;
         }
@@ -19,6 +20,7 @@ public unsafe partial struct WGPUBuffer
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuBufferGetMappedRange(this, offset, size * (ulong)sizeof(T));
+        WGPUException.ThrowOnError();
         if (result is null) {
             return default;
         }

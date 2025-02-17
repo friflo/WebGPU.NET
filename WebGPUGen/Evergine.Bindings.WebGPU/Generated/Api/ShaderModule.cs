@@ -10,6 +10,7 @@ public unsafe partial struct WGPUShaderModule
     public void getCompilationInfo(delegate* unmanaged<WGPUCompilationInfoRequestStatus, WGPUCompilationInfo*, void*, void> callback, void* userdata) {
         Validate_getCompilationInfo(callback, userdata);
         wgpuShaderModuleGetCompilationInfo(this, callback, userdata);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

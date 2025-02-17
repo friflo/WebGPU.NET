@@ -10,6 +10,7 @@ public unsafe partial struct WGPUAdapter
     public ulong enumerateFeatures(WGPUFeatureName features) {
         Validate_enumerateFeatures(features);
         var result = wgpuAdapterEnumerateFeatures(this, &features);
+        WGPUException.ThrowOnError();
         return result;
     }
 
@@ -25,6 +26,7 @@ public unsafe partial struct WGPUAdapter
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         Validate_hasFeature(feature);
         var result = wgpuAdapterHasFeature(this, feature);
+        WGPUException.ThrowOnError();
         return result;
     }
 

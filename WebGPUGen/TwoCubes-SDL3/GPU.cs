@@ -15,10 +15,6 @@ public class GPU
     internal            WGPUQueue           queue;
     internal readonly   Arena               frameArena = new Arena("frameArena");
     
-    private static void UncapturedErrorCallback(WGPUErrorType errorType, Utf8 message) {
-        throw new WGPUException(errorType, message);
-    }
-    
     /// platform specific WGPU initialization
     internal unsafe void CreateSurface(SDL_Window* window)
     {
@@ -87,7 +83,7 @@ public class GPU
         });
         // --- create Device
         var deviceDescriptor = new WGPUDeviceDescriptor { label = "Device"u8 };
-        adapter.requestDevice(deviceDescriptor, UncapturedErrorCallback, (in RequestDeviceResult result) => {
+        adapter.requestDevice(deviceDescriptor, null, (in RequestDeviceResult result) => {
             if (result.status != WGPURequestDeviceStatus.Success) {
                 throw new Exception($"Failed to request device. {result.Message.ToString()}");
             }

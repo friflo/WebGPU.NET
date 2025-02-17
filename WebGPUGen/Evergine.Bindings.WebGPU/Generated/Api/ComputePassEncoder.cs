@@ -10,6 +10,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void dispatchWorkgroups(uint workgroupCountX, uint workgroupCountY, uint workgroupCountZ) {
         Validate_dispatchWorkgroups(workgroupCountX, workgroupCountY, workgroupCountZ);
         wgpuComputePassEncoderDispatchWorkgroups(this, workgroupCountX, workgroupCountY, workgroupCountZ);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -20,6 +21,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void dispatchWorkgroupsIndirect(WGPUBuffer indirectBuffer, ulong indirectOffset) {
         Validate_dispatchWorkgroupsIndirect(indirectBuffer, indirectOffset);
         wgpuComputePassEncoderDispatchWorkgroupsIndirect(this, indirectBuffer, indirectOffset);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -31,6 +33,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void end() {
         Validate_end();
         wgpuComputePassEncoderEnd(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -41,6 +44,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(markerLabel);
         wgpuComputePassEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -51,6 +55,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void popDebugGroup() {
         Validate_popDebugGroup();
         wgpuComputePassEncoderPopDebugGroup(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -61,6 +66,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(groupLabel);
         wgpuComputePassEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -70,14 +76,16 @@ public unsafe partial struct WGPUComputePassEncoder
 
     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
         fixed (uint* ptr = dynamicOffsets) {
-            wgpuComputePassEncoderSetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+            wgpuComputePassEncoderSetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);
         }
+        WGPUException.ThrowOnError();
     }
 
 
     public void setPipeline(WGPUComputePipeline pipeline) {
         Validate_setPipeline(pipeline);
         wgpuComputePassEncoderSetPipeline(this, pipeline);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -104,6 +112,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void beginPipelineStatisticsQuery(WGPUQuerySet querySet, uint queryIndex) {
         Validate_beginPipelineStatisticsQuery(querySet, queryIndex);
         wgpuComputePassEncoderBeginPipelineStatisticsQuery(this, querySet, queryIndex);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -115,6 +124,7 @@ public unsafe partial struct WGPUComputePassEncoder
     public void endPipelineStatisticsQuery() {
         Validate_endPipelineStatisticsQuery();
         wgpuComputePassEncoderEndPipelineStatisticsQuery(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

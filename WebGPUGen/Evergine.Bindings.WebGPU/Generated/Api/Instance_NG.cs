@@ -164,6 +164,7 @@ public unsafe partial struct WGPUInstance
         ObjectTracker.ValidateHandle(this);
         var result = new WGPUGlobalReport();
         wgpuGenerateReport(this, &result);
+        WGPUException.ThrowOnError();
         return result;
     }
 }

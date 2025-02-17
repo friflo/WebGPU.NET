@@ -8,6 +8,7 @@ public unsafe partial struct WGPUCommandEncoder
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuCommandEncoderBeginComputePass(this, null);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRef(result, HandleType.WGPUComputePassEncoder, Handle);
         return result;
     }
@@ -16,6 +17,7 @@ public unsafe partial struct WGPUCommandEncoder
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuCommandEncoderFinish(this, null);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRef(result, HandleType.WGPUCommandBuffer, Handle);
         return result;
     }

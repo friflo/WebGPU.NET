@@ -12,11 +12,13 @@ public unsafe partial struct WGPUSurface
         
         var value = new WGPUSurfaceCapabilities();
         wgpuSurfaceGetCapabilities(this, adapter, &value);
+        WGPUException.ThrowOnError();
         var result = value;
         result.formats      = new Span<WGPUTextureFormat>       (value._formats,      (int)value._formatCount);
         result.presentModes = new Span<WGPUPresentMode>         (value._presentModes, (int)value._presentModeCount);
         result.alphaModes   = new Span<WGPUCompositeAlphaMode>  (value._alphaModes,   (int)value._alphaModeCount);
         wgpuSurfaceCapabilitiesFreeMembers(value);
+        WGPUException.ThrowOnError();
         return result;
     }
     
@@ -28,6 +30,7 @@ public unsafe partial struct WGPUSurface
         
         var result = new WGPUSurfaceTexture();
         wgpuSurfaceGetCurrentTexture(this, &result);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRef(result.texture, HandleType.WGPUTexture, Handle);
         return result;
     }

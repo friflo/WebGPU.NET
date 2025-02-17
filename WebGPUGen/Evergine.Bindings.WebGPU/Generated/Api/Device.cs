@@ -10,6 +10,7 @@ public unsafe partial struct WGPUDevice
     public delegate* unmanaged<void> cAddress(Utf8 procName) {
         Validate_cAddress(procName);
         var result = wgpuGetProcAddress(this, procName.AllocUtf8());
+        WGPUException.ThrowOnError();
         return result;
     }
 
@@ -21,6 +22,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBindGroup createBindGroup(WGPUBindGroupDescriptor descriptor) {
         Validate_createBindGroup(descriptor);
         var result = wgpuDeviceCreateBindGroup(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUBindGroup, descriptor._label); // ref-create
         return result;
     }
@@ -34,6 +36,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBindGroupLayout createBindGroupLayout(WGPUBindGroupLayoutDescriptor descriptor) {
         Validate_createBindGroupLayout(descriptor);
         var result = wgpuDeviceCreateBindGroupLayout(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUBindGroupLayout, descriptor._label); // ref-create
         return result;
     }
@@ -47,6 +50,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBuffer createBuffer(WGPUBufferDescriptor descriptor) {
         Validate_createBuffer(descriptor);
         var result = wgpuDeviceCreateBuffer(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUBuffer, descriptor._label); // ref-create
         return result;
     }
@@ -60,6 +64,7 @@ public unsafe partial struct WGPUDevice
     public WGPUCommandEncoder createCommandEncoder(WGPUCommandEncoderDescriptor descriptor) {
         Validate_createCommandEncoder(descriptor);
         var result = wgpuDeviceCreateCommandEncoder(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUCommandEncoder, descriptor._label); // ref-create
         return result;
     }
@@ -73,6 +78,7 @@ public unsafe partial struct WGPUDevice
     public WGPUComputePipeline createComputePipeline(WGPUComputePipelineDescriptor descriptor) {
         Validate_createComputePipeline(descriptor);
         var result = wgpuDeviceCreateComputePipeline(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUComputePipeline, descriptor._label); // ref-create
         return result;
     }
@@ -86,6 +92,7 @@ public unsafe partial struct WGPUDevice
     public void createComputePipelineAsync(WGPUComputePipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPUComputePipeline, char*, void*, void> callback, void* userdata) {
         Validate_createComputePipelineAsync(descriptor, callback, userdata);
         wgpuDeviceCreateComputePipelineAsync(this, &descriptor, callback, userdata);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -97,6 +104,7 @@ public unsafe partial struct WGPUDevice
     public WGPUPipelineLayout createPipelineLayout(WGPUPipelineLayoutDescriptor descriptor) {
         Validate_createPipelineLayout(descriptor);
         var result = wgpuDeviceCreatePipelineLayout(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUPipelineLayout, descriptor._label); // ref-create
         return result;
     }
@@ -110,6 +118,7 @@ public unsafe partial struct WGPUDevice
     public WGPUQuerySet createQuerySet(WGPUQuerySetDescriptor descriptor) {
         Validate_createQuerySet(descriptor);
         var result = wgpuDeviceCreateQuerySet(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUQuerySet, descriptor._label); // ref-create
         return result;
     }
@@ -123,6 +132,7 @@ public unsafe partial struct WGPUDevice
     public WGPURenderBundleEncoder createRenderBundleEncoder(WGPURenderBundleEncoderDescriptor descriptor) {
         Validate_createRenderBundleEncoder(descriptor);
         var result = wgpuDeviceCreateRenderBundleEncoder(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderBundleEncoder, descriptor._label); // ref-create
         return result;
     }
@@ -136,6 +146,7 @@ public unsafe partial struct WGPUDevice
     public WGPURenderPipeline createRenderPipeline(WGPURenderPipelineDescriptor descriptor) {
         Validate_createRenderPipeline(descriptor);
         var result = wgpuDeviceCreateRenderPipeline(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderPipeline, descriptor._label); // ref-create
         return result;
     }
@@ -149,6 +160,7 @@ public unsafe partial struct WGPUDevice
     public void createRenderPipelineAsync(WGPURenderPipelineDescriptor descriptor, delegate* unmanaged<WGPUCreatePipelineAsyncStatus, WGPURenderPipeline, char*, void*, void> callback, void* userdata) {
         Validate_createRenderPipelineAsync(descriptor, callback, userdata);
         wgpuDeviceCreateRenderPipelineAsync(this, &descriptor, callback, userdata);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -160,6 +172,7 @@ public unsafe partial struct WGPUDevice
     public WGPUSampler createSampler(WGPUSamplerDescriptor descriptor) {
         Validate_createSampler(descriptor);
         var result = wgpuDeviceCreateSampler(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUSampler, descriptor._label); // ref-create
         return result;
     }
@@ -173,6 +186,7 @@ public unsafe partial struct WGPUDevice
     public WGPUShaderModule createShaderModule(WGPUShaderModuleDescriptor descriptor) {
         Validate_createShaderModule(descriptor);
         var result = wgpuDeviceCreateShaderModule(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUShaderModule, descriptor._label); // ref-create
         return result;
     }
@@ -186,6 +200,7 @@ public unsafe partial struct WGPUDevice
     public WGPUTexture createTexture(WGPUTextureDescriptor descriptor) {
         Validate_createTexture(descriptor);
         var result = wgpuDeviceCreateTexture(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUTexture, descriptor._label); // ref-create
         return result;
     }
@@ -199,6 +214,7 @@ public unsafe partial struct WGPUDevice
     public void destroy() {
         Validate_destroy();
         wgpuDeviceDestroy(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -209,6 +225,7 @@ public unsafe partial struct WGPUDevice
     public ulong enumerateFeatures(WGPUFeatureName features) {
         Validate_enumerateFeatures(features);
         var result = wgpuDeviceEnumerateFeatures(this, &features);
+        WGPUException.ThrowOnError();
         return result;
     }
 
@@ -224,6 +241,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBool hasFeature(WGPUFeatureName feature) {
         Validate_hasFeature(feature);
         var result = wgpuDeviceHasFeature(this, feature);
+        WGPUException.ThrowOnError();
         return result;
     }
 
@@ -253,6 +271,7 @@ public unsafe partial struct WGPUDevice
     public WGPUBool poll(WGPUBool wait, WGPUWrappedSubmissionIndex wrappedSubmissionIndex) {
         Validate_poll(wait, wrappedSubmissionIndex);
         var result = wgpuDevicePoll(this, wait, &wrappedSubmissionIndex);
+        WGPUException.ThrowOnError();
         return result;
     }
 

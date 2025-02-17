@@ -11,6 +11,7 @@ public unsafe partial struct WGPUQueue
         fixed (WGPUCommandBuffer* ptr = commands) {
             wgpuQueueSubmit(this, (ulong)commands.Length, ptr);
         }
+        WGPUException.ThrowOnError();
     }
     
     [Conditional("VALIDATE")]
@@ -29,6 +30,7 @@ public unsafe partial struct WGPUQueue
         fixed (T* ptr = data) {
             wgpuQueueWriteBuffer(this, buffer, bufferOffset, ptr, (ulong)(data.Length * sizeof(T)));
         }
+        WGPUException.ThrowOnError();
     }
     
     public void writeBuffer<T>(WGPUBuffer buffer, ulong bufferOffset, T data) where T : unmanaged {
@@ -36,6 +38,7 @@ public unsafe partial struct WGPUQueue
         ObjectTracker.ValidateHandle(buffer);
         
         wgpuQueueWriteBuffer(this, buffer, bufferOffset, &data, (ulong)sizeof(T));
+        WGPUException.ThrowOnError();
     }
     
     public void writeTexture<T>(WGPUImageCopyTexture destination, Span<T> data, WGPUTextureDataLayout dataLayout, WGPUExtent3D writeSize) where T : unmanaged {
@@ -45,6 +48,7 @@ public unsafe partial struct WGPUQueue
         fixed (T* ptr = data) {
             wgpuQueueWriteTexture(this, &destination, ptr, (ulong)(data.Length * sizeof(T)), &dataLayout, &writeSize);
         }
+        WGPUException.ThrowOnError();
     }
 
     public ulong submitForIndex(Span<WGPUCommandBuffer> commands) {
@@ -53,6 +57,7 @@ public unsafe partial struct WGPUQueue
         fixed (WGPUCommandBuffer* ptr = commands) {
             return wgpuQueueSubmitForIndex(this, (ulong)commands.Length, ptr);
         }
+        WGPUException.ThrowOnError();
     }
     
     [Conditional("VALIDATE")]

@@ -8,6 +8,7 @@ public unsafe partial struct WGPUTexture
         ObjectTracker.ValidateHandle(this);
         
         var result = wgpuTextureCreateView(this, null);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRef(result, HandleType.WGPUTextureView, Handle);
         return result;
     }

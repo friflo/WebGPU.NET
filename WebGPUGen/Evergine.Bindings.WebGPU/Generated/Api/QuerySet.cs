@@ -10,6 +10,7 @@ public unsafe partial struct WGPUQuerySet
     public void destroy() {
         Validate_destroy();
         wgpuQuerySetDestroy(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

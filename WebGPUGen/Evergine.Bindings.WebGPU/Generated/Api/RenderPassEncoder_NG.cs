@@ -9,6 +9,7 @@ public unsafe partial struct WGPURenderPassEncoder
         fixed (T* ptr = data) {
             wgpuRenderPassEncoderSetPushConstants(this, stages, offset, (uint)(data.Length * sizeof(T)), ptr);
         }
+        WGPUException.ThrowOnError();
     }
     
     public void setVertexBuffer(uint slot, WGPUBuffer buffer, ulong offset = 0) {
@@ -17,6 +18,7 @@ public unsafe partial struct WGPURenderPassEncoder
         
         Validate_setVertexBuffer(slot, buffer, offset, 0);
         wgpuRenderPassEncoderSetVertexBuffer(this, slot, buffer, offset, buffer.size - offset);
+        WGPUException.ThrowOnError();
     }
     
     public void setBindGroup(uint groupIndex, WGPUBindGroup group) {
@@ -24,5 +26,6 @@ public unsafe partial struct WGPURenderPassEncoder
         ObjectTracker.ValidateHandle(group);
         
         wgpuRenderPassEncoderSetBindGroup(this, groupIndex, group, 0, null);
+        WGPUException.ThrowOnError();
     }
 }

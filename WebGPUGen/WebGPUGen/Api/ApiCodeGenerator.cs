@@ -127,8 +127,9 @@ public static class ApiCodeGenerator
                 $$"""
                     public void setBindGroup(uint groupIndex, WGPUBindGroup group, ReadOnlySpan<uint> dynamicOffsets) {
                         fixed (uint* ptr = dynamicOffsets) {
-                            wgpu{{handleType.Name.Substring(4)}}SetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);    
+                            wgpu{{handleType.Name.Substring(4)}}SetBindGroup(this, groupIndex, group, (ulong)dynamicOffsets.Length, ptr);
                         }
+                        WGPUException.ThrowOnError();
                     }
                 """);
                 return;
@@ -190,6 +191,7 @@ public static class ApiCodeGenerator
             }
         }
         sb.AppendLine(");");
+        sb.AppendLine("        WGPUException.ThrowOnError();");
 
         if (hasReturnValue) {
             if (command.ReturnType is CppTypedef handleReturnType) {

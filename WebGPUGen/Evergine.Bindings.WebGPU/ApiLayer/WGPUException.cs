@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Evergine.Bindings.WebGPU;
 
 public class WGPUException : InvalidOperationException
@@ -9,6 +11,17 @@ public class WGPUException : InvalidOperationException
     }
     
     internal static void DefaultErrorCallback(WGPUErrorType errorType, Utf8 message) {
-        throw new WGPUException(errorType, message);
+        _lastException = new WGPUException(errorType, message);
+    }
+    
+    private static WGPUException? _lastException;
+    
+    [Conditional("VALIDATE")]
+    internal static void ThrowOnError() {
+        var exception = _lastException;
+        _lastException = null;
+        if (exception != null) {
+            throw exception;
+        }
     }
 }

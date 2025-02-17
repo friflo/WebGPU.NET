@@ -10,6 +10,7 @@ public unsafe partial struct WGPUBuffer
     public void destroy() {
         Validate_destroy();
         wgpuBufferDestroy(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -36,6 +37,7 @@ public unsafe partial struct WGPUBuffer
     public void mapAsync(WGPUMapMode mode, ulong offset, ulong size, delegate* unmanaged<WGPUBufferMapAsyncStatus, void*, void> callback, void* userdata) {
         Validate_mapAsync(mode, offset, size, callback, userdata);
         wgpuBufferMapAsync(this, mode, offset, size, callback, userdata);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -47,6 +49,7 @@ public unsafe partial struct WGPUBuffer
     public void unmap() {
         Validate_unmap();
         wgpuBufferUnmap(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

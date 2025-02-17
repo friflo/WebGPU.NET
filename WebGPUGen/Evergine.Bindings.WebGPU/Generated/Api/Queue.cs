@@ -10,6 +10,7 @@ public unsafe partial struct WGPUQueue
     public void onSubmittedWorkDone(delegate* unmanaged<WGPUQueueWorkDoneStatus, void*, void> callback, void* userdata) {
         Validate_onSubmittedWorkDone(callback, userdata);
         wgpuQueueOnSubmittedWorkDone(this, callback, userdata);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]

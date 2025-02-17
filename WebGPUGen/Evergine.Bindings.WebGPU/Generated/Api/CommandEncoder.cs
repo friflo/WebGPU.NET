@@ -10,6 +10,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPUComputePassEncoder beginComputePass(WGPUComputePassDescriptor descriptor) {
         Validate_beginComputePass(descriptor);
         var result = wgpuCommandEncoderBeginComputePass(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUComputePassEncoder, descriptor._label); // ref-other
         return result;
     }
@@ -23,6 +24,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPURenderPassEncoder beginRenderPass(WGPURenderPassDescriptor descriptor) {
         Validate_beginRenderPass(descriptor);
         var result = wgpuCommandEncoderBeginRenderPass(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPURenderPassEncoder, descriptor._label); // ref-other
         return result;
     }
@@ -36,6 +38,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void clearBuffer(WGPUBuffer buffer, ulong offset, ulong size) {
         Validate_clearBuffer(buffer, offset, size);
         wgpuCommandEncoderClearBuffer(this, buffer, offset, size);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -47,6 +50,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void copyBufferToBuffer(WGPUBuffer source, ulong sourceOffset, WGPUBuffer destination, ulong destinationOffset, ulong size) {
         Validate_copyBufferToBuffer(source, sourceOffset, destination, destinationOffset, size);
         wgpuCommandEncoderCopyBufferToBuffer(this, source, sourceOffset, destination, destinationOffset, size);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -59,6 +63,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void copyBufferToTexture(WGPUImageCopyBuffer source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         Validate_copyBufferToTexture(source, destination, copySize);
         wgpuCommandEncoderCopyBufferToTexture(this, &source, &destination, &copySize);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -71,6 +76,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void copyTextureToBuffer(WGPUImageCopyTexture source, WGPUImageCopyBuffer destination, WGPUExtent3D copySize) {
         Validate_copyTextureToBuffer(source, destination, copySize);
         wgpuCommandEncoderCopyTextureToBuffer(this, &source, &destination, &copySize);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -83,6 +89,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void copyTextureToTexture(WGPUImageCopyTexture source, WGPUImageCopyTexture destination, WGPUExtent3D copySize) {
         Validate_copyTextureToTexture(source, destination, copySize);
         wgpuCommandEncoderCopyTextureToTexture(this, &source, &destination, &copySize);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -95,6 +102,7 @@ public unsafe partial struct WGPUCommandEncoder
     public WGPUCommandBuffer finish(WGPUCommandBufferDescriptor descriptor) {
         Validate_finish(descriptor);
         var result = wgpuCommandEncoderFinish(this, &descriptor);
+        WGPUException.ThrowOnError();
         ObjectTracker.CreateRefLabel(result, HandleType.WGPUCommandBuffer, descriptor._label); // ref-other
         return result;
     }
@@ -108,6 +116,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void insertDebugMarker(Utf8 markerLabel) {
         Validate_insertDebugMarker(markerLabel);
         wgpuCommandEncoderInsertDebugMarker(this, markerLabel.AllocUtf8());
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -118,6 +127,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void popDebugGroup() {
         Validate_popDebugGroup();
         wgpuCommandEncoderPopDebugGroup(this);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -128,6 +138,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void pushDebugGroup(Utf8 groupLabel) {
         Validate_pushDebugGroup(groupLabel);
         wgpuCommandEncoderPushDebugGroup(this, groupLabel.AllocUtf8());
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -138,6 +149,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void resolveQuerySet(WGPUQuerySet querySet, uint firstQuery, uint queryCount, WGPUBuffer destination, ulong destinationOffset) {
         Validate_resolveQuerySet(querySet, firstQuery, queryCount, destination, destinationOffset);
         wgpuCommandEncoderResolveQuerySet(this, querySet, firstQuery, queryCount, destination, destinationOffset);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
@@ -151,6 +163,7 @@ public unsafe partial struct WGPUCommandEncoder
     public void writeTimestamp(WGPUQuerySet querySet, uint queryIndex) {
         Validate_writeTimestamp(querySet, queryIndex);
         wgpuCommandEncoderWriteTimestamp(this, querySet, queryIndex);
+        WGPUException.ThrowOnError();
     }
 
     [Conditional("VALIDATE")]
