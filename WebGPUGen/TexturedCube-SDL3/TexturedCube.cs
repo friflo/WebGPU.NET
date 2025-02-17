@@ -111,7 +111,7 @@ namespace HelloTriangle
             fragmentShaderModule.release();
             vertexShaderModule.release();
             
-            var depthTexture = device.createTexture(new WGPUTextureDescriptor{
+            using var depthTexture = device.createTexture(new WGPUTextureDescriptor{
                 label   = Label,
                 size    = new WGPUExtent3D { width  = Program.Width, height = Program.Height },
                 format  = WGPUTextureFormat.Depth24Plus,
@@ -128,7 +128,7 @@ namespace HelloTriangle
             // Fetch the image and upload it into a GPUTexture.
             using var imageBitmap = SKBitmap.Decode(Path.Combine(AppContext.BaseDirectory, "Content", "Di-3d.png"));
             var imageSize = new WGPUExtent3D { width = (uint)imageBitmap.Width, height = (uint)imageBitmap.Height, depthOrArrayLayers = 1 };
-            var cubeTexture = device.createTexture(new WGPUTextureDescriptor {
+            using var cubeTexture = device.createTexture(new WGPUTextureDescriptor {
                 label   = Label,
                 size    = imageSize,
                 format  = WGPUTextureFormat.RGBA8Unorm,
@@ -142,13 +142,13 @@ namespace HelloTriangle
 
             
             // Create a sampler with linear filtering for smooth interpolation.
-            var sampler = device.createSampler(new WGPUSamplerDescriptor {
+            using var sampler = device.createSampler(new WGPUSamplerDescriptor {
                 label       = Label,
                 magFilter   = WGPUFilterMode.Linear,
                 minFilter   = WGPUFilterMode.Linear 
             });
             
-            var binGroupLayout0 = pipeline.getBindGroupLayout(0);
+            using var binGroupLayout0 = pipeline.getBindGroupLayout(0);
             uniformBindGroup = device.createBindGroup( new WGPUBindGroupDescriptor {
                 label   = Label,
                 layout  = binGroupLayout0,
@@ -168,9 +168,6 @@ namespace HelloTriangle
                     }
                 ],
             });
-            binGroupLayout0.release();
-            sampler.release();
-            cubeTexture.release();
             
             var sessionArena = new Arena("sessionArena");
             sessionArena.Use();
@@ -191,7 +188,6 @@ namespace HelloTriangle
                     depthStoreOp    = WGPUStoreOp.Store,
                 },
             };
-            depthTexture.release();
             frameArena.Use();
         }
         
