@@ -217,7 +217,7 @@ namespace HelloTriangle
             );
             renderPassDescriptor.colorAttachments[0].view = view;
 
-            var commandEncoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = Label });
+            using var commandEncoder = device.createCommandEncoder(new WGPUCommandEncoderDescriptor { label = Label });
             var passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
             passEncoder.setPipeline(pipeline);
             passEncoder.setBindGroup(0, uniformBindGroup);
@@ -226,11 +226,9 @@ namespace HelloTriangle
             passEncoder.end();
             passEncoder.release(); // required: otherwise submit() panics: "CommandBuffer cannot be destroyed because is still in use"
             
-            var command = commandEncoder.finish();
-            commandEncoder.release();
+            using var command = commandEncoder.finish();
+
             queue.submit([command]);
-            
-            command.release();
         }
     }
 }
