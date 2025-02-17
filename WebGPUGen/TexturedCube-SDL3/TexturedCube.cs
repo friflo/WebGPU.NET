@@ -115,22 +115,20 @@ namespace HelloTriangle
             });
             
             // Fetch the image and upload it into a GPUTexture.
-            WGPUTexture cubeTexture;
-            {
-                using var imageBitmap = SKBitmap.Decode(Path.Combine(AppContext.BaseDirectory, "Content", "Di-3d.png"));
-                var imageSize = new WGPUExtent3D { width = (uint)imageBitmap.Width, height = (uint)imageBitmap.Height, depthOrArrayLayers = 1 };
-                cubeTexture = device.createTexture(new WGPUTextureDescriptor {
-                    label   = Label,
-                    size    = imageSize,
-                    format  = WGPUTextureFormat.RGBA8Unorm,
-                    usage   = WGPUTextureUsage.TextureBinding | WGPUTextureUsage.CopyDst | WGPUTextureUsage.RenderAttachment
-                });
-                queue.writeTexture<byte>(
-                    destination:    new() { texture = cubeTexture },
-                    data:           imageBitmap.Bytes,
-                    dataLayout:     new() { bytesPerRow = (uint)(4 * imageBitmap.Width), rowsPerImage = (uint)imageBitmap.Height },
-                    writeSize:      imageSize);
-            }
+            using var imageBitmap = SKBitmap.Decode(Path.Combine(AppContext.BaseDirectory, "Content", "Di-3d.png"));
+            var imageSize = new WGPUExtent3D { width = (uint)imageBitmap.Width, height = (uint)imageBitmap.Height, depthOrArrayLayers = 1 };
+            var cubeTexture = device.createTexture(new WGPUTextureDescriptor {
+                label   = Label,
+                size    = imageSize,
+                format  = WGPUTextureFormat.RGBA8Unorm,
+                usage   = WGPUTextureUsage.TextureBinding | WGPUTextureUsage.CopyDst | WGPUTextureUsage.RenderAttachment
+            });
+            queue.writeTexture<byte>(
+                destination:    new() { texture = cubeTexture },
+                data:           imageBitmap.Bytes,
+                dataLayout:     new() { bytesPerRow = (uint)(4 * imageBitmap.Width), rowsPerImage = (uint)imageBitmap.Height },
+                writeSize:      imageSize);
+
             
             // Create a sampler with linear filtering for smooth interpolation.
             var sampler = device.createSampler(new WGPUSamplerDescriptor {
@@ -158,6 +156,8 @@ namespace HelloTriangle
                     }
                 ],
             });
+            cubeTexture.release();
+            
             var sessionArena = new Arena("sessionArena");
             sessionArena.Use();
             
