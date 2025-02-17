@@ -23,6 +23,7 @@ namespace HelloTriangle
         private             WGPUBuffer 					uniformBuffer;
         private             WGPUBindGroup 				uniformBindGroup;
         private             WGPUBuffer 					verticesBuffer;
+        private             WGPUTextureView             cubeTextureView;
         
         internal TexturedCube(GPU gpu) {
             device              = gpu.device;
@@ -35,7 +36,9 @@ namespace HelloTriangle
             pipeline.release();
             uniformBuffer.release();
             verticesBuffer.release();
+            cubeTextureView.release();
             uniformBindGroup.release();
+            renderPassDescriptor.depthStencilAttachment!.Value.view.release();
         }
 
         internal void InitResources()
@@ -160,7 +163,7 @@ namespace HelloTriangle
                     },
                     new WGPUBindGroupEntry {
                         binding = 2,
-                        textureView = cubeTexture.createView()
+                        textureView = cubeTextureView = cubeTexture.createView()
                     }
                 ],
             });
