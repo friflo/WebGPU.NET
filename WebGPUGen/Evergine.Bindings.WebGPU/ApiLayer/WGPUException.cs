@@ -22,6 +22,11 @@ public class WGPUException : InvalidOperationException
     
     private static WGPUException? _lastException;
     
+    /// <remarks>
+    /// An <see cref="UncapturedErrorCallback"/> is passed in <see cref="WGPUAdapter.requestDevice"/>.<br/>
+    /// So creating / requesting handles of <see cref="WGPUInstance"/>, <see cref="WGPUAdapter"/> and <see cref="WGPUDevice"/>
+    /// cannot report an error via this callback.
+    /// </remarks>
     [Conditional("VALIDATE")]
     internal static void ThrowOnError() {
         var exception = _lastException;
