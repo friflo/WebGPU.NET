@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoCubes-SDL3", "TwoCubes-S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexturedCube-SDL3", "TexturedCube-SDL3\TexturedCube-SDL3.csproj", "{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloTriangle-SDL3-ImGui", "HelloTriangle-SDL3-ImGui\HelloTriangle-SDL3-ImGui.csproj", "{704DEF1D-9DC2-4E31-B5C3-CAFD69362921}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78DB4296-F0E6-489D-9FAA-0D2D13920B7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704DEF1D-9DC2-4E31-B5C3-CAFD69362921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704DEF1D-9DC2-4E31-B5C3-CAFD69362921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704DEF1D-9DC2-4E31-B5C3-CAFD69362921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704DEF1D-9DC2-4E31-B5C3-CAFD69362921}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
