@@ -113,7 +113,7 @@ using ImGuiContext = System.IntPtr;
 // ReSharper disable InconsistentNaming
 namespace SDLIM;
 
-static unsafe class SDLImGui {
+public static unsafe class ImGui_ImplSDL3 {
     
 enum ImGui_ImplSDL3_GamepadMode { AutoFirst, AutoAll, Manual };
 
