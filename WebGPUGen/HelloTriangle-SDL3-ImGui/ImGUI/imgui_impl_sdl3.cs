@@ -138,7 +138,7 @@ private struct ImGui_ImplSDL3_Data
     internal bool                       MouseCanUseGlobalState;
 
     // Gamepad handling
-    internal Gamepads                   Gamepads; // // fixed [] - element type: SDL_Gamepad*
+    internal Gamepads                   Gamepads; // // fixed [10] - element type: SDL_Gamepad*
     internal int                        GamepadCount;
     internal ImGui_ImplSDL3_GamepadMode GamepadMode;
     internal bool                       WantUpdateGamepadsList;
@@ -475,11 +475,11 @@ static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void
     // Check and store if we are on a SDL backend that supports global mouse position
     // ("wayland" and "rpi" don't support it, but we chose to use a white-list instead of a black-list)
     bool mouse_can_use_global_state = false;
-#if SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE
-    const char* sdl_backend = SDL_GetCurrentVideoDriver();
-    const char* global_mouse_whitelist[] = { "windows", "cocoa", "x11", "DIVE", "VMAN" };
-    for (int n = 0; n < IM_ARRAYSIZE(global_mouse_whitelist); n++)
-        if (strncmp(sdl_backend, global_mouse_whitelist[n], strlen(global_mouse_whitelist[n])) == 0)
+#if TRUE // SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE
+    var sdl_backend = SDL_GetCurrentVideoDriver();
+    var global_mouse_whitelist = new [] { "windows", "cocoa", "x11", "DIVE", "VMAN" };
+    for (int n = 0; n < global_mouse_whitelist.Length; n++)
+        if (sdl_backend != null && sdl_backend.StartsWith(global_mouse_whitelist[n]))
             mouse_can_use_global_state = true;
 #endif
 
