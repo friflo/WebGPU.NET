@@ -9,6 +9,9 @@ using static SDL.SDL3;
 using static SDL.SDL_EventType;
 using static SDL.SDL_SystemCursor;
 using static SDLIM.ImGuiUtils;
+using static SDL.SDL_Scancode;
+using static SDL.SDL_GamepadButton;
+using static SDL.SDL_GamepadAxis;
 
 using Uint64 = System.UInt64;
 using ImGuiContext = System.IntPtr;
@@ -198,23 +201,23 @@ static ImGuiKey ImGui_ImplSDL3_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scanc
     // Keypad doesn't have individual key values in SDL3
     switch (scancode)
     {
-        case SDL_Scancode.SDL_SCANCODE_KP_0: return ImGuiKey.Keypad0;
-        case SDL_Scancode.SDL_SCANCODE_KP_1: return ImGuiKey.Keypad1;
-        case SDL_Scancode.SDL_SCANCODE_KP_2: return ImGuiKey.Keypad2;
-        case SDL_Scancode.SDL_SCANCODE_KP_3: return ImGuiKey.Keypad3;
-        case SDL_Scancode.SDL_SCANCODE_KP_4: return ImGuiKey.Keypad4;
-        case SDL_Scancode.SDL_SCANCODE_KP_5: return ImGuiKey.Keypad5;
-        case SDL_Scancode.SDL_SCANCODE_KP_6: return ImGuiKey.Keypad6;
-        case SDL_Scancode.SDL_SCANCODE_KP_7: return ImGuiKey.Keypad7;
-        case SDL_Scancode.SDL_SCANCODE_KP_8: return ImGuiKey.Keypad8;
-        case SDL_Scancode.SDL_SCANCODE_KP_9: return ImGuiKey.Keypad9;
-        case SDL_Scancode.SDL_SCANCODE_KP_PERIOD: return ImGuiKey.KeypadDecimal;
-        case SDL_Scancode.SDL_SCANCODE_KP_DIVIDE: return ImGuiKey.KeypadDivide;
-        case SDL_Scancode.SDL_SCANCODE_KP_MULTIPLY: return ImGuiKey.KeypadMultiply;
-        case SDL_Scancode.SDL_SCANCODE_KP_MINUS: return ImGuiKey.KeypadSubtract;
-        case SDL_Scancode.SDL_SCANCODE_KP_PLUS: return ImGuiKey.KeypadAdd;
-        case SDL_Scancode.SDL_SCANCODE_KP_ENTER: return ImGuiKey.KeypadEnter;
-        case SDL_Scancode.SDL_SCANCODE_KP_EQUALS: return ImGuiKey.KeypadEqual;
+        case SDL_SCANCODE_KP_0: return ImGuiKey.Keypad0;
+        case SDL_SCANCODE_KP_1: return ImGuiKey.Keypad1;
+        case SDL_SCANCODE_KP_2: return ImGuiKey.Keypad2;
+        case SDL_SCANCODE_KP_3: return ImGuiKey.Keypad3;
+        case SDL_SCANCODE_KP_4: return ImGuiKey.Keypad4;
+        case SDL_SCANCODE_KP_5: return ImGuiKey.Keypad5;
+        case SDL_SCANCODE_KP_6: return ImGuiKey.Keypad6;
+        case SDL_SCANCODE_KP_7: return ImGuiKey.Keypad7;
+        case SDL_SCANCODE_KP_8: return ImGuiKey.Keypad8;
+        case SDL_SCANCODE_KP_9: return ImGuiKey.Keypad9;
+        case SDL_SCANCODE_KP_PERIOD: return ImGuiKey.KeypadDecimal;
+        case SDL_SCANCODE_KP_DIVIDE: return ImGuiKey.KeypadDivide;
+        case SDL_SCANCODE_KP_MULTIPLY: return ImGuiKey.KeypadMultiply;
+        case SDL_SCANCODE_KP_MINUS: return ImGuiKey.KeypadSubtract;
+        case SDL_SCANCODE_KP_PLUS: return ImGuiKey.KeypadAdd;
+        case SDL_SCANCODE_KP_ENTER: return ImGuiKey.KeypadEnter;
+        case SDL_SCANCODE_KP_EQUALS: return ImGuiKey.KeypadEqual;
         default: break;
     }
     switch (keycode)
@@ -481,8 +484,7 @@ static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void
 #endif
 
     // Setup backend capabilities flags
-    var data = new ImGui_ImplSDL3_Data();
-    ImGui_ImplSDL3_Data* bd = &data;
+    var bd = (ImGui_ImplSDL3_Data*)NativeMemory.Alloc((nuint)sizeof(ImGui_ImplSDL3_Data));
     io.BackendPlatformUserData = (IntPtr)bd;
 //  io.BackendPlatformName = "imgui_impl_sdl3";
     io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;           // We can honor GetMouseCursor() values (optional)
@@ -594,7 +596,7 @@ static void ImGui_ImplSDL3_Shutdown()
 //  io.BackendPlatformName = null;
     io.BackendPlatformUserData = (IntPtr)null;
     io.BackendFlags &= ~(ImGuiBackendFlags.HasMouseCursors | ImGuiBackendFlags.HasSetMousePos | ImGuiBackendFlags.HasGamepad);
-    IM_DELETE(bd);
+    NativeMemory.Free(bd);   // IM_DELETE(bd);
 }
 
 static void ImGui_ImplSDL3_UpdateMouseData()
@@ -740,30 +742,30 @@ static void ImGui_ImplSDL3_UpdateGamepads()
 
     // Update gamepad inputs
     const int thumb_dead_zone = 8000;           // SDL_gamepad.h suggests using this value.
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadStart,       SDL_GamepadButton.SDL_GAMEPAD_BUTTON_START);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadBack,        SDL_GamepadButton.SDL_GAMEPAD_BUTTON_BACK);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceLeft,    SDL_GamepadButton.SDL_GAMEPAD_BUTTON_WEST);           // Xbox X, PS Square
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceRight,   SDL_GamepadButton.SDL_GAMEPAD_BUTTON_EAST);           // Xbox B, PS Circle
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceUp,      SDL_GamepadButton.SDL_GAMEPAD_BUTTON_NORTH);          // Xbox Y, PS Triangle
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceDown,    SDL_GamepadButton.SDL_GAMEPAD_BUTTON_SOUTH);          // Xbox A, PS Cross
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadLeft,    SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_LEFT);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadRight,   SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_RIGHT);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadUp,      SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_UP);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadDown,    SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_DOWN);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadL1,          SDL_GamepadButton.SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadR1,          SDL_GamepadButton.SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadL2,          SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFT_TRIGGER,  0.0f, 32767);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadR2,          SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHT_TRIGGER, 0.0f, 32767);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadL3,          SDL_GamepadButton.SDL_GAMEPAD_BUTTON_LEFT_STICK);
-    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadR3,          SDL_GamepadButton.SDL_GAMEPAD_BUTTON_RIGHT_STICK);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickLeft,  SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTX,  -thumb_dead_zone, -32768);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickRight, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTX,  +thumb_dead_zone, +32767);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickUp,    SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTY,  -thumb_dead_zone, -32768);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickDown,  SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTY,  +thumb_dead_zone, +32767);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickLeft,  SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTX, -thumb_dead_zone, -32768);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickRight, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTX, +thumb_dead_zone, +32767);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickUp,    SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTY, -thumb_dead_zone, -32768);
-    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickDown,  SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTY, +thumb_dead_zone, +32767);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadStart,       SDL_GAMEPAD_BUTTON_START);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadBack,        SDL_GAMEPAD_BUTTON_BACK);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceLeft,    SDL_GAMEPAD_BUTTON_WEST);           // Xbox X, PS Square
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceRight,   SDL_GAMEPAD_BUTTON_EAST);           // Xbox B, PS Circle
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceUp,      SDL_GAMEPAD_BUTTON_NORTH);          // Xbox Y, PS Triangle
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadFaceDown,    SDL_GAMEPAD_BUTTON_SOUTH);          // Xbox A, PS Cross
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadLeft,    SDL_GAMEPAD_BUTTON_DPAD_LEFT);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadRight,   SDL_GAMEPAD_BUTTON_DPAD_RIGHT);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadUp,      SDL_GAMEPAD_BUTTON_DPAD_UP);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadDpadDown,    SDL_GAMEPAD_BUTTON_DPAD_DOWN);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadL1,          SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadR1,          SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadL2,          SDL_GAMEPAD_AXIS_LEFT_TRIGGER,  0.0f, 32767);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadR2,          SDL_GAMEPAD_AXIS_RIGHT_TRIGGER, 0.0f, 32767);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadL3,          SDL_GAMEPAD_BUTTON_LEFT_STICK);
+    ImGui_ImplSDL3_UpdateGamepadButton(bd, io, ImGuiKey.GamepadR3,          SDL_GAMEPAD_BUTTON_RIGHT_STICK);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickLeft,  SDL_GAMEPAD_AXIS_LEFTX,  -thumb_dead_zone, -32768);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickRight, SDL_GAMEPAD_AXIS_LEFTX,  +thumb_dead_zone, +32767);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickUp,    SDL_GAMEPAD_AXIS_LEFTY,  -thumb_dead_zone, -32768);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadLStickDown,  SDL_GAMEPAD_AXIS_LEFTY,  +thumb_dead_zone, +32767);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickLeft,  SDL_GAMEPAD_AXIS_RIGHTX, -thumb_dead_zone, -32768);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickRight, SDL_GAMEPAD_AXIS_RIGHTX, +thumb_dead_zone, +32767);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickUp,    SDL_GAMEPAD_AXIS_RIGHTY, -thumb_dead_zone, -32768);
+    ImGui_ImplSDL3_UpdateGamepadAnalog(bd, io, ImGuiKey.GamepadRStickDown,  SDL_GAMEPAD_AXIS_RIGHTY, +thumb_dead_zone, +32767);
 }
 
 static Uint64 frequency;
