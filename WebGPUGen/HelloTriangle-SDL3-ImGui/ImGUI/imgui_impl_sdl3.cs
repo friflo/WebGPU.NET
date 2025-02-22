@@ -17,8 +17,6 @@ using Uint64 = System.UInt64;
 using ImGuiContext = System.IntPtr;
 
 
-
-
 // dear imgui: Platform Backend for SDL3
 // This needs to be used along with a Renderer (e.g. SDL_GPU, DirectX11, OpenGL3, Vulkan..)
 // (Info: SDL3 is a cross-platform general purpose library for handling windows, inputs, graphics context creation, etc.)
@@ -109,6 +107,8 @@ using ImGuiContext = System.IntPtr;
 #endif
 */
 
+// ReSharper disable RedundantEmptySwitchSection
+// ReSharper disable RedundantCast
 // ReSharper disable UnusedMember.Local
 // ReSharper disable InconsistentNaming
 namespace SDLIM;
