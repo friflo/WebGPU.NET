@@ -118,7 +118,7 @@ static unsafe class SDLImGui {
 enum ImGui_ImplSDL3_GamepadMode { AutoFirst, AutoAll, Manual };
 
 // SDL Data
-struct ImGui_ImplSDL3_Data
+private struct ImGui_ImplSDL3_Data
 {
     internal SDL_Window*                Window;
     internal SDL_WindowID               WindowID;
@@ -132,13 +132,13 @@ struct ImGui_ImplSDL3_Data
     // Mouse handling
     internal SDL_WindowID               MouseWindowID;
     internal int                        MouseButtonsDown;
-    internal fixed nint                 MouseCursors[(int)ImGuiMouseCursor.COUNT]; // SDL_Cursor*
+    internal Cursors                    MouseCursors; // fixed [] - element type: SDL_Cursor*
     internal SDL_Cursor*                MouseLastCursor;
     internal int                        MousePendingLeaveFrame;
     internal bool                       MouseCanUseGlobalState;
 
     // Gamepad handling
-    internal fixed nint                 Gamepads[10]; // SDL_Gamepad*
+    internal Gamepads                   Gamepads; // // fixed [] - element type: SDL_Gamepad*
     internal int                        GamepadCount;
     internal ImGui_ImplSDL3_GamepadMode GamepadMode;
     internal bool                       WantUpdateGamepadsList;
