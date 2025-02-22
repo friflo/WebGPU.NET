@@ -409,7 +409,7 @@ static bool ImGui_ImplSDL3_ProcessEvent(SDL_Event* ev)
             //    (ev->type == SDL_EVENT_KEY_DOWN) ? "DOWN" : "UP  ", ev->key.key, SDL_GetKeyName(ev->key.key), ev->key.scancode, SDL_GetScancodeName(ev->key.scancode), ev->key.mod);
             ImGuiKey key = ImGui_ImplSDL3_KeyEventToImGuiKey(ev->key.key, ev->key.scancode);
             io.AddKeyEvent(key, (eventType == SDL_EVENT_KEY_DOWN));
-            io.SetKeyEventNativeData(key, ev->key.key, ev->key.scancode, ev->key.scancode); // To support legacy indexing (<1.87 user code). Legacy backend uses SDLK_*** as indices to IsKeyXXX() functions.
+            io.SetKeyEventNativeData(key, (int)ev->key.key, (int)ev->key.scancode, (int)ev->key.scancode); // To support legacy indexing (<1.87 user code). Legacy backend uses SDLK_*** as indices to IsKeyXXX() functions.
             return true;
         }
         case SDL_EVENT_WINDOW_MOUSE_ENTER:
@@ -453,11 +453,11 @@ static void ImGui_ImplSDL3_SetupPlatformHandles(ImGuiViewport* viewport, SDL_Win
 {
     viewport->PlatformHandle = (void*)(IntPtr)SDL_GetWindowID(window);
     viewport->PlatformHandleRaw = null;
-#if defined(_WIN32) && !defined(__WINRT__)
-    viewport->PlatformHandleRaw = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WIN32_HWND_POINTER, null);
-#elif defined(__APPLE__) && defined(SDL_VIDEO_DRIVER_COCOA)
-    viewport->PlatformHandleRaw = SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_COCOA_WINDOW_POINTER, null);
-#endif
+if (OperatingSystem.IsWindows()) {
+    viewport->PlatformHandleRaw = (void*)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WIN32_HWND_POINTER, 0);
+} else if (OperatingSystem.IsMacOS()) {
+    viewport->PlatformHandleRaw = (void*)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_COCOA_WINDOW_POINTER, 0);
+}
 }
 
 static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl_context)
@@ -549,9 +549,9 @@ static bool ImGui_ImplSDL3_InitForVulkan(SDL_Window* window)
 
 static bool ImGui_ImplSDL3_InitForD3D(SDL_Window* window)
 {
-#if !defined(_WIN32)
-    IM_ASSERT(false, "Unsupported");
-#endif
+if (!OperatingSystem.IsWindows()) {
+    throw new InvalidOperationException("Unsupported");
+}
     return ImGui_ImplSDL3_Init(window, null, null);
 }
 
@@ -608,13 +608,13 @@ static void ImGui_ImplSDL3_UpdateMouseData()
     const bool is_app_focused = (bd->Window == focused_window);
 #else
     SDL_Window* focused_window = bd->Window;
-    const bool is_app_focused = (SDL_GetWindowFlags(bd->Window) & SDL_WINDOW_INPUT_FOCUS) != 0; // SDL 2.0.3 and non-windowed systems: single-viewport only
+    bool is_app_focused = ((ulong)SDL_GetWindowFlags(bd->Window) & SDL_WINDOW_INPUT_FOCUS) != 0L; // SDL 2.0.3 and non-windowed systems: single-viewport only
 #endif
     if (is_app_focused)
     {
         // (Optional) Set OS mouse position from Dear ImGui if requested (rarely used, only when io.ConfigNavMoveSetMousePos is enabled by user)
         if (io.WantSetMousePos)
-            SDL_WarpMouseInWindow(bd->Window, io.MousePos.x, io.MousePos.y);
+            SDL_WarpMouseInWindow(bd->Window, io.MousePos.X, io.MousePos.Y);
 
         // (Optional) Fallback to provide mouse position when focused (SDL_EVENT_MOUSE_MOTION already provides this when hovered or captured)
         if (bd->MouseCanUseGlobalState && bd->MouseButtonsDown == 0)
@@ -765,7 +765,7 @@ static void ImGui_ImplSDL3_UpdateGamepads()
 
 static Uint64 frequency;
 
-void ImGui_ImplSDL3_NewFrame()
+static void ImGui_ImplSDL3_NewFrame()
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     IM_ASSERT(bd != null, "Context or backend not initialized! Did you call ImGui_ImplSDL3_Init()?");

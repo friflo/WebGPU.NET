@@ -9,4 +9,6 @@ public static class ImGuiUtils
             throw new InvalidOperationException(message);
         }
     }
+    
+    public static void IMGUI_CHECKVERSION() {}
 }
