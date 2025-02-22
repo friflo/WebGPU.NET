@@ -1,4 +1,3 @@
-#if COMPILE
 
 using System;
 using System.Numerics;
@@ -13,6 +12,7 @@ using static SDLIM.ImGuiUtils;
 
 using Uint64 = System.UInt64;
 using ImGuiContext = System.IntPtr;
+
 
 
 
@@ -106,6 +106,7 @@ using ImGuiContext = System.IntPtr;
 #endif
 */
 
+// ReSharper disable UnusedMember.Local
 // ReSharper disable InconsistentNaming
 namespace SDLIM;
 
@@ -128,13 +129,14 @@ struct ImGui_ImplSDL3_Data
     // Mouse handling
     internal SDL_WindowID               MouseWindowID;
     internal int                        MouseButtonsDown;
-    internal SDL_Cursor*[]              MouseCursors = new SDL_Cursor*[(int)ImGuiMouseCursor.COUNT];
+    internal fixed nint                 MouseCursors[(int)ImGuiMouseCursor.COUNT]; // SDL_Cursor*
     internal SDL_Cursor*                MouseLastCursor;
     internal int                        MousePendingLeaveFrame;
     internal bool                       MouseCanUseGlobalState;
 
     // Gamepad handling
-    internal ImVector<SDL_Gamepad*>     Gamepads;
+    internal fixed nint                 Gamepads[10]; // SDL_Gamepad*
+    internal int                        GamepadCount;
     internal ImGui_ImplSDL3_GamepadMode GamepadMode;
     internal bool                       WantUpdateGamepadsList;
 
@@ -396,7 +398,7 @@ static bool ImGui_ImplSDL3_ProcessEvent(SDL_Event* ev)
         {
             if (ImGui_ImplSDL3_GetViewportForWindowID(ev->text.windowID) == null)
                 return false;
-            io.AddInputCharactersUTF8(ev->text.text);
+            io.AddInputCharactersUTF8(ev->text.GetText());
             return true;
         }
         case SDL_EVENT_KEY_DOWN:
@@ -502,17 +504,17 @@ static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void
     bd->WantUpdateGamepadsList = true;
 
     // Load mouse cursors
-    bd->MouseCursors[(int)ImGuiMouseCursor.Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
-    bd->MouseCursors[(int)ImGuiMouseCursor.TextInput] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_TEXT);
-    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeAll] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_MOVE);
-    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNS] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NS_RESIZE);
-    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeEW] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_EW_RESIZE);
-    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNESW] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NESW_RESIZE);
-    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNWSE] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NWSE_RESIZE);
-    bd->MouseCursors[(int)ImGuiMouseCursor.Hand] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_POINTER);
-//  bd->MouseCursors[(int)ImGuiMouseCursor.Wait] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAIT);
-//  bd->MouseCursors[(int)ImGuiMouseCursor.Progress] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_PROGRESS);
-    bd->MouseCursors[(int)ImGuiMouseCursor.NotAllowed] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NOT_ALLOWED);
+    bd->MouseCursors[(int)ImGuiMouseCursor.Arrow] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
+    bd->MouseCursors[(int)ImGuiMouseCursor.TextInput] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_TEXT);
+    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeAll] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_MOVE);
+    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNS] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NS_RESIZE);
+    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeEW] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_EW_RESIZE);
+    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNESW] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NESW_RESIZE);
+    bd->MouseCursors[(int)ImGuiMouseCursor.ResizeNWSE] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NWSE_RESIZE);
+    bd->MouseCursors[(int)ImGuiMouseCursor.Hand] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_POINTER);
+//  bd->MouseCursors[(int)ImGuiMouseCursor.Wait] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAIT);
+//  bd->MouseCursors[(int)ImGuiMouseCursor.Progress] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_PROGRESS);
+    bd->MouseCursors[(int)ImGuiMouseCursor.NotAllowed] = (nint)SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NOT_ALLOWED);
 
     // Set platform dependent data in viewport
     // Our mouse update function expect PlatformHandle to be filled for the main viewport
@@ -586,7 +588,7 @@ static void ImGui_ImplSDL3_Shutdown()
     if (bd->ClipboardTextData != null)
         SDL_free(bd->ClipboardTextData);
     for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor.COUNT; cursor_n++)
-        SDL_DestroyCursor(bd->MouseCursors[(int)cursor_n]);
+        SDL_DestroyCursor((SDL_Cursor*)bd->MouseCursors[(int)cursor_n]);
     ImGui_ImplSDL3_CloseGamepads();
 
 //  io.BackendPlatformName = null;
@@ -645,7 +647,7 @@ static void ImGui_ImplSDL3_UpdateMouseCursor()
     else
     {
         // Show OS mouse cursor
-        SDL_Cursor* expected_cursor = bd->MouseCursors[(int)imgui_cursor] != null ? bd->MouseCursors[(int)imgui_cursor] : bd->MouseCursors[(int)ImGuiMouseCursor.Arrow];
+        SDL_Cursor* expected_cursor = (SDL_Cursor*)(bd->MouseCursors[(int)imgui_cursor] != 0 ? bd->MouseCursors[(int)imgui_cursor] : bd->MouseCursors[(int)ImGuiMouseCursor.Arrow]);
         if (bd->MouseLastCursor != expected_cursor)
         {
             SDL_SetCursor(expected_cursor); // SDL function doesn't have an early out (see #6113)
@@ -659,9 +661,9 @@ static void ImGui_ImplSDL3_CloseGamepads()
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     if (bd->GamepadMode != ImGui_ImplSDL3_GamepadMode.Manual)
-        for (SDL_Gamepad* gamepad : bd->Gamepads)
-            SDL_CloseGamepad(gamepad);
-    bd->Gamepads.resize(0);
+    for (int n = 0; n < bd->GamepadCount; n++)
+        SDL_CloseGamepad((SDL_Gamepad*)bd->Gamepads[n]);
+    bd->GamepadCount = 0;
 }
 
 static void ImGui_ImplSDL3_SetGamepadMode(ImGui_ImplSDL3_GamepadMode mode, SDL_Gamepad** manual_gamepads_array, int manual_gamepads_count)
@@ -672,7 +674,8 @@ static void ImGui_ImplSDL3_SetGamepadMode(ImGui_ImplSDL3_GamepadMode mode, SDL_G
     {
         IM_ASSERT(manual_gamepads_array != null || manual_gamepads_count <= 0, "manual_gamepads_array != null || manual_gamepads_count <= 0");
         for (int n = 0; n < manual_gamepads_count; n++)
-            bd->Gamepads.push_back(manual_gamepads_array[n]);
+            bd->Gamepads[n] = (nint)manual_gamepads_array[n]; // bd->Gamepads.push_back(manual_gamepads_array[n]);
+        bd->GamepadCount = manual_gamepads_count;
     }
     else
     {
@@ -685,8 +688,8 @@ static void ImGui_ImplSDL3_SetGamepadMode(ImGui_ImplSDL3_GamepadMode mode, SDL_G
 static void ImGui_ImplSDL3_UpdateGamepadButton(ImGui_ImplSDL3_Data* bd, ImGuiIOPtr io, ImGuiKey key, SDL_GamepadButton button_no)
 {
     bool merged_value = false;
-    for (SDL_Gamepad* gamepad : bd->Gamepads)
-        merged_value |= SDL_GetGamepadButton(gamepad, button_no) != 0;
+    for (int n = 0; n < bd->GamepadCount; n++)
+        merged_value |= SDL_GetGamepadButton((SDL_Gamepad*)bd->Gamepads[n], button_no) != false;
     io.AddKeyEvent(key, merged_value);
 }
 
@@ -694,9 +697,9 @@ static float Saturate(float v) { return v < 0.0f ? 0.0f : v  > 1.0f ? 1.0f : v; 
 static void ImGui_ImplSDL3_UpdateGamepadAnalog(ImGui_ImplSDL3_Data* bd, ImGuiIOPtr io, ImGuiKey key, SDL_GamepadAxis axis_no, float v0, float v1)
 {
     float merged_value = 0.0f;
-    for (SDL_Gamepad* gamepad : bd->Gamepads)
+    for (int n = 0; n < bd->GamepadCount; n++)
     {
-        float vn = Saturate((float)(SDL_GetGamepadAxis(gamepad, axis_no) - v0) / (float)(v1 - v0));
+        float vn = Saturate((float)(SDL_GetGamepadAxis((SDL_Gamepad*)bd->Gamepads[n], axis_no) - v0) / (float)(v1 - v0));
         if (merged_value < vn)
             merged_value = vn;
     }
@@ -718,7 +721,7 @@ static void ImGui_ImplSDL3_UpdateGamepads()
             SDL_Gamepad* gamepad;
             if ((gamepad = SDL_OpenGamepad(sdl_gamepads[n])) != null)
             {
-                bd->Gamepads.push_back(gamepad);
+                bd->Gamepads[bd->GamepadCount++] = (nint)gamepad;
                 if (bd->GamepadMode == ImGui_ImplSDL3_GamepadMode.AutoFirst)
                     break;
             }
@@ -731,7 +734,7 @@ static void ImGui_ImplSDL3_UpdateGamepads()
     if ((io.ConfigFlags & ImGuiConfigFlags.NavEnableGamepad) == 0)
         return;
     io.BackendFlags &= ~ImGuiBackendFlags.HasGamepad;
-    if (bd->Gamepads.Size == 0)
+    if (bd->GamepadCount == 0)
         return;
     io.BackendFlags |= ImGuiBackendFlags.HasGamepad;
 
@@ -815,4 +818,3 @@ static void ImGui_ImplSDL3_NewFrame()
 
 }
 
-#endif
