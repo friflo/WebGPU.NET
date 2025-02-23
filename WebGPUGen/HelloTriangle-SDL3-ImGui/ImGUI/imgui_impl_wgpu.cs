@@ -304,7 +304,7 @@ static void SafeRelease(ref RenderResources res)
     SafeRelease(ref res.CommonBindGroup);
     SafeRelease(ref res.ImageBindGroup);
     SafeRelease(ref res.ImageBindGroupLayout);
-};
+}
 
 static void SafeRelease(ref FrameResources res)
 {
@@ -328,10 +328,10 @@ static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnl
     wgsl_desc.code = wgsl_source;
 #endif
 
-    WGPUShaderModuleDescriptor desc = {};
-    desc.nextInChain = reinterpret_cast<WGPUChainedStruct*>(&wgsl_desc);
+    WGPUShaderModuleDescriptor desc = new();
+    desc._nextInChain = reinterpret_cast<WGPUChainedStruct*>(&wgsl_desc);
 
-    WGPUProgrammableStageDescriptor stage_desc = {};
+    WGPUProgrammableStageDescriptor stage_desc = new();
     stage_desc.module = wgpuDeviceCreateShaderModule(bd.wgpuDevice, &desc);
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
     stage_desc.entryPoint = { "main", WGPU_STRLEN };
@@ -344,11 +344,11 @@ static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnl
 static WGPUBindGroup ImGui_ImplWGPU_CreateImageBindGroup(WGPUBindGroupLayout layout, WGPUTextureView texture)
 {
     ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
-    WGPUBindGroupEntry image_bg_entries[] = { { nullptr, 0, 0, 0, 0, 0, texture } };
+    Span<WGPUBindGroupEntry> image_bg_entries = [new() { textureView = texture }];
 
-    WGPUBindGroupDescriptor image_bg_descriptor = {};
+    WGPUBindGroupDescriptor image_bg_descriptor = new();
     image_bg_descriptor.layout = layout;
-    image_bg_descriptor.entryCount = sizeof(image_bg_entries) / sizeof(WGPUBindGroupEntry);
+//  image_bg_descriptor.entryCount = sizeof(image_bg_entries) / sizeof(WGPUBindGroupEntry);
     image_bg_descriptor.entries = image_bg_entries;
     return wgpuDeviceCreateBindGroup(bd.wgpuDevice, &image_bg_descriptor);
 }
@@ -447,16 +447,16 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
         SafeRelease(ref fr.VertexBufferHost);
         fr.VertexBufferSize = draw_data.TotalVtxCount + 5000;
 
-        WGPUBufferDescriptor vb_desc =
+        WGPUBufferDescriptor vb_desc = new()
         {
-            nullptr,
-            "Dear ImGui Vertex buffer",
+//          nullptr,
+            label = "Dear ImGui Vertex buffer"u8,
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
             WGPU_STRLEN,
 #endif
-            WGPUBufferUsage.CopyDst | WGPUBufferUsage.Vertex,
-            MEMALIGN(fr.VertexBufferSize * sizeof(ImDrawVert), 4),
-            false
+            usage = WGPUBufferUsage.CopyDst | WGPUBufferUsage.Vertex,
+            size = MEMALIGN(fr.VertexBufferSize * sizeof(ImDrawVert), 4),
+            mappedAtCreation = false
         };
         fr.VertexBuffer = wgpuDeviceCreateBuffer(bd.wgpuDevice, &vb_desc);
         if (fr.VertexBuffer.GetHandle() == 0)
@@ -794,8 +794,8 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     // Create resource bind group
     Span<WGPUBindGroupEntry> common_bg_entries = stackalloc WGPUBindGroupEntry[]
     {
-        { nullptr, 0, bd.renderResources.Uniforms, 0, MEMALIGN(sizeof(Uniforms), 16), 0, 0 },
-        { nullptr, 1, 0, 0, 0, bd.renderResources.Sampler, 0 },
+        new() { binding = 0, buffer = bd.renderResources.Uniforms, size = MEMALIGN(sizeof(Uniforms), 16) },
+        new() { binding = 1, sampler = bd.renderResources.Sampler },
     };
 
     WGPUBindGroupDescriptor common_bg_descriptor = new();
