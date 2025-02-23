@@ -53,4 +53,9 @@ internal static class ImGuiUtils
     {
         return (ulong)((size + (align - 1)) & ~(align - 1));
     }
+    
+    internal  static unsafe void memcpy(void* dest, void* src, int size) {
+        Buffer.MemoryCopy(src, dest, size, size); 
+    }
+    
 }
