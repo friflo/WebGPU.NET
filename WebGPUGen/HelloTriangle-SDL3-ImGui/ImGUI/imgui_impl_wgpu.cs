@@ -85,6 +85,7 @@ using ImTextureID = System.IntPtr;
 
 namespace SDLIM;
 
+// ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable InconsistentNaming
 public static unsafe class ImGui_ImplWGPU {
     
@@ -128,8 +129,8 @@ struct FrameResources
 {
     internal WGPUBuffer  IndexBuffer;
     internal WGPUBuffer  VertexBuffer;
-    internal ImDrawIdx*  IndexBufferHost;
-    internal ImDrawVert* VertexBufferHost;
+    internal ImDrawIdx[] IndexBufferHost;
+    internal ImDrawVert[]VertexBufferHost;
     internal int         IndexBufferSize;
     internal int         VertexBufferSize;
 };
@@ -150,18 +151,21 @@ struct ImGui_ImplWGPU_Data
     internal WGPURenderPipeline      pipelineState;
 
     internal RenderResources         renderResources;
-    internal FrameResources*         pFrameResources;
+    internal FrameResources[]        pFrameResources;
     internal uint                    numFramesInFlight = 0;
     internal uint                    frameIndex = uint.MaxValue;
     
     public ImGui_ImplWGPU_Data() {}
 };
 
+private static ImGui_ImplWGPU_Data backendData;
+
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
-static ImGui_ImplWGPU_Data* ImGui_ImplWGPU_GetBackendData()
+static ref ImGui_ImplWGPU_Data ImGui_ImplWGPU_GetBackendData()
 {
-    return ImGui.GetCurrentContext() != 0 ? (ImGui_ImplWGPU_Data*)ImGui.GetIO().BackendRendererUserData : null;
+    return ref backendData;
+    // return ImGui.GetCurrentContext() != 0 ? (ImGui_ImplWGPU_Data*)ImGui.GetIO().BackendRendererUserData : null;
 }
 
 //-----------------------------------------------------------------------------
@@ -224,95 +228,95 @@ fn main(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 )"u8;
 
-static void SafeRelease(ImDrawIdx*& res)
+static void SafeRelease(ref ImDrawIdx[] res)
 {
-    if (res)
-        delete[] res;
-    res = nullptr;
+//  if (res)
+//      delete[] res;
+    res = null;
 }
-static void SafeRelease(ImDrawVert*& res)
+static void SafeRelease(ref ImDrawVert[] res)
 {
-    if (res)
-        delete[] res;
-    res = nullptr;
+//  if (res)
+//      delete[] res;
+    res = null;
 }
-static void SafeRelease(WGPUBindGroupLayout& res)
+static void SafeRelease(ref WGPUBindGroupLayout res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuBindGroupLayoutRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUBindGroup& res)
+static void SafeRelease(ref WGPUBindGroup res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuBindGroupRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUBuffer& res)
+static void SafeRelease(ref WGPUBuffer res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuBufferRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUPipelineLayout& res)
+static void SafeRelease(ref WGPUPipelineLayout res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuPipelineLayoutRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPURenderPipeline& res)
+static void SafeRelease(ref WGPURenderPipeline res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuRenderPipelineRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUSampler& res)
+static void SafeRelease(ref WGPUSampler res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuSamplerRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUShaderModule& res)
+static void SafeRelease(ref WGPUShaderModule res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuShaderModuleRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUTextureView& res)
+static void SafeRelease(ref WGPUTextureView res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuTextureViewRelease(res);
-    res = nullptr;
+    res = default;
 }
-static void SafeRelease(WGPUTexture& res)
+static void SafeRelease(ref WGPUTexture res)
 {
-    if (res)
+    if (res.GetHandle() != 0)
         wgpuTextureRelease(res);
-    res = nullptr;
+    res = default;
 }
 
-static void SafeRelease(in RenderResources res)
+static void SafeRelease(ref RenderResources res)
 {
-    SafeRelease(res.FontTexture);
-    SafeRelease(res.FontTextureView);
-    SafeRelease(res.Sampler);
-    SafeRelease(res.Uniforms);
-    SafeRelease(res.CommonBindGroup);
-    SafeRelease(res.ImageBindGroup);
-    SafeRelease(res.ImageBindGroupLayout);
+    SafeRelease(ref res.FontTexture);
+    SafeRelease(ref res.FontTextureView);
+    SafeRelease(ref res.Sampler);
+    SafeRelease(ref res.Uniforms);
+    SafeRelease(ref res.CommonBindGroup);
+    SafeRelease(ref res.ImageBindGroup);
+    SafeRelease(ref res.ImageBindGroupLayout);
 };
 
-static void SafeRelease(in FrameResources res)
+static void SafeRelease(ref FrameResources res)
 {
-    SafeRelease(res.IndexBuffer);
-    SafeRelease(res.VertexBuffer);
-    SafeRelease(res.IndexBufferHost);
-    SafeRelease(res.VertexBufferHost);
+    SafeRelease(ref res.IndexBuffer);
+    SafeRelease(ref res.VertexBuffer);
+    SafeRelease(ref res.IndexBufferHost);
+    SafeRelease(ref res.VertexBufferHost);
 }
 
 static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnlySpan<byte> wgsl_source)
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
 
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
     WGPUShaderSourceWGSL wgsl_desc = {};
@@ -328,7 +332,7 @@ static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnl
     desc.nextInChain = reinterpret_cast<WGPUChainedStruct*>(&wgsl_desc);
 
     WGPUProgrammableStageDescriptor stage_desc = {};
-    stage_desc.module = wgpuDeviceCreateShaderModule(bd->wgpuDevice, &desc);
+    stage_desc.module = wgpuDeviceCreateShaderModule(bd.wgpuDevice, &desc);
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
     stage_desc.entryPoint = { "main", WGPU_STRLEN };
 #else
@@ -339,19 +343,19 @@ static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnl
 
 static WGPUBindGroup ImGui_ImplWGPU_CreateImageBindGroup(WGPUBindGroupLayout layout, WGPUTextureView texture)
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
     WGPUBindGroupEntry image_bg_entries[] = { { nullptr, 0, 0, 0, 0, 0, texture } };
 
     WGPUBindGroupDescriptor image_bg_descriptor = {};
     image_bg_descriptor.layout = layout;
     image_bg_descriptor.entryCount = sizeof(image_bg_entries) / sizeof(WGPUBindGroupEntry);
     image_bg_descriptor.entries = image_bg_entries;
-    return wgpuDeviceCreateBindGroup(bd->wgpuDevice, &image_bg_descriptor);
+    return wgpuDeviceCreateBindGroup(bd.wgpuDevice, &image_bg_descriptor);
 }
 
-static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPassEncoder ctx, FrameResources* fr)
+static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPassEncoder ctx, ref FrameResources fr)
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
 
     // Setup orthographic projection matrix into our constant buffer
     // Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right).
@@ -367,9 +371,9 @@ static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPas
             0.0f,         0.0f,           0.5f,       0.0f ,
             (R+L)/(L-R),  (T+B)/(B-T),    0.5f,       1.0f
         );
-        wgpuQueueWriteBuffer(bd->defaultQueue, bd->renderResources.Uniforms, (ulong)Marshal.OffsetOf<Uniforms>(nameof(Uniforms.MVP)), &mvp, (ulong)sizeof(Matrix4x4));
+        wgpuQueueWriteBuffer(bd.defaultQueue, bd.renderResources.Uniforms, (ulong)Marshal.OffsetOf<Uniforms>(nameof(Uniforms.MVP)), &mvp, (ulong)sizeof(Matrix4x4));
         float gamma;
-        switch (bd->renderTargetFormat)
+        switch (bd.renderTargetFormat)
         {
         case WGPUTextureFormat.ASTC10x10UnormSrgb:
         case WGPUTextureFormat.ASTC10x5UnormSrgb:
@@ -399,17 +403,17 @@ static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPas
             gamma = 1.0f;
             break;
         }
-        wgpuQueueWriteBuffer(bd->defaultQueue, bd->renderResources.Uniforms, (ulong)Marshal.OffsetOf<Uniforms>(nameof(Uniforms.Gamma)), &gamma, sizeof(float));
+        wgpuQueueWriteBuffer(bd.defaultQueue, bd.renderResources.Uniforms, (ulong)Marshal.OffsetOf<Uniforms>(nameof(Uniforms.Gamma)), &gamma, sizeof(float));
     }
 
     // Setup viewport
     wgpuRenderPassEncoderSetViewport(ctx, 0, 0, draw_data->FramebufferScale.X * draw_data->DisplaySize.X, draw_data->FramebufferScale.Y * draw_data->DisplaySize.Y, 0, 1);
 
     // Bind shader and vertex buffers
-    wgpuRenderPassEncoderSetVertexBuffer(ctx, 0, fr->VertexBuffer, 0, (ulong)(fr->VertexBufferSize * sizeof(ImDrawVert)));
-    wgpuRenderPassEncoderSetIndexBuffer(ctx, fr->IndexBuffer, sizeof(ImDrawIdx) == 2 ? WGPUIndexFormat.Uint16 : WGPUIndexFormat.Uint32, 0, (ulong)(fr->IndexBufferSize * sizeof(ImDrawIdx)));
-    wgpuRenderPassEncoderSetPipeline(ctx, bd->pipelineState);
-    wgpuRenderPassEncoderSetBindGroup(ctx, 0, bd->renderResources.CommonBindGroup, 0, null);
+    wgpuRenderPassEncoderSetVertexBuffer(ctx, 0, fr.VertexBuffer, 0, (ulong)(fr.VertexBufferSize * sizeof(ImDrawVert)));
+    wgpuRenderPassEncoderSetIndexBuffer(ctx, fr.IndexBuffer, sizeof(ImDrawIdx) == 2 ? WGPUIndexFormat.Uint16 : WGPUIndexFormat.Uint32, 0, (ulong)(fr.IndexBufferSize * sizeof(ImDrawIdx)));
+    wgpuRenderPassEncoderSetPipeline(ctx, bd.pipelineState);
+    wgpuRenderPassEncoderSetBindGroup(ctx, 0, bd.renderResources.CommonBindGroup, 0, null);
 
     // Setup blend factor
     WGPUColor blend_color = new WGPUColor();
@@ -428,20 +432,20 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
 
     // FIXME: Assuming that this only gets called once per frame!
     // If not, we can't just re-allocate the IB or VB, we'll have to do a proper allocator.
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
-    bd->frameIndex = bd->frameIndex + 1;
-    FrameResources* fr = &bd->pFrameResources[bd->frameIndex % bd->numFramesInFlight];
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
+    bd.frameIndex = bd.frameIndex + 1;
+    ref FrameResources fr = ref bd.pFrameResources[bd.frameIndex % bd.numFramesInFlight];
 
     // Create and grow vertex/index buffers if needed
-    if (fr->VertexBuffer == nullptr || fr->VertexBufferSize < draw_data.TotalVtxCount)
+    if (fr.VertexBuffer.GetHandle() == 0 || fr.VertexBufferSize < draw_data.TotalVtxCount)
     {
-        if (fr->VertexBuffer)
+        if (fr.VertexBuffer.GetHandle() != 0)
         {
-            wgpuBufferDestroy(fr->VertexBuffer);
-            wgpuBufferRelease(fr->VertexBuffer);
+            wgpuBufferDestroy(fr.VertexBuffer);
+            wgpuBufferRelease(fr.VertexBuffer);
         }
-        SafeRelease(fr->VertexBufferHost);
-        fr->VertexBufferSize = draw_data.TotalVtxCount + 5000;
+        SafeRelease(ref fr.VertexBufferHost);
+        fr.VertexBufferSize = draw_data.TotalVtxCount + 5000;
 
         WGPUBufferDescriptor vb_desc =
         {
@@ -451,24 +455,24 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
             WGPU_STRLEN,
 #endif
             WGPUBufferUsage.CopyDst | WGPUBufferUsage.Vertex,
-            MEMALIGN(fr->VertexBufferSize * sizeof(ImDrawVert), 4),
+            MEMALIGN(fr.VertexBufferSize * sizeof(ImDrawVert), 4),
             false
         };
-        fr->VertexBuffer = wgpuDeviceCreateBuffer(bd->wgpuDevice, &vb_desc);
-        if (!fr->VertexBuffer)
+        fr.VertexBuffer = wgpuDeviceCreateBuffer(bd.wgpuDevice, &vb_desc);
+        if (fr.VertexBuffer.GetHandle() == 0)
             return;
 
-        fr->VertexBufferHost = new ImDrawVert[fr->VertexBufferSize];
+        fr.VertexBufferHost = new ImDrawVert[fr.VertexBufferSize];
     }
-    if (fr->IndexBuffer == nullptr || fr->IndexBufferSize < draw_data.TotalIdxCount)
+    if (fr.IndexBuffer.GetHandle() == 0 || fr.IndexBufferSize < draw_data.TotalIdxCount)
     {
-        if (fr->IndexBuffer)
+        if (fr.IndexBuffer.GetHandle() != 0)
         {
-            wgpuBufferDestroy(fr->IndexBuffer);
-            wgpuBufferRelease(fr->IndexBuffer);
+            wgpuBufferDestroy(fr.IndexBuffer);
+            wgpuBufferRelease(fr.IndexBuffer);
         }
-        SafeRelease(fr->IndexBufferHost);
-        fr->IndexBufferSize = draw_data.TotalIdxCount + 10000;
+        SafeRelease(ref fr.IndexBufferHost);
+        fr.IndexBufferSize = draw_data.TotalIdxCount + 10000;
         
         WGPUBufferDescriptor ib_desc = new()
         {
@@ -478,39 +482,42 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
             WGPU_STRLEN,
 #endif
             usage = WGPUBufferUsage.CopyDst | WGPUBufferUsage.Index,
-            size = MEMALIGN(fr->IndexBufferSize * sizeof(ImDrawIdx), 4),
+            size = MEMALIGN(fr.IndexBufferSize * sizeof(ImDrawIdx), 4),
             mappedAtCreation = false
         };
-        fr->IndexBuffer = wgpuDeviceCreateBuffer(bd->wgpuDevice, &ib_desc);
-        if (!fr->IndexBuffer)
+        fr.IndexBuffer = wgpuDeviceCreateBuffer(bd.wgpuDevice, &ib_desc);
+        if (fr.IndexBuffer.GetHandle() == 0)
             return;
 
-        fr->IndexBufferHost = new ImDrawIdx[fr->IndexBufferSize];
+        fr.IndexBufferHost = new ImDrawIdx[fr.IndexBufferSize];
     }
 
     // Upload vertex/index data into a single contiguous GPU buffer
-    ImDrawVert* vtx_dst = (ImDrawVert*)fr->VertexBufferHost;
-    ImDrawIdx* idx_dst = (ImDrawIdx*)fr->IndexBufferHost;
-    for (int n = 0; n < draw_data.CmdListsCount; n++)
+    fixed (ImDrawVert* VertexBufferHost = fr.VertexBufferHost)
+    fixed (ImDrawIdx*  IndexBufferHost  = fr.IndexBufferHost)
     {
-        var draw_list = draw_data.CmdLists[n];
-        memcpy(vtx_dst, draw_list.VtxBuffer.Data, draw_list.VtxBuffer.Size * sizeof(ImDrawVert));
-        memcpy(idx_dst, draw_list.IdxBuffer.Data, draw_list.IdxBuffer.Size * sizeof(ImDrawIdx));
-        vtx_dst += draw_list.VtxBuffer.Size;
-        idx_dst += draw_list.IdxBuffer.Size;
+        ImDrawVert* vtx_dst = VertexBufferHost;
+        ImDrawIdx* idx_dst  = IndexBufferHost;
+        for (int n = 0; n < draw_data.CmdListsCount; n++)
+        {
+            var draw_list = draw_data.CmdLists[n];
+            memcpy(vtx_dst, draw_list.VtxBuffer.Data, draw_list.VtxBuffer.Size * sizeof(ImDrawVert));
+            memcpy(idx_dst, draw_list.IdxBuffer.Data, draw_list.IdxBuffer.Size * sizeof(ImDrawIdx));
+            vtx_dst += draw_list.VtxBuffer.Size;
+            idx_dst += draw_list.IdxBuffer.Size;
+        }
+        int64_t vb_write_size = MEMALIGN((char*)vtx_dst - VertexBufferHost, 4);
+        int64_t ib_write_size = MEMALIGN((char*)idx_dst - IndexBufferHost, 4);
+        wgpuQueueWriteBuffer(bd.defaultQueue, fr.VertexBuffer, 0, VertexBufferHost, vb_write_size);
+        wgpuQueueWriteBuffer(bd.defaultQueue, fr.IndexBuffer,  0, IndexBufferHost,  ib_write_size);
     }
-    int64_t vb_write_size = MEMALIGN((char*)vtx_dst - (char*)fr->VertexBufferHost, 4);
-    int64_t ib_write_size = MEMALIGN((char*)idx_dst - (char*)fr->IndexBufferHost, 4);
-    wgpuQueueWriteBuffer(bd->defaultQueue, fr->VertexBuffer, 0, fr->VertexBufferHost, vb_write_size);
-    wgpuQueueWriteBuffer(bd->defaultQueue, fr->IndexBuffer,  0, fr->IndexBufferHost,  ib_write_size);
-
     // Setup desired render state
-    ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, fr);
+    ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, ref fr);
 
     // Setup render state structure (for callbacks and custom texture bindings)
     var platform_io = ImGui.GetPlatformIO();
     ImGui_ImplWGPU_RenderState render_state;
-    render_state.Device = bd->wgpuDevice;
+    render_state.Device = bd.wgpuDevice;
     render_state.RenderPassEncoder = pass_encoder;
     platform_io.Renderer_RenderState = &render_state;
 
@@ -540,15 +547,15 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
                 // Bind custom texture
                 ImTextureID tex_id = pcmd->GetTexID();
                 ImGuiID tex_id_hash = ImHashData(&tex_id, sizeof(tex_id));
-                auto bind_group = bd->renderResources.ImageBindGroups.GetVoidPtr(tex_id_hash);
+                auto bind_group = bd.renderResources.ImageBindGroups.GetVoidPtr(tex_id_hash);
                 if (bind_group)
                 {
                     wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, (WGPUBindGroup)bind_group, 0, nullptr);
                 }
                 else
                 {
-                    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bd->renderResources.ImageBindGroupLayout, (WGPUTextureView)tex_id);
-                    bd->renderResources.ImageBindGroups.SetVoidPtr(tex_id_hash, image_bind_group);
+                    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bd.renderResources.ImageBindGroupLayout, (WGPUTextureView)tex_id);
+                    bd.renderResources.ImageBindGroups.SetVoidPtr(tex_id_hash, image_bind_group);
                     wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, image_bind_group, 0, nullptr);
                 }
 
@@ -578,7 +585,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
 static void ImGui_ImplWGPU_CreateFontsTexture()
 {
     // Build texture atlas
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
     ImGuiIOPtr io = ImGui.GetIO();
     byte* pixels;
     int width, height, size_pp;
@@ -586,7 +593,7 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
 
     // Upload texture to graphics system
     {
-        WGPUTextureDescriptor tex_desc = {};
+        WGPUTextureDescriptor tex_desc = new();
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
         tex_desc.label = { "Dear ImGui Font Texture", WGPU_STRLEN };
 #else
@@ -600,9 +607,9 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
         tex_desc.format = WGPUTextureFormat.RGBA8Unorm;
         tex_desc.mipLevelCount = 1;
         tex_desc.usage = WGPUTextureUsage.CopyDst | WGPUTextureUsage.TextureBinding;
-        bd->renderResources.FontTexture = wgpuDeviceCreateTexture(bd->wgpuDevice, &tex_desc);
+        bd.renderResources.FontTexture = wgpuDeviceCreateTexture(bd.wgpuDevice, &tex_desc);
 
-        WGPUTextureViewDescriptor tex_view_desc = {};
+        WGPUTextureViewDescriptor tex_view_desc = new();
         tex_view_desc.format = WGPUTextureFormat.RGBA8Unorm;
         tex_view_desc.dimension = WGPUTextureViewDimension._2D;
         tex_view_desc.baseMipLevel = 0;
@@ -610,13 +617,13 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
         tex_view_desc.baseArrayLayer = 0;
         tex_view_desc.arrayLayerCount = 1;
         tex_view_desc.aspect = WGPUTextureAspect.All;
-        bd->renderResources.FontTextureView = wgpuTextureCreateView(bd->renderResources.FontTexture, &tex_view_desc);
+        bd.renderResources.FontTextureView = wgpuTextureCreateView(bd.renderResources.FontTexture, &tex_view_desc);
     }
 
     // Upload texture data
     {
-        WGPUImageCopyTexture dst_view = {};
-        dst_view.texture = bd->renderResources.FontTexture;
+        WGPUImageCopyTexture dst_view = new();
+        dst_view.texture = bd.renderResources.FontTexture;
         dst_view.mipLevel = 0;
         dst_view.origin = new WGPUOrigin3D();
         dst_view.aspect = WGPUTextureAspect.All;
@@ -625,13 +632,13 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
         layout.bytesPerRow = (uint)(width * size_pp);
         layout.rowsPerImage = (uint)height;
         WGPUExtent3D size = new WGPUExtent3D{ width = (uint)width, height = (uint)height, depthOrArrayLayers = 1 }; // { (uint32_t)width, (uint32_t)height, 1 };
-        wgpuQueueWriteTexture(bd->defaultQueue, &dst_view, pixels, (uint)(width * size_pp * height), &layout, &size);
+        wgpuQueueWriteTexture(bd.defaultQueue, &dst_view, pixels, (uint)(width * size_pp * height), &layout, &size);
     }
 
     // Create the associated sampler
     // (Bilinear sampling is required by default. Set 'io.Fonts->Flags |= ImFontAtlasFlags_NoBakedLines' or 'style.AntiAliasedLinesUseTex = false' to allow point/nearest sampling)
     {
-        WGPUSamplerDescriptor sampler_desc = {};
+        WGPUSamplerDescriptor sampler_desc = new();
         sampler_desc.minFilter = WGPUFilterMode.Linear;
         sampler_desc.magFilter = WGPUFilterMode.Linear;
         sampler_desc.mipmapFilter = WGPUMipmapFilterMode.Linear;
@@ -639,17 +646,17 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
         sampler_desc.addressModeV = WGPUAddressMode.ClampToEdge;
         sampler_desc.addressModeW = WGPUAddressMode.ClampToEdge;
         sampler_desc.maxAnisotropy = 1;
-        bd->renderResources.Sampler = wgpuDeviceCreateSampler(bd->wgpuDevice, &sampler_desc);
+        bd.renderResources.Sampler = wgpuDeviceCreateSampler(bd.wgpuDevice, &sampler_desc);
     }
 
     // Store our identifier
-    static_assert(sizeof(ImTextureID) >= sizeof(bd->renderResources.FontTexture), "Can't pack descriptor handle into TexID, 32-bit not supported yet.");
-    io.Fonts.SetTexID((ImTextureID)bd->renderResources.FontTextureView);
+    static_assert(sizeof(ImTextureID) >= sizeof(bd.renderResources.FontTexture), "Can't pack descriptor handle into TexID, 32-bit not supported yet.");
+    io.Fonts.SetTexID((ImTextureID)bd.renderResources.FontTextureView);
 }
 
 static void ImGui_ImplWGPU_CreateUniformBuffer()
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
     WGPUBufferDescriptor ub_desc = new()
     {
 //      nullptr,
@@ -661,24 +668,24 @@ static void ImGui_ImplWGPU_CreateUniformBuffer()
         size = MEMALIGN(sizeof(Uniforms), 16),
         mappedAtCreation = false
     };
-    bd->renderResources.Uniforms = wgpuDeviceCreateBuffer(bd->wgpuDevice, &ub_desc);
+    bd.renderResources.Uniforms = wgpuDeviceCreateBuffer(bd.wgpuDevice, &ub_desc);
 }
 
 static bool ImGui_ImplWGPU_CreateDeviceObjects()
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
-    if (bd->wgpuDevice.GetHandle() == 0)
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
+    if (bd.wgpuDevice.GetHandle() == 0)
         return false;
-    if (bd->pipelineState.GetHandle() != 0)
+    if (bd.pipelineState.GetHandle() != 0)
         ImGui_ImplWGPU_InvalidateDeviceObjects();
 
     // Create render pipeline
-    WGPURenderPipelineDescriptor graphics_pipeline_desc = {};
+    WGPURenderPipelineDescriptor graphics_pipeline_desc = new();
     graphics_pipeline_desc.primitive.topology = WGPUPrimitiveTopology.TriangleList;
     graphics_pipeline_desc.primitive.stripIndexFormat = WGPUIndexFormat.Undefined;
     graphics_pipeline_desc.primitive.frontFace = WGPUFrontFace.CW;
     graphics_pipeline_desc.primitive.cullMode = WGPUCullMode.None;
-    graphics_pipeline_desc.multisample = bd->initInfo.PipelineMultisampleState;
+    graphics_pipeline_desc.multisample = bd.initInfo.PipelineMultisampleState;
 
     // Bind group layouts
     Span<WGPUBindGroupLayoutEntry> common_bg_layout_entries = stackalloc WGPUBindGroupLayoutEntry[2];
@@ -704,13 +711,13 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     image_bg_layout_desc.entries = image_bg_layout_entries;
 
     Span<WGPUBindGroupLayout> bg_layouts = stackalloc WGPUBindGroupLayout[2];
-    bg_layouts[0] = wgpuDeviceCreateBindGroupLayout(bd->wgpuDevice, &common_bg_layout_desc);
-    bg_layouts[1] = wgpuDeviceCreateBindGroupLayout(bd->wgpuDevice, &image_bg_layout_desc);
+    bg_layouts[0] = wgpuDeviceCreateBindGroupLayout(bd.wgpuDevice, &common_bg_layout_desc);
+    bg_layouts[1] = wgpuDeviceCreateBindGroupLayout(bd.wgpuDevice, &image_bg_layout_desc);
 
     WGPUPipelineLayoutDescriptor layout_desc = new();
 //  layout_desc.bindGroupLayoutCount = 2;
     layout_desc.bindGroupLayouts = bg_layouts;
-    graphics_pipeline_desc.layout = wgpuDeviceCreatePipelineLayout(bd->wgpuDevice, &layout_desc);
+    graphics_pipeline_desc.layout = wgpuDeviceCreatePipelineLayout(bd.wgpuDevice, &layout_desc);
 
     // Create the vertex shader
     WGPUProgrammableStageDescriptor vertex_shader_desc = ImGui_ImplWGPU_CreateShaderModule(__shader_vert_wgsl);
@@ -746,7 +753,7 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     blend_state.color.dstFactor = WGPUBlendFactor.OneMinusSrcAlpha;
 
     Span<WGPUColorTargetState> color_state = stackalloc WGPUColorTargetState[1];
-    color_state[0].format = bd->renderTargetFormat;
+    color_state[0].format = bd.renderTargetFormat;
     color_state[0].blend = blend_state;
     color_state[0].writeMask = WGPUColorWriteMask.All;
 
@@ -760,7 +767,7 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
 
     // Create depth-stencil State
     WGPUDepthStencilState depth_stencil_state = new();
-    depth_stencil_state.format = bd->depthStencilFormat;
+    depth_stencil_state.format = bd.depthStencilFormat;
 #if IMGUI_IMPL_WEBGPU_BACKEND_DAWN
     depth_stencil_state.depthWriteEnabled = false;
 #else
@@ -777,9 +784,9 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     depth_stencil_state.stencilBack.passOp = WGPUStencilOperation.Keep;
 
     // Configure disabled depth-stencil state
-    graphics_pipeline_desc.depthStencil = (bd->depthStencilFormat == WGPUTextureFormat.Undefined) ? null :  depth_stencil_state;
+    graphics_pipeline_desc.depthStencil = (bd.depthStencilFormat == WGPUTextureFormat.Undefined) ? null :  depth_stencil_state;
 
-    bd->pipelineState = wgpuDeviceCreateRenderPipeline(bd->wgpuDevice, &graphics_pipeline_desc);
+    bd.pipelineState = wgpuDeviceCreateRenderPipeline(bd.wgpuDevice, &graphics_pipeline_desc);
 
     ImGui_ImplWGPU_CreateFontsTexture();
     ImGui_ImplWGPU_CreateUniformBuffer();
@@ -787,43 +794,43 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     // Create resource bind group
     Span<WGPUBindGroupEntry> common_bg_entries = stackalloc WGPUBindGroupEntry[]
     {
-        { nullptr, 0, bd->renderResources.Uniforms, 0, MEMALIGN(sizeof(Uniforms), 16), 0, 0 },
-        { nullptr, 1, 0, 0, 0, bd->renderResources.Sampler, 0 },
+        { nullptr, 0, bd.renderResources.Uniforms, 0, MEMALIGN(sizeof(Uniforms), 16), 0, 0 },
+        { nullptr, 1, 0, 0, 0, bd.renderResources.Sampler, 0 },
     };
 
     WGPUBindGroupDescriptor common_bg_descriptor = new();
     common_bg_descriptor.layout = bg_layouts[0];
 //  common_bg_descriptor.entryCount = sizeof(common_bg_entries) / sizeof(WGPUBindGroupEntry);
     common_bg_descriptor.entries = common_bg_entries;
-    bd->renderResources.CommonBindGroup = wgpuDeviceCreateBindGroup(bd->wgpuDevice, &common_bg_descriptor);
+    bd.renderResources.CommonBindGroup = wgpuDeviceCreateBindGroup(bd.wgpuDevice, &common_bg_descriptor);
 
-    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bg_layouts[1], bd->renderResources.FontTextureView);
-    bd->renderResources.ImageBindGroup = image_bind_group;
-    bd->renderResources.ImageBindGroupLayout = bg_layouts[1];
-    bd->renderResources.ImageBindGroups.SetVoidPtr(ImHashData(&bd->renderResources.FontTextureView, sizeof(ImTextureID)), image_bind_group);
+    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bg_layouts[1], bd.renderResources.FontTextureView);
+    bd.renderResources.ImageBindGroup = image_bind_group;
+    bd.renderResources.ImageBindGroupLayout = bg_layouts[1];
+    bd.renderResources.ImageBindGroups.SetVoidPtr(ImHashData(&bd.renderResources.FontTextureView, sizeof(ImTextureID)), image_bind_group);
 
-    SafeRelease(vertex_shader_desc.module);
-    SafeRelease(pixel_shader_desc.module);
-    SafeRelease(graphics_pipeline_desc.layout);
-    SafeRelease(bg_layouts[0]);
+    SafeRelease(ref vertex_shader_desc.module);
+    SafeRelease(ref pixel_shader_desc.module);
+    SafeRelease(ref graphics_pipeline_desc.layout);
+    SafeRelease(ref bg_layouts[0]);
 
     return true;
 }
 
 static void ImGui_ImplWGPU_InvalidateDeviceObjects()
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
-    if (!bd->wgpuDevice)
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
+    if (bd.wgpuDevice.GetHandle() == 0)
         return;
 
-    SafeRelease(bd->pipelineState);
-    SafeRelease(bd->renderResources);
+    SafeRelease(ref bd.pipelineState);
+    SafeRelease(ref bd.renderResources);
 
     var io = ImGui.GetIO();
-    io.Fonts->SetTexID(0); // We copied g_pFontTextureView to io.Fonts->TexID so let's clear that as well.
+    io.Fonts.SetTexID(0); // We copied g_pFontTextureView to io.Fonts->TexID so let's clear that as well.
 
-    for (uint i = 0; i < bd->numFramesInFlight; i++)
-        SafeRelease(bd->pFrameResources[i]);
+    for (uint i = 0; i < bd.numFramesInFlight; i++)
+        SafeRelease(ref bd.pFrameResources[i]);
 }
 
 static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
@@ -833,47 +840,48 @@ static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
     IM_ASSERT(io.BackendRendererUserData == 0 && "Already initialized a renderer backend!");
 
     // Setup backend capabilities flags
-    ImGui_ImplWGPU_Data* bd = IM_NEW(ImGui_ImplWGPU_Data)();
-    io.BackendRendererUserData = (void*)bd;
-#if defined(__EMSCRIPTEN__)
-    io.BackendRendererName = "imgui_impl_webgpu_emscripten";
-#elif defined(IMGUI_IMPL_WEBGPU_BACKEND_DAWN)
-    io.BackendRendererName = "imgui_impl_webgpu_dawn";
-#elif defined(IMGUI_IMPL_WEBGPU_BACKEND_WGPU)
-    io.BackendRendererName = "imgui_impl_webgpu_wgpu";
-#else
-    io.BackendRendererName = "imgui_impl_webgpu";
-#endif
+//  ImGui_ImplWGPU_Data* bd = IM_NEW(ImGui_ImplWGPU_Data)();
+    ref var bd  = ref ImGui_ImplWGPU_GetBackendData();
+//  io.BackendRendererUserData = (void*)bd;
+// #if defined(__EMSCRIPTEN__)
+//     io.BackendRendererName = "imgui_impl_webgpu_emscripten";
+// #elif defined(IMGUI_IMPL_WEBGPU_BACKEND_DAWN)
+//     io.BackendRendererName = "imgui_impl_webgpu_dawn";
+// #elif defined(IMGUI_IMPL_WEBGPU_BACKEND_WGPU)
+//     io.BackendRendererName = "imgui_impl_webgpu_wgpu";
+// #else
+//     io.BackendRendererName = "imgui_impl_webgpu";
+// #endif
     io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;  // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
 
-    bd->initInfo = *init_info;
-    bd->wgpuDevice = init_info->Device;
-    bd->defaultQueue = wgpuDeviceGetQueue(bd->wgpuDevice);
-    bd->renderTargetFormat = init_info->RenderTargetFormat;
-    bd->depthStencilFormat = init_info->DepthStencilFormat;
-    bd->numFramesInFlight = (uint)init_info->NumFramesInFlight;
-    bd->frameIndex = uint.MaxValue;
+    bd.initInfo = *init_info;
+    bd.wgpuDevice = init_info->Device;
+    bd.defaultQueue = wgpuDeviceGetQueue(bd.wgpuDevice);
+    bd.renderTargetFormat = init_info->RenderTargetFormat;
+    bd.depthStencilFormat = init_info->DepthStencilFormat;
+    bd.numFramesInFlight = (uint)init_info->NumFramesInFlight;
+    bd.frameIndex = uint.MaxValue;
 
-    bd->renderResources.FontTexture = default;
-    bd->renderResources.FontTextureView = default;
-    bd->renderResources.Sampler = default;
-    bd->renderResources.Uniforms = default;
-    bd->renderResources.CommonBindGroup = default;
-    bd->renderResources.ImageBindGroups.Data.reserve(100);
-    bd->renderResources.ImageBindGroup = default;
-    bd->renderResources.ImageBindGroupLayout = default;
+    bd.renderResources.FontTexture = default;
+    bd.renderResources.FontTextureView = default;
+    bd.renderResources.Sampler = default;
+    bd.renderResources.Uniforms = default;
+    bd.renderResources.CommonBindGroup = default;
+    bd.renderResources.ImageBindGroups.Data.reserve(100);
+    bd.renderResources.ImageBindGroup = default;
+    bd.renderResources.ImageBindGroupLayout = default;
 
     // Create buffers with a default size (they will later be grown as needed)
-    bd->pFrameResources = new FrameResources[bd->numFramesInFlight];
-    for (uint i = 0; i < bd->numFramesInFlight; i++)
+    bd.pFrameResources = new FrameResources[bd.numFramesInFlight];
+    for (uint i = 0; i < bd.numFramesInFlight; i++)
     {
-        FrameResources* fr = &bd->pFrameResources[i];
-        fr->IndexBuffer = default;
-        fr->VertexBuffer = default;
-        fr->IndexBufferHost = null;
-        fr->VertexBufferHost = null;
-        fr->IndexBufferSize = 10000;
-        fr->VertexBufferSize = 5000;
+        ref FrameResources fr = ref bd.pFrameResources[i];
+        fr.IndexBuffer = default;
+        fr.VertexBuffer = default;
+        fr.IndexBufferHost = null;
+        fr.VertexBufferHost = null;
+        fr.IndexBufferSize = 10000;
+        fr.VertexBufferSize = 5000;
     }
 
     return true;
@@ -881,28 +889,28 @@ static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
 
 static void ImGui_ImplWGPU_Shutdown()
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
-    IM_ASSERT(bd != nullptr && "No renderer backend to shutdown, or already shutdown?");
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
+//  IM_ASSERT(bd != nullptr && "No renderer backend to shutdown, or already shutdown?");
     var io = ImGui.GetIO();
 
     ImGui_ImplWGPU_InvalidateDeviceObjects();
-    delete[] bd->pFrameResources;
-    bd->pFrameResources = null;
-    wgpuQueueRelease(bd->defaultQueue);
-    bd->wgpuDevice = default;
-    bd->numFramesInFlight = 0;
-    bd->frameIndex = uint.MaxValue;
+//  delete[] bd.pFrameResources;
+    bd.pFrameResources = null;
+    wgpuQueueRelease(bd.defaultQueue);
+    bd.wgpuDevice = default;
+    bd.numFramesInFlight = 0;
+    bd.frameIndex = uint.MaxValue;
 
-    io.BackendRendererName = nullptr;
-    io.BackendRendererUserData = nullptr;
+//  io.BackendRendererName = nullptr;
+//  io.BackendRendererUserData = nullptr;
     io.BackendFlags &= ~ImGuiBackendFlags.RendererHasVtxOffset;
-    IM_DELETE(bd);
+//  IM_DELETE(bd);
 }
 
 static void ImGui_ImplWGPU_NewFrame()
 {
-    ImGui_ImplWGPU_Data* bd = ImGui_ImplWGPU_GetBackendData();
-    if (!bd->pipelineState)
+    ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
+    if (bd.pipelineState.GetHandle() == 0)
         ImGui_ImplWGPU_CreateDeviceObjects();
 }
 
