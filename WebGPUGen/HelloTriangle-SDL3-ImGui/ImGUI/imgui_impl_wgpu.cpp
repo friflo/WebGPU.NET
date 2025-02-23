@@ -441,6 +441,9 @@ void ImGui_ImplWGPU_RenderDrawData(ImDrawData* draw_data, WGPURenderPassEncoder 
     }
 
     // Upload vertex/index data into a single contiguous GPU buffer
+    
+    
+    
     ImDrawVert* vtx_dst = (ImDrawVert*)fr->VertexBufferHost;
     ImDrawIdx* idx_dst = (ImDrawIdx*)fr->IndexBufferHost;
     for (int n = 0; n < draw_data->CmdListsCount; n++)
@@ -787,6 +790,7 @@ bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
 
     // Setup backend capabilities flags
     ImGui_ImplWGPU_Data* bd = IM_NEW(ImGui_ImplWGPU_Data)();
+    
     io.BackendRendererUserData = (void*)bd;
 #if defined(__EMSCRIPTEN__)
     io.BackendRendererName = "imgui_impl_webgpu_emscripten";

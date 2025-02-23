@@ -172,8 +172,7 @@ static ref ImGui_ImplWGPU_Data ImGui_ImplWGPU_GetBackendData()
 // SHADERS
 //-----------------------------------------------------------------------------
    
-static ReadOnlySpan<byte> __shader_vert_wgsl =>
-@"(
+static ReadOnlySpan<byte> __shader_vert_wgsl => @"(
 struct VertexInput {
     @location(0) position: vec2<f32>,
     @location(1) uv: vec2<f32>,
@@ -203,8 +202,7 @@ fn main(in: VertexInput) -> VertexOutput {
 }
 )"u8;
 
-static ReadOnlySpan<byte> __shader_frag_wgsl =>
-@"(
+static ReadOnlySpan<byte> __shader_frag_wgsl => @"(
 struct VertexOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) color: vec4<f32>,
@@ -561,7 +559,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
 
                 // Project scissor/clipping rectangles into framebuffer space
                 var clip_min = new Vector2((pcmd.ClipRect.X - clip_off.X) * clip_scale.X, (pcmd.ClipRect.Y - clip_off.Y) * clip_scale.Y);
-                var clip_max = new Vector2((pcmd.ClipRect.X - clip_off.X) * clip_scale.X, (pcmd.ClipRect.W - clip_off.Y) * clip_scale.Y);
+                var clip_max = new Vector2((pcmd.ClipRect.Z - clip_off.X) * clip_scale.X, (pcmd.ClipRect.W - clip_off.Y) * clip_scale.Y);
 
                 // Clamp to viewport as wgpuRenderPassEncoderSetScissorRect() won't accept values that are off bounds
                 if (clip_min.X < 0.0f) { clip_min.X = 0.0f; }
@@ -572,7 +570,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
                     continue;
 
                 // Apply scissor/clipping rectangle, Draw
-                wgpuRenderPassEncoderSetScissorRect(pass_encoder, (uint)clip_min.X, (uint)clip_min.Y, (uint)(clip_max.X - clip_min.Y), (uint)(clip_max.Y - clip_min.Y));
+                wgpuRenderPassEncoderSetScissorRect(pass_encoder, (uint)clip_min.X, (uint)clip_min.Y, (uint)(clip_max.X - clip_min.X), (uint)(clip_max.Y - clip_min.Y));
                 wgpuRenderPassEncoderDrawIndexed(pass_encoder, pcmd.ElemCount, 1, (uint)(pcmd.IdxOffset + global_idx_offset), (int)(pcmd.VtxOffset + global_vtx_offset), 0);
             }
         }
@@ -725,7 +723,8 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     graphics_pipeline_desc.vertex.entryPoint = vertex_shader_desc.entryPoint;
 
     // Vertex input configuration
-    Span<WGPUVertexAttribute> attribute_desc = [
+    Span<WGPUVertexAttribute> attribute_desc =
+    [
         new() { format = WGPUVertexFormat.Float32x2, offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.pos)), shaderLocation = 0 },
         new() { format = WGPUVertexFormat.Float32x2, offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.uv)),  shaderLocation = 1 },
         new() { format = WGPUVertexFormat.Unorm8x4,  offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.col)), shaderLocation = 2 }
