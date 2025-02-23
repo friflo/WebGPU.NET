@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Text;
 using ImGuiNET;
 using SDL;
@@ -8,6 +9,7 @@ namespace SDLIM;
 
 internal static class ImGuiUtils
 {
+    // --- imgui_impl_sdl3.cpp
     internal static void IM_ASSERT(bool condition, string message) {
         if (!condition) {
             throw new InvalidOperationException(message);
@@ -43,5 +45,12 @@ internal static class ImGuiUtils
         private IntPtr element;
         
         // internal SDL_Gamepad* this[int i] => (SDL_Gamepad*)element + i;
+    }
+
+    // --- imgui_impl_wgpu.cpp
+    // MEMALIGN(_SIZE,_ALIGN)        (((_SIZE) + ((_ALIGN) - 1)) & ~((_ALIGN) - 1))
+    internal static ulong MEMALIGN(long size, int align)
+    {
+        return (ulong)((size + (align - 1)) & ~(align - 1));
     }
 }

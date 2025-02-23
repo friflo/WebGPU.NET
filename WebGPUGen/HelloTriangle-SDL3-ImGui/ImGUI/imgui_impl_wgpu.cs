@@ -5,6 +5,7 @@ using Evergine.Bindings.WebGPU;
 using ImGuiNET;
 
 using static Evergine.Bindings.WebGPU.WebGPUNative;
+using static SDLIM.ImGuiUtils;
 
 using ImDrawIdx = System.UInt16;
 using ImTextureID = System.IntPtr;
@@ -504,8 +505,8 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
             vtx_dst += draw_list.VtxBuffer.Size;
             idx_dst += draw_list.IdxBuffer.Size;
         }
-        int64_t vb_write_size = MEMALIGN((char*)vtx_dst - VertexBufferHost, 4);
-        int64_t ib_write_size = MEMALIGN((char*)idx_dst - IndexBufferHost, 4);
+        ulong vb_write_size = MEMALIGN((byte*)vtx_dst - (byte*)VertexBufferHost, 4);
+        ulong ib_write_size = MEMALIGN((byte*)idx_dst - (byte*)IndexBufferHost, 4);
         wgpuQueueWriteBuffer(bd.defaultQueue, fr.VertexBuffer, 0, VertexBufferHost, vb_write_size);
         wgpuQueueWriteBuffer(bd.defaultQueue, fr.IndexBuffer,  0, IndexBufferHost,  ib_write_size);
     }
@@ -554,7 +555,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
                 {
                     WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bd.renderResources.ImageBindGroupLayout, (WGPUTextureView)tex_id);
                     bd.renderResources.ImageBindGroups.SetVoidPtr(tex_id_hash, image_bind_group);
-                    wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, image_bind_group, 0, nullptr);
+                    wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, image_bind_group, 0, null);
                 }
 
                 // Project scissor/clipping rectangles into framebuffer space
