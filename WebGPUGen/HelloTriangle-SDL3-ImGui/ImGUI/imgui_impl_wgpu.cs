@@ -532,25 +532,25 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
         var draw_list = draw_data.CmdLists[n];
         for (int cmd_i = 0; cmd_i < draw_list.CmdBuffer.Size; cmd_i++)
         {
-            var pcmd = &draw_list.CmdBuffer[cmd_i];
-            if (pcmd->UserCallback != 0)
+            var pcmd = draw_list.CmdBuffer[cmd_i];
+            if (pcmd.UserCallback != 0)
             {
                 // User callback, registered via ImDrawList::AddCallback()
                 // (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
-                if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
+                if (pcmd.UserCallback == ImDrawCallback_ResetRenderState)
                     ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, fr);
                 else
-                    pcmd->UserCallback(draw_list, pcmd);
+                    pcmd.UserCallback(draw_list, pcmd);
             }
             else
             {
                 // Bind custom texture
-                ImTextureID tex_id = pcmd->GetTexID();
+                ImTextureID tex_id = pcmd.GetTexID();
                 ImGuiID tex_id_hash = ImHashData(&tex_id, sizeof(tex_id));
                 auto bind_group = bd.renderResources.ImageBindGroups.GetVoidPtr(tex_id_hash);
                 if (bind_group)
                 {
-                    wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, (WGPUBindGroup)bind_group, 0, nullptr);
+                    wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, (WGPUBindGroup)bind_group, 0, null);
                 }
                 else
                 {
@@ -560,8 +560,8 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
                 }
 
                 // Project scissor/clipping rectangles into framebuffer space
-                var clip_min = new Vector2((pcmd->ClipRect.X - clip_off.X) * clip_scale.X, (pcmd->ClipRect.Y - clip_off.Y) * clip_scale.Y);
-                var clip_max = new Vector2((pcmd->ClipRect.X - clip_off.X) * clip_scale.X, (pcmd->ClipRect.W - clip_off.Y) * clip_scale.Y);
+                var clip_min = new Vector2((pcmd.ClipRect.X - clip_off.X) * clip_scale.X, (pcmd.ClipRect.Y - clip_off.Y) * clip_scale.Y);
+                var clip_max = new Vector2((pcmd.ClipRect.X - clip_off.X) * clip_scale.X, (pcmd.ClipRect.W - clip_off.Y) * clip_scale.Y);
 
                 // Clamp to viewport as wgpuRenderPassEncoderSetScissorRect() won't accept values that are off bounds
                 if (clip_min.X < 0.0f) { clip_min.X = 0.0f; }
@@ -573,7 +573,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
 
                 // Apply scissor/clipping rectangle, Draw
                 wgpuRenderPassEncoderSetScissorRect(pass_encoder, (uint)clip_min.X, (uint)clip_min.Y, (uint)(clip_max.X - clip_min.Y), (uint)(clip_max.Y - clip_min.Y));
-                wgpuRenderPassEncoderDrawIndexed(pass_encoder, pcmd->ElemCount, 1, (uint)(pcmd->IdxOffset + global_idx_offset), (uint)(pcmd->VtxOffset + global_vtx_offset), 0);
+                wgpuRenderPassEncoderDrawIndexed(pass_encoder, pcmd.ElemCount, 1, (uint)(pcmd.IdxOffset + global_idx_offset), (int)(pcmd.VtxOffset + global_vtx_offset), 0);
             }
         }
         global_idx_offset += draw_list.IdxBuffer.Size;
@@ -706,7 +706,7 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
 //  common_bg_layout_desc.entryCount = 2;
     common_bg_layout_desc.entries = common_bg_layout_entries;
 
-    WGPUBindGroupLayoutDescriptor image_bg_layout_desc = {};
+    WGPUBindGroupLayoutDescriptor image_bg_layout_desc = new();
 //  image_bg_layout_desc.entryCount = 1;
     image_bg_layout_desc.entries = image_bg_layout_entries;
 
@@ -726,9 +726,9 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
 
     // Vertex input configuration
     Span<WGPUVertexAttribute> attribute_desc = [
-        new() { format = WGPUVertexFormat.Float32x2, offset = (uint64_t)offsetof(ImDrawVert, pos), shaderLocation = 0 },
-        new() { format = WGPUVertexFormat.Float32x2, offset = (uint64_t)offsetof(ImDrawVert, uv),  shaderLocation = 1 },
-        new() { format = WGPUVertexFormat.Unorm8x4,  offset = (uint64_t)offsetof(ImDrawVert, col), shaderLocation = 2 }
+        new() { format = WGPUVertexFormat.Float32x2, offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.pos)), shaderLocation = 0 },
+        new() { format = WGPUVertexFormat.Float32x2, offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.uv)),  shaderLocation = 1 },
+        new() { format = WGPUVertexFormat.Unorm8x4,  offset = (ulong)Marshal.OffsetOf<ImDrawVert>(nameof(ImDrawVert.col)), shaderLocation = 2 }
     ];
 
     Span<WGPUVertexBufferLayout> buffer_layouts = stackalloc WGPUVertexBufferLayout[1];
