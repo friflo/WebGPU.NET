@@ -500,8 +500,8 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
         for (int n = 0; n < draw_data.CmdListsCount; n++)
         {
             var draw_list = draw_data.CmdLists[n];
-            memcpy(vtx_dst, draw_list.VtxBuffer.Data, draw_list.VtxBuffer.Size * sizeof(ImDrawVert));
-            memcpy(idx_dst, draw_list.IdxBuffer.Data, draw_list.IdxBuffer.Size * sizeof(ImDrawIdx));
+            Buffer.MemoryCopy((void*)draw_list.VtxBuffer.Data, vtx_dst, draw_list.VtxBuffer.Size * sizeof(ImDrawVert), draw_list.VtxBuffer.Size * sizeof(ImDrawVert));
+            Buffer.MemoryCopy((void*)draw_list.IdxBuffer.Data, idx_dst, draw_list.IdxBuffer.Size * sizeof(ImDrawIdx),  draw_list.IdxBuffer.Size * sizeof(ImDrawIdx));
             vtx_dst += draw_list.VtxBuffer.Size;
             idx_dst += draw_list.IdxBuffer.Size;
         }
