@@ -47,7 +47,7 @@ public static unsafe class ImGuiTools
     
     public static WGPUCommandBuffer DrawCommands(WGPUTextureView textureView)
     {
-        using var commandEncoder = _device.createCommandEncoder(new() { label = "ImGuiContext"u8 });
+        using var commandEncoder = _device.createCommandEncoder(new() { label = "ImGuiTools"u8 });
 
         Span<WGPURenderPassColorAttachment> colorAttachments = [
             new WGPURenderPassColorAttachment {
@@ -60,7 +60,7 @@ public static unsafe class ImGuiTools
         ];
 
         WGPURenderPassDescriptor renderPassDesc = new() {
-            label = "ImGuiContext"u8,
+            label = "ImGuiTools"u8,
             colorAttachments = colorAttachments,
             depthStencilAttachment = null
         };
