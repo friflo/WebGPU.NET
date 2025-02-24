@@ -5,13 +5,13 @@ using SDL;
 
 namespace SDLIM;
 
-public unsafe class ImGuiContext
+public static unsafe class ImGuiTools
 {
-    private WGPUDevice  device;
+    private static WGPUDevice  _device;
     
-    public void SetupContext(SDL_Window* window, WGPUDevice device, WGPUTextureFormat textureFormat)
+    public static void SetupContext(SDL_Window* window, WGPUDevice device, WGPUTextureFormat textureFormat)
     {
-        this.device = device;
+        _device = device;
 
         IntPtr context = ImGui.CreateContext();
         ImGui.SetCurrentContext(context);
@@ -33,21 +33,21 @@ public unsafe class ImGuiContext
         io.Fonts.Build();
     }
     
-    public void NewFrame()
+    public static void NewFrame()
     {
         ImGui_ImplSDL3.NewFrame();
         ImGui_ImplWGPU.NewFrame();
         ImGui.NewFrame();
     }
     
-    public void EndFrame()
+    public static void EndFrame()
     {
         ImGui.EndFrame();
     }
     
-    public WGPUCommandBuffer DrawCommands(WGPUTextureView textureView)
+    public static WGPUCommandBuffer DrawCommands(WGPUTextureView textureView)
     {
-        using var commandEncoder = device.createCommandEncoder(new() { label = "ImGuiContext"u8 });
+        using var commandEncoder = _device.createCommandEncoder(new() { label = "ImGuiContext"u8 });
 
         Span<WGPURenderPassColorAttachment> colorAttachments = [
             new WGPURenderPassColorAttachment {

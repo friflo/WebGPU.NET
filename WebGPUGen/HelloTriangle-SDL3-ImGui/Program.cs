@@ -20,15 +20,14 @@ namespace HelloTriangle
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
             
-            var imGuiContext = new ImGuiContext();
-            imGuiContext.SetupContext(window, gpu.device, gpu.swapChainFormat);
+            ImGuiTools.SetupContext(window, gpu.device, gpu.swapChainFormat);
             
             var triangle = new Triangle(gpu);
             SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL 3 - {gpu.adapter.info.backendType})");
             
             triangle.InitResources();
 
-            MainLoop(triangle, gpu.frameArena, gpu.surface, gpu.queue, imGuiContext);
+            MainLoop(triangle, gpu.frameArena, gpu.surface, gpu.queue);
 
             triangle.ReleaseResources();
             gpu.CleanUp();
@@ -51,7 +50,7 @@ namespace HelloTriangle
             return window;
         }
         
-        private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue, ImGuiContext imGuiContext)
+        private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue)
         {
             bool running = true;
             while (running)
@@ -76,10 +75,10 @@ namespace HelloTriangle
                 
                 using var command = triangle.DrawFrame(nextView);
                 
-                imGuiContext.NewFrame();
+                ImGuiTools.NewFrame();
                 ImGuiTest.Draw();
-                imGuiContext.EndFrame();
-                using var guiCommand = imGuiContext.DrawCommands(nextView);
+                ImGuiTools.EndFrame();
+                using var guiCommand = ImGuiTools.DrawCommands(nextView);
                 
                 queue.submit([command, guiCommand]);
                 

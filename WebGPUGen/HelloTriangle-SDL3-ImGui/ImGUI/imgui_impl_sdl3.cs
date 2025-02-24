@@ -14,7 +14,12 @@ using static SDL.SDL_GamepadButton;
 using static SDL.SDL_GamepadAxis;
 
 using Uint64 = System.UInt64;
-
+using ImGuiContext = System.IntPtr;
+// ImGuiContext - function signatures at: https://github.com/ocornut/imgui
+// void        (*Platform_SetImeDataFn)(ImGuiContext* ctx, ImGuiViewport* viewport, ImGuiPlatformImeData* data);
+// const char* (*Platform_GetClipboardTextFn)(ImGuiContext* ctx);
+// void        (*Platform_SetClipboardTextFn)(ImGuiContext* ctx, const char* text);
+// bool        (*Platform_OpenInShellFn)(ImGuiContext* ctx, const char* path);
 
 // dear imgui: Platform Backend for SDL3
 // This needs to be used along with a Renderer (e.g. SDL_GPU, DirectX11, OpenGL3, Vulkan..)
@@ -155,7 +160,7 @@ static ImGui_ImplSDL3_Data* ImGui_ImplSDL3_GetBackendData()
 }
 
 // Functions
-static byte* ImGui_ImplSDL3_GetClipboardText(ImGuiContext _)
+static byte* ImGui_ImplSDL3_GetClipboardText(ImGuiContext ctx)
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     if (bd->ClipboardTextData != null)
@@ -165,12 +170,12 @@ static byte* ImGui_ImplSDL3_GetClipboardText(ImGuiContext _)
     return bd->ClipboardTextData;
 }
 
-static void ImGui_ImplSDL3_SetClipboardText(ImGuiContext _, byte* text)
+static void ImGui_ImplSDL3_SetClipboardText(ImGuiContext ctx, byte* text)
 {
     SDL_SetClipboardText(text);
 }
 
-static void ImGui_ImplSDL3_PlatformSetImeData(ImGuiContext _, ImGuiViewport* viewport, ImGuiPlatformImeData* data)
+static void ImGui_ImplSDL3_PlatformSetImeData(ImGuiContext ctx, ImGuiViewport* viewport, ImGuiPlatformImeData* data)
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     SDL_WindowID window_id = (SDL_WindowID)(IntPtr)viewport->PlatformHandle;
@@ -191,6 +196,10 @@ static void ImGui_ImplSDL3_PlatformSetImeData(ImGuiContext _, ImGuiViewport* vie
         SDL_StartTextInput(window);
         bd->ImeWindow = window;
     }
+}
+
+static bool ImGui_ImplSDL3_OpenInShellFn(ImGuiContext* ctx, byte* url) {
+    return SDL_OpenURL(url);
 }
 
 // Not static to allow third-party code to use that if they want to (but undocumented)
@@ -498,7 +507,7 @@ public static bool Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl
     platform_io.Platform_SetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(ImGui_ImplSDL3_SetClipboardText);
     platform_io.Platform_GetClipboardTextFn = Marshal.GetFunctionPointerForDelegate(ImGui_ImplSDL3_GetClipboardText);
     platform_io.Platform_SetImeDataFn = Marshal.GetFunctionPointerForDelegate(ImGui_ImplSDL3_PlatformSetImeData);
-//  platform_io.Platform_OpenInShellFn = [](ImGuiContext, char* url) { return SDL_OpenURL(url) == 0; };
+    platform_io.Platform_OpenInShellFn = Marshal.GetFunctionPointerForDelegate(ImGui_ImplSDL3_OpenInShellFn);
 
     // Gamepad handling
     bd->GamepadMode = ImGui_ImplSDL3_GamepadMode.AutoFirst;
