@@ -1,7 +1,9 @@
 ﻿using System;
 using Evergine.Bindings.WebGPU;
+using ImGuiNET;
 // using SDL2;
 using SDL;
+using SDLIM;
 using static SDL.SDL3;
 
 namespace HelloTriangle
@@ -17,12 +19,16 @@ namespace HelloTriangle
             var gpu = new GPU();
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
+            
+            var imGuiContext = new ImGuiContext();
+            imGuiContext.SetupContext(window, gpu.device, gpu.swapChainFormat);
+            
             var triangle = new Triangle(gpu);
             SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL 3 - {gpu.adapter.info.backendType})");
             
             triangle.InitResources();
 
-            MainLoop(triangle, gpu.frameArena, gpu.surface);
+            MainLoop(triangle, gpu.frameArena, gpu.surface, gpu.queue, imGuiContext);
 
             triangle.ReleaseResources();
             gpu.CleanUp();
@@ -45,13 +51,14 @@ namespace HelloTriangle
             return window;
         }
         
-        private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface)
+        private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue, ImGuiContext imGuiContext)
         {
             bool running = true;
             while (running)
             {
                 SDL_Event sdlEvent;
                 while (SDL_PollEvent(&sdlEvent)) {
+                    ImGui_ImplSDL3.ProcessEvent(&sdlEvent);
                     switch ((SDL_EventType)sdlEvent.type) {
                         case SDL_EventType.SDL_EVENT_QUIT:
                             running = false;
@@ -66,12 +73,35 @@ namespace HelloTriangle
                 WGPUTextureView nextView = surfaceTexture.texture.createView();
                 
                 frameArena.Reset();
-                triangle.DrawFrame(nextView);
+                
+                using var command = triangle.DrawFrame(nextView);
+                
+                imGuiContext.NewFrame();
+                ImGuiTest.Draw();
+                imGuiContext.EndFrame();
+                using var guiCommand = imGuiContext.DrawCommands(nextView);
+                
+                queue.submit([command, guiCommand]);
                 
                 nextView.release();
                 surface.present();
                 surfaceTexture.texture.release();
             }
+        }
+    }
+    
+    static class ImGuiTest
+    {
+        private static float _value = 100f;
+
+        public static void Draw()
+        {
+            ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always);
+            ImGui.SetNextWindowSize(new(300, 100), ImGuiCond.Always);
+            ImGui.SetNextWindowBgAlpha(0.5f);
+            ImGui.Begin("ImGuiTest", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse);
+            ImGui.InputFloat("Value", ref _value);
+            ImGui.End();
         }
     }
 }

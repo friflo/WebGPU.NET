@@ -117,7 +117,7 @@ namespace HelloTriangle
             queue.writeBuffer(vertexBuffer, 0, vertexData);
         }
 
-        internal void DrawFrame(WGPUTextureView view)
+        internal WGPUCommandBuffer DrawFrame(WGPUTextureView view)
         {
             frameArena.Use();
 
@@ -139,9 +139,7 @@ namespace HelloTriangle
             renderPass.end();
             renderPass.release(); // required: otherwise submit() panics: "CommandBuffer cannot be destroyed because is still in use"
 
-            using var command = encoder.finish();
-            
-            queue.submit([command]);
+            return encoder.finish();
         }
     }
 }

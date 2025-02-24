@@ -92,7 +92,7 @@ namespace SDLIM;
 public static unsafe class ImGui_ImplWGPU {
     
 // Initialization data, for ImGui_ImplWGPU_Init()
-struct ImGui_ImplWGPU_InitInfo
+public struct ImGui_ImplWGPU_InitInfo
 {
     internal WGPUDevice              Device;
     internal int                     NumFramesInFlight = 3;
@@ -174,7 +174,7 @@ static ref ImGui_ImplWGPU_Data ImGui_ImplWGPU_GetBackendData()
 // SHADERS
 //-----------------------------------------------------------------------------
    
-static ReadOnlySpan<byte> __shader_vert_wgsl => @"(
+static ReadOnlySpan<byte> __shader_vert_wgsl => @"
 struct VertexInput {
     @location(0) position: vec2<f32>,
     @location(1) uv: vec2<f32>,
@@ -202,9 +202,9 @@ fn main(in: VertexInput) -> VertexOutput {
     out.uv = in.uv;
     return out;
 }
-)"u8;
+"u8;
 
-static ReadOnlySpan<byte> __shader_frag_wgsl => @"(
+static ReadOnlySpan<byte> __shader_frag_wgsl => @"
 struct VertexOutput {
     @builtin(position) position: vec4<f32>,
     @location(0) color: vec4<f32>,
@@ -226,7 +226,7 @@ fn main(in: VertexOutput) -> @location(0) vec4<f32> {
     let corrected_color = pow(color.rgb, vec3<f32>(uniforms.gamma));
     return vec4<f32>(corrected_color, color.a);
 }
-)"u8;
+"u8;
 
 static void SafeRelease(ref ImDrawIdx[] res)
 {
@@ -422,7 +422,7 @@ static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPas
 
 // Render function
 // (this used to be set in io.RenderDrawListsFn and called by ImGui::Render(), but you can now call this directly from your main loop)
-static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPassEncoder pass_encoder)
+public static void RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPassEncoder pass_encoder)
 {
     // Avoid rendering when minimized
     int fb_width = (int)(draw_data.DisplaySize.X * draw_data.FramebufferScale.X);
@@ -836,7 +836,7 @@ static void ImGui_ImplWGPU_InvalidateDeviceObjects()
         SafeRelease(ref bd.pFrameResources[i]);
 }
 
-static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
+public static bool Init(in ImGui_ImplWGPU_InitInfo init_info)
 {
     var io = ImGui.GetIO();
     IMGUI_CHECKVERSION();
@@ -857,12 +857,12 @@ static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
 // #endif
     io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;  // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
 
-    bd.initInfo = *init_info;
-    bd.wgpuDevice = init_info->Device;
+    bd.initInfo = init_info;
+    bd.wgpuDevice = init_info.Device;
     bd.defaultQueue = wgpuDeviceGetQueue(bd.wgpuDevice);
-    bd.renderTargetFormat = init_info->RenderTargetFormat;
-    bd.depthStencilFormat = init_info->DepthStencilFormat;
-    bd.numFramesInFlight = (uint)init_info->NumFramesInFlight;
+    bd.renderTargetFormat = init_info.RenderTargetFormat;
+    bd.depthStencilFormat = init_info.DepthStencilFormat;
+    bd.numFramesInFlight = (uint)init_info.NumFramesInFlight;
     bd.frameIndex = uint.MaxValue;
 
     bd.renderResources.FontTexture = default;
@@ -910,7 +910,7 @@ static void ImGui_ImplWGPU_Shutdown()
 //  IM_DELETE(bd);
 }
 
-static void ImGui_ImplWGPU_NewFrame()
+public static void NewFrame()
 {
     ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
     if (bd.pipelineState.GetHandle() == 0)

@@ -350,7 +350,7 @@ static ImGuiViewport* ImGui_ImplSDL3_GetViewportForWindowID(SDL_WindowID window_
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 // If you have multiple SDL events and some of them are not meant to be used by dear imgui, you may need to filter events based on their windowID field.
-static bool ImGui_ImplSDL3_ProcessEvent(SDL_Event* ev)
+public static bool ProcessEvent(SDL_Event* ev)
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     IM_ASSERT(bd != null, "Context or backend not initialized! Did you call ImGui_ImplSDL3_Init()?");
@@ -465,7 +465,7 @@ if (OperatingSystem.IsWindows()) {
 }
 }
 
-static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl_context)
+public static bool Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl_context)
 {
     var io = ImGui.GetIO();
     IMGUI_CHECKVERSION();
@@ -543,12 +543,12 @@ static bool ImGui_ImplSDL3_Init(SDL_Window* window, SDL_Renderer* renderer, void
 static bool ImGui_ImplSDL3_InitForOpenGL(SDL_Window* window, void* sdl_gl_context)
 {
 //  IM_UNUSED(sdl_gl_context); // Viewport branch will need this.
-    return ImGui_ImplSDL3_Init(window, null, sdl_gl_context);
+    return Init(window, null, sdl_gl_context);
 }
 
 static bool ImGui_ImplSDL3_InitForVulkan(SDL_Window* window)
 {
-    return ImGui_ImplSDL3_Init(window, null, null);
+    return Init(window, null, null);
 }
 
 static bool ImGui_ImplSDL3_InitForD3D(SDL_Window* window)
@@ -556,27 +556,27 @@ static bool ImGui_ImplSDL3_InitForD3D(SDL_Window* window)
 if (!OperatingSystem.IsWindows()) {
     throw new InvalidOperationException("Unsupported");
 }
-    return ImGui_ImplSDL3_Init(window, null, null);
+    return Init(window, null, null);
 }
 
 static bool ImGui_ImplSDL3_InitForMetal(SDL_Window* window)
 {
-    return ImGui_ImplSDL3_Init(window, null, null);
+    return Init(window, null, null);
 }
 
 static bool ImGui_ImplSDL3_InitForSDLRenderer(SDL_Window* window, SDL_Renderer* renderer)
 {
-    return ImGui_ImplSDL3_Init(window, renderer, null);
+    return Init(window, renderer, null);
 }
 
 static bool ImGui_ImplSDL3_InitForSDLGPU(SDL_Window* window)
 {
-    return ImGui_ImplSDL3_Init(window, null, null);
+    return Init(window, null, null);
 }
 
 static bool ImGui_ImplSDL3_InitForOther(SDL_Window* window)
 {
-    return ImGui_ImplSDL3_Init(window, null, null);
+    return Init(window, null, null);
 }
 
 // static void ImGui_ImplSDL3_CloseGamepads();
@@ -770,7 +770,7 @@ static void ImGui_ImplSDL3_UpdateGamepads()
 
 static Uint64 frequency;
 
-static void ImGui_ImplSDL3_NewFrame()
+public static void NewFrame()
 {
     ImGui_ImplSDL3_Data* bd = ImGui_ImplSDL3_GetBackendData();
     IM_ASSERT(bd != null, "Context or backend not initialized! Did you call ImGui_ImplSDL3_Init()?");
