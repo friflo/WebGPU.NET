@@ -198,10 +198,6 @@ static void ImGui_ImplSDL3_PlatformSetImeData(ImGuiContext ctx, ImGuiViewport* v
     }
 }
 
-static bool ImGui_ImplSDL3_OpenInShellFn(ImGuiContext* ctx, byte* url) {
-    return SDL_OpenURL(url);
-}
-
 // Not static to allow third-party code to use that if they want to (but undocumented)
 // ImGuiKey ImGui_ImplSDL3_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode);
 static ImGuiKey ImGui_ImplSDL3_KeyEventToImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode)
@@ -728,8 +724,7 @@ static void ImGui_ImplSDL3_UpdateGamepads()
         int sdl_gamepads_count = 0;
         SDL_JoystickID* sdl_gamepads = SDL_GetGamepads(&sdl_gamepads_count);
         for (int n = 0; n < sdl_gamepads_count; n++) {
-            SDL_Gamepad* gamepad;
-            if ((gamepad = SDL_OpenGamepad(sdl_gamepads[n])) != null)
+            SDL_Gamepad* gamepad; if ((gamepad = SDL_OpenGamepad(sdl_gamepads[n])) != null)
             {
                 bd->Gamepads[bd->GamepadCount++] = (nint)gamepad;
                 if (bd->GamepadMode == ImGui_ImplSDL3_GamepadMode.AutoFirst)

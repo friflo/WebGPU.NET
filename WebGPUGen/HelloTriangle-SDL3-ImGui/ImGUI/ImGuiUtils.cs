@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Evergine.Bindings.WebGPU;
@@ -7,6 +6,9 @@ using ImGuiNET;
 using SDL;
 using static SDL.SDL3;
 
+using ImGuiContext = System.IntPtr;
+
+// ReSharper disable InconsistentNaming
 namespace SDLIM;
 
 delegate void UserCallback(ImDrawListPtr cmd_list, ImDrawCmdPtr cmd);
@@ -30,8 +32,8 @@ internal static class ImGuiUtils
         return ptr;
     }
     
-    [System.Runtime.CompilerServices.InlineArray((int)ImGuiMouseCursor.COUNT)]
-    internal unsafe struct Cursors
+    [InlineArray((int)ImGuiMouseCursor.COUNT)]
+    internal struct Cursors
     {
         // structs with the InlineArray attribute must contain EXACTLY one member.
         private IntPtr element;
@@ -42,13 +44,17 @@ internal static class ImGuiUtils
         }*/
     }
     
-    [System.Runtime.CompilerServices.InlineArray(10)]
-    internal unsafe struct Gamepads
+    [InlineArray(10)]
+    internal struct Gamepads
     {
         // structs with the InlineArray attribute must contain EXACTLY one member.
         private IntPtr element;
         
         // internal SDL_Gamepad* this[int i] => (SDL_Gamepad*)element + i;
+    }
+    
+    internal static unsafe bool ImGui_ImplSDL3_OpenInShellFn(ImGuiContext ctx, byte* url) {
+        return SDL_OpenURL(url);
     }
 
     // --- imgui_impl_wgpu.cpp
@@ -65,7 +71,7 @@ internal static class ImGuiUtils
     // ImDrawCallback_ResetRenderState is not defined in
     // - https://github.com/ocornut/imgui
     // - https://github.com/ImGuiNET/ImGui.NET
-    internal static IntPtr ImDrawCallback_ResetRenderState = -1;
+    internal static readonly IntPtr ImDrawCallback_ResetRenderState = -1;
     
     internal static WGPUTextureView AsTextureView(IntPtr intPtr) {
         return Unsafe.As<IntPtr, WGPUTextureView>(ref intPtr);
