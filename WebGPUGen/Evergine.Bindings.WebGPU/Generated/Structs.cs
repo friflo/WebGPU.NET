@@ -896,7 +896,7 @@ public unsafe struct WGPURequiredLimits
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct WGPUShaderModuleDescriptor
 {
-	[Browse(Never)] internal    WGPUChainedStruct*     _nextInChain;
+	[Browse(Never)] public      WGPUChainedStruct*     _nextInChain;
 	[Browse(Never)] internal    char*                  _label;
 	[Browse(Never)] internal    ulong                  _hintCount;
 	[Browse(Never)] internal    WGPUShaderModuleCompilationHint* _hints;

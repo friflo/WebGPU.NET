@@ -328,7 +328,7 @@ static WGPUProgrammableStageDescriptor ImGui_ImplWGPU_CreateShaderModule(ReadOnl
 #endif
 
     WGPUShaderModuleDescriptor desc = new();
-    desc._nextInChain = reinterpret_cast<WGPUChainedStruct*>(&wgsl_desc);
+    desc._nextInChain = &wgsl_desc.chain;
 
     WGPUProgrammableStageDescriptor stage_desc = new();
     stage_desc.module = wgpuDeviceCreateShaderModule(bd.wgpuDevice, &desc);
