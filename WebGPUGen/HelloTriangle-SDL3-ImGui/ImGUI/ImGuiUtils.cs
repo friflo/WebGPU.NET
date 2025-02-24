@@ -53,6 +53,7 @@ internal static class ImGuiUtils
         // internal SDL_Gamepad* this[int i] => (SDL_Gamepad*)element + i;
     }
     
+    // Called by TextLinkOpenURL() widget. E.g. ImGui.TextLinkOpenURL("https://www.google.de");
     internal static unsafe bool ImGui_ImplSDL3_OpenInShellFn(ImGuiContext ctx, byte* url) {
         return SDL_OpenURL(url);
     }
