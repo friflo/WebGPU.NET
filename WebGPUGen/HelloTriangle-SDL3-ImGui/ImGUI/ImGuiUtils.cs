@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Evergine.Bindings.WebGPU;
 using ImGuiNET;
 using SDL;
 using static SDL.SDL3;
@@ -65,4 +67,7 @@ internal static class ImGuiUtils
     // - https://github.com/ImGuiNET/ImGui.NET
     internal static IntPtr ImDrawCallback_ResetRenderState = -1;
     
+    internal static WGPUTextureView AsTextureView(IntPtr intPtr) {
+        return Unsafe.As<IntPtr, WGPUTextureView>(ref intPtr);
+    }
 }

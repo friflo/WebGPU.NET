@@ -9,6 +9,7 @@ using static SDLIM.ImGuiUtils;
 
 using ImDrawIdx = System.UInt16;
 using ImTextureID = System.IntPtr;
+using ImGuiStorage = System.Collections.Generic.Dictionary<System.IntPtr, Evergine.Bindings.WebGPU.WGPUBindGroup>;
 
 /*
 // dear imgui: Renderer for WebGPU
@@ -547,16 +548,16 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
             {
                 // Bind custom texture
                 ImTextureID tex_id = pcmd.GetTexID();
-                ImGuiID tex_id_hash = ImHashData(&tex_id, sizeof(tex_id));
-                auto bind_group = bd.renderResources.ImageBindGroups.GetVoidPtr(tex_id_hash);
-                if (bind_group)
+//              ImGuiID tex_id_hash = ImHashData(&tex_id, sizeof(tex_id));
+                bd.renderResources.ImageBindGroups.TryGetValue(tex_id, out var bind_group);
+                if (bind_group.GetHandle() != 0)
                 {
                     wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, (WGPUBindGroup)bind_group, 0, null);
                 }
                 else
                 {
-                    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bd.renderResources.ImageBindGroupLayout, (WGPUTextureView)tex_id);
-                    bd.renderResources.ImageBindGroups.SetVoidPtr(tex_id_hash, image_bind_group);
+                    WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bd.renderResources.ImageBindGroupLayout, AsTextureView(tex_id));
+                    bd.renderResources.ImageBindGroups.Add(tex_id, image_bind_group);
                     wgpuRenderPassEncoderSetBindGroup(pass_encoder, 1, image_bind_group, 0, null);
                 }
 
@@ -651,8 +652,8 @@ static void ImGui_ImplWGPU_CreateFontsTexture()
     }
 
     // Store our identifier
-    static_assert(sizeof(ImTextureID) >= sizeof(bd.renderResources.FontTexture), "Can't pack descriptor handle into TexID, 32-bit not supported yet.");
-    io.Fonts.SetTexID((ImTextureID)bd.renderResources.FontTextureView);
+//  static_assert(sizeof(ImTextureID) >= sizeof(bd.renderResources.FontTexture), "Can't pack descriptor handle into TexID, 32-bit not supported yet.");
+    io.Fonts.SetTexID(bd.renderResources.FontTextureView.GetHandle());
 }
 
 static void ImGui_ImplWGPU_CreateUniformBuffer()
@@ -809,7 +810,7 @@ static bool ImGui_ImplWGPU_CreateDeviceObjects()
     WGPUBindGroup image_bind_group = ImGui_ImplWGPU_CreateImageBindGroup(bg_layouts[1], bd.renderResources.FontTextureView);
     bd.renderResources.ImageBindGroup = image_bind_group;
     bd.renderResources.ImageBindGroupLayout = bg_layouts[1];
-    bd.renderResources.ImageBindGroups.SetVoidPtr(ImHashData(&bd.renderResources.FontTextureView, sizeof(ImTextureID)), image_bind_group);
+    bd.renderResources.ImageBindGroups.Add(bd.renderResources.FontTextureView.GetHandle(), image_bind_group);
 
     SafeRelease(ref vertex_shader_desc.module);
     SafeRelease(ref pixel_shader_desc.module);
@@ -839,12 +840,12 @@ static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
 {
     var io = ImGui.GetIO();
     IMGUI_CHECKVERSION();
-    IM_ASSERT(io.BackendRendererUserData == 0 && "Already initialized a renderer backend!");
+    IM_ASSERT(io.BackendRendererUserData == 0, "Already initialized a renderer backend!");
 
     // Setup backend capabilities flags
 //  ImGui_ImplWGPU_Data* bd = IM_NEW(ImGui_ImplWGPU_Data)();
     ref var bd  = ref ImGui_ImplWGPU_GetBackendData();
-//  io.BackendRendererUserData = (void*)bd;
+    io.BackendRendererUserData = 1; // (void*)bd;
 // #if defined(__EMSCRIPTEN__)
 //     io.BackendRendererName = "imgui_impl_webgpu_emscripten";
 // #elif defined(IMGUI_IMPL_WEBGPU_BACKEND_DAWN)
@@ -869,7 +870,7 @@ static bool ImGui_ImplWGPU_Init(ImGui_ImplWGPU_InitInfo* init_info)
     bd.renderResources.Sampler = default;
     bd.renderResources.Uniforms = default;
     bd.renderResources.CommonBindGroup = default;
-    bd.renderResources.ImageBindGroups.Data.reserve(100);
+    bd.renderResources.ImageBindGroups = new();
     bd.renderResources.ImageBindGroup = default;
     bd.renderResources.ImageBindGroupLayout = default;
 
@@ -904,7 +905,7 @@ static void ImGui_ImplWGPU_Shutdown()
     bd.frameIndex = uint.MaxValue;
 
 //  io.BackendRendererName = nullptr;
-//  io.BackendRendererUserData = nullptr;
+    io.BackendRendererUserData = 0;
     io.BackendFlags &= ~ImGuiBackendFlags.RendererHasVtxOffset;
 //  IM_DELETE(bd);
 }
