@@ -352,7 +352,7 @@ static WGPUBindGroup ImGui_ImplWGPU_CreateImageBindGroup(WGPUBindGroupLayout lay
     return wgpuDeviceCreateBindGroup(bd.wgpuDevice, &image_bg_descriptor);
 }
 
-static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPassEncoder ctx, ref FrameResources fr)
+static void ImGui_ImplWGPU_SetupRenderState(ImDrawData* draw_data, WGPURenderPassEncoder ctx, in FrameResources fr)
 {
     ref ImGui_ImplWGPU_Data bd = ref ImGui_ImplWGPU_GetBackendData();
 
@@ -511,7 +511,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
         wgpuQueueWriteBuffer(bd.defaultQueue, fr.IndexBuffer,  0, IndexBufferHost,  ib_write_size);
     }
     // Setup desired render state
-    ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, ref fr);
+    ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, fr);
 
     // Setup render state structure (for callbacks and custom texture bindings)
     var platform_io = ImGui.GetPlatformIO();
