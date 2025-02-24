@@ -47,7 +47,7 @@ public unsafe class ImGuiContext
     
     public WGPUCommandBuffer DrawCommands(WGPUTextureView textureView)
     {
-        var commandEncoder = device.createCommandEncoder(new() { label = "ImGuiContext"u8 });
+        using var commandEncoder = device.createCommandEncoder(new() { label = "ImGuiContext"u8 });
 
         Span<WGPURenderPassColorAttachment> colorAttachments = [
             new WGPURenderPassColorAttachment {
