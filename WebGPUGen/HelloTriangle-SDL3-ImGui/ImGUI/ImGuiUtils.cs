@@ -58,4 +58,9 @@ internal static class ImGuiUtils
         Buffer.MemoryCopy(src, dest, size, size); 
     }
     
+    // ImDrawCallback_ResetRenderState is not defined in
+    // - https://github.com/ocornut/imgui
+    // - https://github.com/ImGuiNET/ImGui.NET
+    internal static IntPtr ImDrawCallback_ResetRenderState = -1;
+    
 }
