@@ -14,7 +14,6 @@ using static SDL.SDL_GamepadButton;
 using static SDL.SDL_GamepadAxis;
 
 using Uint64 = System.UInt64;
-using ImGuiContext = System.IntPtr;
 
 
 // dear imgui: Platform Backend for SDL3
@@ -143,7 +142,7 @@ private struct ImGui_ImplSDL3_Data
     internal ImGui_ImplSDL3_GamepadMode GamepadMode;
     internal bool                       WantUpdateGamepadsList;
 
-    public ImGui_ImplSDL3_Data()   { } // memset((void*)this, 0, sizeof(*this)); }
+//  ImGui_ImplSDL3_Data()   { memset((void*)this, 0, sizeof(*this)); } - used AllocZeroed() at allocation
 };
 
 // Backend data stored in io.BackendPlatformUserData to allow support for multiple Dear ImGui contexts
