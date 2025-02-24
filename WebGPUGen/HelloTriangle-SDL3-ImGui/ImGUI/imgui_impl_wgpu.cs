@@ -107,7 +107,7 @@ struct ImGui_ImplWGPU_InitInfo
     }
 };
 
-struct ImGui_ImplWGPU_RenderState
+struct ImGui_ImplWGPU_RenderState // https://github.com/ocornut/imgui/wiki/Image-Loading-and-Displaying-Examples#modifying-render-state
 {
     internal WGPUDevice                  Device;
     internal WGPURenderPassEncoder       RenderPassEncoder;
@@ -518,7 +518,7 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
     ImGui_ImplWGPU_RenderState render_state;
     render_state.Device = bd.wgpuDevice;
     render_state.RenderPassEncoder = pass_encoder;
-    platform_io.Renderer_RenderState = &render_state;
+    platform_io.Renderer_RenderState = (IntPtr)(void*)&render_state;
 
     // Render command lists
     // (Because we merged all buffers into a single one, we maintain our own offset into them)
