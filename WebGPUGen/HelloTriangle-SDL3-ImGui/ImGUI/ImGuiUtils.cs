@@ -7,6 +7,8 @@ using static SDL.SDL3;
 
 namespace SDLIM;
 
+delegate void UserCallback(ImDrawListPtr cmd_list, ImDrawCmdPtr cmd);
+
 internal static class ImGuiUtils
 {
     // --- imgui_impl_sdl3.cpp

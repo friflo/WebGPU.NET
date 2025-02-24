@@ -538,8 +538,10 @@ static void ImGui_ImplWGPU_RenderDrawData(ImDrawDataPtr draw_data, WGPURenderPas
                 // (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
                 if (pcmd.UserCallback == ImDrawCallback_ResetRenderState)
                     ImGui_ImplWGPU_SetupRenderState(draw_data, pass_encoder, fr);
-                else
-                    pcmd.UserCallback(draw_list, pcmd);
+                else {
+                    var callback = Marshal.GetDelegateForFunctionPointer<UserCallback>(pcmd.UserCallback);
+                    callback(draw_list, pcmd);
+                }
             }
             else
             {
