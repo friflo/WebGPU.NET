@@ -110,6 +110,7 @@ struct ImGui_ImplSDL3_Data
 
     // Gamepad handling
     ImVector<SDL_Gamepad*>      Gamepads;
+    
     ImGui_ImplSDL3_GamepadMode  GamepadMode;
     bool                        WantUpdateGamepadsList;
 

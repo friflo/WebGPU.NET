@@ -484,7 +484,7 @@ public static bool Init(SDL_Window* window, SDL_Renderer* renderer, void* sdl_gl
 #endif
 
     // Setup backend capabilities flags
-    var bd = (ImGui_ImplSDL3_Data*)NativeMemory.Alloc((nuint)sizeof(ImGui_ImplSDL3_Data));
+    var bd = (ImGui_ImplSDL3_Data*)NativeMemory.AllocZeroed((nuint)sizeof(ImGui_ImplSDL3_Data));
     io.BackendPlatformUserData = (IntPtr)bd;
 //  io.BackendPlatformName = "imgui_impl_sdl3";
     io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;           // We can honor GetMouseCursor() values (optional)
