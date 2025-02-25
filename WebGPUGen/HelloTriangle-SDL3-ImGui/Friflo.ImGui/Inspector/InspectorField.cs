@@ -12,7 +12,14 @@ internal struct FieldContext {
     internal EntityComponent    entityComponent; 
     internal object             component;
     
-    internal void WriteComponent() {
+    internal string             Name =>  genericField.fieldInfo.Name;
+    
+    internal object GetValue() {
+        return genericField.fieldInfo.GetValue(component);
+    }
+    
+    internal void SetValue(object fieldValue) {
+        genericField.fieldInfo.SetValue(component, fieldValue);
         EntityUtils.AddEntityComponentValue(entity, entityComponent.Type, component);
     }
 }
@@ -30,10 +37,9 @@ internal abstract class InspectorField
 internal class StringField : InspectorField
 {
     public  override void Draw(FieldContext context) {
-        var value = (string)context.genericField.fieldInfo.GetValue(context.component);
-        if (ImGui.InputText(context.genericField.fieldInfo.Name, ref value, 100)) {
-            context.genericField.fieldInfo.SetValue(context.component, value);
-            context.WriteComponent();
+        var value = (string)context.GetValue();
+        if (ImGui.InputText(context.Name, ref value, 100)) {
+            context.SetValue(value);
         }
     }
 }
@@ -41,10 +47,9 @@ internal class StringField : InspectorField
 internal class Vector3Field : InspectorField
 {
     public  override void Draw(FieldContext context) {
-        var value = (Vector3)context.genericField.fieldInfo.GetValue(context.component)!;
-        if (ImGui.InputFloat3(context.genericField.fieldInfo.Name, ref value)) {
-            context.genericField.fieldInfo.SetValue(context.component, value);
-            context.WriteComponent();
+        var value = (Vector3)context.GetValue();
+        if (ImGui.InputFloat3(context.Name, ref value)) {
+            context.SetValue(value);
         }
     }
 }
