@@ -18,9 +18,20 @@ public class QueryExplorer
     
     // https://github.com/ocornut/imgui/issues/3740
     // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
-    internal unsafe void Draw()
+    internal void Draw()
     {
-        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable)) {
+        ImGui.Text("fixed header");
+        ImGui.Text("entities");
+        ImGui.BeginChild("dddd");
+        DrawTable();
+        ImGui.EndChild();
+    }
+    
+    private unsafe void DrawTable()
+    {
+        // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
+        // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
+        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.RowBg | ImGuiTableFlags.Resizable)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
