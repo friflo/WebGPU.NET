@@ -62,7 +62,7 @@ namespace HelloTriangle
         {
             var store = new EntityStore();
             for (int n = 0; n < 10; n++) {
-                store.CreateEntity(new Position(n,n,n));
+                store.CreateEntity(new Position(n,n,n), new EntityName($"entity {n}"));
             }
             var explorer  = new QueryExplorer(store);
             var inspector = new EntityInspector(explorer);

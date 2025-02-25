@@ -14,18 +14,29 @@ internal struct ComponentContext {
 internal abstract class InspectorControl
 {
     internal static readonly Dictionary<Type, InspectorControl> Controls = new() {
-        { typeof(Position), new InspectorPosition() }
+        { typeof(Position),     new PositionControl()   },
+        { typeof(EntityName),   new NameControl()       } 
     };
     
     public  abstract void Draw(ComponentContext context);
 }
 
-internal class InspectorPosition : InspectorControl
+internal class PositionControl : InspectorControl
 {
     public  override void Draw(ComponentContext context) {
-        var position = context.entity.GetComponent<Position>();
-        if (ImGui.InputFloat3("Position", ref position.value)) {
-            EntityUtils.AddEntityComponentValue(context.entity, context.componentType, position);
+        var component = context.entity.GetComponent<Position>();
+        if (ImGui.InputFloat3("Position", ref component.value)) {
+            EntityUtils.AddEntityComponentValue(context.entity, context.componentType, component);
+        }
+    }
+}
+
+internal class NameControl : InspectorControl
+{
+    public  override void Draw(ComponentContext context) {
+        var component = context.entity.GetComponent<EntityName>();
+        if (ImGui.InputText("Name", ref component.value, 100)) {
+            EntityUtils.AddEntityComponentValue(context.entity, context.componentType, component);
         }
     }
 }
