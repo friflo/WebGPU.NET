@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -14,13 +15,20 @@ public class EntityInspector
     
     internal void Draw()
     {
-        var id = EcsUtils.IntAsSpan(explorer.focusedEntity.Id);
+        var entity = explorer.focusedEntity;
+        if (entity.IsNull) {
+            return;
+        }
+        var id = EcsUtils.IntAsSpan(entity.Id);
         ImGui.LabelText(id, "id");
-        
-        string abc = "abc";
-        ImGui.InputText("abc", ref abc, 100);
-        
-        string xyz = "xyz";
-        ImGui.InputText("xyz", ref xyz, 100);
+
+        foreach (var component in entity.Components)
+        {
+            if (InspectorControl.Controls.TryGetValue(component.Type.Type, out var control))
+            {
+                var context = new ComponentContext {entity = entity, componentType = component.Type };
+                control.Draw(context);
+            }
+        }
     }
 }
