@@ -25,13 +25,19 @@ internal abstract class InspectorField
 internal class StringField : InspectorField
 {
     public  override void Draw(FieldContext context) {
-        ImGui.Text(context.genericField.fieldInfo.Name);
+        var value = (string)context.genericField.fieldInfo.GetValue(context.component);
+        if (ImGui.InputText(context.genericField.fieldInfo.Name, ref value, 100)) {
+            context.genericField.fieldInfo.SetValue(context.component, value);
+        }
     }
 }
 
 internal class Vector3Field : InspectorField
 {
     public  override void Draw(FieldContext context) {
-        ImGui.Text(context.genericField.fieldInfo.Name);
+        var value = (Vector3)context.genericField.fieldInfo.GetValue(context.component)!;
+        if (ImGui.InputFloat3(context.genericField.fieldInfo.Name, ref value)) {
+            context.genericField.fieldInfo.SetValue(context.component, value);
+        }
     }
 }

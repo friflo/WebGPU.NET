@@ -27,7 +27,7 @@ public class EntityInspector
             var type = component.Type.Type;
             if (InspectorControl.Controls.TryGetValue(type, out var control))
             {
-                var context = new ComponentContext {entity = entity, componentType = component.Type };
+                var context = new ComponentContext {entity = entity, component = component };
                 control.Draw(context);
                 continue;
             }
@@ -35,7 +35,7 @@ public class EntityInspector
                 if (!GenericComponent.Controls.TryGetValue(type, out var genericControl)) {
                     genericControl = GenericComponent.Create(type);
                 }
-                var context = new ComponentContext {entity = entity, componentType = component.Type };
+                var context = new ComponentContext {entity = entity, component = component };
                 genericControl.Draw(context);
             }
         }

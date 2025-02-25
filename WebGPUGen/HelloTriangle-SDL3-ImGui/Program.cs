@@ -73,7 +73,7 @@ namespace HelloTriangle
                 store.CreateEntity(
                     new Position(n,n,n),
                     new EntityName($"entity {n}"),
-                    new MyComponent { str = $"str{n}" });
+                    new MyComponent { str = $"str{n}", vector3 = new Vector3(n,n,n)});
             }
             var explorer  = new QueryExplorer(store);
             var inspector = new EntityInspector(explorer);

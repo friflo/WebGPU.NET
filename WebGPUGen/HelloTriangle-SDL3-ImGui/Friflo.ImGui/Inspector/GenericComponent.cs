@@ -50,20 +50,25 @@ internal class GenericComponent
         this.fields = fields;
     }
     
+#pragma warning disable CS0618 // Type or member is obsolete
     internal  void Draw(ComponentContext context)
     {
         ImGui.SetNextItemOpen(treeNode);
-        treeNode = ImGui.TreeNode(context.componentType.Name);
+        treeNode = ImGui.TreeNode(context.component.Type.Name);
         if (treeNode) {
+
+            var component = context.component.Value;
             foreach (var field in fields) {
                 var fieldContext = new FieldContext {
                     entity          = context.entity,
                     genericField    = field,
+                    component       = component,
                 };
                 field.inspectorField.Draw(fieldContext);    
             }
             ImGui.TreePop();
         }
     }
+#pragma warning restore CS0618 // Type or member is obsolete
 }
 
