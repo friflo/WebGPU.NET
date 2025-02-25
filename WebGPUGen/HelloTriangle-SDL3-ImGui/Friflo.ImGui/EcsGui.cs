@@ -33,7 +33,7 @@ public static class EcsGui
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
             var str = EcsUtils.IntAsSpan(entity.Id);
-            ImGui.SetNextItemWidth(-1);
+            // ImGui.SetNextItemWidth(-1);
             
             ImGui.PushID(entity.Id);
             // ImGui.Text(str);
