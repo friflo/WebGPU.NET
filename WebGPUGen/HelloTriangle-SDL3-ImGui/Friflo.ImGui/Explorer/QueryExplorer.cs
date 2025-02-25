@@ -31,12 +31,13 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.RowBg | ImGuiTableFlags.Resizable)) {
+        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
         ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 200);
         ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
+        ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
         
         // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
