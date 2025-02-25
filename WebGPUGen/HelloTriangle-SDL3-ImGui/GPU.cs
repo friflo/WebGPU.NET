@@ -92,7 +92,7 @@ public class GPU
         queue = device.queue;
         var capabilities = surface.getCapabilities(adapter);
         swapChainFormat = capabilities.formats[0];
-
+        
         var surfaceConfiguration = new WGPUSurfaceConfiguration {
             device      = device,
             format      = swapChainFormat,
@@ -101,6 +101,17 @@ public class GPU
             height      = (uint)height,
             presentMode = WGPUPresentMode.Fifo,
         };
+        
+        /* // [Increased input-to-screen latency on vulkan · Issue #6932 · gfx-rs/wgpu](https://github.com/gfx-rs/wgpu/issues/6932)
+        var extras = new WGPUSurfaceConfigurationExtras {
+            chain = new WGPUChainedStruct {
+                sType = (WGPUSType)0x0003000A, // WGPUSType_SurfaceConfigurationExtras
+            },
+            desiredMaximumFrameLatency = 0
+        };
+        surfaceConfiguration._nextInChain = &extras.chain;
+        */
+        
         surface.configure(surfaceConfiguration);
     }
     
