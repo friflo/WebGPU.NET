@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Evergine.Bindings.WebGPU;
 using ImGuiNET;
 using SDL;
@@ -28,8 +29,9 @@ public static unsafe class ImGuiTools
 
         ImGui_ImplWGPU.Init(initInfo);
         ImGui_ImplSDL3.Init(window, null, null);
-
-        io.Fonts.AddFontDefault();
+        var path = Path.Combine(AppContext.BaseDirectory, "Content", "Inter-Regular.ttf");
+        io.Fonts.AddFontFromFileTTF(path, 40);
+        // io.Fonts.AddFontDefault();
         io.Fonts.Build();
     }
     

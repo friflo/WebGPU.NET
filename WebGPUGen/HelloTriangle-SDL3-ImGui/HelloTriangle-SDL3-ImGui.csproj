@@ -11,6 +11,9 @@
 	  <Content Include="Content\triangle.wgsl">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
+      <Content Include="Content\Inter-Regular.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
 	</ItemGroup>
 
 	<ItemGroup>

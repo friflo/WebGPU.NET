@@ -95,10 +95,17 @@ namespace HelloTriangle
 
         public static void Draw()
         {
-            ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Always);
-            ImGui.SetNextWindowSize(new(300, 100), ImGuiCond.Always);
+            ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new(500, 200), ImGuiCond.Once);
             ImGui.SetNextWindowBgAlpha(0.5f);
-            ImGui.Begin("ImGuiTest", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse);
+            ImGui.Begin("ImGuiTest");
+            ImGui.InputFloat("Value", ref _value);
+            ImGui.End();
+            
+            ImGui.SetNextWindowPos(new(600, 10), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new(500, 200), ImGuiCond.Once);
+            ImGui.SetNextWindowBgAlpha(0.5f);
+            ImGui.Begin("Other");
             ImGui.InputFloat("Value", ref _value);
             ImGui.End();
         }
