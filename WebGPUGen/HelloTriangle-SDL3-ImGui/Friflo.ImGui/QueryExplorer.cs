@@ -6,9 +6,10 @@ namespace Friflo.ImGuiNet;
 
 public class QueryExplorer
 {
-    private EntityStore    store;
-    private ArchetypeQuery query;
-    private HashSet<int>   selection = new ();
+    private             EntityStore     store;
+    private             ArchetypeQuery  query;
+    private readonly    HashSet<int>    selections = new ();
+    internal            Entity          selectedEntity;
     
     public QueryExplorer(EntityStore store) {
         this.store = store;
@@ -37,16 +38,19 @@ public class QueryExplorer
             ImGui.PushID(entity.Id);
             // ImGui.Text(str);
             // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
-            bool selected = selection.Contains(entity.Id);
+            bool selected = selections.Contains(entity.Id);
             if (ImGui.Selectable(str, selected)) {
                 var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
                 if (!ctrlDown) {
-                    selection.Clear();
+                    selections.Clear();
                 }
-                if (selected)
-                    selection.Remove(entity.Id);
-                else
-                    selection.Add(entity.Id);
+                if (selected) {
+                    selectedEntity = default;
+                    selections.Remove(entity.Id);
+                } else {
+                    selectedEntity = entity;
+                    selections.Add(entity.Id);
+                }
             }
             ImGui.PopID();
         }
