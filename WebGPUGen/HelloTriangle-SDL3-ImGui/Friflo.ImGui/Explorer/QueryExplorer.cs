@@ -68,9 +68,11 @@ public class QueryExplorer
                 // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
                 bool selected           = selections.Contains(entity.Id);
                 bool selectionChanged   = ImGui.Selectable(str, selected);
+                bool isFocused1         = ImGui.IsItemFocused();
                 
                 ImGui.TableSetColumnIndex(1);
-                selectionChanged |= ImGui.Selectable("abc", selected);
+                selectionChanged       |= ImGui.Selectable("abc", selected);
+                bool isFocused2         = ImGui.IsItemFocused();
 
                 ImGui.PopID();
                 
@@ -85,7 +87,7 @@ public class QueryExplorer
                         selections.Add(entity.Id);
                     }
                 }
-                if (windowFocused && ImGui.IsItemFocused()) {
+                if (windowFocused && (isFocused1 || isFocused2)) {
                     focusedEntity = entity;
                 }
             }
