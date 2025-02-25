@@ -31,12 +31,11 @@ public class QueryExplorer
         // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
         ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
         clipper.Begin(query.Count, ImGui.GetTextLineHeightWithSpacing());
+        int index   = -1;
         while (clipper.Step())
         {
             var start   = clipper.DisplayStart;
             var end     = clipper.DisplayEnd;
-            int index   = -1;
-                
             foreach (var entity in query.Entities)
             {
                 index++;
