@@ -16,6 +16,8 @@ namespace HelloTriangle
     struct MyComponent : IComponent
     {
         public string   str;
+        public int      int32;
+        public byte     uint8;
         public Vector3  vector3;
     }
     

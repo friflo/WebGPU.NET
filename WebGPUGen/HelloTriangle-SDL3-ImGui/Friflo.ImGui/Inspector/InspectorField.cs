@@ -28,6 +28,8 @@ internal abstract class InspectorField
 {
     internal static readonly Dictionary<Type, InspectorField> Fields = new() {
         { typeof(string),       new StringField()   },
+        { typeof(byte),         new ByteField()      },
+        { typeof(int),          new IntField()      },
         { typeof(Vector3),      new Vector3Field()  } 
     };
     
@@ -43,6 +45,30 @@ internal class StringField : InspectorField
         }
     }
 }
+
+#region integer
+
+internal class ByteField : InspectorField
+{
+    public  override void Draw(FieldContext context) {
+        int value = (byte)context.GetValue();
+        if (ImGui.InputInt(context.Name, ref value, 100)) {
+            context.SetValue((byte)value);
+        }
+    }
+}
+
+internal class IntField : InspectorField
+{
+    public  override void Draw(FieldContext context) {
+        var value = (int)context.GetValue();
+        if (ImGui.InputInt(context.Name, ref value, 100)) {
+            context.SetValue(value);
+        }
+    }
+}
+
+#endregion
 
 internal class Vector3Field : InspectorField
 {
