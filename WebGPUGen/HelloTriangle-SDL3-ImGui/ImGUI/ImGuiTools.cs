@@ -17,22 +17,14 @@ public static unsafe class ImGuiTools
         IntPtr context = ImGui.CreateContext();
         ImGui.SetCurrentContext(context);
 
-        var io = ImGui.GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
-
         var initInfo = new ImGui_ImplWGPU.ImGui_ImplWGPU_InitInfo {
             Device = device,
             NumFramesInFlight = 3,
             RenderTargetFormat = textureFormat,
             DepthStencilFormat = WGPUTextureFormat.Undefined,
         };
-
         ImGui_ImplWGPU.Init(initInfo);
         ImGui_ImplSDL3.Init(window, null, null);
-        var path = Path.Combine(AppContext.BaseDirectory, "Content", "Inter-Regular.ttf");
-        io.Fonts.AddFontFromFileTTF(path, 40);
-        // io.Fonts.AddFontDefault();
-        io.Fonts.Build();
     }
     
     public static void NewFrame()

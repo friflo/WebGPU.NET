@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Evergine.Bindings.WebGPU;
 using ImGuiNET;
 // using SDL2;
@@ -20,7 +21,12 @@ namespace HelloTriangle
             gpu.CreateSurface(window);
             gpu.RequestDevice(Width, Height);
             
+            // ImGui setup
             ImGuiTools.SetupContext(window, gpu.device, gpu.swapChainFormat);
+            var io = ImGui.GetIO();
+            io.ConfigFlags |=  ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.NavEnableKeyboard;
+            io.Fonts.AddFontFromFileTTF(Path.Combine(AppContext.BaseDirectory, "Content", "Inter-Regular.ttf"), 40); // alternative io.Fonts.AddFontDefault();
+            io.Fonts.Build();
             
             var triangle = new Triangle(gpu);
             SDL_SetWindowTitle(window, $"WGPU-Native Triangle (SDL 3 - {gpu.adapter.info.backendType})");
@@ -75,6 +81,7 @@ namespace HelloTriangle
                 
                 using var command = triangle.DrawFrame(nextView);
                 
+                // --- ImGui Draw
                 ImGuiTools.NewFrame();
                 ImGuiTest.Draw();
                 ImGuiTools.EndFrame();
@@ -92,21 +99,27 @@ namespace HelloTriangle
     static class ImGuiTest
     {
         private static float _value = 100f;
+        private static float _value2 = 100f;
+        private static float _value3 = 100f;
+        private static bool b1;
 
         public static void Draw()
         {
             ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Once);
-            ImGui.SetNextWindowSize(new(500, 200), ImGuiCond.Once);
+            ImGui.SetNextWindowSize(new(500, 300), ImGuiCond.Once);
             ImGui.SetNextWindowBgAlpha(0.5f);
             ImGui.Begin("ImGuiTest");
             ImGui.InputFloat("Value", ref _value);
+            ImGui.InputFloat("Value2", ref _value2);
+            ImGui.InputFloat("Value3", ref _value3);
+            ImGui.Checkbox("b1", ref b1);
             ImGui.End();
             
             ImGui.SetNextWindowPos(new(600, 10), ImGuiCond.Once);
             ImGui.SetNextWindowSize(new(500, 200), ImGuiCond.Once);
             ImGui.SetNextWindowBgAlpha(0.5f);
             ImGui.Begin("Other");
-            ImGui.InputFloat("Value", ref _value);
+            ImGui.Checkbox("b1", ref b1);
             ImGui.End();
         }
     }

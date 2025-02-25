@@ -99,7 +99,7 @@ public class GPU
             usage       = WGPUTextureUsage.RenderAttachment,
             width       = (uint)width,
             height      = (uint)height,
-            presentMode = WGPUPresentMode.Fifo,
+            presentMode = WGPUPresentMode.Immediate,
         };
         
         /* // [Increased input-to-screen latency on vulkan · Issue #6932 · gfx-rs/wgpu](https://github.com/gfx-rs/wgpu/issues/6932)
