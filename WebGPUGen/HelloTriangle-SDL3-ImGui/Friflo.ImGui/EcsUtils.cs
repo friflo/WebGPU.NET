@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace HelloTriangle;
+namespace Friflo.ImGuiNet;
 
 internal static class EcsUtils
 {
@@ -19,6 +19,4 @@ internal static class EcsUtils
         Sb.CopyTo(0, _chars, 0, Sb.Length);
         return new ReadOnlySpan<char>(_chars, 0 , Sb.Length);
     }
-    
-    
 }

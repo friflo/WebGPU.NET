@@ -2,6 +2,7 @@
 using System.IO;
 using Evergine.Bindings.WebGPU;
 using Friflo.Engine.ECS;
+using Friflo.ImGuiNet;
 using ImGuiNET;
 // using SDL2;
 using SDL;
