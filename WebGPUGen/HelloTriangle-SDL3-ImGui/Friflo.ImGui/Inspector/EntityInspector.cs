@@ -16,5 +16,11 @@ public class EntityInspector
     {
         var id = EcsUtils.IntAsSpan(explorer.focusedEntity.Id);
         ImGui.LabelText(id, "id");
+        
+        string abc = "abc";
+        ImGui.InputText("abc", ref abc, 100);
+        
+        string xyz = "xyz";
+        ImGui.InputText("xyz", ref xyz, 100);
     }
 }
