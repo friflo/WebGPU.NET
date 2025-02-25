@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using Evergine.Bindings.WebGPU;
 using Friflo.Engine.ECS;
 using Friflo.ImGuiNet;
@@ -14,7 +15,8 @@ namespace HelloTriangle
 {
     struct MyComponent : IComponent
     {
-        public string str;
+        public string   str;
+        public Vector3  vector3;
     }
     
     static class Program

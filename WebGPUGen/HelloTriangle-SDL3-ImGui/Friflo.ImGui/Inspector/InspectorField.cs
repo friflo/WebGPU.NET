@@ -8,8 +8,8 @@ namespace Friflo.ImGuiNet;
 
 internal struct FieldContext {
     internal Entity         entity;
+    internal GenericField   genericField;
     internal object         component;
-    internal Type           fieldType;
 }
 
 internal abstract class InspectorField
@@ -25,13 +25,13 @@ internal abstract class InspectorField
 internal class StringField : InspectorField
 {
     public  override void Draw(FieldContext context) {
-
+        ImGui.Text(context.genericField.fieldInfo.Name);
     }
 }
 
 internal class Vector3Field : InspectorField
 {
     public  override void Draw(FieldContext context) {
-
+        ImGui.Text(context.genericField.fieldInfo.Name);
     }
 }
