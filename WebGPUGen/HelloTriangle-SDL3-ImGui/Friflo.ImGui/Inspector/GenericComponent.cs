@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ImGuiNET;
 
 
 namespace Friflo.ImGuiNet;
@@ -15,8 +16,9 @@ internal struct GenericField
 
 internal class GenericComponent
 {
-    internal readonly Type              type;
-    internal readonly GenericField[]    fields;
+    private readonly    Type            type;
+    private readonly    GenericField[]  fields;
+    private             bool            treeNode = true;
 
     public override string ToString() => type.Name;
 
@@ -48,14 +50,19 @@ internal class GenericComponent
         this.fields = fields;
     }
     
-    internal  void Draw(ComponentContext context) {
-        
-        foreach (var field in fields) {
-            var fieldContext = new FieldContext {
-                entity          = context.entity,
-                genericField    = field,
-            };
-            field.inspectorField.Draw(fieldContext);    
+    internal  void Draw(ComponentContext context)
+    {
+        ImGui.SetNextItemOpen(treeNode);
+        treeNode = ImGui.TreeNode(context.componentType.Name);
+        if (treeNode) {
+            foreach (var field in fields) {
+                var fieldContext = new FieldContext {
+                    entity          = context.entity,
+                    genericField    = field,
+                };
+                field.inspectorField.Draw(fieldContext);    
+            }
+            ImGui.TreePop();
         }
     }
 }

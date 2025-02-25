@@ -9,6 +9,7 @@ static class ImGuiTest
     private static float _value2 = 100f;
     private static float _value3 = 100f;
     private static bool b1;
+    private static bool treeNode = true;
     
 
 
@@ -21,8 +22,13 @@ static class ImGuiTest
         ImGui.Begin("ImGuiTest");
         ImGui.InputFloat("Value", ref _value);
         ImGui.InputFloat("Value2", ref _value2);
-        ImGui.InputFloat("Value3", ref _value3);
-        ImGui.Checkbox("b1", ref b1);
+        ImGui.SetNextItemOpen(treeNode);
+        treeNode = ImGui.TreeNode("tree node");
+        if (treeNode) {
+            ImGui.InputFloat("Value3", ref _value3);
+            ImGui.Checkbox("b1", ref b1);
+            ImGui.TreePop();
+        }
         ImGui.End();
             
         ImGui.SetNextWindowPos(new(600, 10), ImGuiCond.Once);
