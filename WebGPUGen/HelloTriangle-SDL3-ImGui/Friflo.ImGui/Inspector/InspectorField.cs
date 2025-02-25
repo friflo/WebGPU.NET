@@ -11,6 +11,10 @@ internal struct FieldContext {
     internal GenericField       genericField;
     internal EntityComponent    entityComponent; 
     internal object             component;
+    
+    internal void WriteComponent() {
+        EntityUtils.AddEntityComponentValue(entity, entityComponent.Type, component);
+    }
 }
 
 internal abstract class InspectorField
@@ -29,7 +33,7 @@ internal class StringField : InspectorField
         var value = (string)context.genericField.fieldInfo.GetValue(context.component);
         if (ImGui.InputText(context.genericField.fieldInfo.Name, ref value, 100)) {
             context.genericField.fieldInfo.SetValue(context.component, value);
-            EntityUtils.AddEntityComponentValue(context.entity, context.entityComponent.Type, context.component);
+            context.WriteComponent();
         }
     }
 }
@@ -40,7 +44,7 @@ internal class Vector3Field : InspectorField
         var value = (Vector3)context.genericField.fieldInfo.GetValue(context.component)!;
         if (ImGui.InputFloat3(context.genericField.fieldInfo.Name, ref value)) {
             context.genericField.fieldInfo.SetValue(context.component, value);
-            EntityUtils.AddEntityComponentValue(context.entity, context.entityComponent.Type, context.component);
+            context.WriteComponent();
         }
     }
 }
