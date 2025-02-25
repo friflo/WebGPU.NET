@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -9,7 +10,7 @@ public class QueryExplorer
     private             EntityStore     store;
     private             ArchetypeQuery  query;
     private readonly    HashSet<int>    selections = new ();
-    internal            Entity          selectedEntity;
+    internal            Entity          focusedEntity;
     
     public QueryExplorer(EntityStore store) {
         this.store = store;
@@ -23,10 +24,11 @@ public class QueryExplorer
         if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable)) {
             return;
         }
+        var windowFocused = ImGui.IsWindowFocused();
         ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 200);
         ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableHeadersRow();
-
+        
         
         foreach (var entity in query.Entities)
         {
@@ -45,14 +47,15 @@ public class QueryExplorer
                     selections.Clear();
                 }
                 if (selected) {
-                    selectedEntity = default;
                     selections.Remove(entity.Id);
                 } else {
-                    selectedEntity = entity;
                     selections.Add(entity.Id);
                 }
             }
             ImGui.PopID();
+            if (windowFocused && ImGui.IsItemFocused()) {
+                focusedEntity = entity;
+            }
         }
         ImGui.EndTable();
     }

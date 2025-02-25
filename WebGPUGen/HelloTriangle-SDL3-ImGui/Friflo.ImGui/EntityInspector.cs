@@ -14,7 +14,7 @@ public class EntityInspector
     
     internal void Draw()
     {
-        var id = EcsUtils.IntAsSpan(explorer.selectedEntity.Id);
+        var id = EcsUtils.IntAsSpan(explorer.focusedEntity.Id);
         ImGui.LabelText(id, "id");
     }
 }
