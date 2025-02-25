@@ -1,4 +1,3 @@
-using Friflo.Engine.ECS;
 using ImGuiNET;
 
 namespace HelloTriangle;
