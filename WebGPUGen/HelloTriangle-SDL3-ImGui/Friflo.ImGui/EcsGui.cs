@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Text;
 using Friflo.Engine.ECS;
 using ImGuiNET;
 
@@ -32,7 +32,7 @@ public static class EcsGui
         foreach (var entity in queryExplorer.query.Entities) {
             ImGui.TableNextRow();
             ImGui.TableSetColumnIndex(0);
-            var str = entity.Id.ToString();
+            var str = EcsUtils.IntAsSpan(entity.Id);
             ImGui.SetNextItemWidth(-1);
             
             ImGui.PushID(entity.Id);
