@@ -21,13 +21,16 @@ public class QueryExplorer
 public static class EcsGui
 {
     // https://github.com/ocornut/imgui/issues/3740
+    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
     public static void QueryExplorer(QueryExplorer queryExplorer)
     {
-        ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable);
-        // ImGui.TableSetupColumn("id");
+        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable)) {
+            return;
+        }
         ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 200);
         ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableHeadersRow();
+
         
         foreach (var entity in queryExplorer.query.Entities) {
             ImGui.TableNextRow();
