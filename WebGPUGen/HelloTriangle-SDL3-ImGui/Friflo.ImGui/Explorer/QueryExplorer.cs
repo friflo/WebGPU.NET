@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -7,10 +6,10 @@ namespace Friflo.ImGuiNet;
 
 public class QueryExplorer
 {
-    private             EntityStore     store;
-    private             ArchetypeQuery  query;
-    private readonly    HashSet<int>    selections = new ();
-    internal            Entity          focusedEntity;
+    private             EntityStore         store;
+    private             ArchetypeQuery      query;
+    private readonly    HashSet<int>        selections = new ();
+    internal            Entity              focusedEntity;
     
     public QueryExplorer(EntityStore store) {
         this.store = store;
@@ -19,7 +18,7 @@ public class QueryExplorer
     
     // https://github.com/ocornut/imgui/issues/3740
     // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
-    internal void Draw()
+    internal unsafe void Draw()
     {
         if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable)) {
             return;
@@ -29,34 +28,51 @@ public class QueryExplorer
         ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableHeadersRow();
         
-        
-        foreach (var entity in query.Entities)
+        // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
+        ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
+        clipper.Begin(query.Count, ImGui.GetTextLineHeightWithSpacing());
+        while (clipper.Step())
         {
-            ImGui.TableNextRow();
-            ImGui.TableSetColumnIndex(0);
-            var str = EcsUtils.IntAsSpan(entity.Id);
-            // ImGui.SetNextItemWidth(-1);
-            
-            ImGui.PushID(entity.Id);
-            // ImGui.Text(str);
-            // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
-            bool selected = selections.Contains(entity.Id);
-            if (ImGui.Selectable(str, selected)) {
-                var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
-                if (!ctrlDown) {
-                    selections.Clear();
+            var start   = clipper.DisplayStart;
+            var end     = clipper.DisplayEnd;
+            int index   = -1;
+                
+            foreach (var entity in query.Entities)
+            {
+                index++;
+                if (index < start) {
+                    continue;
                 }
-                if (selected) {
-                    selections.Remove(entity.Id);
-                } else {
-                    selections.Add(entity.Id);
+                if (index >= end) {
+                    break;
                 }
-            }
-            ImGui.PopID();
-            if (windowFocused && ImGui.IsItemFocused()) {
-                focusedEntity = entity;
+                ImGui.TableNextRow();
+                ImGui.TableSetColumnIndex(0);
+                var str = EcsUtils.IntAsSpan(entity.Id);
+                // ImGui.SetNextItemWidth(-1);
+                
+                ImGui.PushID(entity.Id);
+                // ImGui.Text(str);
+                // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
+                bool selected = selections.Contains(entity.Id);
+                if (ImGui.Selectable(str, selected)) {
+                    var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
+                    if (!ctrlDown) {
+                        selections.Clear();
+                    }
+                    if (selected) {
+                        selections.Remove(entity.Id);
+                    } else {
+                        selections.Add(entity.Id);
+                    }
+                }
+                ImGui.PopID();
+                if (windowFocused && ImGui.IsItemFocused()) {
+                    focusedEntity = entity;
+                }
             }
         }
         ImGui.EndTable();
+        clipper.Destroy();
     }
 }

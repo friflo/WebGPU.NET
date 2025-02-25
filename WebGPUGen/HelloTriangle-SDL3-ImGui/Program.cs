@@ -71,7 +71,7 @@ namespace HelloTriangle
         private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue)
         {
             var store = new EntityStore();
-            for (int n = 0; n < 10; n++) {
+            for (int n = 0; n < 100_000; n++) {
                 store.CreateEntity(
                     new Position(n,n,n),
                     new EntityName($"entity {n}"),
