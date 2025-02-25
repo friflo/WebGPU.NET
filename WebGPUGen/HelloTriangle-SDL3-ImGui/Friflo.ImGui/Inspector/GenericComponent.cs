@@ -56,13 +56,13 @@ internal class GenericComponent
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(context.component.Type.Name);
         if (treeNode) {
-
             var component = context.component.Value;
             foreach (var field in fields) {
                 var fieldContext = new FieldContext {
                     entity          = context.entity,
                     genericField    = field,
                     component       = component,
+                    entityComponent = context.component
                 };
                 field.inspectorField.Draw(fieldContext);    
             }
