@@ -24,10 +24,19 @@ public class EntityInspector
 
         foreach (var component in entity.Components)
         {
-            if (InspectorControl.Controls.TryGetValue(component.Type.Type, out var control))
+            var type = component.Type.Type;
+            if (InspectorControl.Controls.TryGetValue(type, out var control))
             {
                 var context = new ComponentContext {entity = entity, componentType = component.Type };
                 control.Draw(context);
+                continue;
+            }
+            {
+                if (!GenericComponent.Controls.TryGetValue(type, out var genericControl)) {
+                    genericControl = GenericComponent.Create(type);
+                }
+                var context = new ComponentContext {entity = entity, componentType = component.Type };
+                genericControl.Draw(context);
             }
         }
     }

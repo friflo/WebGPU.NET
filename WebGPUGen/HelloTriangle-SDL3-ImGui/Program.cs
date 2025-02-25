@@ -9,8 +9,14 @@ using SDL;
 using SDLIM;
 using static SDL.SDL3;
 
+
 namespace HelloTriangle
 {
+    struct MyComponent : IComponent
+    {
+        public string str;
+    }
+    
     static class Program
     {
         private const int Width  = 1600;
@@ -62,7 +68,10 @@ namespace HelloTriangle
         {
             var store = new EntityStore();
             for (int n = 0; n < 10; n++) {
-                store.CreateEntity(new Position(n,n,n), new EntityName($"entity {n}"));
+                store.CreateEntity(
+                    new Position(n,n,n),
+                    new EntityName($"entity {n}"),
+                    new MyComponent { str = $"str{n}" });
             }
             var explorer  = new QueryExplorer(store);
             var inspector = new EntityInspector(explorer);
