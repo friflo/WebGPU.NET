@@ -52,7 +52,7 @@ internal class ByteField : InspectorField
 {
     public  override void Draw(FieldContext context) {
         int value = (byte)context.GetValue();
-        if (ImGui.InputInt(context.Name, ref value, 100)) {
+        if (ImGui.InputInt(context.Name, ref value, 1, 10)) {
             context.SetValue((byte)value);
         }
     }
@@ -62,7 +62,7 @@ internal class IntField : InspectorField
 {
     public  override void Draw(FieldContext context) {
         var value = (int)context.GetValue();
-        if (ImGui.InputInt(context.Name, ref value, 100)) {
+        if (ImGui.InputInt(context.Name, ref value, 1, 10)) {
             context.SetValue(value);
         }
     }

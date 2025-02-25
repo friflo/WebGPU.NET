@@ -23,8 +23,8 @@ namespace HelloTriangle
     
     static class Program
     {
-        private const int Width  = 1600;
-        private const int Height = 1200;
+        private const int Width  = 3200;
+        private const int Height = 1600;
         
         private static unsafe void Main()
         {
