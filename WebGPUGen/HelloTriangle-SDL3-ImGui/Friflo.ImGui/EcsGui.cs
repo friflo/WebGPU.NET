@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using ImGuiNET;
 
@@ -8,6 +10,7 @@ public class QueryExplorer
 {
     internal EntityStore store;
     internal ArchetypeQuery query;
+    internal HashSet<int>   selected = new ();
     
     public QueryExplorer(EntityStore store) {
         this.store = store;
@@ -23,7 +26,7 @@ public static class EcsGui
         ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable);
         // ImGui.TableSetupColumn("id");
         ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 100);
-        ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch, 200);
+        ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableHeadersRow();
         
         foreach (var entity in queryExplorer.query.Entities) {
@@ -33,7 +36,19 @@ public static class EcsGui
             ImGui.SetNextItemWidth(-1);
             
             ImGui.PushID(entity.Id);
-            ImGui.InputText("##cell", ref str, 100, ImGuiInputTextFlags.ReadOnly);
+            // ImGui.Text(str);
+            // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
+            bool selected = queryExplorer.selected.Contains(entity.Id);
+            if (ImGui.Selectable(str, selected)) {
+                var ctrlDown = ImGui.IsKeyDown(ImGuiKey.LeftCtrl);
+                if (!ctrlDown) {
+                    queryExplorer.selected.Clear();
+                }
+                if (selected)
+                    queryExplorer.selected.Remove(entity.Id);
+                else
+                    queryExplorer.selected.Add(entity.Id);
+            }
             ImGui.PopID();
         }
         ImGui.EndTable();
