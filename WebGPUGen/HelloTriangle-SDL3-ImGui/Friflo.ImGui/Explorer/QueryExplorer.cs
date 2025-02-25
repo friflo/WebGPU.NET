@@ -63,10 +63,18 @@ public class QueryExplorer
                 // ImGui.SetNextItemWidth(-1);
                 
                 ImGui.PushID(entity.Id);
+                
                 // ImGui.Text(str);
                 // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
-                bool selected = selections.Contains(entity.Id);
-                if (ImGui.Selectable(str, selected)) {
+                bool selected           = selections.Contains(entity.Id);
+                bool selectionChanged   = ImGui.Selectable(str, selected);
+                
+                ImGui.TableSetColumnIndex(1);
+                selectionChanged |= ImGui.Selectable("abc", selected);
+
+                ImGui.PopID();
+                
+                if (selectionChanged) {
                     var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
                     if (!ctrlDown) {
                         selections.Clear();
@@ -77,7 +85,6 @@ public class QueryExplorer
                         selections.Add(entity.Id);
                     }
                 }
-                ImGui.PopID();
                 if (windowFocused && ImGui.IsItemFocused()) {
                     focusedEntity = entity;
                 }
