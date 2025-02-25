@@ -2,10 +2,13 @@ namespace Friflo.ImGuiNet;
 
 public static class EcsGui
 {
-    // https://github.com/ocornut/imgui/issues/3740
-    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
-    public static void QueryExplorer(QueryExplorer queryExplorer)
+    public static void QueryExplorer(QueryExplorer explorer)
     {
-        queryExplorer.Draw();
+        explorer.Draw();
+    }
+    
+    public static void EntityInspector(EntityInspector inspector)
+    {
+        inspector.Draw();
     }
 }

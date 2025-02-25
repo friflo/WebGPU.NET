@@ -15,6 +15,8 @@ public class QueryExplorer
         query = store.Query();
     }
     
+    // https://github.com/ocornut/imgui/issues/3740
+    // https://github.com/ocornut/imgui/blob/master/imgui_demo.cpp
     internal void Draw()
     {
         if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable)) {

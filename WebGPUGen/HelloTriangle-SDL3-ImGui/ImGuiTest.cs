@@ -12,7 +12,7 @@ static class ImGuiTest
     
 
 
-    public static void Draw(QueryExplorer queryExplorer)
+    public static void Draw(QueryExplorer explorer, EntityInspector inspector)
     {
         ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Once);
         ImGui.SetNextWindowSize(new(500, 300), ImGuiCond.Once);
@@ -35,7 +35,14 @@ static class ImGuiTest
         ImGui.SetNextWindowSize(new(500, 600), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(0.5f);
         ImGui.Begin("Explorer");
-        EcsGui.QueryExplorer(queryExplorer);
+        EcsGui.QueryExplorer(explorer);
+        ImGui.End();
+        
+        ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
+        ImGui.SetNextWindowSize(new(500, 500), ImGuiCond.Once);
+        ImGui.SetNextWindowBgAlpha(0.5f);
+        ImGui.Begin("Inspector");
+        EcsGui.EntityInspector(inspector);
         ImGui.End();
     }
 }

@@ -64,7 +64,8 @@ namespace HelloTriangle
             for (int n = 0; n < 10; n++) {
                 store.CreateEntity(new Position(n,n,n));
             }
-            var queryList = new QueryExplorer(store);
+            var explorer  = new QueryExplorer(store);
+            var inspector = new EntityInspector(explorer);
             
             bool running = true;
             while (running)
@@ -91,7 +92,7 @@ namespace HelloTriangle
                 
                 // --- ImGui Draw
                 ImGuiTools.NewFrame();
-                ImGuiTest.Draw(queryList);
+                ImGuiTest.Draw(explorer, inspector);
                 ImGuiTools.EndFrame();
                 using var guiCommand = ImGuiTools.DrawCommands(nextView);
                 
