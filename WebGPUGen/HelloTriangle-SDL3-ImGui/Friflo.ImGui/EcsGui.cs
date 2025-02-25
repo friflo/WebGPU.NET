@@ -25,7 +25,7 @@ public static class EcsGui
     {
         ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable);
         // ImGui.TableSetupColumn("id");
-        ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 100);
+        ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 200);
         ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableHeadersRow();
         
@@ -40,7 +40,7 @@ public static class EcsGui
             // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
             bool selected = queryExplorer.selected.Contains(entity.Id);
             if (ImGui.Selectable(str, selected)) {
-                var ctrlDown = ImGui.IsKeyDown(ImGuiKey.LeftCtrl);
+                var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
                 if (!ctrlDown) {
                     queryExplorer.selected.Clear();
                 }
