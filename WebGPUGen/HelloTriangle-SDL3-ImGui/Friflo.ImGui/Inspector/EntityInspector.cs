@@ -46,7 +46,7 @@ public class EntityInspector
             var type = component.Type.Type;
             if (ComponentDrawer.Map.TryGetValue(type, out var drawer))
             {
-                var context = new DrawComponent { entityContext = entityContext, componentType = component.Type };
+                var context = new DrawComponent { entityContext = entityContext };
                 ImGui.PushID(entityContext.widgetId++);
                 context.ComponentLabel(component.Type.Name);
                 drawer.DrawComponent(context);
@@ -57,7 +57,7 @@ public class EntityInspector
                 if (!GenericComponentDrawer.Controls.TryGetValue(type, out var genericDrawer)) {
                     genericDrawer = GenericComponentDrawer.Create(component.Type);
                 }
-                var context = new DrawComponent {entityContext = entityContext, componentType = component.Type };
+                var context = new DrawComponent {entityContext = entityContext };
                 genericDrawer.DrawComponent(context);
             }
         }

@@ -20,6 +20,7 @@ internal class GenericComponentDrawer
 {
     private readonly    Type                type;
     private readonly    ComponentField[]    fields;
+    private readonly    ComponentType       componentType;
     private             bool                treeNode = true;
 
     public override string ToString() => type.Name;
@@ -46,23 +47,23 @@ internal class GenericComponentDrawer
                 componentType   = componentType
             };
         }
-        var drawer = new GenericComponentDrawer(type, componentFields);
+        var drawer = new GenericComponentDrawer(componentType, componentFields);
         Controls.Add(type, drawer);
         return drawer;
     }
     
-    private GenericComponentDrawer(Type type, ComponentField[] fields) {
-        this.type   = type;
-        this.fields = fields;
+    private GenericComponentDrawer(ComponentType componentType, ComponentField[] fields) {
+        this.componentType  = componentType;
+        this.fields         = fields;
     }
     
 #pragma warning disable CS0618 // Type or member is obsolete
     internal  void DrawComponent(DrawComponent context)
     {
         ImGui.SetNextItemOpen(treeNode);
-        treeNode = ImGui.TreeNode(context.componentType.Type.Name);
+        treeNode = ImGui.TreeNode(componentType.Type.Name);
         if (treeNode) {
-            var component = EntityUtils.GetEntityComponent(context.entityContext.entity, context.componentType);
+            var component = EntityUtils.GetEntityComponent(context.entityContext.entity, componentType);
             foreach (var field in fields) {
                 ImGui.Text(field.fieldInfo.Name);
                 ImGui.SameLine(context.entityContext.valueStart);

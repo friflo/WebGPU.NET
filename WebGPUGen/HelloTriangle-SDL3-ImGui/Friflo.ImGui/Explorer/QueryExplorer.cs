@@ -74,7 +74,16 @@ public class QueryExplorer
                 bool selected           = selections.Contains(entity.Id);
                 bool selectionChanged   = ImGui.Selectable(str, selected);
                 bool isFocused1         = ImGui.IsItemFocused();
-                
+                int columnIndex = 1;
+                entityContext.entity = entity;
+                /* foreach (var drawer in columnDrawers) {
+                    ImGui.TableSetColumnIndex(columnIndex++);
+                    ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
+                    var context = new DrawComponent {
+                        entityContext = entityContext,
+                    };
+                    drawer.DrawCell(context);
+                } */
                 ImGui.TableSetColumnIndex(1);
                 selectionChanged       |= ImGui.Selectable("abc", selected);
                 bool isFocused2         = ImGui.IsItemFocused();
