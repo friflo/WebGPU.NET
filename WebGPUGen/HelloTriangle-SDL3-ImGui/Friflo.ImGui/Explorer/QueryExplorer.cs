@@ -97,8 +97,7 @@ public class QueryExplorer
                     ImGui.TableSetColumnIndex(columnIndex++);
                     ImGui.PushID(widgetId++);
                     ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
-                    var context = new DrawComponent { entityContext = entityContext };
-                    if (!drawer.DrawCell(context)) {
+                    if (!drawer.DrawCell(entityContext)) {
                         selectionChanged |= ImGui.Selectable("", selected);
                     }
                     isFocused |= ImGui.IsItemFocused(); // Issue: returns false by ImGui.InputFloat3() when navigate with arrow up/down 

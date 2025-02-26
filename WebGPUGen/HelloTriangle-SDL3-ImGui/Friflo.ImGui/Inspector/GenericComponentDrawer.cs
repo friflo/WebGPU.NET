@@ -41,10 +41,10 @@ internal class GenericComponentDrawer
         var componentFields = new ComponentField[fields.Count];
         for (int n = 0; n < fields.Count; n++) {
             var fieldInfo = fields[n];
-            FieldDrawer.Map.TryGetValue(fieldInfo.FieldType, out var componentField);
+            FieldDrawer.Map.TryGetValue(fieldInfo.FieldType, out var fieldDrawer);
             componentFields[n] = new ComponentField {
                 fieldInfo       = fieldInfo,
-                fieldDrawer     = componentField,
+                fieldDrawer     = fieldDrawer,
                 componentType   = componentType
             };
         }
