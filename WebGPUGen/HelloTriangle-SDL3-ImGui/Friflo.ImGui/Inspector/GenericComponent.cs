@@ -57,14 +57,22 @@ internal class GenericComponent
         treeNode = ImGui.TreeNode(context.component.Type.Name);
         if (treeNode) {
             var component = context.component.Value;
+            int id = 0;
             foreach (var field in fields) {
+                id++;
                 var fieldContext = new FieldContext {
-                    entity          = context.entity,
+                    entityContext   = context.entityContext,
                     genericField    = field,
                     component       = component,
                     entityComponent = context.component
                 };
-                field.inspectorField.Draw(fieldContext);    
+                ImGui.Text(field.fieldInfo.Name);
+                
+                ImGui.SameLine(context.entityContext.valueStart);
+                ImGui.PushID(context.entityContext.widgetId++);
+                ImGui.SetNextItemWidth(context.entityContext.valueWidth);
+                field.inspectorField.Draw(fieldContext);
+                ImGui.PopID();
             }
             ImGui.TreePop();
         }

@@ -7,10 +7,10 @@ using ImGuiNET;
 namespace Friflo.ImGuiNet;
 
 internal struct FieldContext {
-    internal Entity             entity;
-    internal GenericField       genericField;
-    internal EntityComponent    entityComponent; 
-    internal object             component;
+    internal    EntityContext   entityContext;
+    internal    GenericField    genericField;
+    internal    EntityComponent entityComponent;
+    internal    object          component;
     
     internal string             Name =>  genericField.fieldInfo.Name;
     
@@ -20,7 +20,7 @@ internal struct FieldContext {
     
     internal void SetValue(object fieldValue) {
         genericField.fieldInfo.SetValue(component, fieldValue);
-        EntityUtils.AddEntityComponentValue(entity, entityComponent.Type, component);
+        EntityUtils.AddEntityComponentValue(entityContext.entity, entityComponent.Type, component);
     }
 }
 
@@ -40,7 +40,7 @@ internal class StringField : InspectorField
 {
     public  override void Draw(FieldContext context) {
         var value = (string)context.GetValue();
-        if (ImGui.InputText(context.Name, ref value, 100)) {
+        if (ImGui.InputText("##field", ref value, 100)) {
             context.SetValue(value);
         }
     }
@@ -52,7 +52,7 @@ internal class ByteField : InspectorField
 {
     public  override void Draw(FieldContext context) {
         int value = (byte)context.GetValue();
-        if (ImGui.InputInt(context.Name, ref value, 1, 10)) {
+        if (ImGui.InputInt("##field", ref value, 0, 0)) {
             context.SetValue((byte)value);
         }
     }
@@ -62,7 +62,7 @@ internal class IntField : InspectorField
 {
     public  override void Draw(FieldContext context) {
         var value = (int)context.GetValue();
-        if (ImGui.InputInt(context.Name, ref value, 1, 10)) {
+        if (ImGui.InputInt("##field", ref value, 0, 0)) {
             context.SetValue(value);
         }
     }
@@ -74,7 +74,7 @@ internal class Vector3Field : InspectorField
 {
     public  override void Draw(FieldContext context) {
         var value = (Vector3)context.GetValue();
-        if (ImGui.InputFloat3(context.Name, ref value)) {
+        if (ImGui.InputFloat3("##field", ref value)) {
             context.SetValue(value);
         }
     }

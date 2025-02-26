@@ -7,8 +7,8 @@ namespace Friflo.ImGuiNet;
 
 
 internal struct ComponentContext {
-    internal Entity             entity;
-    internal EntityComponent    component;
+    internal    EntityContext   entityContext;
+    internal    EntityComponent component;
 }
 
 internal abstract class InspectorControl
@@ -24,9 +24,9 @@ internal abstract class InspectorControl
 internal class PositionControl : InspectorControl
 {
     public  override void Draw(ComponentContext context) {
-        var component = context.entity.GetComponent<Position>();
-        if (ImGui.InputFloat3("Position", ref component.value)) {
-            EntityUtils.AddEntityComponentValue(context.entity, context.component.Type, component);
+        var component = context.entityContext.entity.GetComponent<Position>();
+        if (ImGui.InputFloat3("##field", ref component.value)) {
+            EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
         }
     }
 }
@@ -34,9 +34,9 @@ internal class PositionControl : InspectorControl
 internal class NameControl : InspectorControl
 {
     public  override void Draw(ComponentContext context) {
-        var component = context.entity.GetComponent<EntityName>();
-        if (ImGui.InputText("Name", ref component.value, 100)) {
-            EntityUtils.AddEntityComponentValue(context.entity, context.component.Type, component);
+        var component = context.entityContext.entity.GetComponent<EntityName>();
+        if (ImGui.InputText("##field", ref component.value, 100)) {
+            EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
         }
     }
 }
