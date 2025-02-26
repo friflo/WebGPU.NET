@@ -24,9 +24,9 @@ internal struct FieldContext {
     }
 }
 
-internal abstract class InspectorField
+internal abstract class ComponentField
 {
-    internal static readonly Dictionary<Type, InspectorField> Fields = new() {
+    internal static readonly Dictionary<Type, ComponentField> Fields = new() {
         { typeof(string),       new StringField()   },
         { typeof(byte),         new ByteField()      },
         { typeof(int),          new IntField()      },
@@ -36,7 +36,7 @@ internal abstract class InspectorField
     public  abstract void Draw(FieldContext context);
 }
 
-internal class StringField : InspectorField
+internal class StringField : ComponentField
 {
     public  override void Draw(FieldContext context) {
         var value = (string)context.GetValue();
@@ -48,7 +48,7 @@ internal class StringField : InspectorField
 
 #region integer
 
-internal class ByteField : InspectorField
+internal class ByteField : ComponentField
 {
     public  override void Draw(FieldContext context) {
         int value = (byte)context.GetValue();
@@ -58,7 +58,7 @@ internal class ByteField : InspectorField
     }
 }
 
-internal class IntField : InspectorField
+internal class IntField : ComponentField
 {
     public  override void Draw(FieldContext context) {
         var value = (int)context.GetValue();
@@ -70,7 +70,7 @@ internal class IntField : InspectorField
 
 #endregion
 
-internal class Vector3Field : InspectorField
+internal class Vector3Field : ComponentField
 {
     public  override void Draw(FieldContext context) {
         var value = (Vector3)context.GetValue();
