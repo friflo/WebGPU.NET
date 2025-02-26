@@ -31,8 +31,14 @@ public class EntityInspector
         entityContext.valueStart = 300;
         entityContext.valueWidth = ImGui.GetWindowWidth() - 320;
         
-        var id = EcsUtils.IntAsSpan(entity.Id);
-        ImGui.LabelText(id, "id");
+        var id = entity.Id; // EcsUtils.IntAsSpan(entity.Id);
+        
+        ImGui.Text("id");
+        ImGui.SameLine(entityContext.valueStart);
+        ImGui.SetNextItemWidth(entityContext.valueWidth);
+
+        ImGui.InputInt("##id", ref id, 0, 0, ImGuiInputTextFlags.ReadOnly);
+
 
 
         foreach (var component in entity.Components)
