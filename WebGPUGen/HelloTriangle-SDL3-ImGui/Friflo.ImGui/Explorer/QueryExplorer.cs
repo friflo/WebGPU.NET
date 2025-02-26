@@ -56,7 +56,7 @@ public class QueryExplorer
         ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
         
         query.Entities.ToEntityList(entities);
-        int widgetId = 1;
+        
         
         clipper.Begin(entities.Count, ImGui.GetTextLineHeightWithSpacing());
         int index   = -1;
@@ -73,6 +73,7 @@ public class QueryExplorer
                 if (index >= end) {
                     break;
                 }
+                int widgetId = entity.Id * 100;
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 var str = EcsUtils.IntAsSpan(entity.Id);
@@ -86,8 +87,8 @@ public class QueryExplorer
                 int columnIndex = 1;
                 entityContext.entity = entity;
                 foreach (var drawer in columnDrawers) {
-                    ImGui.PushID(widgetId++);
                     ImGui.TableSetColumnIndex(columnIndex++);
+                    ImGui.PushID(widgetId++);
                     ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
                     var context = new DrawComponent {
                         entityContext = entityContext,
