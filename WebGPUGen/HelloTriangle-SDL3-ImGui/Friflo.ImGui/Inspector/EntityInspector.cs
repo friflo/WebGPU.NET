@@ -29,7 +29,7 @@ public class EntityInspector
         entityContext.widgetId = 1;
         entityContext.entity = entity;
         entityContext.valueStart = 300;
-        entityContext.valueWidth = ImGui.GetWindowWidth() - 320;
+        entityContext.valueWidth = ImGui.GetWindowWidth() - 360;
         
         var id = entity.Id; // EcsUtils.IntAsSpan(entity.Id);
         
@@ -59,6 +59,7 @@ public class EntityInspector
                 }
                 var context = new DrawComponent {entityContext = entityContext };
                 genericDrawer.DrawComponent(context);
+                ImGui.Text("");
             }
         }
     }

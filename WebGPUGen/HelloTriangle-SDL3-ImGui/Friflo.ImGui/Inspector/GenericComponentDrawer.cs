@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Reflection;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -76,6 +77,18 @@ internal class GenericComponentDrawer
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
                 field.fieldDrawer.DrawField(fieldContext);
+                ImGui.SameLine();
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
+                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
+                if (ImGui.Button("...")) {
+                    ImGui.OpenPopup("more");
+                }
+                ImGui.PopStyleColor(2);
+                if (ImGui.BeginPopup("more", ImGuiWindowFlags.None)) {
+                    //ImGui.Text(field.fieldInfo.Name);
+                    ImGui.MenuItem(field.fieldInfo.Name);
+                    ImGui.EndPopup();
+                }
                 ImGui.PopID();
             }
             ImGui.TreePop();
