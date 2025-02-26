@@ -16,8 +16,7 @@ internal class ComponentColumnDrawer : ColumnDrawer
     }
     
     internal override bool DrawCell(DrawComponent context) {
-        var type = new ComponentTypes(componentDrawer.componentType);
-        if (context.entityContext.entity.Archetype.ComponentTypes.HasAny(type)) {
+        if (context.entityContext.entity.Archetype.ComponentTypes.HasAny(componentDrawer.types)) {
             componentDrawer.DrawComponent(context);
             return true;
         }

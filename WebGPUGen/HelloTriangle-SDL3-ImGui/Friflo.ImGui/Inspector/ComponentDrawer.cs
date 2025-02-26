@@ -18,7 +18,8 @@ internal struct DrawComponent {
 
 internal abstract class ComponentDrawer
 {
-    internal readonly ComponentType componentType;
+    internal readonly   ComponentType   componentType;
+    internal readonly   ComponentTypes  types;
     
     internal static readonly Dictionary<Type, ComponentDrawer> Map = CreateMap();
     
@@ -35,6 +36,7 @@ internal abstract class ComponentDrawer
     
     protected ComponentDrawer(ComponentType componentType) {
         this.componentType = componentType;
+        types = new ComponentTypes(componentType);
     }
     
     public void UpdateComponent(DrawComponent context, object value) {
