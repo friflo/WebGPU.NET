@@ -60,9 +60,9 @@ internal class GenericComponentDrawer
     internal  void DrawComponent(DrawComponent context)
     {
         ImGui.SetNextItemOpen(treeNode);
-        treeNode = ImGui.TreeNode(context.component.Type.Name);
+        treeNode = ImGui.TreeNode(context.componentType.Type.Name);
         if (treeNode) {
-            var component = context.component.Value;
+            var component = EntityUtils.GetEntityComponent(context.entityContext.entity, context.componentType);
             foreach (var field in fields) {
                 ImGui.Text(field.fieldInfo.Name);
                 ImGui.SameLine(context.entityContext.valueStart);

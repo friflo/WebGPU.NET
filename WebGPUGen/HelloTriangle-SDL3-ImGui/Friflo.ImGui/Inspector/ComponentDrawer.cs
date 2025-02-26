@@ -8,7 +8,7 @@ namespace Friflo.ImGuiNet;
 
 internal struct DrawComponent {
     internal    EntityContext   entityContext;
-    internal    EntityComponent component;
+    internal    ComponentType   componentType;
     
     public void ComponentLabel(string label) {
         ImGui.Text(label);
@@ -17,7 +17,7 @@ internal struct DrawComponent {
     }
     
     public void UpdateComponent(object value) {
-        EntityUtils.AddEntityComponentValue(entityContext.entity, component.Type, value);
+        EntityUtils.AddEntityComponentValue(entityContext.entity, componentType, value);
     }
 
 }
