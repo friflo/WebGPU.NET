@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Friflo.Engine.ECS;
 using ImGuiNET;
 
 
@@ -8,8 +9,9 @@ namespace Friflo.ImGuiNet;
 
 internal struct GenericField
 {
-    internal FieldInfo       fieldInfo;
-    internal ComponentField  componentField;
+    internal FieldInfo      fieldInfo;
+    internal ComponentField componentField;
+    internal ComponentType  componentType;
 
     public override string ToString() => fieldInfo.Name;
 }
@@ -24,9 +26,10 @@ internal class GenericComponent
 
     internal static readonly Dictionary<Type, GenericComponent> Controls = new();
     
-    internal static  GenericComponent Create (Type type)
+    internal static  GenericComponent Create (ComponentType componentType)
     {
-        var fields = new List<FieldInfo>();
+        var type    = componentType.Type;
+        var fields  = new List<FieldInfo>();
         var members = type.GetMembers();
         foreach (var member in members) {
             if (member is FieldInfo field) {
@@ -37,9 +40,12 @@ internal class GenericComponent
         for (int n = 0; n < fields.Count; n++) {
             var fieldInfo = fields[n];
             ComponentField.Fields.TryGetValue(fieldInfo.FieldType, out var componentField);
-            genericFields[n] = new GenericField { fieldInfo = fieldInfo, componentField = componentField };
+            genericFields[n] = new GenericField {
+                fieldInfo       = fieldInfo,
+                componentField  = componentField,
+                componentType   = componentType
+            };
         }
-        
         var genericControl = new GenericComponent(type, genericFields);
         Controls.Add(type, genericControl);
         return genericControl;
@@ -65,8 +71,7 @@ internal class GenericComponent
                 var fieldContext = new FieldContext {
                     entityContext   = context.entityContext,
                     genericField    = field,
-                    component       = component,
-                    componentType   = context.component.Type
+                    component       = component
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
                 field.componentField.Draw(fieldContext);

@@ -55,7 +55,7 @@ public class EntityInspector
             }
             {
                 if (!GenericComponent.Controls.TryGetValue(type, out var genericControl)) {
-                    genericControl = GenericComponent.Create(type);
+                    genericControl = GenericComponent.Create(component.Type);
                 }
                 var context = new ComponentContext {entityContext = entityContext, component = component };
                 genericControl.InspectorDrawComponent(context);
