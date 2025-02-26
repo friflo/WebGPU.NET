@@ -6,10 +6,10 @@ using ImGuiNET;
 
 namespace Friflo.ImGuiNet;
 
-internal struct FieldContext {
+internal struct DrawField {
     internal    EntityContext   entityContext;
-    internal    ComponentField  componentField;
     internal    object          component;
+    internal    ComponentField  componentField;
     
     internal string             Name =>  componentField.fieldInfo.Name;
     
@@ -32,12 +32,12 @@ internal abstract class FieldDrawer
         { typeof(Vector3),      new Vector3Drawer()    } 
     };
     
-    public  abstract void Draw(FieldContext context);
+    public  abstract void DrawField(DrawField context);
 }
 
 internal class StringDrawer : FieldDrawer
 {
-    public  override void Draw(FieldContext context) {
+    public  override void DrawField(DrawField context) {
         var value = (string)context.GetValue();
         if (ImGui.InputText("##field", ref value, 100)) {
             context.SetValue(value);
@@ -49,7 +49,7 @@ internal class StringDrawer : FieldDrawer
 
 internal class ByteDrawer : FieldDrawer
 {
-    public  override void Draw(FieldContext context) {
+    public  override void DrawField(DrawField context) {
         int value = (byte)context.GetValue();
         if (ImGui.InputInt("##field", ref value, 0, 0)) {
             context.SetValue((byte)value);
@@ -59,7 +59,7 @@ internal class ByteDrawer : FieldDrawer
 
 internal class IntDrawer : FieldDrawer
 {
-    public  override void Draw(FieldContext context) {
+    public  override void DrawField(DrawField context) {
         var value = (int)context.GetValue();
         if (ImGui.InputInt("##field", ref value, 0, 0)) {
             context.SetValue(value);
@@ -71,7 +71,7 @@ internal class IntDrawer : FieldDrawer
 
 internal class Vector3Drawer : FieldDrawer
 {
-    public  override void Draw(FieldContext context) {
+    public  override void DrawField(DrawField context) {
         var value = (Vector3)context.GetValue();
         if (ImGui.InputFloat3("##field", ref value)) {
             context.SetValue(value);

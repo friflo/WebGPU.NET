@@ -6,7 +6,7 @@ using ImGuiNET;
 namespace Friflo.ImGuiNet;
 
 
-internal struct ComponentContext {
+internal struct DrawComponent {
     internal    EntityContext   entityContext;
     internal    EntityComponent component;
     
@@ -25,12 +25,12 @@ internal abstract class ComponentDrawer
         { typeof(EntityName),   new NameDrawer()       }
     };
     
-    public  abstract void DrawComponent(ComponentContext context);
+    public  abstract void DrawComponent(DrawComponent context);
 }
 
 internal class PositionDrawer : ComponentDrawer
 {
-    public  override void DrawComponent(ComponentContext context) {
+    public  override void DrawComponent(DrawComponent context) {
         var component = context.entityContext.entity.GetComponent<Position>();
         if (ImGui.InputFloat3("##field", ref component.value)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
@@ -40,7 +40,7 @@ internal class PositionDrawer : ComponentDrawer
 
 internal class NameDrawer : ComponentDrawer
 {
-    public  override void DrawComponent(ComponentContext context) {
+    public  override void DrawComponent(DrawComponent context) {
         var component = context.entityContext.entity.GetComponent<EntityName>();
         if (ImGui.InputText("##field", ref component.value, 100)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);

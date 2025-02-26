@@ -16,7 +16,7 @@ internal struct ComponentField
     public override string ToString() => fieldInfo.Name;
 }
 
-internal class GenericComponent
+internal class GenericComponentDrawer
 {
     private readonly    Type                type;
     private readonly    ComponentField[]    fields;
@@ -24,9 +24,9 @@ internal class GenericComponent
 
     public override string ToString() => type.Name;
 
-    internal static readonly Dictionary<Type, GenericComponent> Controls = new();
+    internal static readonly Dictionary<Type, GenericComponentDrawer> Controls = new();
     
-    internal static  GenericComponent Create (ComponentType componentType)
+    internal static  GenericComponentDrawer Create (ComponentType componentType)
     {
         var type    = componentType.Type;
         var fields  = new List<FieldInfo>();
@@ -46,18 +46,18 @@ internal class GenericComponent
                 componentType   = componentType
             };
         }
-        var genericControl = new GenericComponent(type, componentFields);
-        Controls.Add(type, genericControl);
-        return genericControl;
+        var drawer = new GenericComponentDrawer(type, componentFields);
+        Controls.Add(type, drawer);
+        return drawer;
     }
     
-    private GenericComponent(Type type, ComponentField[] fields) {
+    private GenericComponentDrawer(Type type, ComponentField[] fields) {
         this.type   = type;
         this.fields = fields;
     }
     
 #pragma warning disable CS0618 // Type or member is obsolete
-    internal  void InspectorDrawComponent(ComponentContext context)
+    internal  void DrawComponent(DrawComponent context)
     {
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(context.component.Type.Name);
@@ -68,13 +68,13 @@ internal class GenericComponent
                 ImGui.SameLine(context.entityContext.valueStart);
                 ImGui.SetNextItemWidth(context.entityContext.valueWidth);
                 
-                var fieldContext = new FieldContext {
+                var fieldContext = new DrawField {
                     entityContext   = context.entityContext,
-                    componentField    = field,
+                    componentField  = field,
                     component       = component
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
-                field.fieldDrawer.Draw(fieldContext);
+                field.fieldDrawer.DrawField(fieldContext);
                 ImGui.PopID();
             }
             ImGui.TreePop();
