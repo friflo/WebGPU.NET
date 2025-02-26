@@ -44,21 +44,21 @@ public class EntityInspector
         foreach (var component in entity.Components)
         {
             var type = component.Type.Type;
-            if (ComponentDrawer.Map.TryGetValue(type, out var control))
+            if (ComponentDrawer.Map.TryGetValue(type, out var drawer))
             {
                 var context = new DrawComponent { entityContext = entityContext, component = component };
                 ImGui.PushID(entityContext.widgetId++);
                 context.ComponentLabel(component.Type.Name);
-                control.DrawComponent(context);
+                drawer.DrawComponent(context);
                 ImGui.PopID();
                 continue;
             }
             {
-                if (!GenericComponentDrawer.Controls.TryGetValue(type, out var genericControl)) {
-                    genericControl = GenericComponentDrawer.Create(component.Type);
+                if (!GenericComponentDrawer.Controls.TryGetValue(type, out var genericDrawer)) {
+                    genericDrawer = GenericComponentDrawer.Create(component.Type);
                 }
                 var context = new DrawComponent {entityContext = entityContext, component = component };
-                genericControl.DrawComponent(context);
+                genericDrawer.DrawComponent(context);
             }
         }
     }
