@@ -15,6 +15,10 @@ internal struct DrawComponent {
         ImGui.SameLine(entityContext.valueStart);
         ImGui.SetNextItemWidth(entityContext.valueWidth); 
     }
+    
+    public void UpdateComponent(object value) {
+        EntityUtils.AddEntityComponentValue(entityContext.entity, component.Type, value);
+    }
 
 }
 
@@ -33,7 +37,7 @@ internal class PositionDrawer : ComponentDrawer
     public  override void DrawComponent(DrawComponent context) {
         var component = context.entityContext.entity.GetComponent<Position>();
         if (ImGui.InputFloat3("##field", ref component.value)) {
-            EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
+            context.UpdateComponent(component);
         }
     }
 }
@@ -43,7 +47,7 @@ internal class NameDrawer : ComponentDrawer
     public  override void DrawComponent(DrawComponent context) {
         var component = context.entityContext.entity.GetComponent<EntityName>();
         if (ImGui.InputText("##field", ref component.value, 100)) {
-            EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
+            context.UpdateComponent(component);
         }
     }
 }
