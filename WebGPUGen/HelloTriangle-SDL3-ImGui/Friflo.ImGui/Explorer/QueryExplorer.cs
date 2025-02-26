@@ -56,6 +56,7 @@ public class QueryExplorer
         ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
         
         query.Entities.ToEntityList(entities);
+        int widgetId = 1;
         
         clipper.Begin(entities.Count, ImGui.GetTextLineHeightWithSpacing());
         int index   = -1;
@@ -75,18 +76,17 @@ public class QueryExplorer
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 var str = EcsUtils.IntAsSpan(entity.Id);
-                // ImGui.SetNextItemWidth(-1);
                 
-                ImGui.PushID(entity.Id);
-                
-                // ImGui.Text(str);
-                // ImGui.InputText("##cell", ref str, 20, ImGuiInputTextFlags.ReadOnly);
+                ImGui.PushID(widgetId++);
                 bool selected           = selections.Contains(entity.Id);
                 bool selectionChanged   = ImGui.Selectable(str, selected);
                 bool isFocused1         = ImGui.IsItemFocused();
+                ImGui.PopID();
+                
                 int columnIndex = 1;
                 entityContext.entity = entity;
                 foreach (var drawer in columnDrawers) {
+                    ImGui.PushID(widgetId++);
                     ImGui.TableSetColumnIndex(columnIndex++);
                     ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
                     var context = new DrawComponent {
@@ -95,12 +95,11 @@ public class QueryExplorer
                     if (!drawer.DrawCell(context)) {
                         selectionChanged |= ImGui.Selectable("", selected);
                     }
+                    ImGui.PopID();
                 }
                 // ImGui.TableSetColumnIndex(1);
                 // selectionChanged       |= ImGui.Selectable("abc", selected);
                 bool isFocused2         = ImGui.IsItemFocused();
-
-                ImGui.PopID();
                 
                 if (selectionChanged) {
                     var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
