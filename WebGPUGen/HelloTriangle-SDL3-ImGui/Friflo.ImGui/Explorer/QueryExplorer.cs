@@ -76,12 +76,19 @@ public class QueryExplorer
                 int widgetId = entity.Id * 100;
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
-                var str = EcsUtils.IntAsSpan(entity.Id);
+                // var str = EcsUtils.IntAsSpan(entity.Id);
                 
                 ImGui.PushID(widgetId++);
                 bool selected           = selections.Contains(entity.Id);
-                bool selectionChanged   = ImGui.Selectable(str, selected);
-                bool isFocused1         = ImGui.IsItemFocused();
+                int id = entity.Id;
+                ImGui.SetNextItemWidth(ImGui.GetColumnWidth());
+                ImGui.InputInt("##id", ref id, 0, 0, ImGuiInputTextFlags.ReadOnly | ImGuiInputTextFlags.ElideLeft);
+                bool selectionChanged = false; 
+                // ImGui.Text(str);
+                // ImGui.InputText("##id", ref str, 200);
+                // bool selectionChanged = false;
+                // bool selectionChanged = ImGui.Selectable(str, selected);
+                bool isFocused         = ImGui.IsItemFocused();
                 ImGui.PopID();
                 
                 int columnIndex = 1;
@@ -90,18 +97,13 @@ public class QueryExplorer
                     ImGui.TableSetColumnIndex(columnIndex++);
                     ImGui.PushID(widgetId++);
                     ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
-                    var context = new DrawComponent {
-                        entityContext = entityContext,
-                    };
+                    var context = new DrawComponent { entityContext = entityContext };
                     if (!drawer.DrawCell(context)) {
                         selectionChanged |= ImGui.Selectable("", selected);
                     }
+                    isFocused |= ImGui.IsItemFocused(); // Issue: returns false by ImGui.InputFloat3() when navigate with arrow up/down 
                     ImGui.PopID();
                 }
-                // ImGui.TableSetColumnIndex(1);
-                // selectionChanged       |= ImGui.Selectable("abc", selected);
-                bool isFocused2         = ImGui.IsItemFocused();
-                
                 if (selectionChanged) {
                     var ctrlDown = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
                     if (!ctrlDown) {
@@ -113,7 +115,7 @@ public class QueryExplorer
                         selections.Add(entity.Id);
                     }
                 }
-                if (windowFocused && (isFocused1 || isFocused2)) {
+                if (windowFocused && isFocused) {
                     focusedEntity = entity;
                 }
             }
