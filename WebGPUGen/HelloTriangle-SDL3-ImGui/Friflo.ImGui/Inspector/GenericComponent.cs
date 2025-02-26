@@ -51,23 +51,23 @@ internal class GenericComponent
     }
     
 #pragma warning disable CS0618 // Type or member is obsolete
-    internal  void Draw(ComponentContext context)
+    internal  void InspectorDrawComponent(ComponentContext context)
     {
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(context.component.Type.Name);
         if (treeNode) {
             var component = context.component.Value;
             foreach (var field in fields) {
+                ImGui.Text(field.fieldInfo.Name);
+                ImGui.SameLine(context.entityContext.valueStart);
+                ImGui.SetNextItemWidth(context.entityContext.valueWidth);
+                
                 var fieldContext = new FieldContext {
                     entityContext   = context.entityContext,
                     genericField    = field,
                     component       = component,
                     entityComponent = context.component
                 };
-                ImGui.Text(field.fieldInfo.Name);
-                ImGui.SameLine(context.entityContext.valueStart);
-                ImGui.SetNextItemWidth(context.entityContext.valueWidth);
-                
                 ImGui.PushID(context.entityContext.widgetId++);
                 field.componentField.Draw(fieldContext);
                 ImGui.PopID();

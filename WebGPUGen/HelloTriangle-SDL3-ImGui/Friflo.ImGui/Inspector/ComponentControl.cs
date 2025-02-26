@@ -25,12 +25,12 @@ internal abstract class ComponentControl
         { typeof(EntityName),   new NameControl()       }
     };
     
-    public  abstract void Draw(ComponentContext context);
+    public  abstract void DrawComponent(ComponentContext context);
 }
 
 internal class PositionControl : ComponentControl
 {
-    public  override void Draw(ComponentContext context) {
+    public  override void DrawComponent(ComponentContext context) {
         var component = context.entityContext.entity.GetComponent<Position>();
         if (ImGui.InputFloat3("##field", ref component.value)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
@@ -40,7 +40,7 @@ internal class PositionControl : ComponentControl
 
 internal class NameControl : ComponentControl
 {
-    public  override void Draw(ComponentContext context) {
+    public  override void DrawComponent(ComponentContext context) {
         var component = context.entityContext.entity.GetComponent<EntityName>();
         if (ImGui.InputText("##field", ref component.value, 100)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);

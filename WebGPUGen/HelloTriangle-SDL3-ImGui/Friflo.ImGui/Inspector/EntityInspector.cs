@@ -49,7 +49,7 @@ public class EntityInspector
                 var context = new ComponentContext { entityContext = entityContext, component = component };
                 ImGui.PushID(entityContext.widgetId++);
                 context.ComponentLabel(component.Type.Name);
-                control.Draw(context);
+                control.DrawComponent(context);
                 ImGui.PopID();
                 continue;
             }
@@ -58,7 +58,7 @@ public class EntityInspector
                     genericControl = GenericComponent.Create(type);
                 }
                 var context = new ComponentContext {entityContext = entityContext, component = component };
-                genericControl.Draw(context);
+                genericControl.InspectorDrawComponent(context);
             }
         }
     }
