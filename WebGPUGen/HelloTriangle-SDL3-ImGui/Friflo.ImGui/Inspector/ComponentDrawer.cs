@@ -18,17 +18,17 @@ internal struct ComponentContext {
 
 }
 
-internal abstract class ComponentControl
+internal abstract class ComponentDrawer
 {
-    internal static readonly Dictionary<Type, ComponentControl> Controls = new() {
-        { typeof(Position),     new PositionControl()   },
-        { typeof(EntityName),   new NameControl()       }
+    internal static readonly Dictionary<Type, ComponentDrawer> Map = new() {
+        { typeof(Position),     new PositionDrawer()   },
+        { typeof(EntityName),   new NameDrawer()       }
     };
     
     public  abstract void DrawComponent(ComponentContext context);
 }
 
-internal class PositionControl : ComponentControl
+internal class PositionDrawer : ComponentDrawer
 {
     public  override void DrawComponent(ComponentContext context) {
         var component = context.entityContext.entity.GetComponent<Position>();
@@ -38,7 +38,7 @@ internal class PositionControl : ComponentControl
     }
 }
 
-internal class NameControl : ComponentControl
+internal class NameDrawer : ComponentDrawer
 {
     public  override void DrawComponent(ComponentContext context) {
         var component = context.entityContext.entity.GetComponent<EntityName>();

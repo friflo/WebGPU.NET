@@ -10,7 +10,7 @@ namespace Friflo.ImGuiNet;
 internal struct GenericField
 {
     internal FieldInfo      fieldInfo;
-    internal ComponentField componentField;
+    internal FieldDrawer fieldDrawer;
     internal ComponentType  componentType;
 
     public override string ToString() => fieldInfo.Name;
@@ -39,10 +39,10 @@ internal class GenericComponent
         var genericFields = new GenericField[fields.Count];
         for (int n = 0; n < fields.Count; n++) {
             var fieldInfo = fields[n];
-            ComponentField.Fields.TryGetValue(fieldInfo.FieldType, out var componentField);
+            FieldDrawer.Map.TryGetValue(fieldInfo.FieldType, out var componentField);
             genericFields[n] = new GenericField {
                 fieldInfo       = fieldInfo,
-                componentField  = componentField,
+                fieldDrawer  = componentField,
                 componentType   = componentType
             };
         }
@@ -74,7 +74,7 @@ internal class GenericComponent
                     component       = component
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
-                field.componentField.Draw(fieldContext);
+                field.fieldDrawer.Draw(fieldContext);
                 ImGui.PopID();
             }
             ImGui.TreePop();

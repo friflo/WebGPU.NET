@@ -23,19 +23,19 @@ internal struct FieldContext {
     }
 }
 
-internal abstract class ComponentField
+internal abstract class FieldDrawer
 {
-    internal static readonly Dictionary<Type, ComponentField> Fields = new() {
-        { typeof(string),       new StringField()   },
-        { typeof(byte),         new ByteField()      },
-        { typeof(int),          new IntField()      },
-        { typeof(Vector3),      new Vector3Field()  } 
+    internal static readonly Dictionary<Type, FieldDrawer> Map = new() {
+        { typeof(string),       new StringDrawer()     },
+        { typeof(byte),         new ByteDrawer()       },
+        { typeof(int),          new IntDrawer()        },
+        { typeof(Vector3),      new Vector3Drawer()    } 
     };
     
     public  abstract void Draw(FieldContext context);
 }
 
-internal class StringField : ComponentField
+internal class StringDrawer : FieldDrawer
 {
     public  override void Draw(FieldContext context) {
         var value = (string)context.GetValue();
@@ -47,7 +47,7 @@ internal class StringField : ComponentField
 
 #region integer
 
-internal class ByteField : ComponentField
+internal class ByteDrawer : FieldDrawer
 {
     public  override void Draw(FieldContext context) {
         int value = (byte)context.GetValue();
@@ -57,7 +57,7 @@ internal class ByteField : ComponentField
     }
 }
 
-internal class IntField : ComponentField
+internal class IntDrawer : FieldDrawer
 {
     public  override void Draw(FieldContext context) {
         var value = (int)context.GetValue();
@@ -69,7 +69,7 @@ internal class IntField : ComponentField
 
 #endregion
 
-internal class Vector3Field : ComponentField
+internal class Vector3Drawer : FieldDrawer
 {
     public  override void Draw(FieldContext context) {
         var value = (Vector3)context.GetValue();

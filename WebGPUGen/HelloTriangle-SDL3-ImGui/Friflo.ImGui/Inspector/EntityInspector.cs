@@ -44,7 +44,7 @@ public class EntityInspector
         foreach (var component in entity.Components)
         {
             var type = component.Type.Type;
-            if (ComponentControl.Controls.TryGetValue(type, out var control))
+            if (ComponentDrawer.Map.TryGetValue(type, out var control))
             {
                 var context = new ComponentContext { entityContext = entityContext, component = component };
                 ImGui.PushID(entityContext.widgetId++);
