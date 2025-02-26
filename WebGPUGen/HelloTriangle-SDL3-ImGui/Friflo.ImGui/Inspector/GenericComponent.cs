@@ -7,10 +7,10 @@ using ImGuiNET;
 
 namespace Friflo.ImGuiNet;
 
-internal struct GenericField
+internal struct ComponentField
 {
     internal FieldInfo      fieldInfo;
-    internal FieldDrawer fieldDrawer;
+    internal FieldDrawer    fieldDrawer;
     internal ComponentType  componentType;
 
     public override string ToString() => fieldInfo.Name;
@@ -18,9 +18,9 @@ internal struct GenericField
 
 internal class GenericComponent
 {
-    private readonly    Type            type;
-    private readonly    GenericField[]  fields;
-    private             bool            treeNode = true;
+    private readonly    Type                type;
+    private readonly    ComponentField[]    fields;
+    private             bool                treeNode = true;
 
     public override string ToString() => type.Name;
 
@@ -36,22 +36,22 @@ internal class GenericComponent
                 fields.Add(field);
             }
         }
-        var genericFields = new GenericField[fields.Count];
+        var componentFields = new ComponentField[fields.Count];
         for (int n = 0; n < fields.Count; n++) {
             var fieldInfo = fields[n];
             FieldDrawer.Map.TryGetValue(fieldInfo.FieldType, out var componentField);
-            genericFields[n] = new GenericField {
+            componentFields[n] = new ComponentField {
                 fieldInfo       = fieldInfo,
-                fieldDrawer  = componentField,
+                fieldDrawer     = componentField,
                 componentType   = componentType
             };
         }
-        var genericControl = new GenericComponent(type, genericFields);
+        var genericControl = new GenericComponent(type, componentFields);
         Controls.Add(type, genericControl);
         return genericControl;
     }
     
-    private GenericComponent(Type type, GenericField[] fields) {
+    private GenericComponent(Type type, ComponentField[] fields) {
         this.type   = type;
         this.fields = fields;
     }
@@ -70,7 +70,7 @@ internal class GenericComponent
                 
                 var fieldContext = new FieldContext {
                     entityContext   = context.entityContext,
-                    genericField    = field,
+                    componentField    = field,
                     component       = component
                 };
                 ImGui.PushID(context.entityContext.widgetId++);

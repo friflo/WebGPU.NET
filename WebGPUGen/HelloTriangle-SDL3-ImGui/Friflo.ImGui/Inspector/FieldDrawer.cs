@@ -8,18 +8,18 @@ namespace Friflo.ImGuiNet;
 
 internal struct FieldContext {
     internal    EntityContext   entityContext;
-    internal    GenericField    genericField;
+    internal    ComponentField  componentField;
     internal    object          component;
     
-    internal string             Name =>  genericField.fieldInfo.Name;
+    internal string             Name =>  componentField.fieldInfo.Name;
     
     internal object GetValue() {
-        return genericField.fieldInfo.GetValue(component);
+        return componentField.fieldInfo.GetValue(component);
     }
     
     internal void SetValue(object fieldValue) {
-        genericField.fieldInfo.SetValue(component, fieldValue);
-        EntityUtils.AddEntityComponentValue(entityContext.entity, genericField.componentType, component);
+        componentField.fieldInfo.SetValue(component, fieldValue);
+        EntityUtils.AddEntityComponentValue(entityContext.entity, componentField.componentType, component);
     }
 }
 
