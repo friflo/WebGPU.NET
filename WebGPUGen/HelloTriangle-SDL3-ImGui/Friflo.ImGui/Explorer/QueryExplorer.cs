@@ -10,10 +10,15 @@ public class QueryExplorer
     private             ArchetypeQuery      query;
     private readonly    HashSet<int>        selections = new ();
     internal            Entity              focusedEntity;
+    private readonly    EntityContext       entityContext = new();
+    private readonly    List<ColumnDrawer>  columnDrawers = new();
+    
     
     public QueryExplorer(EntityStore store) {
         this.store = store;
         query = store.Query();
+        ComponentDrawer.Map.TryGetValue(typeof(EntityName), out var drawer);
+        columnDrawers.Add(new ComponentColumnDrawer(drawer));
     }
     
     // https://github.com/ocornut/imgui/issues/3740

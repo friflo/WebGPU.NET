@@ -13,8 +13,8 @@ public class EntityContext
 
 public class EntityInspector
 {
-    private QueryExplorer   explorer;
-    private EntityContext   entityContext = new();
+    private             QueryExplorer   explorer;
+    private readonly    EntityContext   entityContext = new();
     
     public EntityInspector(QueryExplorer queryExplorer) {
         this.explorer = queryExplorer;

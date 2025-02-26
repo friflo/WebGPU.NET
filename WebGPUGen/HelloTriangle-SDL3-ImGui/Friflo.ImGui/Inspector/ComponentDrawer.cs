@@ -25,8 +25,8 @@ internal struct DrawComponent {
 internal abstract class ComponentDrawer
 {
     internal static readonly Dictionary<Type, ComponentDrawer> Map = new() {
-        { typeof(Position),     new PositionDrawer()   },
-        { typeof(EntityName),   new NameDrawer()       }
+        { typeof(Position),     new PositionDrawer()     },
+        { typeof(EntityName),   new EntityNameDrawer()   }
     };
     
     public  abstract void DrawComponent(DrawComponent context);
@@ -42,7 +42,7 @@ internal class PositionDrawer : ComponentDrawer
     }
 }
 
-internal class NameDrawer : ComponentDrawer
+internal class EntityNameDrawer : ComponentDrawer
 {
     public  override void DrawComponent(DrawComponent context) {
         var component = context.entityContext.entity.GetComponent<EntityName>();
