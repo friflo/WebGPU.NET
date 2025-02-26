@@ -61,8 +61,21 @@ internal class GenericComponentDrawer
 #pragma warning disable CS0618 // Type or member is obsolete
     internal  void DrawComponent(DrawComponent context)
     {
+        var morePos = ImGui.GetWindowWidth() - 54;
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(componentType.Type.Name);
+        ImGui.SameLine(morePos);
+        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
+        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
+        if (ImGui.Button("...")) {
+            ImGui.OpenPopup("component_more");
+        }
+        ImGui.PopStyleColor(2);
+        if (ImGui.BeginPopup("component_more", ImGuiWindowFlags.None)) {
+            //ImGui.Text(field.fieldInfo.Name);
+            ImGui.MenuItem("component");
+            ImGui.EndPopup();
+        }
         if (treeNode) {
             var component = EntityUtils.GetEntityComponent(context.entityContext.entity, componentType);
             foreach (var field in fields) {
@@ -77,14 +90,14 @@ internal class GenericComponentDrawer
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
                 field.fieldDrawer.DrawField(fieldContext);
-                ImGui.SameLine();
+                ImGui.SameLine(morePos);
                 ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
                 if (ImGui.Button("...")) {
-                    ImGui.OpenPopup("more");
+                    ImGui.OpenPopup("field_more");
                 }
                 ImGui.PopStyleColor(2);
-                if (ImGui.BeginPopup("more", ImGuiWindowFlags.None)) {
+                if (ImGui.BeginPopup("field_more", ImGuiWindowFlags.None)) {
                     //ImGui.Text(field.fieldInfo.Name);
                     ImGui.MenuItem(field.fieldInfo.Name);
                     ImGui.EndPopup();
@@ -93,6 +106,7 @@ internal class GenericComponentDrawer
             }
             ImGui.TreePop();
         }
+
     }
 #pragma warning restore CS0618 // Type or member is obsolete
 }
