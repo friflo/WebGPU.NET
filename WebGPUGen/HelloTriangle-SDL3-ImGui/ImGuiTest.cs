@@ -20,13 +20,25 @@ static class ImGuiTest
         ImGui.SetNextWindowSize(new(500, 300), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(bgAlpha);
         ImGui.Begin("ImGuiTest");
-        ImGui.InputFloat("Value", ref _value);
-        ImGui.InputFloat("Value2", ref _value2);
+        
+        ImGui.Text("Value 1");
+        ImGui.SameLine(250);
+        ImGui.InputFloat("##flt1", ref _value, 0, 0, null);
+        
+        ImGui.Text("Value 2");
+        ImGui.SameLine(250);
+        ImGui.InputFloat("##flt2", ref _value2);
+        
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode("tree node");
         if (treeNode) {
-            ImGui.InputFloat("Value3", ref _value3);
-            ImGui.Checkbox("b1", ref b1);
+            ImGui.Text("Value 3");
+            ImGui.SameLine(250);
+            ImGui.InputFloat("##flt3", ref _value3);
+            
+            ImGui.Text("Checkbox");
+            ImGui.SameLine(250);
+            ImGui.Checkbox("##b1", ref b1);
             ImGui.TreePop();
         }
         ImGui.End();
