@@ -19,7 +19,11 @@ public class QueryExplorer
         this.store  = store;
         query       = store.Query();
         entities    = new EntityList(store);
+        
         ComponentDrawer.Map.TryGetValue(typeof(EntityName), out var drawer);
+        columnDrawers.Add(new ComponentColumnDrawer(drawer));
+       
+        ComponentDrawer.Map.TryGetValue(typeof(Position), out drawer);
         columnDrawers.Add(new ComponentColumnDrawer(drawer));
     }
     
@@ -38,12 +42,13 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        if (!ImGui.BeginTable("explorer", 2, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
+        if (!ImGui.BeginTable("explorer", 3, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
-        ImGui.TableSetupColumn("id", ImGuiTableColumnFlags.WidthFixed, 200);
-        ImGui.TableSetupColumn("name", ImGuiTableColumnFlags.WidthStretch);
+        ImGui.TableSetupColumn("Id", ImGuiTableColumnFlags.WidthFixed, 200);
+        ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch);
+        ImGui.TableSetupColumn("Position", ImGuiTableColumnFlags.WidthStretch);
         ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
         
