@@ -7,25 +7,25 @@ using ImGuiNET;
 namespace Friflo.ImGuiNet;
 
 internal struct DrawField {
-    internal    EntityContext   entityContext;
-    internal    object          component;
-    internal    ComponentField  componentField;
+    internal    EntityContext           entityContext;
+    internal    object                  component;
+    internal    ComponentFieldDrawer    fieldDrawer;
     
-    internal string             Name =>  componentField.fieldInfo.Name;
+    internal    string                  Name =>  fieldDrawer.fieldInfo.Name;
     
     internal object GetValue() {
-        return componentField.fieldInfo.GetValue(component);
+        return fieldDrawer.fieldInfo.GetValue(component);
     }
     
     internal void SetValue(object fieldValue) {
-        componentField.fieldInfo.SetValue(component, fieldValue);
-        EntityUtils.AddEntityComponentValue(entityContext.entity, componentField.componentType, component);
+        fieldDrawer.fieldInfo.SetValue(component, fieldValue);
+        EntityUtils.AddEntityComponentValue(entityContext.entity, fieldDrawer.componentType, component);
     }
 }
 
-internal abstract class FieldDrawer
+internal abstract class TypeDrawer
 {
-    internal static readonly Dictionary<Type, FieldDrawer> Map = new() {
+    internal static readonly Dictionary<Type, TypeDrawer> Map = new() {
         { typeof(string),       new StringDrawer()     },
         { typeof(byte),         new ByteDrawer()       },
         { typeof(int),          new IntDrawer()        },
@@ -35,7 +35,7 @@ internal abstract class FieldDrawer
     public  abstract void DrawField(DrawField context);
 }
 
-internal class StringDrawer : FieldDrawer
+internal class StringDrawer : TypeDrawer
 {
     public  override void DrawField(DrawField context) {
         var value = (string)context.GetValue();
@@ -47,7 +47,7 @@ internal class StringDrawer : FieldDrawer
 
 #region integer
 
-internal class ByteDrawer : FieldDrawer
+internal class ByteDrawer : TypeDrawer
 {
     public  override void DrawField(DrawField context) {
         int value = (byte)context.GetValue();
@@ -57,7 +57,7 @@ internal class ByteDrawer : FieldDrawer
     }
 }
 
-internal class IntDrawer : FieldDrawer
+internal class IntDrawer : TypeDrawer
 {
     public  override void DrawField(DrawField context) {
         var value = (int)context.GetValue();
@@ -69,7 +69,7 @@ internal class IntDrawer : FieldDrawer
 
 #endregion
 
-internal class Vector3Drawer : FieldDrawer
+internal class Vector3Drawer : TypeDrawer
 {
     public  override void DrawField(DrawField context) {
         var value = (Vector3)context.GetValue();

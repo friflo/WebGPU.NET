@@ -4,7 +4,8 @@ namespace Friflo.ImGuiNet;
 
 internal abstract class ColumnDrawer
 {
-    internal abstract bool DrawCell(EntityContext entityContext);
+    internal abstract bool   DrawCell(EntityContext entityContext);
+    internal abstract string Name { get; }
 }
 
 internal class ComponentColumnDrawer : ColumnDrawer
@@ -14,6 +15,8 @@ internal class ComponentColumnDrawer : ColumnDrawer
     internal ComponentColumnDrawer(ComponentDrawer drawer) {
         componentDrawer = drawer;
     }
+    
+    internal override string Name => componentDrawer.componentType.Name;
     
     internal override bool DrawCell(EntityContext entityContext) {
         if (entityContext.entity.Archetype.ComponentTypes.HasAny(componentDrawer.types)) {
@@ -27,22 +30,25 @@ internal class ComponentColumnDrawer : ColumnDrawer
 
 internal class FieldColumnDrawer : ColumnDrawer
 {
-    private readonly ComponentField componentField;
+    private readonly ComponentFieldDrawer fieldDrawer;
     
-    internal FieldColumnDrawer(ComponentField componentField) {
-        this.componentField = componentField;
+    internal FieldColumnDrawer(ComponentFieldDrawer fieldDrawer) {
+        this.fieldDrawer = fieldDrawer;
     }
     
-    internal override bool DrawCell(EntityContext entityContext) {
-        var types = new ComponentTypes(componentField.componentType);
+    internal override string Name => fieldDrawer.fieldInfo.Name;
+    
+    internal override bool DrawCell(EntityContext entityContext)
+    {
+        var types = new ComponentTypes(fieldDrawer.componentType);
         if (entityContext.entity.Archetype.ComponentTypes.HasAny(types)) {
-            var component = EntityUtils.GetEntityComponent(entityContext.entity, componentField.componentType);
+            var component = EntityUtils.GetEntityComponent(entityContext.entity, fieldDrawer.componentType);
             var context = new DrawField {
                 entityContext   = entityContext,
-                componentField  = componentField,
+                fieldDrawer     = fieldDrawer,
                 component       = component
             };
-            componentField.fieldDrawer.DrawField(context);
+            fieldDrawer.typeDrawer.DrawField(context);
             return true;
         }
         return false;

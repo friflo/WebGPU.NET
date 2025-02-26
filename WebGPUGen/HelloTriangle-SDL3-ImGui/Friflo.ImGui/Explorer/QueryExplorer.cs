@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -20,11 +21,17 @@ public class QueryExplorer
         query       = store.Query();
         entities    = new EntityList(store);
         
-        ComponentDrawer.Map.TryGetValue(typeof(EntityName), out var drawer);
+        AddComponentDrawer(typeof(EntityName));
+        AddComponentDrawer(typeof(Position));
+    }
+    
+    internal void AddComponentDrawer(Type type) {
+        ComponentDrawer.Map.TryGetValue(type, out var drawer);
         columnDrawers.Add(new ComponentColumnDrawer(drawer));
-       
-        ComponentDrawer.Map.TryGetValue(typeof(Position), out drawer);
-        columnDrawers.Add(new ComponentColumnDrawer(drawer));
+    }
+    
+    internal void AddComponentFieldDrawer(ComponentFieldDrawer fieldDrawer) {
+        columnDrawers.Add(new FieldColumnDrawer(fieldDrawer));
     }
     
     // https://github.com/ocornut/imgui/issues/3740
@@ -42,13 +49,14 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        if (!ImGui.BeginTable("explorer", 3, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
+        if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
         ImGui.TableSetupColumn("Id", ImGuiTableColumnFlags.WidthFixed, 200);
-        ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch);
-        ImGui.TableSetupColumn("Position", ImGuiTableColumnFlags.WidthStretch);
+        foreach (var drawer in columnDrawers) {
+            ImGui.TableSetupColumn(drawer.Name, ImGuiTableColumnFlags.WidthStretch);
+        }
         ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
         

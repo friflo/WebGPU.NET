@@ -8,6 +8,7 @@ namespace Friflo.ImGuiNet;
 
 internal struct DrawComponent {
     internal    EntityContext   entityContext;
+    internal    QueryExplorer   explorer;
     
     public void ComponentLabel(string label) {
         ImGui.Text(label);

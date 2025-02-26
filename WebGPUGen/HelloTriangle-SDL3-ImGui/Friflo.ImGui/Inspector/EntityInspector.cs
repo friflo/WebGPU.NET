@@ -57,7 +57,7 @@ public class EntityInspector
                 if (!GenericComponentDrawer.Controls.TryGetValue(type, out var genericDrawer)) {
                     genericDrawer = GenericComponentDrawer.Create(component.Type);
                 }
-                var context = new DrawComponent {entityContext = entityContext };
+                var context = new DrawComponent {entityContext = entityContext, explorer = explorer };
                 genericDrawer.DrawComponent(context);
                 ImGui.Text("");
             }

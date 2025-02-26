@@ -8,10 +8,10 @@ using ImGuiNET;
 
 namespace Friflo.ImGuiNet;
 
-internal struct ComponentField
+internal struct ComponentFieldDrawer
 {
     internal FieldInfo      fieldInfo;
-    internal FieldDrawer    fieldDrawer;
+    internal TypeDrawer     typeDrawer;
     internal ComponentType  componentType;
 
     public override string ToString() => fieldInfo.Name;
@@ -19,12 +19,11 @@ internal struct ComponentField
 
 internal class GenericComponentDrawer
 {
-    private readonly    Type                type;
-    private readonly    ComponentField[]    fields;
-    private readonly    ComponentType       componentType;
-    private             bool                treeNode = true;
+    private readonly    ComponentFieldDrawer[]  fieldDrawers;
+    private readonly    ComponentType           componentType;
+    private             bool                    treeNode = true;
 
-    public override string ToString() => type.Name;
+    public override     string                  ToString() => componentType.Type.Name;
 
     internal static readonly Dictionary<Type, GenericComponentDrawer> Controls = new();
     
@@ -38,24 +37,24 @@ internal class GenericComponentDrawer
                 fields.Add(field);
             }
         }
-        var componentFields = new ComponentField[fields.Count];
+        var fieldDrawers = new ComponentFieldDrawer[fields.Count];
         for (int n = 0; n < fields.Count; n++) {
             var fieldInfo = fields[n];
-            FieldDrawer.Map.TryGetValue(fieldInfo.FieldType, out var fieldDrawer);
-            componentFields[n] = new ComponentField {
+            TypeDrawer.Map.TryGetValue(fieldInfo.FieldType, out var typeDrawer);
+            fieldDrawers[n] = new ComponentFieldDrawer {
                 fieldInfo       = fieldInfo,
-                fieldDrawer     = fieldDrawer,
+                typeDrawer      = typeDrawer,
                 componentType   = componentType
             };
         }
-        var drawer = new GenericComponentDrawer(componentType, componentFields);
+        var drawer = new GenericComponentDrawer(componentType, fieldDrawers);
         Controls.Add(type, drawer);
         return drawer;
     }
     
-    private GenericComponentDrawer(ComponentType componentType, ComponentField[] fields) {
+    private GenericComponentDrawer(ComponentType componentType, ComponentFieldDrawer[] fieldDrawers) {
         this.componentType  = componentType;
-        this.fields         = fields;
+        this.fieldDrawers   = fieldDrawers;
     }
     
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -78,18 +77,18 @@ internal class GenericComponentDrawer
         }
         if (treeNode) {
             var component = EntityUtils.GetEntityComponent(context.entityContext.entity, componentType);
-            foreach (var field in fields) {
-                ImGui.Text(field.fieldInfo.Name);
+            foreach (var fieldDrawer in fieldDrawers) {
+                ImGui.Text(fieldDrawer.fieldInfo.Name);
                 ImGui.SameLine(context.entityContext.valueStart);
                 ImGui.SetNextItemWidth(context.entityContext.valueWidth);
                 
                 var fieldContext = new DrawField {
                     entityContext   = context.entityContext,
-                    componentField  = field,
+                    fieldDrawer     = fieldDrawer,
                     component       = component
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
-                field.fieldDrawer.DrawField(fieldContext);
+                fieldDrawer.typeDrawer.DrawField(fieldContext);
                 ImGui.SameLine(morePos);
                 ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
                 ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
@@ -99,7 +98,9 @@ internal class GenericComponentDrawer
                 ImGui.PopStyleColor(2);
                 if (ImGui.BeginPopup("field_more", ImGuiWindowFlags.None)) {
                     //ImGui.Text(field.fieldInfo.Name);
-                    ImGui.MenuItem(field.fieldInfo.Name);
+                    if (ImGui.MenuItem("Add Explorer column")) {
+                        context.explorer.AddComponentFieldDrawer(fieldDrawer);
+                    }
                     ImGui.EndPopup();
                 }
                 ImGui.PopID();
