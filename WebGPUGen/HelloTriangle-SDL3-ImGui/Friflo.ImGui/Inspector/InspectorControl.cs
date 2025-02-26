@@ -31,7 +31,6 @@ internal abstract class InspectorControl
 internal class PositionControl : InspectorControl
 {
     public  override void Draw(ComponentContext context) {
-        context.ComponentLabel("Position");
         var component = context.entityContext.entity.GetComponent<Position>();
         if (ImGui.InputFloat3("##field", ref component.value)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);
@@ -42,7 +41,6 @@ internal class PositionControl : InspectorControl
 internal class NameControl : InspectorControl
 {
     public  override void Draw(ComponentContext context) {
-        context.ComponentLabel("Name");
         var component = context.entityContext.entity.GetComponent<EntityName>();
         if (ImGui.InputText("##field", ref component.value, 100)) {
             EntityUtils.AddEntityComponentValue(context.entityContext.entity, context.component.Type, component);

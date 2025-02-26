@@ -48,6 +48,7 @@ public class EntityInspector
             {
                 var context = new ComponentContext { entityContext = entityContext, component = component };
                 ImGui.PushID(entityContext.widgetId++);
+                context.ComponentLabel(component.Type.Name);
                 control.Draw(context);
                 ImGui.PopID();
                 continue;
