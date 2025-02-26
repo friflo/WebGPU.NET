@@ -87,7 +87,9 @@ public class QueryExplorer
                     var context = new DrawComponent {
                         entityContext = entityContext,
                     };
-                    drawer.DrawCell(context);
+                    if (!drawer.DrawCell(context)) {
+                        selectionChanged |= ImGui.Selectable("", selected);
+                    }
                 }
                 // ImGui.TableSetColumnIndex(1);
                 // selectionChanged       |= ImGui.Selectable("abc", selected);
