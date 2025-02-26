@@ -58,7 +58,7 @@ static class ImGuiTest
         ImGui.End();
         
         ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
-        ImGui.SetNextWindowSize(new(500, 500), ImGuiCond.Once);
+        ImGui.SetNextWindowSize(new(700, 500), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(bgAlpha);
         ImGui.Begin("Inspector");
         EcsGui.EntityInspector(inspector);
