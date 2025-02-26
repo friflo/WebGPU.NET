@@ -12,11 +12,13 @@ public class QueryExplorer
     internal            Entity              focusedEntity;
     private readonly    EntityContext       entityContext = new();
     private readonly    List<ColumnDrawer>  columnDrawers = new();
+    private readonly    EntityList          entities;
     
     
     public QueryExplorer(EntityStore store) {
-        this.store = store;
-        query = store.Query();
+        this.store  = store;
+        query       = store.Query();
+        entities    = new EntityList(store);
         ComponentDrawer.Map.TryGetValue(typeof(EntityName), out var drawer);
         columnDrawers.Add(new ComponentColumnDrawer(drawer));
     }
@@ -47,13 +49,16 @@ public class QueryExplorer
         
         // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
         ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
-        clipper.Begin(query.Count, ImGui.GetTextLineHeightWithSpacing());
+        
+        query.Entities.ToEntityList(entities);
+        
+        clipper.Begin(entities.Count, ImGui.GetTextLineHeightWithSpacing());
         int index   = -1;
         while (clipper.Step())
         {
             var start   = clipper.DisplayStart;
             var end     = clipper.DisplayEnd;
-            foreach (var entity in query.Entities)
+            foreach (var entity in entities)
             {
                 index++;
                 if (index < start) {
@@ -76,16 +81,16 @@ public class QueryExplorer
                 bool isFocused1         = ImGui.IsItemFocused();
                 int columnIndex = 1;
                 entityContext.entity = entity;
-                /* foreach (var drawer in columnDrawers) {
+                foreach (var drawer in columnDrawers) {
                     ImGui.TableSetColumnIndex(columnIndex++);
                     ImGui.SetNextItemWidth(ImGui.GetColumnWidth()); 
                     var context = new DrawComponent {
                         entityContext = entityContext,
                     };
                     drawer.DrawCell(context);
-                } */
-                ImGui.TableSetColumnIndex(1);
-                selectionChanged       |= ImGui.Selectable("abc", selected);
+                }
+                // ImGui.TableSetColumnIndex(1);
+                // selectionChanged       |= ImGui.Selectable("abc", selected);
                 bool isFocused2         = ImGui.IsItemFocused();
 
                 ImGui.PopID();
