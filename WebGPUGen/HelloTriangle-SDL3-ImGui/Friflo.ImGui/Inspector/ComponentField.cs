@@ -9,7 +9,7 @@ namespace Friflo.ImGuiNet;
 internal struct FieldContext {
     internal    EntityContext   entityContext;
     internal    GenericField    genericField;
-    internal    EntityComponent entityComponent;
+    internal    ComponentType   componentType;
     internal    object          component;
     
     internal string             Name =>  genericField.fieldInfo.Name;
@@ -20,7 +20,7 @@ internal struct FieldContext {
     
     internal void SetValue(object fieldValue) {
         genericField.fieldInfo.SetValue(component, fieldValue);
-        EntityUtils.AddEntityComponentValue(entityContext.entity, entityComponent.Type, component);
+        EntityUtils.AddEntityComponentValue(entityContext.entity, componentType, component);
     }
 }
 

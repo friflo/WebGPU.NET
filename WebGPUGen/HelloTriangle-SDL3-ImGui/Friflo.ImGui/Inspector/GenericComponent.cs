@@ -66,7 +66,7 @@ internal class GenericComponent
                     entityContext   = context.entityContext,
                     genericField    = field,
                     component       = component,
-                    entityComponent = context.component
+                    componentType   = context.component.Type
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
                 field.componentField.Draw(fieldContext);
