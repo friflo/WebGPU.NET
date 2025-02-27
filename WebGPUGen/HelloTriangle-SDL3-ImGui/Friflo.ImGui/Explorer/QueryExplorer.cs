@@ -56,7 +56,7 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        var flags = ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.ScrollX | ImGuiTableFlags.Reorderable | ImGuiTableFlags.Hideable;
+        var flags = ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.ScrollX | ImGuiTableFlags.Reorderable | ImGuiTableFlags.Hideable | ImGuiTableFlags.Sortable;
         if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, flags)) {
             return;
         }
@@ -67,12 +67,17 @@ public class QueryExplorer
         }
         ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
-
-        // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
-        ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
         
         query.Entities.ToEntityList(entities);
         
+        /* var sortSpecs = ImGui.TableGetSortSpecs();
+        if (sortSpecs.SpecsDirty) {
+            SortTable(sortSpecs.Specs);
+            sortSpecs.SpecsDirty = false;
+        }*/
+            
+        // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
+        ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
         
         clipper.Begin(entities.Count, ImGui.GetFrameHeightWithSpacing()); // GetFrameHeightWithSpacing = row height in pixel
         int index   = -1;
@@ -137,5 +142,32 @@ public class QueryExplorer
         }
         ImGui.EndTable();
         clipper.Destroy();
+    }
+    
+    struct IntEntry
+    {
+        internal int id;
+    }
+    
+    private void SortTable(ImGuiTableColumnSortSpecsPtr columnSortSpecs)
+    {
+        if (columnSortSpecs.ColumnIndex == 0) {
+            var sortTable = new int[entities.Count];
+            int index = 0;
+            foreach (var entity in entities) {
+                sortTable[index++] = entity.Id;
+            }
+            if (columnSortSpecs.SortDirection == ImGuiSortDirection.Ascending) {
+                Array.Sort(sortTable, (i1, i2) => i1 - i2);    
+            } else {
+                Array.Sort(sortTable, (i1, i2) => i2 - i1);
+            }
+            int count = entities.Count;
+            entities.Clear();
+            for (int n = 0; n < count; n++) {
+                entities.Add(sortTable[n]);
+            }
+            columnSortSpecs = null;
+        }
     }
 }
