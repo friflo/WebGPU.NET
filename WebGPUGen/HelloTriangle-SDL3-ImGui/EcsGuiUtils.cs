@@ -30,7 +30,8 @@ struct SingleValue : IComponent
 
 internal static class EcsGuiUtils
 {
-    internal static EntityStore CreateTestStore() {
+    internal static EntityStore CreateTestStore()
+    {
         var store = new EntityStore();
         store.CreateEntity();
         store.CreateEntity();
@@ -46,18 +47,18 @@ internal static class EcsGuiUtils
         return store;
     }
     
-    internal static void DrawEcsWindows() {
-        var bgAlpha = 1f;
+    internal static void DrawEcsWindows()
+    {
         ImGui.SetNextWindowPos(new(10, 400), ImGuiCond.Once);
         ImGui.SetNextWindowSize(new(500, 600), ImGuiCond.Once);
-        ImGui.SetNextWindowBgAlpha(bgAlpha);
+        ImGui.SetNextWindowBgAlpha(1);
         ImGui.Begin("Explorer");
         EcsGui.QueryExplorer(EcsGui.Explorer);
         ImGui.End();
             
         ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
         ImGui.SetNextWindowSize(new(700, 500), ImGuiCond.Once);
-        ImGui.SetNextWindowBgAlpha(bgAlpha);
+        ImGui.SetNextWindowBgAlpha(1);
         ImGui.Begin("Inspector");
         EcsGui.EntityInspector(EcsGui.Inspector);
         ImGui.End();
