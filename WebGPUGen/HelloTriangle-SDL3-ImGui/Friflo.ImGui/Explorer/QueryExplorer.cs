@@ -49,13 +49,13 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY)) {
+        if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.ScrollX)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
-        ImGui.TableSetupColumn("Id", ImGuiTableColumnFlags.WidthFixed, 200);
+        ImGui.TableSetupColumn("Id", ImGuiTableColumnFlags.WidthFixed, 110);
         foreach (var drawer in columnDrawers) {
-            ImGui.TableSetupColumn(drawer.Name, ImGuiTableColumnFlags.WidthStretch);
+            ImGui.TableSetupColumn(drawer.Name, ImGuiTableColumnFlags.WidthFixed, 200);
         }
         ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
