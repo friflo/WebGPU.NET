@@ -16,6 +16,12 @@ internal struct ComponentFieldDrawer
     public override string ToString() => fieldInfo.Name;
 }
 
+enum InspectorACommand
+{
+    None = 0,
+    RemoveComponent
+}
+
 internal class GenericComponentDrawer
 {
     private readonly    ComponentFieldDrawer[]  fieldDrawers;
@@ -61,8 +67,11 @@ internal class GenericComponentDrawer
     {
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(componentType.Type.Name);
+        var command = InspectorACommand.None;
         if (EntityInspector.MorePopup("generic_more")) {
-            ImGui.MenuItem("component");
+            if (ImGui.MenuItem("Remove Component")) {
+                command = InspectorACommand.RemoveComponent;
+            }
             ImGui.EndPopup();
         }
         if (treeNode) {
@@ -90,7 +99,9 @@ internal class GenericComponentDrawer
             }
             ImGui.TreePop();
         }
-
+        if (command == InspectorACommand.RemoveComponent) {
+            EntityUtils.RemoveEntityComponent(context.entityContext.entity, componentType);   
+        }
     }
 #pragma warning restore CS0618 // Type or member is obsolete
 }

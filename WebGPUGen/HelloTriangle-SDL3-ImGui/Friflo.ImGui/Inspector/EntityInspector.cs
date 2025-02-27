@@ -40,8 +40,6 @@ public class EntityInspector
 
         ImGui.InputInt("##id", ref id, 0, 0, ImGuiInputTextFlags.ReadOnly);
 
-
-
         foreach (var component in entity.Components)
         {
             var type = component.Type.Type;
@@ -54,6 +52,9 @@ public class EntityInspector
                 if (MorePopup("component_more")) {
                     if (ImGui.MenuItem("Add Explorer column")) {
                         explorer.AddComponentDrawer(type);
+                    }
+                    if (ImGui.MenuItem("Remove Component")) {
+                        EntityUtils.RemoveEntityComponent(entity, component.Type);
                     }
                     ImGui.EndPopup();
                 }
