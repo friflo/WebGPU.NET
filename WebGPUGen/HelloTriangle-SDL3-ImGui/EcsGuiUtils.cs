@@ -49,15 +49,15 @@ internal static class EcsGuiUtils
     
     internal static void DrawEcsWindows()
     {
-        ImGui.SetNextWindowPos(new(10, 400), ImGuiCond.Once);
-        ImGui.SetNextWindowSize(new(500, 600), ImGuiCond.Once);
+        ImGui.SetNextWindowPos (new(10,   100), ImGuiCond.Once);
+        ImGui.SetNextWindowSize(new(800, 1000), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(1);
         ImGui.Begin("Explorer");
         EcsGui.QueryExplorer(EcsGui.Explorer);
         ImGui.End();
             
-        ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
-        ImGui.SetNextWindowSize(new(700, 500), ImGuiCond.Once);
+        ImGui.SetNextWindowPos (new(850, 100), ImGuiCond.Once);
+        ImGui.SetNextWindowSize(new(800, 700), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(1);
         ImGui.Begin("Inspector");
         EcsGui.EntityInspector(EcsGui.Inspector);
