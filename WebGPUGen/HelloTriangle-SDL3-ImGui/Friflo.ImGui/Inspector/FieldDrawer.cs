@@ -25,13 +25,18 @@ internal struct DrawField {
 
 internal abstract class TypeDrawer
 {
-    internal static readonly Dictionary<Type, TypeDrawer> Map = new() {
+    private static readonly Dictionary<Type, TypeDrawer> Map = new() {
         { typeof(string),       new StringDrawer()     },
         { typeof(bool),         new BoolDrawer()       },
         { typeof(byte),         new ByteDrawer()       },
         { typeof(int),          new IntDrawer()        },
-        { typeof(Vector3),      new Vector3Drawer()    } 
+        { typeof(Vector3),      new Vector3Drawer()    }
     };
+    
+    public static TypeDrawer GetTypeDrawer(Type type) {
+        Map.TryGetValue(type, out var typeDrawer);
+        return typeDrawer;
+    }   
     
     public  abstract void DrawField(DrawField context);
 }
