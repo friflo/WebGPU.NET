@@ -22,7 +22,7 @@ public class QueryExplorer
         entities    = new EntityList(store);
         
         AddComponentDrawer(typeof(EntityName));
-        AddComponentDrawer(typeof(Position));
+        // AddComponentDrawer(typeof(Position));
     }
     
     internal void AddComponentDrawer(Type type) {
