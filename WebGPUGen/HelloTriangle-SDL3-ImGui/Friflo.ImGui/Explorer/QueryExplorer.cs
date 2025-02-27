@@ -49,7 +49,8 @@ public class QueryExplorer
     {
         // float TEXT_BASE_HEIGHT = ImGui.GetTextLineHeightWithSpacing();
         // ImVec2 outer_size = new Vector2(0.0f, TEXT_BASE_HEIGHT * 8);
-        if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.ScrollX)) {
+        var flags = ImGuiTableFlags.Resizable | ImGuiTableFlags.ScrollY | ImGuiTableFlags.ScrollX | ImGuiTableFlags.Reorderable;
+        if (!ImGui.BeginTable("explorer", columnDrawers.Count + 1, flags)) {
             return;
         }
         var windowFocused = ImGui.IsWindowFocused();
