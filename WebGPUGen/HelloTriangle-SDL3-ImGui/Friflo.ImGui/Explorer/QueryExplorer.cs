@@ -7,7 +7,6 @@ namespace Friflo.ImGuiNet;
 
 public class QueryExplorer
 {
-    private             EntityStore         store;
     private             ArchetypeQuery      query;
     private readonly    HashSet<int>        selections = new ();
     internal            Entity              focusedEntity;
@@ -15,14 +14,20 @@ public class QueryExplorer
     private readonly    List<ColumnDrawer>  columnDrawers = new();
     private readonly    EntityList          entities;
     
+    public static  QueryExplorer Instance = new QueryExplorer();
     
-    public QueryExplorer(EntityStore store) {
-        this.store  = store;
+    
+    public QueryExplorer() {
+        var store = new EntityStore();
         query       = store.Query();
         entities    = new EntityList(store);
         
         AddComponentDrawer(typeof(EntityName));
         // AddComponentDrawer(typeof(Position));
+    }
+    
+    public void AddQuery(ArchetypeQuery query) {
+        this.query = query;
     }
     
     internal void AddComponentDrawer(Type type) {

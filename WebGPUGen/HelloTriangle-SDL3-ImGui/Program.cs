@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Numerics;
 using Evergine.Bindings.WebGPU;
-using Friflo.Engine.ECS;
 using Friflo.ImGuiNet;
 using ImGuiNET;
 // using SDL2;
@@ -13,26 +11,6 @@ using static SDL.SDL3;
 
 namespace HelloTriangle
 {
-    struct MyComponent : IComponent
-    {
-        public string   str;
-        public int      int32;
-        public byte     uint8;
-        public bool     enabled;
-        public Vector3  vector3;
-        [Domain("color")]
-        public Vector3  color3 = new Vector3(1, 0, 0);
-        
-        public void InstanceMethod() {}
-        
-        public MyComponent() {}
-    }
-    
-    struct SingleValue : IComponent
-    {
-        public int      int32;
-    }
-    
     static class Program
     {
         private const int Width  = 3200;
@@ -82,20 +60,8 @@ namespace HelloTriangle
         
         private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue)
         {
-            var store = new EntityStore();
-            store.CreateEntity();
-            store.CreateEntity();
-            store.CreateEntity();
-            for (int n = 0; n < 100_000; n++) {
-                store.CreateEntity(
-                    new Position(n,n,n),
-                    new EntityName($"entity {n}"),
-                    new MyComponent { str = $"str{n}", vector3 = new Vector3(n,n,n)},
-                    new SingleValue()
-                    );
-            }
-            var explorer  = new QueryExplorer(store);
-            var inspector = new EntityInspector(explorer);
+            var store = EcsGuiUtils.CreateTestStore();
+            QueryExplorer.Instance.AddQuery(store.Query());
             
             bool running = true;
             while (running)
@@ -122,7 +88,8 @@ namespace HelloTriangle
                 
                 // --- ImGui Draw
                 ImGuiTools.NewFrame();
-                ImGuiTest.Draw(explorer, inspector);
+                ImGuiTest.Draw();
+                EcsGuiUtils.DrawEcsWindows();
                 ImGuiTools.EndFrame();
                 using var guiCommand = ImGuiTools.DrawCommands(nextView);
                 

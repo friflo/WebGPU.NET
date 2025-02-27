@@ -3,11 +3,10 @@ using System.Text;
 
 namespace Friflo.ImGuiNet;
 
-internal static class EcsUtils
+internal static class InternalUtils
 {
     private static readonly StringBuilder   Sb = new StringBuilder();
     private static          char[]          _chars = [];
-    
     
     internal static ReadOnlySpan<char> IntAsSpan(int value) {
         Sb.Clear();

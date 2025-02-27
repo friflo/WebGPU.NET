@@ -1,5 +1,4 @@
 using System.Numerics;
-using Friflo.ImGuiNet;
 using ImGuiNET;
 
 namespace HelloTriangle;
@@ -14,8 +13,7 @@ static class ImGuiTest
     private static Vector3 color3 = new Vector3(1,0,0);
     
 
-
-    public static void Draw(QueryExplorer explorer, EntityInspector inspector)
+    public static void Draw()
     {
         var bgAlpha = 0.95f;
         ImGui.SetNextWindowPos(new(10, 10), ImGuiCond.Once);
@@ -52,20 +50,6 @@ static class ImGuiTest
         ImGui.SetNextWindowBgAlpha(bgAlpha);
         ImGui.Begin("Other");
         ImGui.Checkbox("b1", ref b1);
-        ImGui.End();
-        
-        ImGui.SetNextWindowPos(new(10, 400), ImGuiCond.Once);
-        ImGui.SetNextWindowSize(new(500, 600), ImGuiCond.Once);
-        ImGui.SetNextWindowBgAlpha(bgAlpha);
-        ImGui.Begin("Explorer");
-        EcsGui.QueryExplorer(explorer);
-        ImGui.End();
-        
-        ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
-        ImGui.SetNextWindowSize(new(700, 500), ImGuiCond.Once);
-        ImGui.SetNextWindowBgAlpha(bgAlpha);
-        ImGui.Begin("Inspector");
-        EcsGui.EntityInspector(inspector);
         ImGui.End();
     }
 }
