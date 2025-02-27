@@ -22,7 +22,12 @@ enum InspectorACommand
     RemoveComponent
 }
 
-internal class GenericComponentDrawer
+public abstract class GenericDrawer
+{
+    protected internal  abstract void DrawComponent(DrawComponent context);
+}
+
+internal class GenericComponentDrawer : GenericDrawer
 {
     private readonly    ComponentFieldDrawer[]  fieldDrawers;
     private readonly    ComponentType           componentType;
@@ -30,9 +35,9 @@ internal class GenericComponentDrawer
 
     public override     string                  ToString() => componentType.Type.Name;
 
-    internal static readonly Dictionary<Type, GenericComponentDrawer> Controls = new();
+    internal static readonly Dictionary<Type, GenericDrawer> Controls = new();
     
-    internal static  GenericComponentDrawer Create (ComponentType componentType)
+    internal static  GenericDrawer Create (ComponentType componentType)
     {
         var type    = componentType.Type;
         var fields  = new List<FieldInfo>();
@@ -42,18 +47,31 @@ internal class GenericComponentDrawer
                 fields.Add(field);
             }
         }
-        var fieldDrawers = new ComponentFieldDrawer[fields.Count];
-        for (int n = 0; n < fields.Count; n++) {
-            var fieldInfo   = fields[n];
+        GenericDrawer drawer;
+        if (fields.Count == 1) {
+            var fieldInfo = fields[0];
             var domain      = GetFieldDomain(fieldInfo.CustomAttributes);
             var typeDrawer  = TypeDrawer.GetTypeDrawer(fieldInfo.FieldType, domain);
-            fieldDrawers[n] = new ComponentFieldDrawer {
+            var fieldDrawer = new ComponentFieldDrawer {
                 fieldInfo       = fieldInfo,
                 typeDrawer      = typeDrawer,
                 componentType   = componentType
             };
+            drawer =  new ComponentValueDrawer(componentType, fieldDrawer);
+        } else {
+            var fieldDrawers = new ComponentFieldDrawer[fields.Count];
+            for (int n = 0; n < fields.Count; n++) {
+                var fieldInfo   = fields[n];
+                var domain      = GetFieldDomain(fieldInfo.CustomAttributes);
+                var typeDrawer  = TypeDrawer.GetTypeDrawer(fieldInfo.FieldType, domain);
+                fieldDrawers[n] = new ComponentFieldDrawer {
+                    fieldInfo       = fieldInfo,
+                    typeDrawer      = typeDrawer,
+                    componentType   = componentType
+                };
+            }
+            drawer = new GenericComponentDrawer(componentType, fieldDrawers);
         }
-        var drawer = new GenericComponentDrawer(componentType, fieldDrawers);
         Controls.Add(type, drawer);
         return drawer;
     }
@@ -72,8 +90,7 @@ internal class GenericComponentDrawer
         this.fieldDrawers   = fieldDrawers;
     }
     
-#pragma warning disable CS0618 // Type or member is obsolete
-    internal  void DrawComponent(DrawComponent context)
+    protected internal override void DrawComponent(DrawComponent context)
     {
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(componentType.Type.Name);
@@ -119,6 +136,5 @@ internal class GenericComponentDrawer
             EntityUtils.RemoveEntityComponent(context.entityContext.entity, componentType);   
         }
     }
-#pragma warning restore CS0618 // Type or member is obsolete
 }
 

@@ -6,7 +6,7 @@ using ImGuiNET;
 namespace Friflo.ImGuiNet;
 
 
-internal struct DrawComponent {
+public struct DrawComponent {
     internal    EntityContext   entityContext;
     internal    QueryExplorer   explorer;
     

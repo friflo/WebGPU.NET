@@ -23,7 +23,14 @@ namespace HelloTriangle
         [Domain("color")]
         public Vector3  color3 = new Vector3(1, 0, 0);
         
+        public void InstanceMethod() {}
+        
         public MyComponent() {}
+    }
+    
+    struct SingleValue : IComponent
+    {
+        public int      int32;
     }
     
     static class Program
@@ -83,7 +90,9 @@ namespace HelloTriangle
                 store.CreateEntity(
                     new Position(n,n,n),
                     new EntityName($"entity {n}"),
-                    new MyComponent { str = $"str{n}", vector3 = new Vector3(n,n,n)});
+                    new MyComponent { str = $"str{n}", vector3 = new Vector3(n,n,n)},
+                    new SingleValue()
+                    );
             }
             var explorer  = new QueryExplorer(store);
             var inspector = new EntityInspector(explorer);
