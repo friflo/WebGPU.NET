@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Reflection;
 using Friflo.Engine.ECS;
 using ImGuiNET;
@@ -60,18 +59,9 @@ internal class GenericComponentDrawer
 #pragma warning disable CS0618 // Type or member is obsolete
     internal  void DrawComponent(DrawComponent context)
     {
-        var morePos = ImGui.GetWindowWidth() - 54;
         ImGui.SetNextItemOpen(treeNode);
         treeNode = ImGui.TreeNode(componentType.Type.Name);
-        ImGui.SameLine(morePos);
-        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
-        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
-        if (ImGui.Button("...")) {
-            ImGui.OpenPopup("component_more");
-        }
-        ImGui.PopStyleColor(2);
-        if (ImGui.BeginPopup("component_more", ImGuiWindowFlags.None)) {
-            //ImGui.Text(field.fieldInfo.Name);
+        if (EntityInspector.MorePopup("generic_more")) {
             ImGui.MenuItem("component");
             ImGui.EndPopup();
         }
@@ -89,15 +79,8 @@ internal class GenericComponentDrawer
                 };
                 ImGui.PushID(context.entityContext.widgetId++);
                 fieldDrawer.typeDrawer.DrawField(fieldContext);
-                ImGui.SameLine(morePos);
-                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
-                ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
-                if (ImGui.Button("...")) {
-                    ImGui.OpenPopup("field_more");
-                }
-                ImGui.PopStyleColor(2);
-                if (ImGui.BeginPopup("field_more", ImGuiWindowFlags.None)) {
-                    //ImGui.Text(field.fieldInfo.Name);
+
+                if (EntityInspector.MorePopup("field_more")) {
                     if (ImGui.MenuItem("Add Explorer column")) {
                         context.explorer.AddComponentFieldDrawer(fieldDrawer);
                     }

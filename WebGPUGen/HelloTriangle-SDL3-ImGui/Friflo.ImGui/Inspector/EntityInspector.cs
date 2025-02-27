@@ -1,3 +1,4 @@
+using System.Numerics;
 using Friflo.Engine.ECS;
 using ImGuiNET;
 
@@ -50,6 +51,12 @@ public class EntityInspector
                 ImGui.PushID(entityContext.widgetId++);
                 context.ComponentLabel(component.Type.Name);
                 drawer.DrawComponent(context);
+                if (MorePopup("component_more")) {
+                    if (ImGui.MenuItem("Add Explorer column")) {
+                        explorer.AddComponentDrawer(type);
+                    }
+                    ImGui.EndPopup();
+                }
                 ImGui.PopID();
                 continue;
             }
@@ -62,5 +69,18 @@ public class EntityInspector
                 ImGui.Text("");
             }
         }
+    }
+    
+    internal static bool MorePopup(string name)
+    {
+        var morePos = ImGui.GetWindowWidth() - 54;
+        ImGui.SameLine(morePos);
+        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1,0,0,0));
+        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(0.5f,0.5f,0.5f,1));
+        if (ImGui.Button("...")) {
+            ImGui.OpenPopup(name);
+        }
+        ImGui.PopStyleColor(2);
+        return ImGui.BeginPopup(name, ImGuiWindowFlags.None);
     }
 }
