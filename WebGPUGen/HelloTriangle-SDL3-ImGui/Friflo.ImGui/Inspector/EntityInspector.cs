@@ -53,6 +53,7 @@ public class EntityInspector
                     if (ImGui.MenuItem("Add Explorer column")) {
                         explorer.AddComponentDrawer(type);
                     }
+                    ImGui.Separator();
                     if (ImGui.MenuItem("Remove Component")) {
                         EntityUtils.RemoveEntityComponent(entity, component.Type);
                     }

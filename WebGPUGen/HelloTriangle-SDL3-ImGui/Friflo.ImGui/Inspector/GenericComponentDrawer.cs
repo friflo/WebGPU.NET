@@ -69,6 +69,12 @@ internal class GenericComponentDrawer
         treeNode = ImGui.TreeNode(componentType.Type.Name);
         var command = InspectorACommand.None;
         if (EntityInspector.MorePopup("generic_more")) {
+            if (ImGui.MenuItem("Add Explorer columns")) {
+                foreach (var fieldDrawer in fieldDrawers) {
+                    context.explorer.AddComponentFieldDrawer(fieldDrawer);
+                }
+            }
+            ImGui.Separator();
             if (ImGui.MenuItem("Remove Component")) {
                 command = InspectorACommand.RemoveComponent;
             }

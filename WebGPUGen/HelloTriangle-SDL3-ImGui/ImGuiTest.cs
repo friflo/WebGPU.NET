@@ -1,3 +1,4 @@
+using System.Numerics;
 using Friflo.ImGuiNet;
 using ImGuiNET;
 
@@ -10,6 +11,7 @@ static class ImGuiTest
     private static float _value3 = 100f;
     private static bool b1;
     private static bool treeNode = true;
+    private static Vector3 color3 = new Vector3(1,0,0);
     
 
 
@@ -24,6 +26,8 @@ static class ImGuiTest
         ImGui.Text("Value 1");
         ImGui.SameLine(250);
         ImGui.InputFloat("##flt1", ref _value, 0, 0, null);
+        
+        ImGui.ColorEdit3("##color3", ref color3);
         
         ImGui.Text("Value 2");
         ImGui.SameLine(250);
