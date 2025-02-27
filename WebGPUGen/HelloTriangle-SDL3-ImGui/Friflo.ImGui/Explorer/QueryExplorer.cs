@@ -68,13 +68,10 @@ public class QueryExplorer
         ImGui.TableSetupScrollFreeze(0, 1); // fix table header - requires ImGuiTableFlags.ScrollY
         ImGui.TableHeadersRow();
         
-        query.Entities.ToEntityList(entities);
+        query.Entities.ToEntityList(entities); // Sort always
         
-        /* var sortSpecs = ImGui.TableGetSortSpecs();
-        if (sortSpecs.SpecsDirty) {
-            SortTable(sortSpecs.Specs);
-            sortSpecs.SpecsDirty = false;
-        }*/
+        var sortSpecs = ImGui.TableGetSortSpecs();
+        SortTable(sortSpecs.Specs);
             
         // see: [How to use ImGuiListClipper ?](https://github.com/ImGuiNET/ImGui.NET/issues/493)
         ImGuiListClipperPtr clipper = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
