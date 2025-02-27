@@ -19,6 +19,8 @@ public class QueryExplorer
     
     public QueryExplorer() {
         var store = new EntityStore();
+        store.CreateEntity(new EntityName("Hello ECS"));
+        store.CreateEntity(new EntityName("add any query with: QueryExplorer.Instance.AddQuery(query);"));
         query       = store.Query();
         entities    = new EntityList(store);
         
