@@ -66,7 +66,7 @@ public class QueryExplorer
         query.Entities.ToEntityList(entities);
         
         
-        clipper.Begin(entities.Count, ImGui.GetTextLineHeightWithSpacing());
+        clipper.Begin(entities.Count, ImGui.GetFrameHeightWithSpacing()); // GetFrameHeightWithSpacing = row height in pixel
         int index   = -1;
         while (clipper.Step())
         {
