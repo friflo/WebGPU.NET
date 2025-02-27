@@ -61,7 +61,8 @@ namespace HelloTriangle
         private static unsafe void MainLoop(Triangle triangle, Arena frameArena, WGPUSurface surface, WGPUQueue queue)
         {
             var store = EcsGuiUtils.CreateTestStore();
-            QueryExplorer.Instance.AddQuery(store.Query());
+            var query = store.Query();
+            QueryExplorer.Instance.AddQuery(query);
             
             bool running = true;
             while (running)
