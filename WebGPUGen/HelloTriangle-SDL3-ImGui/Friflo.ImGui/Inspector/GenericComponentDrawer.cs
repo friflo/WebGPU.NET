@@ -44,8 +44,9 @@ internal class GenericComponentDrawer
         }
         var fieldDrawers = new ComponentFieldDrawer[fields.Count];
         for (int n = 0; n < fields.Count; n++) {
-            var fieldInfo = fields[n];
-            var typeDrawer = TypeDrawer.GetTypeDrawer(fieldInfo.FieldType);
+            var fieldInfo   = fields[n];
+            var domain      = GetFieldDomain(fieldInfo.CustomAttributes);
+            var typeDrawer  = TypeDrawer.GetTypeDrawer(fieldInfo.FieldType, domain);
             fieldDrawers[n] = new ComponentFieldDrawer {
                 fieldInfo       = fieldInfo,
                 typeDrawer      = typeDrawer,
@@ -55,6 +56,15 @@ internal class GenericComponentDrawer
         var drawer = new GenericComponentDrawer(componentType, fieldDrawers);
         Controls.Add(type, drawer);
         return drawer;
+    }
+    
+    private static string GetFieldDomain(IEnumerable<CustomAttributeData> attributes) {
+        foreach (var attribute in attributes) {
+            if (attribute.AttributeType == typeof(DomainAttribute)) {
+                return (string)attribute.ConstructorArguments[0].Value;
+            }
+        }
+        return null;
     }
     
     private GenericComponentDrawer(ComponentType componentType, ComponentFieldDrawer[] fieldDrawers) {

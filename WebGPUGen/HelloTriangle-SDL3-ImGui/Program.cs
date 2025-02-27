@@ -20,6 +20,10 @@ namespace HelloTriangle
         public byte     uint8;
         public bool     enabled;
         public Vector3  vector3;
+        [Domain("color")]
+        public Vector3  color3 = new Vector3(1, 0, 0);
+        
+        public MyComponent() {}
     }
     
     static class Program

@@ -6,6 +6,12 @@ using ImGuiNET;
 
 namespace Friflo.ImGuiNet;
 
+[AttributeUsage(AttributeTargets.Field)]
+public class DomainAttribute : Attribute
+{ 
+    public DomainAttribute(string domain) { }
+}
+
 internal struct DrawField {
     internal    EntityContext           entityContext;
     internal    object                  component;
@@ -23,19 +29,41 @@ internal struct DrawField {
     }
 }
 
+internal struct TypeDrawerDomain
+{
+    internal string     domain;
+    internal TypeDrawer drawer;
+
+    internal TypeDrawerDomain(TypeDrawer drawer) {
+        this.drawer = drawer;
+    }
+    internal TypeDrawerDomain(string domain, TypeDrawer drawer) {
+        this.domain = domain;
+        this.drawer = drawer;
+    }
+}
+
 internal abstract class TypeDrawer
 {
-    private static readonly Dictionary<Type, TypeDrawer> Map = new() {
-        { typeof(string),       new StringDrawer()     },
-        { typeof(bool),         new BoolDrawer()       },
-        { typeof(byte),         new ByteDrawer()       },
-        { typeof(int),          new IntDrawer()        },
-        { typeof(Vector3),      new Vector3Drawer()    }
+    private static readonly Dictionary<Type, TypeDrawerDomain[]> Map = new () {
+        { typeof(string),   [new (new StringDrawer())]     },
+        { typeof(bool),     [new (new BoolDrawer())]       },
+        { typeof(byte),     [new (new ByteDrawer())]       },
+        { typeof(int),      [new (new IntDrawer())]        },
+        { typeof(Vector3),  [new (new Vector3Drawer()), new ("color", new Color3Drawer())]    },
     };
     
-    public static TypeDrawer GetTypeDrawer(Type type) {
-        Map.TryGetValue(type, out var typeDrawer);
-        return typeDrawer;
+    public static TypeDrawer GetTypeDrawer(Type type, string domain) {
+        Map.TryGetValue(type, out var typeDrawerDomains);
+        if (typeDrawerDomains!.Length == 1) {
+            return typeDrawerDomains[0].drawer;
+        }
+        foreach (var typeDrawerDomain in typeDrawerDomains) {
+            if (typeDrawerDomain.domain == domain) {
+                return typeDrawerDomain.drawer;
+            }
+        }
+        return typeDrawerDomains![0].drawer;
     }   
     
     public  abstract void DrawField(DrawField context);
@@ -85,6 +113,7 @@ internal class IntDrawer : TypeDrawer
 
 #endregion
 
+#region vector
 internal class Vector3Drawer : TypeDrawer
 {
     public  override void DrawField(DrawField context) {
@@ -94,3 +123,15 @@ internal class Vector3Drawer : TypeDrawer
         }
     }
 }
+
+internal class Color3Drawer : TypeDrawer
+{
+    public  override void DrawField(DrawField context) {
+        var value = (Vector3)context.GetValue();
+        if (ImGui.ColorEdit3("##field", ref value)) {
+            context.SetValue(value);
+        }
+    }
+}
+
+#endregion
