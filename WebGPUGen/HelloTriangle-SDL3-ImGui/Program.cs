@@ -18,6 +18,7 @@ namespace HelloTriangle
         public string   str;
         public int      int32;
         public byte     uint8;
+        public bool     enabled;
         public Vector3  vector3;
     }
     

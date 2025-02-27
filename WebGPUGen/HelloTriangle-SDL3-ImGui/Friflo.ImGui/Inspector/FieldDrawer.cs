@@ -27,6 +27,7 @@ internal abstract class TypeDrawer
 {
     internal static readonly Dictionary<Type, TypeDrawer> Map = new() {
         { typeof(string),       new StringDrawer()     },
+        { typeof(bool),         new BoolDrawer()       },
         { typeof(byte),         new ByteDrawer()       },
         { typeof(int),          new IntDrawer()        },
         { typeof(Vector3),      new Vector3Drawer()    } 
@@ -40,6 +41,16 @@ internal class StringDrawer : TypeDrawer
     public  override void DrawField(DrawField context) {
         var value = (string)context.GetValue();
         if (ImGui.InputText("##field", ref value, 100)) {
+            context.SetValue(value);
+        }
+    }
+}
+
+internal class BoolDrawer : TypeDrawer
+{
+    public  override void DrawField(DrawField context) {
+        var value = (bool)context.GetValue();
+        if (ImGui.Checkbox("##field", ref value)) {
             context.SetValue(value);
         }
     }
