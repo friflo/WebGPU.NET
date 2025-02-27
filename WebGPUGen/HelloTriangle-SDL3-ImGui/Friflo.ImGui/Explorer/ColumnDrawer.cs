@@ -10,7 +10,7 @@ internal abstract class ColumnDrawer
 
 internal class ComponentColumnDrawer : ColumnDrawer
 {
-    private readonly ComponentDrawer componentDrawer;
+    internal readonly ComponentDrawer componentDrawer;
     
     internal ComponentColumnDrawer(ComponentDrawer drawer) {
         componentDrawer = drawer;

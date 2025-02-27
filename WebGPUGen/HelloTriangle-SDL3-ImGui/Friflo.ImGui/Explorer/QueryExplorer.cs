@@ -141,30 +141,69 @@ public class QueryExplorer
         clipper.Destroy();
     }
     
-    struct IntEntry
-    {
-        internal int id;
-    }
-    
     private void SortTable(ImGuiTableColumnSortSpecsPtr columnSortSpecs)
     {
-        if (columnSortSpecs.ColumnIndex == 0) {
-            var sortTable = new int[entities.Count];
-            int index = 0;
-            foreach (var entity in entities) {
-                sortTable[index++] = entity.Id;
+        int columnIndex = columnSortSpecs.ColumnIndex;
+        if (columnIndex == 0) {
+            SortById(columnSortSpecs.SortDirection);
+            return;
+        }
+        var drawer = columnDrawers[columnIndex - 1];
+        if (drawer is ComponentColumnDrawer componentColumnDrawer)
+        {
+            var componentType = componentColumnDrawer.componentDrawer.componentType;
+            if (componentType.Type == typeof (EntityName)) {
+                var sortTable = new StringEntry[entities.Count];
+                int index = 0;
+                foreach (var entity in entities) {
+                    if (entity.TryGetComponent<EntityName>(out var name)) {
+                        sortTable[index++] = new StringEntry { id = entity.Id, value = name.value };   
+                    } else {
+                        sortTable[index++] = new StringEntry { id = entity.Id };
+                    }
+                }
+                SortByString(columnSortSpecs.SortDirection, sortTable);
             }
-            if (columnSortSpecs.SortDirection == ImGuiSortDirection.Ascending) {
-                Array.Sort(sortTable, (i1, i2) => i1 - i2);    
-            } else {
-                Array.Sort(sortTable, (i1, i2) => i2 - i1);
-            }
-            int count = entities.Count;
-            entities.Clear();
-            for (int n = 0; n < count; n++) {
-                entities.Add(sortTable[n]);
-            }
-            columnSortSpecs = null;
         }
     }
+    
+    private void SortById(ImGuiSortDirection direction)
+    {
+        var sortTable = new int[entities.Count];
+        int index = 0;
+        foreach (var entity in entities) {
+            sortTable[index++] = entity.Id;
+        }
+        if (direction == ImGuiSortDirection.Ascending) {
+            Array.Sort(sortTable, (i1, i2) => i1 - i2);    
+        } else {
+            Array.Sort(sortTable, (i1, i2) => i2 - i1);
+        }
+        int count = entities.Count;
+        entities.Clear();
+        for (int n = 0; n < count; n++) {
+            entities.Add(sortTable[n]);
+        }
+    }
+    
+    struct StringEntry
+    {
+        internal int    id;
+        internal string value;
+    }
+    
+    private void SortByString(ImGuiSortDirection direction, StringEntry[] entries)
+    {
+        if (direction == ImGuiSortDirection.Ascending) {
+            Array.Sort(entries, (i1, i2) => StringComparer.InvariantCulture.Compare(i1.value, i2.value));
+        } else {
+            Array.Sort(entries, (i1, i2) => StringComparer.InvariantCulture.Compare(i2.value, i1.value));
+        }
+        int count = entities.Count;
+        entities.Clear();
+        for (int n = 0; n < count; n++) {
+            entities.Add(entries[n].id);
+        }
+    }
+    
 }
