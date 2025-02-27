@@ -35,7 +35,7 @@ internal static class EcsGuiUtils
         store.CreateEntity();
         store.CreateEntity();
         store.CreateEntity();
-        for (int n = 0; n < 100_000; n++) {
+        for (int n = 0; n < 10_000; n++) {
             store.CreateEntity(
                 new Position(n,n,n),
                 new EntityName($"entity {n}"),
@@ -52,14 +52,14 @@ internal static class EcsGuiUtils
         ImGui.SetNextWindowSize(new(500, 600), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(bgAlpha);
         ImGui.Begin("Explorer");
-        EcsGui.QueryExplorer(QueryExplorer.Instance);
+        EcsGui.QueryExplorer(EcsGui.Explorer);
         ImGui.End();
             
         ImGui.SetNextWindowPos(new(600, 400), ImGuiCond.Once);
         ImGui.SetNextWindowSize(new(700, 500), ImGuiCond.Once);
         ImGui.SetNextWindowBgAlpha(bgAlpha);
         ImGui.Begin("Inspector");
-        EcsGui.EntityInspector(EntityInspector.Instance);
+        EcsGui.EntityInspector(EcsGui.Inspector);
         ImGui.End();
     }
 }

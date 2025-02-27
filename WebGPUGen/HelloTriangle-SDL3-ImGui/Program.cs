@@ -62,7 +62,7 @@ namespace HelloTriangle
         {
             var store = EcsGuiUtils.CreateTestStore();
             var query = store.Query();
-            QueryExplorer.Instance.AddQuery(query);
+            EcsGui.Explorer.AddQuery(query);
             
             bool running = true;
             while (running)

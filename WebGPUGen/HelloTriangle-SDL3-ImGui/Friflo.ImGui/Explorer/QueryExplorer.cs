@@ -14,7 +14,7 @@ public class QueryExplorer
     private readonly    List<ColumnDrawer>  columnDrawers = new();
     private readonly    EntityList          entities;
     
-    public static  QueryExplorer Instance = new QueryExplorer();
+
     
     
     public QueryExplorer() {

@@ -11,4 +11,7 @@ public static class EcsGui
     {
         inspector.Draw();
     }
+    
+    public static   QueryExplorer   Explorer    = new QueryExplorer();
+    public static   EntityInspector Inspector   = new EntityInspector(Explorer); 
 }
